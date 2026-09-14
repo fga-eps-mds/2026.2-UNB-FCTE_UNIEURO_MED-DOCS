@@ -55,6 +55,12 @@ Esta página reúne os integrantes da equipe responsável pelo projeto MED, alé
         <br /><sub><b>Henrique Galdino</b></sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/GustavoHenriqueRS">
+        <img src="https://github.com/GustavoHenriqueRS.png" width="100" height="100" style="border-radius: 50%; object-fit: cover;" alt=""/>
+        <br /><sub><b>Gustavo Henrique</b></sub>
+      </a>
+    </td>
   </tr>
   <tr>
     <td align="center">
@@ -86,6 +92,9 @@ Esta página reúne os integrantes da equipe responsável pelo projeto MED, alé
         <img src="http://github.com/BrzGab.png" width="100" height="100" style="border-radius: 50%; object-fit: cover;" alt=""/>
         <br /><sub><b>Gabriel Lopes</b></sub>
       </a>
+    </td>
+    <td align="center">
+    <!-- Só para alinhar o quadro de membros -->
     </td>
   </tr>
 </table>
