@@ -77,3 +77,4 @@ extra_css:
 nav:
   - Início: index.md
   - Equipe: equipe/equipe.md
+  - EAP: EAP.md
