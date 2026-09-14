@@ -4,7 +4,7 @@ Este repositório concentra toda a documentação do projeto: atas de reunião, 
 
 ## Padrão de Branch
 
-Como este é um repositório exclusivo de documentação, utilizamos um fluxo simplificado (Trunk-Based). Crie suas branches **sempre a partir da `main`** (não utilizamos `develop` aqui). Use o padrão:
+Como este é um repositório exclusivo de documentação, utilizamos um fluxo simplificado. Crie suas branches **sempre a partir da `main`** (não utilizamos `develop` aqui). Use o padrão:
 
 - `docs/nome-do-documento`
 - `fix/nome-da-correcao`
