@@ -26,48 +26,41 @@ Essa estrutura será integrada ao framework Scrum da seguinte forma:
 
 ## Macros
 
-### 1.1 Gerenciamento do Projeto
+### 1.1 Documentação e Design
 
 | Nível | Nome | Explicação |
 | :--- | :--- | :--- |
-| **1.1.1.1** | Estrutura Analítica do Projeto (EAP) | Diagrama hierárquico que mapeia visualmente todo o escopo do projeto. |
-| **1.1.1.2** | Roadmap | Linha do tempo visual com os grandes marcos e prazos de entrega do semestre. |
-| **1.1.1.3** | Backlog do produto | Lista prioritária de requisitos e funcionalidades do software. |
-| **1.1.1.4** | Cronograma | Detalhamento de datas, prazos de entregas e responsáveis. |
-| **1.1.1.5** | Plano de Custos | Estimativa e controle financeiro de ferramentas ou serviços |
-| **1.1.1.6** | Plano de Riscos | Mapeamento de possíveis problemas do projeto e suas soluções. |
-| **1.1.2.1** | Atas | Registro formal das reuniões com os clientes. |
+| **1.1.1** | Estrutura Analítica do Projeto (EAP) | Diagrama hierárquico que mapeia visualmente todo o escopo do projeto. |
+| **1.1.2** | Roadmap | Linha do tempo visual com os grandes marcos e prazos de entrega do semestre. |
+| **1.1.3** | Backlog do produto | Lista prioritária de requisitos e funcionalidades do software. |
+| **1.1.4** | Cronograma | Detalhamento de datas, prazos de entregas e responsáveis. |
+| **1.1.5** | Plano de Custos | Estimativa e controle financeiro de ferramentas ou serviços |
+| **1.1.6** | Plano de Riscos | Mapeamento de possíveis problemas do projeto e suas soluções. |
+| **1.1.7** | Lean Inception | Workshop inicial de alinhamento de escopo, objetivos e definição do MVP. |
+| **1.1.8** | Governança do Repositório | Definição de padrões de código, documentação, branch e etc. |
+| **1.1.9** | Arquitetura e Modelagem | Criação de diagramas técnicos, modelos de banco de dados e desenho de infraestrutura. |
+| **1.1.10** | Protótipo e Identidade Visual | Definição do guia de estilos e construção de telas interativas do sistema. |
 
-### 1.2 Documentação e Design
-
-| Nível | Nome | Explicação |
-| :--- | :--- | :--- |
-| **1.2.1** | Lean Inception | Workshop inicial de alinhamento de escopo, objetivos e definição do MVP. |
-| **1.2.2** | Governança do Repositório | Definição de padrões de código, documentação, branch e etc. |
-| **1.2.3** | Site de Documentação | Documentação via Git Pages |
-| **1.2.4** | Arquitetura e Modelagem | Criação de diagramas técnicos, modelos de banco de dados e desenho de infraestrutura. |
-| **1.2.5** | Protótipo e Identidade Visual | Definição do guia de estilos e construção de telas interativas do sistema. |
-
-### 1.3 Produto de Software
+### 1.2 Produto de Software
 
 | Nível | Nome | Explicação |
 | :--- | :--- | :--- |
-| **1.3.1** | R1 (Release 1) | A definir |
-| **1.3.2** | R2 (Release 2) | A definir |
-| **1.3.3** | R3 (Release 3) | A definir |
+| **1.2.1** | R1 (Release 1) | A definir |
+| **1.2.2** | R2 (Release 2) | A definir |
+| **1.2.3** | R3 (Release 3) | A definir |
 
-### 1.4 Qualidade e DevOps
-
-| Nível | Nome | Explicação |
-| :--- | :--- | :--- |
-| **1.4.1** | Pipeline de CI/CD e Testes | Configuração de pipelines de integração contínua e testes automatizados. |
-
-
-### 1.5 Dashboard Gerencial e Analítico
+### 1.3 Qualidade e DevOps
 
 | Nível | Nome | Explicação |
 | :--- | :--- | :--- |
-| **1.5.1** | App Streamlit e Métricas | Construção e evolução do Dashboard Gerencial e Analítico utilizando a ferramenta Streamlit. |
+| **1.3.1** | Pipeline de CI/CD e Testes | Configuração de pipelines de integração contínua e testes automatizados. |
+
+
+### 1.4 Dashboard Gerencial e Analítico
+
+| Nível | Nome | Explicação |
+| :--- | :--- | :--- |
+| **1.4.1** | App Streamlit e Métricas | Construção e evolução do Dashboard Gerencial e Analítico utilizando a ferramenta Streamlit. |
 
 
 ## Diagrama da EAP
@@ -75,9 +68,10 @@ Essa estrutura será integrada ao framework Scrum da seguinte forma:
 Abaixo está o painel visual e interativo contendo toda a ramificação hierárquica do escopo do projeto:
 
 ![Estrutura Analítica do Projeto](./caminho_do_seu_arquivo/nome_do_diagrama.drawio)
-<iframe frameborder="0" style="width:100%;height:723px;" src="https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=EAP.drawio&dark=auto#R%3Cmxfile%3E%3Cdiagram%20name%3D%22P%C3%A1gina-1%22%20id%3D%22TenOnNTXbpsn9Widjvpb%22%3E7Vzfc5s4EP5rPHP3kAxI%2FHxM7Fzbufaaxr1eey83Cii2Wow4ELGdv77CgDGycR1HEnXHL7ZZxFrsp293tUgM4HC2eJWiZPqOhjgaACNcDOBoAACwfZt%2FFZJlKfF9rxRMUhKWIrMRjMkTroRGJc1JiLNWQ0ZpxEjSFgY0jnHAWjKUpnTebvZAo%2Fa%2FJmiCtwTjAEXb0n9IyKal1ANuI3%2BNyWRa%2F7Pp%2BOWZGaobV3eSTVFI5xsieDOAw5RSVv6aLYY4KoxX26W87o%2BOs%2BuOpThmh1wA3n78bP89%2FvTkzud%2F3bijP8FTfgGsUg0Ot8zQ6K1EGc3TAO9RVrdjy9p6hdpxdUhTNqUTGqPoppFepzSPQ1x00eBHTZu3lCZcaHLhV8zYshoZKGeUi6ZsFlVn8YKwz8Xll3Z19GXjzGhRaV4dLKuDahyhdILZPuOsUeLDG9MZZumSX5fiCDHy2LYXqsbZZN2ugYL%2FqNB4BjLw9JGJuR02oCkOv9RwFAcNOKuj5QZUihCFfSJqG2dEpSNq94moY54RlY6o1Sui4IyodEQdo09I9wDYANOYvbjj%2BZQwPE7QCt05T2zbJn4gUTSkEU1X18LQxl5ocXnGUvoNb5zxwD10nLWhHlGUV%2F83AE7EO3Mdkkf%2Bc1L8HNMHNuedrE%2Fxm904a15WOnDK8GLjNrbNOt3IR50q5syb3NWsE9Jaiw8rwbLOYQ1VOY0tkV3glNh1IFO8XjNO59TROTQL7NUfAdX%2BKAiw%2FfCwyx9BB%2FowPNAfvcK8gwFBM95NWszgi4%2FblHIIaJePMpU5Kafto6CrzEd5ElkAX8QC8%2BfPAII8fVwz9lD6ub16uROh34gGeUE9NBjCwZW7%2BoQFBXHBRZyRScybolnRmfg%2BS1Zqd7MSKGMlsHXR0ncl0tL6iYOT4%2FTJDutE2PEhRxEJUYgrQozw4%2Fsk202AHZebl1ZXWzVMgabnaWKKLTPJtn%2FBJNvuta5ry8yy%2B4HniDxBNaT9FnZlpoy9QmpuANrA2w%2BkvdYB7ROJg3w%2BFubl9KwIgz%2BqIUFV8Q1YUFcmaMp8MOa9iG1HTtBakyaFdde6jtcaQi%2FiVHXpLSXc0GvwL4DfBt%2Buc5BaR9nV6jIB%2F3U%2Fjh8Snmq23pth%2BGDsYqtpuNDHh7I1QjH%2B2q6oJPsqKjtT11WZRWfyerFejVHjC%2BzuMfIychvSoTwEmBuOa87yFPGWV5zKq9n2iJEAbRW%2BjN9urm5%2F7yyAXSosgl04VhsHV52TdXvB4Y6icMYv3GNdZcWMC8uFl7Yu%2B8pMGX%2FtIOZqCmLrjKV2ciL4JQ5bQezHmhxXbzg0%2FV7Ie42CbxGdbAS2MjXt5rKydPQCGro8Zf3Pp8vkYydy2jyAr8sDCNVsxz7aAwiaPM0eYN8YVOgBhimN6SRFM7SP9ZYy1ptQG%2BvBqbNeF3trKyhnr9fG3jeOJa%2BgyASWZvI6vZC3mJyuC0nDPGO043lKyWJbFYv1cbifOU7LznckC%2Fbb2VFlZ9PXZujzZOdQZ%2BnsGEFKUh0gJCj%2B0akOEN2lo9ld%2BufRdeDo0jaVNmTFYlGTCTRn0nU0%2Bulry3ccs4DwcVdXlwM645%2BrXxHhso6HQh0lZqC3xGwLXkRdhRn2MzW6YmhPmAfqisaiZR1HVZiHUKIjrnl3LoXsGrzKPbjwwMeBxzpwQZELNbvvfnL8txjFvNGbOMAJ4065c2WmOt77QuR01K2Y7qfc%2FIpyo8Xczqv1sesHdXc4oRlhhfQapuQ5D1aB7qjHA7wukCz5654PAYk3uEr%2Fz7me6ulqMeldvSUATfDsWdhoXrFpWmLgVIeNzBUtvWw50Bb%2FfCXhzjQFHlrHVv63NNmeoElxwLNkLi%2FtZ%2FuKpm0olprUic9QhRFwbO60pckTR6XqsSRzz8WvPZZeuv64awQINVrr2DLdliZP3OSreizJX6N3SP5xm9IqFWQkqXdPvQl5F%2BrdI59IlqPoWZmIrTkTcbSl8pbMWup582MnDxR4CmHFgSWWeQ73FIImX9Sk2FOU23NOoeLasQzXvITqpvUcWSG9MFRVSm3lW2VlAdExbS%2BAAMqAEHc8KARC%2Ba5MWUDAbiDUbT1xVAARvc6T%2BWT4hBf%2F2u8%2FBN%2F8Ufxf%2FeoGKdGxvrNT3Vq500AdiGp6d5PyR3WytvajbHpPURoOhN0GnYtl1S22cYV5gbp9W05Py5pIgiMSl29N4B%2FDN7z3w1E1FfiIM4aftW9c9%2BabrZ3j6uKML3Pn%2BDn776w5qX9%2BZ0LhuZt1dBHKFNdy6C5CyZ8OHOI2xoStXUbXq1ieUTLoSIxUOY2tSZyUkkF3yNe%2FnCJJeJsxSzGaRYRV3vzdChqfpSToWm2xEx9bu1MXw%2B4xTp0fNm%2BPLunWvIMb3nwH%3C%2Fdiagram%3E%3C%2Fmxfile%3E"></iframe>
+<iframe frameborder="0" style="width:100%;height:723px;" src="https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=EAP.drawio&dark=auto#R%3Cmxfile%3E%3Cdiagram%20name%3D%22P%C3%A1gina-1%22%20id%3D%22TenOnNTXbpsn9Widjvpb%22%3E7Vzfc5s4EP5rPHP3EA8gfpjHxPa1nWuvadzrtfdyo4CCdcWIEyJ28tefMMgYMC5xkKhn%2FOLAIi1iP327K7FkBKarzRsK4%2BUH4qNwZGj%2BZgRmI8MwgW3wP5nkKZformvlkoBiv5CVggV%2BRoVQK6Qp9lFSacgICRmOq0KPRBHyWEUGKSXrarMHElbvGsMANQQLD4ZN6V%2FYZ8tcOjGcUv4W4WAp7qzbbn5lBUXj4kmSJfTJek8E5iMwpYSw%2FGi1maIws56wS97vt5aru4FRFLEuHYz3n79afy6%2BPDvr9R9zZ%2Fa78ZxeATNXg%2FyGGUq9hSghKfXQEWWiHXsS1svULopTQtmSBCSC4byU3lCSRj7Khqjxs7LNe0JiLtS58F%2FE2FMxM2DKCBct2SosrvJR0qevWf%2BxJU6%2FFeq2J7NN5exJnG0w2%2BvGz74Jjfy47JSdiD7F%2FIM0QOyYUXfocl4gskL8vrwfRSFk%2BLFqZ1jMz2DXroSQHxQovgBRS7sg2jui1pCI2voF0d4RNQdF1Lgg2juitjYkpEcALIEpzZ498XqJGVrEcIvumudPVRM%2F4DCckpDQbV%2FgW2jim1yeMEq%2Bo70rE%2BMe2PbOUI8wTIv7jQw75IO58fEjPwyywwV5YGs%2BSHGJP%2BzeVX1c6ECUoc3eYzTNutzLeuwi5qzLDEkXaY%2FQ4oJCIDJBkeH1DgWY9Mgu8Cp26T8%2Fu7yUPu48QdcExxmSakA21TwPWQ8Ph6gGbOACvyPVZsRLV3yIcDQFo2tn%2BwtINjGzBRFKcBDxpnCVDSa6T%2BKt2sOs1GXR0jGqrASOLFa6To%2BsNIeIeV3jkD0kOcwzIcenFIbYhz4q%2BDBDjx%2F5kv7g%2FD%2FQXR%2BDtrZyiGKYmiqmWFaPTLEu2WFuB2NIVlr22UN6AjSnToOukA67z9JnlnmBtLDDoMty60xi5y0lfoZmlkXynx8t6QxZMbGxppMXE%2FU%2B96kHWdNV1lkSA51YVlem0Ks4VXS9JZgbegf%2Ble5WwbdE3iJ05EMtutXw343jFVNC652uXcg359xNWUohb3nNJ8B2WTdj2MsEfkZKTk8%2BFbKjX%2BbXt7%2B2runGtixiOnVoXGm8dAYB4Y5Af8U7tppW2oL5ylBm2rPfxlLm8hxFLs9wauDX412OQ8Pl%2FViT7Sh2nu4gvL2B3veQBMJTxiKRaaOxvNTFtBTRWNz4fGl8as6vjP6uKvpbNdJaJ9O%2FpmmimP7H5qBE%2Bk8piUhA4Qq2Ux7IojzQs7mniPTGuZNeFXmFFWSTt5a2udqJ1K3p0Q1TMXPtQZh7G8Jot%2BEwTRNGWvbqMwqbsihsOgopPMzKpmLoO5x4xwxtyTK0DRQa%2BrLO6eor7QMzSEqiU%2FNykzr43ROdhr%2B0FftL9zK7Os4uZatoradY3NCkG4rzaDBMkPiCk7KaROw5Hl9JC3B7DxWupWpDDAyzZ%2FGGcKNFMMqreHa7vHcoJglmmfQGUNxi%2BoOlC%2Fp4orZ4Qd8V20kHyey%2FOqsLSLzBNf0v5XqKrfksfdp%2BjgIDtHoRNq5ibBqbivKwubxE6xgLc1fTe%2BhrYG2euoPUnDWTmibJkc%2Fss5xvmG1NRcWy5mvLVFpmAKi95DNPTdIbmib10mzZc2kySMzgOVMRvhmORV3uO58PQRQm8jwrheGLokdmOqXhwwTKwsfZL6V%2B9rr6nAgSXEUtRzftk11FTZNb1yTZVeRlnDJrtO5133%2FIMGvUaOmaA1zU0bnc6a3lWPKKE3THVOUMLOlfYfQFhNEOhCENiHplnEQgpFf89wVES8V%2BBoS0l37cY0kAInybxutg%2Bow2f1sfP3nf3Vn0z5XRY3QUT3YeZfvN6HbQQC2IKvrktv9qQUlfjcFkeU8g9Ue1%2BsLWzT1pr9uAphkV8sir77UHeq2JYxTiKP8gj%2F9M3%2FHRT2fFWuAzShh60TdJ45aoL8291b9KkufehqkYuY5j3mbBKIKrELMCmA9bUriMYg%2B%2BBB9TNT4NBp2CDz8t%2F0tMnkiX%2F2wHzP8H%3C%2Fdiagram%3E%3C%2Fmxfile%3E"></iframe>
 ## Histórico de versão
 
 | Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de Revisão |
 |---|---|---|---|---|---|
-| 1.0 | Criação do documento de EAP | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 13/09/2026 | [Artur Mendonça Arruda](https://github.com/Artymend07)| 13/09/2026 |
+| 1.0 | Criação do documento de EAP | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 13/09/2026 | [Artur Mendonça Arruda](https://github.com/Artymend07)| 17/09/2026 |
+| 1.1 | Remoção do Macro "Gerenciamento do projeto" e ajuste dos respectivos pacotes de trabalho para o Macro "Documentação e Design". Remoção dos pacotes "Atas" e "Site de documentação".  | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 17/09/2026 | [Artur Mendonça Arruda](https://github.com/Artymend07)|  |
