@@ -76,4 +76,8 @@ extra_css:
 
 nav:
   - Início: index.md
+  - Produto:
+      - Visão: produto/visao.md
   - Equipe: equipe/equipe.md
+  - EAP: EAP.md
+  - Cronograma: cronograma/cronograma.md
