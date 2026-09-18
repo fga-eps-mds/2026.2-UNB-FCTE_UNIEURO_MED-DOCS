@@ -205,11 +205,60 @@ box-shadow: none;
   color: var(--warm-accent);
 }
 
+/* ---- Roadmap ---- */
+.roadmap-visual {
+  margin: 1.5rem 0 0.5rem;
+  overflow-x: auto;
+  border: 1px solid color-mix(in srgb, var(--md-default-fg-color) 18%, transparent);
+  background: #ffffff;
+}
+
+.roadmap-visual iframe {
+  display: block;
+  width: 100%;
+  height: min(75vh, 720px);
+  min-height: 540px;
+  border: 0;
+  margin: 0;
+}
+
+.roadmap-table {
+  overflow-x: auto;
+  max-height: 70vh;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.roadmap-table table:not([class]) {
+  min-width: 2100px;
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.roadmap-table table:not([class]) th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.roadmap-table table:not([class]) td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 220px;
+  background: var(--md-default-bg-color);
+}
+
 @media (max-width: 768px) {
   .feature-band .grid.cards > ul {
     grid-template-columns: 1fr;
   }
   .hero h1 {
     font-size: 2rem;
+  }
+  .roadmap-visual iframe {
+    min-height: 480px;
   }
 }
