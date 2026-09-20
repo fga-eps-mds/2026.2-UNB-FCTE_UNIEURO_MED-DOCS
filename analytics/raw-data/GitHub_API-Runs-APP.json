@@ -1,0 +1,54 @@
+{
+  "repositorio": "APP",
+  "coletado_em": "2026-09-20T19:08:43Z",
+  "workflow_runs": [
+    {
+      "id": 35479161752,
+      "name": "Build",
+      "head_branch": "docs/guia-de-contribuicao",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-09-20T00:35:14Z",
+      "updated_at": "2026-09-20T00:35:51Z",
+      "run_number": 4,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/35479161752"
+    },
+    {
+      "id": 35273185649,
+      "name": "Build",
+      "head_branch": "main",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-09-17T20:50:11Z",
+      "updated_at": "2026-09-17T20:50:50Z",
+      "run_number": 3,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/35273185649"
+    },
+    {
+      "id": 34647074805,
+      "name": "Build",
+      "head_branch": "claudiohsc-action-sonar",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-09-11T20:59:25Z",
+      "updated_at": "2026-09-11T21:00:01Z",
+      "run_number": 2,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/34647074805"
+    },
+    {
+      "id": 34646972535,
+      "name": "Build",
+      "head_branch": "claudiohsc-action-sonar",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-09-11T20:58:10Z",
+      "updated_at": "2026-09-11T20:58:34Z",
+      "run_number": 1,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/34646972535"
+    }
+  ]
+}
