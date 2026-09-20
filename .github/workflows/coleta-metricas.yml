@@ -1,0 +1,104 @@
+name: Coleta de métricas
+
+# Gera os arquivos .json que o dashboard analítico consome em analytics/raw-data/.
+#
+# Não roda em push para a main de propósito: o job faz commit de volta no
+# repositório, e um gatilho de push criaria um laço de execuções.
+
+on:
+  schedule:
+    - cron: "0 9 * * *" # 06:00 em Brasília
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: coleta-metricas
+  cancel-in-progress: false
+
+jobs:
+  coletar:
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      ORG: fga-eps-mds
+      PREFIX: 2026.2-UNB-FCTE_UNIEURO_MED
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Coletar execuções de CI/CD dos repositórios
+        run: |
+          set -euo pipefail
+          mkdir -p analytics/raw-data
+          falhou=0
+
+          for repo in DOCS APP IA; do
+            destino="analytics/raw-data/GitHub_API-Runs-${repo}.json"
+            echo "::group::${repo}"
+
+            if gh api "repos/${ORG}/${PREFIX}-${repo}/actions/runs?per_page=100" \
+                 --paginate --slurp > /tmp/bruto.json 2>/tmp/erro.txt; then
+
+              # --paginate --slurp devolve um array de páginas; concatena os runs
+              # de todas elas e guarda apenas os campos que o dashboard lê.
+              jq '{
+                    repositorio: "'"${repo}"'",
+                    coletado_em: (now | todate),
+                    workflow_runs: (
+                      [.[].workflow_runs[]] | map({
+                        id, name, head_branch, event, status, conclusion,
+                        created_at, updated_at, run_number, html_url
+                      })
+                    )
+                  }' /tmp/bruto.json > "${destino}"
+
+              total=$(jq '.workflow_runs | length' "${destino}")
+              echo "${repo}: ${total} execuções"
+            else
+              echo "::warning::Falha ao coletar ${repo} — arquivo anterior preservado"
+              cat /tmp/erro.txt
+              falhou=1
+            fi
+
+            echo "::endgroup::"
+          done
+
+          if [ "${falhou}" -eq 1 ]; then
+            echo "::warning::Ao menos um repositório não pôde ser coletado"
+          fi
+
+      - name: Resumo da execução
+        run: |
+          {
+            echo "### Métricas coletadas"
+            echo ""
+            echo "| Repositório | Execuções | Sucesso |"
+            echo "|---|---:|---:|"
+            for f in analytics/raw-data/GitHub_API-Runs-*.json; do
+              [ -e "$f" ] || continue
+              repo=$(jq -r '.repositorio' "$f")
+              total=$(jq '.workflow_runs | length' "$f")
+              ok=$(jq '[.workflow_runs[] | select(.conclusion == "success")] | length' "$f")
+              taxa=$( [ "$total" -gt 0 ] && echo "scale=1; $ok * 100 / $total" | bc || echo "0" )
+              echo "| $repo | $total | ${taxa}% |"
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publicar alterações
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add analytics/raw-data
+
+          if git diff --staged --quiet; then
+            echo "Nenhuma alteração nas métricas."
+            exit 0
+          fi
+
+          git commit -m "chore: atualiza métricas coletadas da esteira de CI/CD"
+          git push
