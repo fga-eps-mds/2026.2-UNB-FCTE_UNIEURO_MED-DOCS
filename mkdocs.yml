@@ -76,6 +76,8 @@ extra_css:
 
 nav:
   - Início: index.md
+  - Processo:
+      - Roadmap do Produto: processo/roadmap.md
   - Métricas:
       - Coleta de métricas: metricas/coleta-de-metricas.md
   - Equipe: equipe/equipe.md
