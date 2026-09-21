@@ -84,4 +84,13 @@ nav:
       - Canvas MVP: produto/canvas-mvp.md
   - Processo:
       - Roadmap do Produto: processo/roadmap.md
+  - Atas de Reunião:
+      - atas-reunioes/index.md
+      - Modelo de ata: atas-reunioes/modelo-ata.md
+      - Ata 01 — 17/08/2026: atas-reunioes/Ata-01-EPS-2026-08-17-PO.md
+      - Ata 02 — 24/08/2026: atas-reunioes/Ata-02-EPS-2026-08-24-PO.md
+      - Ata 03 — 31/08/2026: atas-reunioes/Ata-03-EPS-2026-08-31-PO.md
+      - Ata 04 — 11/09/2026: atas-reunioes/Ata-04-EPS-2026-09-11-PO.md
+      - Ata 05 — 14/09/2026: atas-reunioes/Ata-05-EPS-2026-09-14-PO.md
+      - Ata 06 — 15/09/2026: atas-reunioes/Ata-06-EPS-2026-09-15-PO.md
   - Equipe: equipe/equipe.md
