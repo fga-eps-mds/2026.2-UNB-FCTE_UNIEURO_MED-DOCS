@@ -15,7 +15,7 @@ Esta página descreve quais arquivos existem, quem os gera e o que falta.
 |---|---|---|---|
 | `GitHub_API-Runs-*.json` | Fluxo de CI/CD (processo) | API do GitHub Actions | Automatizado |
 | `Sonar_API-Measures-*.json` | Qualidade de produto | API do SonarCloud | Automatizado |
-| `zenhub_analytics.json` | Sprints e Agile EVM (projeto) | API do Zenhub | Pendente — falta *secret* |
+| `zenhub_analytics.json` | Sprints e Agile EVM (projeto) | API do Zenhub | Automatizado — depende do *secret* |
 | `riscos_analytics.json` | Matriz de Riscos (projeto) | Plano de Riscos | Pendente — depende da issue #26 |
 
 **Fonte:** [Vitor Carvalho Pereira](https://github.com/vcpVitor), 2026
@@ -109,18 +109,37 @@ A função `get_sonar_metrics_data()` do `data_layer.py` converte esse arquivo n
 estrutura consumida pelo dashboard, seguindo o mesmo contrato das demais fontes:
 devolve uma tupla `(dados, is_mock)`.
 
+## Sprints e Agile EVM
+
+O script [`scripts/coleta_zenhub.py`](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/blob/main/scripts/coleta_zenhub.py)
+consulta a API GraphQL do Zenhub e grava, para cada sprint, os pontos entregues e
+adicionados, o estado, as datas e a contagem de issues.
+
+Diferente das outras duas fontes, esta **exige um token**, lido da variável de
+ambiente `ZENHUB_TOKEN`. Ele precisa ser cadastrado como *secret* do repositório,
+o que depende de acesso administrativo. Enquanto não estiver cadastrado, o script
+avisa e encerra sem erro, preservando o arquivo anterior e deixando as demais
+coletas seguirem.
+
+Duas particularidades da API que motivaram decisões no script:
+
+- O campo `scopeChange`, que dá os pontos adicionados e removidos ao longo da
+  sprint, **não pode ser consultado para várias sprints de uma vez** — a API
+  responde "Batched queries are disabled". Por isso ele é buscado sprint a sprint,
+  após a consulta principal.
+- Falhas nessa busca individual não interrompem a coleta: a sprint segue com os
+  demais dados e os pontos adicionados ficam zerados.
+
+### Estimativas ausentes
+
+O arquivo registra, por sprint, quantas issues estão **sem estimativa** em pontos.
+Essa contagem não é consumida pelo dashboard, mas é o dado que explica um
+resultado que de outro modo pareceria erro de coleta: quando a maior parte das
+issues não tem pontos, a velocity e os índices do Agile EVM ficam próximos de
+zero mesmo com trabalho sendo entregue. O que falta, nesse caso, é estimativa —
+não entrega.
+
 ## O que ainda falta
-
-### Zenhub
-
-O arquivo `zenhub_analytics.json` alimenta a velocidade das sprints e o Agile
-EVM. A API do Zenhub exige um token pessoal, que precisa ser cadastrado como
-*secret* do repositório — algo que depende de quem tem acesso administrativo à
-organização.
-
-A estrutura esperada pelo `data_layer.py` é um objeto com a chave
-`sprints_velocity`, mapeando o nome de cada sprint para seus pontos entregues,
-pontos adicionados, estado e datas de início e fim.
 
 ### Riscos
 

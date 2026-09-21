@@ -114,6 +114,14 @@ jobs:
             echo "::endgroup::"
           done
 
+      - name: Coletar métricas de sprint do Zenhub
+        env:
+          ZENHUB_TOKEN: ${{ secrets.ZENHUB_TOKEN }}
+        run: |
+          # O script sai sem erro quando o segredo não está cadastrado, para não
+          # derrubar a coleta das demais fontes.
+          python3 scripts/coleta_zenhub.py
+
       - name: Resumo da execução
         run: |
           {
