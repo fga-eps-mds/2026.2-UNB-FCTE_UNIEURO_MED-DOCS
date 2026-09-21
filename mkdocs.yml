@@ -85,6 +85,7 @@ nav:
       - Canvas MVP: produto/canvas-mvp.md
       - Identidade Visual: produto/identidade-visual.md
   - Processo:
+      - Metodologia: processo/metodologia.md
       - Roadmap do Produto: processo/roadmap.md
       - Cronograma: processo/cronograma.md
       - Plano de Custos: processo/plano_de_custos.md
