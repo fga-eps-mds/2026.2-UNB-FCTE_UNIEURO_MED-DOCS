@@ -9,7 +9,7 @@ O roadmap distribui as funcionalidades priorizadas no sequenciador ao longo do s
 <div class="roadmap-visual" markdown>
 
 <iframe
-  src="https://miro.com/app/live-embed/uXjVHn_328k=/?focusWidget=3458764683591261415&amp;embedMode=view_only_without_ui&amp;embedId=893512512440"
+  src="https://miro.com/app/live-embed/uXjVHn_328k=/?embedMode=view_only_without_ui&moveToViewport=-1511%2C5577%2C9007%2C3675&embedId=567016492009"
   title="Roadmap do produto MED no Miro"
   loading="lazy"
   frameborder="0"
@@ -65,3 +65,6 @@ As equipes indicadas abaixo representam **frentes de responsabilidade propostas*
 | Data | Versão | Descrição | Autor |
 |---|---:|---|---|
 | 13/09/2026 | 1.0 | Criação do roadmap a partir do cronograma oficial da disciplina. | Equipe MED |
+
+
+
