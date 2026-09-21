@@ -54,41 +54,41 @@ A pergunta que orientou a atividade foi: o usuário está tentando fazer uma coi
 
 ## Atividade 7 — Revisão Técnica, de Negócio e de UX
 
-Cada funcionalidade foi revisada em três dimensões, em escala de 1 a 3. Esforço técnico é representado no quadro pela marcação `E`, valor de negócio por `$` e valor de UX por `<3`. A tabela abaixo transcreve as marcações do quadro.
+Cada funcionalidade foi revisada em três dimensões, em escala de 1 a 3. Esforço técnico é representado no quadro pela marcação `E`, valor de negócio por `$` e valor de UX por `<3`. Além das marcações, a cor de cada post-it registra o nível de confiança da equipe no entendimento da funcionalidade: verde para alta, amarelo para média e vermelho para baixa. A cor é o que o [Sequenciador](sequenciador.md) usa nas regras de composição das ondas. A tabela abaixo transcreve as marcações e as cores do quadro.
 
-| Funcionalidade | Esforço | Valor de negócio | Valor de UX |
-|---|:---:|:---:|:---:|
-| Visualizar tela de instrução simples por tarefa | 2 | 2 | 3 |
-| Desenhar com a caneta na área de desenho | 2 | 3 | 3 |
-| Tarefa do relógio | 1 | 3 | 2 |
-| Tarefa do pentágono com referência | 1 | 3 | 2 |
-| Tarefa do cubo com referência | 1 | 3 | 2 |
-| Confirmar desenho e avançar | 1 | 2 | 3 |
-| Apagar traço e refazer | 1 | 2 | 3 |
-| Visualizar encerramento do teste sem escore visualizável | 1 | 3 | 3 |
-| Fonte grande e alto contraste | 2 | 2 | 3 |
-| Exportar imagens finais dos desenhos | 1 | 2 | 1 |
-| Capturar coordenadas, ordem e tempo do traçado | 2 | 3 | 1 |
-| Pausas, apagamentos e velocidade | 2 | 2 | 1 |
-| Extrair características de cada figura | 3 | 2 | 1 |
-| Rodar inferência do modelo embarcado | 3 | 3 | 2 |
-| Escore por tarefas individuais e tarefa geral | 2 | 3 | 3 |
-| Faixa de desempenho com incerteza | 2 | 3 | 2 |
-| Resultado com desenhos ao lado do escore | 2 | 3 | 3 |
-| Destacar características que puxaram o escore | 2 | 2 | 3 |
-| Registrar concordância ou discordância | 1 | 2 | 3 |
-| Cadastrar e logar o profissional de saúde | 1 | 3 | 3 |
-| Vincular avaliação ao profissional e paciente pseudonimizado | 2 | 3 | 2 |
-| Listar avaliações anteriores | 2 | 1 | 3 |
-| Armazenamento local persistente | 2 | 3 | 1 |
-| Exportar dados anonimizados | 2 | 3 | 1 |
-| Tela de consentimento (TCLE) | 1 | 3 | 2 |
-| Aviso de que não é diagnóstico | 1 | 1 | 2 |
-| Modo demonstração | 1 | 1 | 3 |
+| Funcionalidade | Confiança | Esforço | Valor de negócio | Valor de UX |
+|---|:---|:---:|:---:|:---:|
+| Visualizar tela de instrução simples por tarefa | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 2 | 2 | 3 |
+| Desenhar com a caneta na área de desenho | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#FFEA79;border:1px solid rgba(0,0,0,.15)"></span> Média | 2 | 3 | 3 |
+| Tarefa do relógio | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 1 | 3 | 2 |
+| Tarefa do pentágono com referência | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 1 | 3 | 2 |
+| Tarefa do cubo com referência | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 1 | 3 | 2 |
+| Confirmar desenho e avançar | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 1 | 2 | 3 |
+| Apagar traço e refazer | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 1 | 2 | 3 |
+| Visualizar encerramento do teste sem escore visualizável | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 1 | 3 | 3 |
+| Fonte grande e alto contraste | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 2 | 2 | 3 |
+| Exportar imagens finais dos desenhos | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 1 | 2 | 1 |
+| Capturar coordenadas, ordem e tempo do traçado | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 2 | 3 | 1 |
+| Pausas, apagamentos e velocidade | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#FFEA79;border:1px solid rgba(0,0,0,.15)"></span> Média | 2 | 2 | 1 |
+| Extrair características de cada figura | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#FFBDAE;border:1px solid rgba(0,0,0,.15)"></span> Baixa | 3 | 2 | 1 |
+| Rodar inferência do modelo embarcado | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#FFBDAE;border:1px solid rgba(0,0,0,.15)"></span> Baixa | 3 | 3 | 2 |
+| Escore por tarefas individuais e tarefa geral | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#FFEA79;border:1px solid rgba(0,0,0,.15)"></span> Média | 2 | 3 | 3 |
+| Faixa de desempenho com incerteza | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#FFEA79;border:1px solid rgba(0,0,0,.15)"></span> Média | 2 | 3 | 2 |
+| Resultado com desenhos ao lado do escore | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#FFEA79;border:1px solid rgba(0,0,0,.15)"></span> Média | 2 | 3 | 3 |
+| Destacar características que puxaram o escore | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 2 | 2 | 3 |
+| Registrar concordância ou discordância | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 1 | 2 | 3 |
+| Cadastrar e logar o profissional de saúde | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 1 | 3 | 3 |
+| Vincular avaliação ao profissional e paciente pseudonimizado | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 2 | 3 | 2 |
+| Listar avaliações anteriores | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 2 | 1 | 3 |
+| Armazenamento local persistente | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 2 | 3 | 1 |
+| Exportar dados anonimizados | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#FFEA79;border:1px solid rgba(0,0,0,.15)"></span> Média | 2 | 3 | 1 |
+| Tela de consentimento (TCLE) | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#FFEA79;border:1px solid rgba(0,0,0,.15)"></span> Média | 1 | 3 | 2 |
+| Aviso de que não é diagnóstico | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 1 | 1 | 2 |
+| Modo demonstração | <span style="display:inline-block;width:0.9em;height:0.9em;border-radius:2px;vertical-align:middle;background:#93E396;border:1px solid rgba(0,0,0,.15)"></span> Alta | 1 | 1 | 3 |
 
 ### Leitura da revisão
 
-As funcionalidades de maior esforço técnico são "Extrair características de cada figura" e "Rodar inferência do modelo embarcado", ambas no Cluster 3 e ambas dependentes do trabalho conduzido no repositório de IA. Elas concentram o risco técnico do MVP.
+As funcionalidades de maior esforço técnico são "Extrair características de cada figura" e "Rodar inferência do modelo embarcado", ambas no Cluster 3 e ambas dependentes do trabalho conduzido no repositório de IA. Elas concentram o risco técnico do MVP, e são também os dois únicos cartões vermelhos do quadro.
 
 As funcionalidades de maior valor de UX e menor esforço, como "Confirmar desenho e avançar", "Apagar traço e refazer" e "Registrar concordância ou discordância", são candidatas naturais às primeiras ondas do sequenciador.
 
@@ -99,3 +99,4 @@ As funcionalidades de maior valor de UX e menor esforço, como "Confirmar desenh
 | Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de Revisão |
 |---|---|---|---|---|---|
 | 1.0 | Criação da página com o registro das Atividades 6 e 7 da Lean Inception, transcritas do quadro de Visão do Produto | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 18/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 19/09/2026 |
+| 1.1 | Inclusão da coluna de confiança, com a cor do post-it de cada funcionalidade no quadro da Atividade 7 | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 21/09/2026 | | |
