@@ -71,6 +71,49 @@ jobs:
             echo "::warning::Ao menos um repositório não pôde ser coletado"
           fi
 
+      - name: Coletar métricas de qualidade do SonarCloud
+        run: |
+          set -euo pipefail
+          metricas="ncloc,coverage,tests,bugs,vulnerabilities,code_smells,security_hotspots,duplicated_lines_density,sqale_index,sqale_rating,reliability_rating,security_rating,alert_status"
+
+          # Só IA e APP têm projeto no SonarCloud; DOCS não é analisado.
+          for repo in APP IA; do
+            chave="${ORG}_${PREFIX}-${repo}"
+            destino="analytics/raw-data/Sonar_API-Measures-${repo}.json"
+            echo "::group::${repo}"
+
+            # A API do SonarCloud é aberta para projetos públicos: não usa token.
+            atual=$(curl -sf "https://sonarcloud.io/api/measures/component?component=${chave}&metricKeys=${metricas}" || echo "")
+            historico=$(curl -sf "https://sonarcloud.io/api/measures/search_history?component=${chave}&metrics=${metricas}&ps=1000" || echo "")
+
+            if [ -z "${atual}" ] || echo "${atual}" | jq -e '.errors' >/dev/null 2>&1; then
+              echo "::warning::SonarCloud não retornou dados para ${repo} — arquivo anterior preservado"
+              echo "::endgroup::"
+              continue
+            fi
+
+            jq -n --argjson atual "${atual}" \
+                  --argjson historico "${historico:-null}" \
+                  --arg repo "${repo}" \
+                  --arg chave "${chave}" '{
+                    repositorio: $repo,
+                    projeto_sonar: $chave,
+                    coletado_em: (now | todate),
+                    medidas: (
+                      $atual.component.measures
+                      | map({(.metric): (.value // .periods[0].value)})
+                      | add // {}
+                    ),
+                    historico: (
+                      if $historico == null then []
+                      else ($historico.measures // []) end
+                    )
+                  }' > "${destino}"
+
+            echo "${repo}: $(jq -r '.medidas.ncloc // "?"') linhas, cobertura $(jq -r '.medidas.coverage // "n/d"')"
+            echo "::endgroup::"
+          done
+
       - name: Resumo da execução
         run: |
           {

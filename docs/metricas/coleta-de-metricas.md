@@ -13,9 +13,10 @@ Esta página descreve quais arquivos existem, quem os gera e o que falta.
 
 | Arquivo | Alimenta | Origem | Situação |
 |---|---|---|---|
-| `GitHub_API-Runs-*.json` | Fluxo de CI/CD | API do GitHub Actions | Automatizado |
-| `zenhub_analytics.json` | Sprints e Agile EVM | API do Zenhub | Pendente — falta *secret* |
-| `riscos_analytics.json` | Matriz de Riscos | Plano de Riscos | Pendente — depende da issue #26 |
+| `GitHub_API-Runs-*.json` | Fluxo de CI/CD (processo) | API do GitHub Actions | Automatizado |
+| `Sonar_API-Measures-*.json` | Qualidade de produto | API do SonarCloud | Automatizado |
+| `zenhub_analytics.json` | Sprints e Agile EVM (projeto) | API do Zenhub | Pendente — falta *secret* |
+| `riscos_analytics.json` | Matriz de Riscos (projeto) | Plano de Riscos | Pendente — depende da issue #26 |
 
 **Fonte:** [Vitor Carvalho Pereira](https://github.com/vcpVitor), 2026
 
@@ -59,6 +60,54 @@ workflow registra um aviso em vez de falhar por inteiro.
 
 A partir desses campos o dashboard deriva o total de execuções, a taxa de
 sucesso e o tempo médio de retorno da esteira.
+
+## Qualidade de produto
+
+O Plano de Ensino é explícito quanto a esta fonte: os dashboards devem consumir
+os arquivos `.json` de métricas geradas automaticamente pelos pipelines de CI/CD
+a partir do SonarCloud.
+
+O mesmo workflow coleta, para cada projeto analisado, as medidas atuais e a série
+histórica: linhas de código, cobertura, testes, *bugs*, vulnerabilidades, *code
+smells*, *security hotspots*, densidade de duplicação, dívida técnica, as três
+notas de avaliação e o estado do *quality gate*.
+
+A API do SonarCloud é **aberta para projetos públicos** — a coleta não usa token
+nem depende de nenhum *secret*.
+
+Apenas **APP** e **IA** são analisados. O repositório de documentação não possui
+projeto no SonarCloud, por não conter código de produção.
+
+### Ausência de cobertura
+
+Quando um projeto não tem testes, o SonarCloud **não devolve** a métrica
+`coverage` — o que é diferente de devolver zero. A camada de leitura preserva
+essa distinção, registrando `None` em vez de `0.0`, para que o dashboard não
+apresente "0% de cobertura apurada" onde na verdade não houve apuração alguma.
+
+### Formato
+
+```json
+{
+  "repositorio": "IA",
+  "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-IA",
+  "coletado_em": "2026-09-21T03:00:00Z",
+  "medidas": {
+    "ncloc": "19",
+    "bugs": "0",
+    "code_smells": "0",
+    "duplicated_lines_density": "0.0",
+    "reliability_rating": "1.0",
+    "security_rating": "1.0",
+    "sqale_index": "0"
+  },
+  "historico": []
+}
+```
+
+A função `get_sonar_metrics_data()` do `data_layer.py` converte esse arquivo na
+estrutura consumida pelo dashboard, seguindo o mesmo contrato das demais fontes:
+devolve uma tupla `(dados, is_mock)`.
 
 ## O que ainda falta
 
