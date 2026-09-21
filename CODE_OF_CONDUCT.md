@@ -38,4 +38,4 @@ Todo relato será tratado com seriedade e confidencialidade em relação a quem 
 |---|---|---|---|---|---|
 | 1.0 | Criação do Código de Conduta | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 03/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) |  |
 | 1.1 | Expansão com comportamentos inaceitáveis específicos do projeto e correção da descrição da versão 1.0 | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 14/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | |
-| 1.2 | Remoção das regras técnicas e de processo, que foram movidas para o Guia de Contribuição, e inclusão de escopo de aplicação, de comportamentos inaceitáveis de natureza social e do procedimento de reporte | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 19/09/2026 | | |
+| 1.2 | Remoção das regras técnicas e de processo, que foram movidas para o Guia de Contribuição, e inclusão de escopo de aplicação, de comportamentos inaceitáveis de natureza social e do procedimento de reporte | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 19/09/2026 | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 20/09/2026 |

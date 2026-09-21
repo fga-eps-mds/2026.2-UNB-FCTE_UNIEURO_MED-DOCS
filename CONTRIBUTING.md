@@ -40,9 +40,9 @@ chore(mkdocs): adiciona nova página ao menu de navegação
 
 ## Pull Requests
 
-- Todo PR deve estar vinculado a uma Issue. Use `Closes #numero` na descrição (no Template de PR tem).
+- Todo PR deve estar vinculado a uma Issue. Use `Closes #numero` na descrição. O template de PR já traz esse campo.
 - Solicite revisão de no mínimo 1 colega antes de fazer o merge.
-- PRs de documentação também precisam de revisão, e verificação se o conteúdo está correto, sem erros de português e com a tabela de histórico de versões atualizada.
+- PRs de documentação também passam por revisão: verifique se o conteúdo está correto, sem erros de português e com a tabela de histórico de versões atualizada.
 - PRs sem Issue vinculada não serão aceitos.
 
 ### Como revisar
@@ -78,5 +78,5 @@ mkdocs serve
 |---|---|---|---|---|---|
 | 1.0 | Criação do Guia de Contribuição | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 03/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) |  |
 | 1.1 | Reescrita para contexto do repositório de documentação e adição de Conventional Commits | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 13/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) |  |
-| 1.2 | Recepção das regras de processo que estavam no Código de Conduta, com novas seções de como revisar e de Issues e compromissos | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 19/09/2026 | | |
+| 1.2 | Recepção das regras de processo que estavam no Código de Conduta, com novas seções de como revisar e de Issues e compromissos | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 19/09/2026 | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 20/09/2026 |
 
