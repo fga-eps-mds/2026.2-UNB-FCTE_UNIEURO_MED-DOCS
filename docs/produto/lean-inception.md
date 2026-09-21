@@ -4,7 +4,7 @@ Esta página faz parte da Visão do Produto do MED e registra o detalhamento ger
 
 ## 1. Declaração da Visão do Produto
 
-**Para:** Médicos generalistas / Médicos que avaliam pessoas idosas em ambiente hospitalar, e pacientes idosos submetidos a avaliação neurológica.
+**Para:** Profissionais de saúde, generalistas ou que avaliam pessoas idosas em ambiente hospitalar, e pacientes idosos submetidos a avaliação neurológica.
 
 **Cujo (Problema):** O rastreio cognitivo hoje é aplicado em papel e pontuado à mão, o que consome tempo de consulta, varia de avaliador para avaliador, não gera registro comparável no tempo e carece de simplicidade.
 
@@ -14,7 +14,7 @@ Esta página faz parte da Visão do Produto do MED e registra o detalhamento ger
 
 **Diferentemente de:** Testes clínicos tradicionais e plataformas digitais de avaliação cognitiva (como DCTclock / Linus Health), que dependem de hardware proprietário, exigem nuvem, são validados em população norte-americana e não têm versão em português.
 
-**O Nosso Produto:** Contará com 3 testes de desenho, roda em tablet Android comum, funciona 100% offline mantendo os dados na instituição. Usa IA para auxiliar na análise e é validado sobre a população brasileira, considerando a variação de escolaridade.
+**O Nosso Produto:** Contará com 3 testes de desenho, roda em tablet Android comum, funciona 100% offline mantendo os dados na instituição. Usa IA para auxiliar na análise e é validado e calibrado para as normas da população brasileira, considerando a variação de escolaridade.
 
 ## 2. É / Não É — Faz / Não Faz
 
@@ -81,7 +81,7 @@ Esta página faz parte da Visão do Produto do MED e registra o detalhamento ger
 
 - **Perfil:** 51 anos, geriatra. Consultório particular + 1 dia em hospital-escola. 20 anos de formado, mestrado. Atende de 12 a 16 idosos por dia, dá aula na graduação.
 - **Comportamento:** Pede evidência antes de adotar qualquer coisa. Quer saber amostra, referência e quem pontuou. Não aceita "a inteligência artificial disse". Se o número não se explica, ignora e olha o desenho. Confia mais no que ele mesmo vê. Teme responsabilidade sobre decisão de máquina. Pergunta pela referência bibliográfica. Usa os instrumentos que ele já conhece.
-- **Necessidades:** Ver o desenho junto com o número. Saber quais características puxaram o score. Conhecer a margem de erro e o limite da amostra. Poder discordar do sistema e registrar isso. Clareza de que a responsabilidade clínica é dele. Ter o que dizer à família quando ela perguntar. Saber de onde veio o score de referência.
+- **Necessidades:** Ver o desenho junto com o número. Saber quais características puxaram o escore. Conhecer a margem de erro e o limite da amostra. Poder discordar do sistema e registrar isso. Clareza de que a responsabilidade clínica é dele. Ter o que dizer à família quando ela perguntar. Saber de onde veio o escore de referência.
 
 ## 5. Jornadas de Usuário
 
@@ -94,7 +94,7 @@ Esta página faz parte da Visão do Produto do MED e registra o detalhamento ger
 5. Confirma que terminou.
 6. Vê a segunda tarefa, desenha e confirma.
 7. Vê a terceira tarefa, desenha e confirma.
-8. Tela de agradecimento sem o score.
+8. Tela de agradecimento sem o escore.
 9. Devolve o tablet sem saber que foi pontuado.
 
 ### Jornada 2: Profissional da Saúde (Aplicação de rotina)
@@ -139,3 +139,4 @@ As atividades posteriores às jornadas de usuário estão registradas em página
 |---|---|---|---|---|---|
 | 1.0 | Criação do documento: Declaração de Visão, É/Não É, Objetivos, Personas e Jornadas de Usuário | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 03/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9), [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 19/09/2026 |
 | 2.0 | Separação do detalhamento da Lean Inception em página própria dentro da Visão do Produto, mantendo o conteúdo original e criando a rastreabilidade por links com a síntese da visão | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 18/09/2026 | | |
+| 2.1 | Padronização do termo "escore", troca de "médicos" por "profissionais de saúde" na declaração de visão e ajuste da declaração quanto à calibração para a população brasileira | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 21/09/2026 | | |
