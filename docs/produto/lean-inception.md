@@ -137,5 +137,5 @@ As atividades posteriores às jornadas de usuário estão registradas em página
 
 | Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de Revisão |
 |---|---|---|---|---|---|
-| 1.0 | Criação do documento: Declaração de Visão, É/Não É, Objetivos, Personas e Jornadas de Usuário | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 03/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9), [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |
+| 1.0 | Criação do documento: Declaração de Visão, É/Não É, Objetivos, Personas e Jornadas de Usuário | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 03/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9), [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 19/09/2026 |
 | 2.0 | Separação do detalhamento da Lean Inception em página própria dentro da Visão do Produto, mantendo o conteúdo original e criando a rastreabilidade por links com a síntese da visão | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 18/09/2026 | | |

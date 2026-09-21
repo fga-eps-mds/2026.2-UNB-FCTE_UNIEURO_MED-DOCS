@@ -98,4 +98,4 @@ As funcionalidades de maior valor de UX e menor esforço, como "Confirmar desenh
 
 | Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de Revisão |
 |---|---|---|---|---|---|
-| 1.0 | Criação da página com o registro das Atividades 6 e 7 da Lean Inception, transcritas do quadro de Visão do Produto | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 18/09/2026 | | |
+| 1.0 | Criação da página com o registro das Atividades 6 e 7 da Lean Inception, transcritas do quadro de Visão do Produto | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 18/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 19/09/2026 |

@@ -35,4 +35,4 @@ O corte do MVP fica após a onda 3. Tudo o que vem depois é incremento.
 
 | Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de Revisão |
 |---|---|---|---|---|---|
-| 1.0 | Criação da página com o registro da Atividade 8 da Lean Inception, transcrita do quadro de Visão do Produto | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 18/09/2026 | | |
+| 1.0 | Criação da página com o registro da Atividade 8 da Lean Inception, transcrita do quadro de Visão do Produto | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 18/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 19/09/2026 |

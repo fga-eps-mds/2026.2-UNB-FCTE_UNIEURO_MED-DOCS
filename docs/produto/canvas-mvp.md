@@ -65,4 +65,4 @@ O detalhamento e a validação desses números são tratados no Plano de Custos,
 
 | Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de Revisão |
 |---|---|---|---|---|---|
-| 1.0 | Criação da página com o registro da Atividade 10 da Lean Inception, transcrita do quadro de Visão do Produto | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 18/09/2026 | | |
+| 1.0 | Criação da página com o registro da Atividade 10 da Lean Inception, transcrita do quadro de Visão do Produto | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 18/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 19/09/2026 |
