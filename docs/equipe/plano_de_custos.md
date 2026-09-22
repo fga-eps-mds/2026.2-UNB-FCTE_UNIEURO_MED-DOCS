@@ -25,9 +25,14 @@ dados apresentados no Dashboard Gerencial e Analítico.
 | Equipe de EPS | 11 integrantes |
 | Créditos anuais de referência | 40 créditos |
 | Créditos da disciplina | 4 créditos |
-| Custo anual corrigido por estudante | R$ 52.991,29 |
-| Custo da disciplina por estudante | R$ 5.299,13 |
-| Custo semanal médio por estudante | R$ 311,71 |
+| Dotação atualizada da UnB em 2026 | R$ 2.700.943.579,00 |
+| Estudantes regulares de graduação | 39.190 |
+| Estudantes regulares de mestrado | 6.805 |
+| Estudantes regulares de doutorado | 4.848 |
+| Total oficial de estudantes utilizado | 50.843 |
+| Orçamento anual aproximado por estudante | R$ 53.123,21 |
+| Orçamento proporcional da disciplina por estudante | R$ 5.312,32 |
+| Orçamento semanal médio por estudante | R$ 312,49 |
 | Computadores de uso geral | 11 unidades já disponíveis |
 | Vida útil contábil dos computadores | 5 anos (depreciação de 20% ao ano) |
 | Uso extraclasse considerado | 14 horas por semana e por integrante |
@@ -39,23 +44,50 @@ A adoção do custo do estudante UnB como referência de mão de obra foi regist
 A decisão de manter o produto offline, sem servidor, licença ou hospedagem, está
 registrada no [Canvas MVP](../produto/canvas-mvp.md#7-custo-e-cronograma).
 
+A dotação atualizada foi consultada no
+[Painel Gestão UnB](https://app.powerbi.com/view?r=eyJrIjoiZWNjNzkzZWQtNTJkMi00YmZhLThkOTgtNzgzNmE2MWMzZjdmIiwidCI6ImVjMzU5YmExLTYzMGItNGQyYi1iODMzLWM4ZTZkNDhmODA1OSJ9),
+com fechamento contábil em 20/09/2026. A quantidade de estudantes utiliza o total
+oficial mais recente disponível na tabela 2.18 do
+[Anuário Estatístico 2025 da UnB](https://repositoriodpo.unb.br/anuarios/anuario-estatistico-2025/):
+50.843 alunos regulares no segundo semestre de 2024, sendo 39.190 da graduação,
+6.805 do mestrado e 4.848 do doutorado. A tabela apresenta separadamente 232
+residentes médicos, mas não os incorpora ao total geral. Os 5.252 estudantes de
+especialização também não integram esse total consolidado.
+
+!!! warning "Orçamento por estudante, não custo contábil individual"
+    O valor de R$ 53.123,21 é obtido pela divisão da dotação atualizada da
+    Universidade pelo total oficial de 50.843 estudantes. Ele deve ser interpretado
+    como **orçamento médio aproximado por estudante**, pois o orçamento total
+    também financia pós-graduação, pesquisa, extensão, pessoal, aposentadorias,
+    infraestrutura, hospitais e outros serviços da UnB.
+
+Para uma análise restrita à graduação, a divisão pelos 39.190 graduandos produziria
+R$ 68.919,20 por ano. Este plano utiliza os **50.843 estudantes** porque esse é o
+“Total Geral” consolidado pela própria UnB na tabela 2.18.
+
 ## 3. Método de estimativa
 
 ### 3.1 Pessoas
 
 O valor do trabalho não utiliza salário de mercado. Seguindo a orientação acadêmica,
-adota-se o investimento público estimado por estudante alocado à disciplina:
+adota-se como aproximação o orçamento médio da UnB por estudante alocado à
+disciplina:
 
-**Custo por estudante:** `R$ 52.991,29 ÷ 40 créditos × 4 créditos = R$ 5.299,13`.
+**Orçamento por estudante/ano:**
+`R$ 2.700.943.579,00 ÷ 50.843 = R$ 53.123,21`.
+
+**Orçamento proporcional da disciplina por estudante:**
+`R$ 53.123,21 ÷ 40 créditos × 4 créditos = R$ 5.312,32`.
 
 Para 11 integrantes, o custo estimado de pessoas durante o semestre é:
 
-**Custo de pessoas:** `11 × (R$ 52.991,29 ÷ 40 × 4) = R$ 58.290,42`.
+**Custo econômico de pessoas:**
+`11 × (R$ 2.700.943.579,00 ÷ 50.843 ÷ 40 × 4) = R$ 58.435,54`.
 
 Os totais usam os valores não arredondados; os valores unitários exibidos são
 arredondados para duas casas decimais.
 
-O valor semanal médio de pessoas é de **R$ 3.428,85**.
+O valor semanal médio de pessoas é de **R$ 3.437,38**.
 
 ### 3.2 Computadores
 
@@ -110,24 +142,24 @@ no LibreOffice Calc, Microsoft Excel ou Google Planilhas.
 
 | Categoria | Custo semanal médio | Quantidade de semanas | Custo total |
 |---|---:|---:|---:|
-| Pessoas | R$ 3.428,85 | 17 | R$ 58.290,42 |
+| Pessoas | R$ 3.437,38 | 17 | R$ 58.435,54 |
 | Depreciação dos computadores | R$ 149,71 | 17 | R$ 2.545,07 |
 | Energia elétrica | R$ 5,06 | 17 | R$ 86,02 |
 | Internet | R$ 21,34 | 17 | R$ 362,78 |
 | Serviços, licenças e hospedagem | R$ 0,00 | 17 | R$ 0,00 |
-| **Linha de base (BAC)** | **R$ 3.604,96** | **17** | **R$ 61.284,29** |
+| **Linha de base (BAC)** | **R$ 3.613,49** | **17** | **R$ 61.429,41** |
 
 Foi definida uma **reserva gerencial de 5%**, separada da linha de base, para eventos
 não previstos que sejam formalmente aprovados:
 
 | Componente orçamentário | Valor |
 |---|---:|
-| Linha de base de custos (BAC) | R$ 61.284,29 |
-| Reserva gerencial (5%) | R$ 3.064,21 |
-| **Orçamento total autorizado** | **R$ 64.348,50** |
+| Linha de base de custos (BAC) | R$ 61.429,41 |
+| Reserva gerencial (5%) | R$ 3.071,47 |
+| **Orçamento total autorizado** | **R$ 64.500,88** |
 
 A reserva não integra o BAC enquanto não houver mudança aprovada. Assim, os índices
-de EVM são calculados inicialmente sobre **R$ 61.284,29**.
+de EVM são calculados inicialmente sobre **R$ 61.429,41**.
 
 ## 5. Distribuição planejada por release
 
@@ -136,11 +168,13 @@ custo semanal médio multiplicado pelas semanas de cada período.
 
 | Período | Semanas consideradas | Custo planejado | Acumulado planejado |
 |---|---:|---:|---:|
-| R1 — 10/08 a 28/09 | 7 | R$ 25.234,71 | R$ 25.234,71 |
-| R2 — 29/09 a 26/10 | 4 | R$ 14.419,83 | R$ 39.654,54 |
-| R3 — 27/10 a 30/11 | 5 | R$ 18.024,79 | R$ 57.679,33 |
-| Release final — 01/12 a 07/12 | 1 | R$ 3.604,96 | R$ 61.284,29 |
-| **Total** | **17** | **R$ 61.284,29** | **R$ 61.284,29** |
+| R1 — 10/08 a 28/09 | 7 | R$ 25.294,46 | R$ 25.294,46 |
+| R2 — 29/09 a 26/10 | 4 | R$ 14.453,98 | R$ 39.748,44 |
+| R3 — 27/10 a 30/11 | 5 | R$ 18.067,47 | R$ 57.815,91 |
+| Release final — 01/12 a 07/12 | 1 | R$ 3.613,50 | R$ 61.429,41 |
+| **Total** | **17** | **R$ 61.429,41** | **R$ 61.429,41** |
+
+O centavo residual do último período compensa o arredondamento dos valores semanais.
 
 ## 6. Monitoramento por EVM-Ágil
 
@@ -150,7 +184,7 @@ iniciado como valor entregue.
 
 | Sigla | Indicador | Cálculo/uso |
 |---|---|---|
-| BAC | Orçamento no término | Linha de base aprovada: R$ 61.284,29 |
+| BAC | Orçamento no término | Linha de base aprovada: R$ 61.429,41 |
 | PV | Valor planejado | BAC × percentual de escopo planejado até a data |
 | EV | Valor agregado | BAC × percentual de pontos aceitos até a data |
 | AC | Custo real | Custo das semanas decorridas, ajustado por mudanças reais |
@@ -196,7 +230,9 @@ O processo de controle é:
 
 | Data | Mudança | Impacto | Novo BAC | Evidência | Responsável |
 |---|---|---:|---:|---|---|
-| — | Linha de base inicial | — | R$ 61.284,29 | Este documento | Daniel Ferreira Nunes |
+| 21/09/2026 | Criação da linha de base inicial | — | R$ 61.284,29 | Versão 1.0 deste documento | Daniel Ferreira Nunes |
+| 22/09/2026 | Atualização da fonte de pessoas para o orçamento da UnB em 2026 | + R$ 17.520,70 | R$ 78.804,99 | Painel Gestão UnB e Anuário Estatístico 2025 | Daniel Ferreira Nunes |
+| 22/09/2026 | Adoção do total oficial de 50.843 estudantes como denominador | - R$ 17.375,58 | R$ 61.429,41 | Tabela 2.18 do Anuário Estatístico 2025 | Daniel Ferreira Nunes |
 
 ## 8. Responsabilidades e frequência
 
@@ -210,13 +246,18 @@ O processo de controle é:
 
 ## 9. Referências
 
-1. BANCO CENTRAL DO BRASIL. [Calculadora do Cidadão — correção de valores](https://www3.bcb.gov.br/CALCIDADAO/publico/corrigirPorIndice.do?method=corrigirPorIndice). Acesso em: 21 set. 2026.
-2. RECEITA FEDERAL DO BRASIL. [Taxas de depreciação de bens](https://normasinternet2.receita.fazenda.gov.br/#/consulta/externa/81268/visao/vigente). Acesso em: 21 set. 2026.
-3. NEOENERGIA BRASÍLIA. [Composição tarifária](https://www.neoenergia.com/web/brasilia/sua-casa/composicao-tarifaria). Acesso em: 21 set. 2026.
-4. PROJECT MANAGEMENT INSTITUTE. *A Guide to the Project Management Body of Knowledge (PMBOK Guide)*. 7. ed. Newtown Square: PMI, 2021.
+1. UNIVERSIDADE DE BRASÍLIA. [Painel Gestão UnB](https://app.powerbi.com/view?r=eyJrIjoiZWNjNzkzZWQtNTJkMi00YmZhLThkOTgtNzgzNmE2MWMzZjdmIiwidCI6ImVjMzU5YmExLTYzMGItNGQyYi1iODMzLWM4ZTZkNDhmODA1OSJ9). Dotação atualizada de 2026, com fechamento contábil em 20 set. 2026. Acesso em: 22 set. 2026.
+2. UNIVERSIDADE DE BRASÍLIA. [Painel Gestão UnB: uma nova ferramenta de transparência e eficiência para a gestão universitária](https://daf.unb.br/destaques/238-painel-de-gestao-projeta-unb-como-modelo-de-transparencia-publica). Decanato de Administração. Acesso em: 22 set. 2026.
+3. UNIVERSIDADE DE BRASÍLIA. [Anuário Estatístico 2025 — Repositório DPO](https://repositoriodpo.unb.br/anuarios/anuario-estatistico-2025/). Diretoria de Avaliação e Informações Gerenciais, Decanato de Planejamento, Orçamento e Avaliação Institucional. Acesso em: 22 set. 2026.
+4. UNIVERSIDADE DE BRASÍLIA. [Anuário Estatístico 2025 — ano-base 2024: tabela 2.18](https://anuariounb2025.netlify.app/geral#alunos-regulares-na-graduacao-e-na-pos-graduacao-stricto-sensu-2020-a-2024-2o-semestre). Acesso em: 22 set. 2026.
+5. RECEITA FEDERAL DO BRASIL. [Taxas de depreciação de bens](https://normasinternet2.receita.fazenda.gov.br/#/consulta/externa/81268/visao/vigente). Acesso em: 21 set. 2026.
+6. NEOENERGIA BRASÍLIA. [Composição tarifária](https://www.neoenergia.com/web/brasilia/sua-casa/composicao-tarifaria). Acesso em: 21 set. 2026.
+7. PROJECT MANAGEMENT INSTITUTE. *A Guide to the Project Management Body of Knowledge (PMBOK Guide)*. 7. ed. Newtown Square: PMI, 2021.
 
 ## Histórico de versões
 
 | Versão | Data | Descrição | Autor(es) | Revisor(es) | Data de revisão |
 |---|---|---|---|---|---|
 | 1.0 | 21/09/2026 | Criação do plano, linha de base, distribuição por release e controle por EVM-Ágil | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | — | — |
+| 1.1 | 22/09/2026 | Atualização do orçamento por estudante com dados do Painel Gestão UnB e recálculo da linha de base | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | — | — |
+| 1.2 | 22/09/2026 | Inclusão do Repositório DPO e adoção do total oficial de 50.843 estudantes da tabela 2.18 | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | — | — |
