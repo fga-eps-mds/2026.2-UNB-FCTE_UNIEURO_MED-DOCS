@@ -87,4 +87,7 @@ nav:
       - Ata 04 — 11/09/2026: atas-reunioes/Ata-04-EPS-2026-09-11-PO.md
       - Ata 05 — 14/09/2026: atas-reunioes/Ata-05-EPS-2026-09-14-PO.md
       - Ata 06 — 15/09/2026: atas-reunioes/Ata-06-EPS-2026-09-15-PO.md
-  - Equipe: equipe/equipe.md
+  - Equipe: 
+    - equipe/equipe.md
+    - Operacional: equipe/operacional.md
+    
