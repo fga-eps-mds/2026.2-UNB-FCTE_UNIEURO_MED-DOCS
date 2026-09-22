@@ -76,6 +76,12 @@ extra_css:
 
 nav:
   - Início: index.md
+  - Visão do Produto:
+      - Síntese: produto/visao.md
+      - Lean Inception: produto/lean-inception.md
+      - Funcionalidades: produto/funcionalidades.md
+      - Sequenciador: produto/sequenciador.md
+      - Canvas MVP: produto/canvas-mvp.md
   - Processo:
       - Roadmap do Produto: processo/roadmap.md
       - Cronograma: processo/cronograma.md
