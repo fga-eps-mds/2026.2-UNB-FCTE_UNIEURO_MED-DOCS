@@ -82,6 +82,7 @@ nav:
       - Funcionalidades: produto/funcionalidades.md
       - Sequenciador: produto/sequenciador.md
       - Canvas MVP: produto/canvas-mvp.md
+      - Identidade Visual: produto/identidade-visual.md
   - Processo:
       - Roadmap do Produto: processo/roadmap.md
       - Cronograma: processo/cronograma.md
