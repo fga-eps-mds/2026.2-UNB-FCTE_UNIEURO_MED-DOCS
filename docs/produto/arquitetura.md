@@ -10,15 +10,14 @@ O produto ainda não tem nome definido. O cliente ficou de levar o tema ao profe
 
 ### 1.2 Escopo
 
-O documento segue o modelo 4+1 adaptado, da mesma forma que foi feito no semestre anterior da disciplina, e cobre:
+O documento cobre:
 
 1. visão geral e contexto de uso;
 2. estilo arquitetural adotado;
 3. visão lógica, com os componentes do aplicativo;
 4. visão de processos, com o fluxo da avaliação, os estados da avaliação e a sequência da inferência;
 5. visão de implementação, com os repositórios e os pacotes;
-6. visão de implantação, com os dispositivos e artefatos;
-7. visão de dados, que substitui a visão de casos de uso.
+6. visão de implantação, com os dispositivos e artefatos.
 
 ### 1.3 Fontes
 
@@ -178,7 +177,7 @@ A tecnologia definida a princípio pela equipe é:
 | Aplicativo (telas e lógica) | Expo (React Native) | Tablet |
 | Banco de dados | SQLite, acessado pelo `expo-sqlite` | Tablet |
 | Modelo de IA (treino e exportação) | PyTorch, com Python | Máquina de desenvolvimento |
-| Modelo de IA (execução) | Runtime do modelo, a definir (ver [Pendências](#10-pendencias)) | Tablet |
+| Modelo de IA (execução) | Runtime do modelo, a definir (ver [Pendências](#9-pendencias)) | Tablet |
 
 Não existe backend separado. O Python é usado apenas no repositório de IA, para tratar o dataset, treinar, avaliar e exportar o modelo. No tablet, o modelo exportado é executado pelo próprio aplicativo, sem servidor local nem chamada de rede. Isso segue o que foi discutido na [Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md): uma API rodando dentro do tablet não traria ganho que justificasse a complexidade.
 
@@ -255,39 +254,7 @@ Em produção existe um único nó de execução, o tablet. A máquina de desenv
 - O XML precisa ser gravado em uma pasta escolhida pelo profissional. Se ficasse no armazenamento privado, não seria possível copiá-lo para o REDCap.
 - A inferência roda no tablet, sem chamadas de rede.
 
-## 8. Visão de dados
-
-O banco SQLite guarda os dados abaixo. Os campos de cadastro são os definidos pelo cliente na [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md). Os dados exportados no XML são os pedidos na [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md): dados do traçado, inferência, horário, profissional e paciente.
-
-**Figura 8:** Modelo conceitual de dados
-
-![Modelo conceitual com as entidades profissional, paciente, avaliação, consentimento, tarefa, desenho, evento de traçado, inferência, mapa de calor e exportação](../assets/imagens/arquitetura/diagrama-dados.svg)
-
-**Fonte:** [Gabriel Lopes de Amorim](https://github.com/BrzGab), 2026.
-
-| Entidade | Dados principais |
-|---|---|
-| Profissional | Nome completo, e-mail, CRM, CPF e senha armazenada como hash |
-| Paciente | Nome, número da ficha e data de nascimento |
-| Avaliação | Início, término, estado, instruções dadas durante o teste e tarefa interrompida, se houver |
-| Consentimento | Versão do TCLE, aceite, quem assinou (paciente ou responsável) e horário |
-| Tarefa | Tipo, ordem, início e término |
-| Desenho | Imagem final e horário da confirmação |
-| Evento de traçado | Tipo (traço, desfazer ou limpar), ordem, coordenadas, instante e, quando disponíveis, pressão e inclinação |
-| Inferência | Classe prevista, probabilidade de cada classe, versão do modelo e horário |
-| Mapa de calor | Imagem gerada pelo modelo para um dos desenhos |
-| Exportação | Horário, versão do esquema XML e nome do arquivo |
-
-Relações principais:
-
-- um profissional conduz várias avaliações, e um paciente pode participar de várias;
-- uma avaliação tem no máximo três tarefas, pois uma avaliação interrompida pode ter menos;
-- cada tarefa tem no máximo um desenho confirmado, com vários eventos de traçado;
-- uma avaliação tem no máximo uma inferência, que só existe quando os três desenhos foram confirmados;
-- cada inferência tem três mapas de calor, e cada mapa se refere a um desenho;
-- uma avaliação pode ser exportada mais de uma vez.
-
-## 9. Decisões arquiteturais
+## 8. Decisões arquiteturais
 
 | Decisão | Justificativa | Origem |
 |---|---|---|
@@ -302,7 +269,7 @@ Relações principais:
 | Salvar todas as métricas de caneta disponíveis | Os dados alimentam a pesquisa mesmo sem entrar no modelo | [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md) |
 | Registro automático de apagamentos e desistências | Métricas do Canvas MVP sem anotação manual | [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md) |
 
-## 10. Pendências
+## 9. Pendências
 
 | Item | Situação |
 |---|---|
@@ -316,7 +283,7 @@ Relações principais:
 | Recuperação de senha | Prevista nas histórias de usuário ([Ata 05](../atas-reunioes/Ata-05-EPS-2026-09-14-PO.md)), mas precisa funcionar sem e-mail ou rede |
 | Registro de apagamentos | O cliente ainda vai confirmar se o apagamento deve ser registrado ([Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md)) |
 
-## 11. Riscos e mitigações
+## 10. Riscos e mitigações
 
 | Risco | Mitigação |
 |---|---|
