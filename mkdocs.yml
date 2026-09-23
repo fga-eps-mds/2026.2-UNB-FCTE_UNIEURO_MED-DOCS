@@ -85,6 +85,7 @@ nav:
   - Processo:
       - Roadmap do Produto: processo/roadmap.md
       - Cronograma: processo/cronograma.md
+      - Plano de Custos: processo/plano_de_custos.md
   - Atas de Reunião:
       - atas-reunioes/index.md
       - Modelo de ata: atas-reunioes/modelo-ata.md
