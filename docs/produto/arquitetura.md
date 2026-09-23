@@ -20,26 +20,7 @@ O documento segue o modelo 4+1 adaptado, da mesma forma que foi feito no semestr
 6. visão de implantação, com os dispositivos e artefatos;
 7. visão de dados, que substitui a visão de casos de uso.
 
-### 1.3 Definições e siglas
-
-| Termo | Significado |
-|---|---|
-| APK | Pacote de instalação de aplicativos Android |
-| Avaliação | Uma aplicação completa do teste para um paciente |
-| CCL | Comprometimento cognitivo leve |
-| Expo | Plataforma para desenvolver aplicativos React Native, usada no aplicativo |
-| Backend | Servidor separado do aplicativo, acessado pela rede, que concentra regras de negócio, dados ou processamento. O aplicativo não tem backend |
-| Inferência | Execução do modelo treinado sobre os três desenhos para obter a classificação |
-| LGPD | Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018) |
-| Mapa de calor | Imagem sobre o desenho que destaca os traços que mais pesaram na classificação |
-| Monólito | Sistema construído e implantado como uma única aplicação |
-| REDCap | Plataforma de gestão de dados de pesquisa usada pelo cliente |
-| Runtime do modelo | Biblioteca que carrega o arquivo do modelo exportado e executa a inferência no tablet |
-| SQLite | Banco de dados relacional em arquivo, usado no tablet |
-| TCLE | Termo de Consentimento Livre e Esclarecido |
-| XML | Formato de arquivo usado para exportar os dados da avaliação |
-
-### 1.4 Fontes
+### 1.3 Fontes
 
 As decisões registradas aqui vêm da [Visão do Produto](visao.md), da [Lean Inception](lean-inception.md), do [Sequenciador](sequenciador.md) e das atas de reunião com o *Product Owner* e o cliente, principalmente as [Atas 02](../atas-reunioes/Ata-02-EPS-2026-08-24-PO.md), [03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md), [04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md) e [06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md).
 
