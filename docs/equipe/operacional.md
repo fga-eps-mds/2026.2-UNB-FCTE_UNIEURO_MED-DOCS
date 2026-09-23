@@ -1,6 +1,27 @@
 # Visão Operacional
 
-Este documento tem como objetivo apresentar o panorama do desenvolvimento operacional do projeto, incluindo aspectos da organização do time, ferramentas utilizadas, estratégias de pareamento e gestão de conhecimento. 
+Este documento tem como objetivo apresentar o panorama do desenvolvimento operacional do projeto, incluindo aspectos da organização do time, ferramentas utilizadas, estratégias de pareamento egestão de conhecimento. 
+
+
+
+## Escala de lideranças
+
+A [equipe](https://fga-eps-mds.github.io/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/equipe/equipe/) é composta por 11 membros, que atuarão no desenvolvimento do projeto e na execução das atividades relacionadas ao mesmo. Para atender aos critérios da disciplina, a equipe contará com uma dupla de liderança, que se alternará a cada duas semanas, sendo esta responsável por acompanhar o desenvolvimento, monitorar o progresso das tarefas e organizar a comunicação junto aos Product Owners, além de guiar e organizar as reuniões realizadas durante esse período.
+
+A tabela abaixo mostra a escala de lideranças da equipe, com a indicação dos membros que formam a dupla e o período de atuação da mesma:
+
+| Período | Líder 1 | Líder 2 |
+| :---: | :---: | :---: |
+| 31/08/2026 a 14/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | [Gabriel Lopes de Amorim](https://github.com/BrzGab) |
+| 14/09/2026 a 28/09/2026 | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | [Henrique Galdino Couto](https://github.com/hgaldino05) |
+| 28/09/2026 a 12/10/2026 | A definir | A definir |
+| 12/10/2026 a 26/10/2026 | A definir | A definir |
+| 26/10/2026 a 09/11/2026 | A definir | A definir |
+| 09/11/2026 a 23/11/2026 | A definir | A definir |
+| 23/11/2026 a 07/12/2026 | A definir | A definir |
+| 07/12/2026 a 14/12/2026 | A definir | A definir |
+
+> **Observação**: A última liderança terá duração de uma semana, devido ao encerramento da disciplina.
 
 ## Ferramentas Utilizadas
 
@@ -93,5 +114,6 @@ A estratégia de pareamento para o desenvolvimento do projeto visa manter uma me
 
 | Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de revisão |
 | :----: | ---------- | --------- | ------------ | ------------ | ------------ |
-| 1.0 | 20/09/2026 | Criação do documento operacional da equipe e Adição das ferramentas utilizadas estratégia de pareamento| [Henrique Galdino Couto](https://github.com/hgaldino05) | [Daniel Ferreira Nunes](https://github.com/Mach1r0) |22/09/2026 |
-| 1.1 | 21/09/2026 | Inclusão do quadro de conhecimentos (planilha) | [Henrique Galdino Couto](https://github.com/hgaldino05) | [Daniel Ferreira Nunes](https://github.com/Mach1r0)  | 22/09/2026 |
+| 1.0 | 20/09/2026 | Criação do documento operacional da equipe e Adição das ferramentas utilizadas estratégia de pareamento| [Henrique Galdino Couto](https://github.com/hgaldino05) | [Daniel Ferreira Nunes](https://github.com/Mach1r0) |23/09/2026 |
+| 1.1 | 21/09/2026 | Inclusão do quadro de conhecimentos (planilha) | [Henrique Galdino Couto](https://github.com/hgaldino05) | [Daniel Ferreira Nunes](https://github.com/Mach1r0)  | 23/09/2026 |
+| 1.2 | 22/09/2026 | Inclusão da escala de lideranças | [Henrique Galdino Couto](https://github.com/hgaldino05) | [Daniel Ferreira Nunes](https://github.com/Mach1r0)  | 23/09/2026 |
