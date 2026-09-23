@@ -13,11 +13,12 @@ O produto ainda não tem nome definido. O cliente ficou de levar o tema ao profe
 O documento segue o modelo 4+1 adaptado, da mesma forma que foi feito no semestre anterior da disciplina, e cobre:
 
 1. visão geral e contexto de uso;
-2. visão lógica, com os componentes do aplicativo;
-3. visão de processos, com o fluxo da avaliação, os estados da avaliação e a sequência da inferência;
-4. visão de implementação, com os repositórios e os pacotes;
-5. visão de implantação, com os dispositivos e artefatos;
-6. visão de dados, que substitui a visão de casos de uso.
+2. estilo arquitetural adotado;
+3. visão lógica, com os componentes do aplicativo;
+4. visão de processos, com o fluxo da avaliação, os estados da avaliação e a sequência da inferência;
+5. visão de implementação, com os repositórios e os pacotes;
+6. visão de implantação, com os dispositivos e artefatos;
+7. visão de dados, que substitui a visão de casos de uso.
 
 ### 1.3 Definições e siglas
 
@@ -27,10 +28,13 @@ O documento segue o modelo 4+1 adaptado, da mesma forma que foi feito no semestr
 | Avaliação | Uma aplicação completa do teste para um paciente |
 | CCL | Comprometimento cognitivo leve |
 | Expo | Plataforma para desenvolver aplicativos React Native, usada no aplicativo |
+| Backend | Servidor separado do aplicativo, acessado pela rede, que concentra regras de negócio, dados ou processamento. O aplicativo não tem backend |
 | Inferência | Execução do modelo treinado sobre os três desenhos para obter a classificação |
-| Mapa de calor | Imagem sobre o desenho que destaca os traços que mais pesaram na classificação |
 | LGPD | Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018) |
+| Mapa de calor | Imagem sobre o desenho que destaca os traços que mais pesaram na classificação |
+| Monólito | Sistema construído e implantado como uma única aplicação |
 | REDCap | Plataforma de gestão de dados de pesquisa usada pelo cliente |
+| Runtime do modelo | Biblioteca que carrega o arquivo do modelo exportado e executa a inferência no tablet |
 | SQLite | Banco de dados relacional em arquivo, usado no tablet |
 | TCLE | Termo de Consentimento Livre e Esclarecido |
 | XML | Formato de arquivo usado para exportar os dados da avaliação |
@@ -59,9 +63,45 @@ O aplicativo roda em um dos dois tablets Android que a UniEuro está adquirindo 
 
 Não há super usuário. O profissional recebe o tablet já configurado e cria a própria conta ([Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md)).
 
-## 3. Visão lógica
+## 3. Estilo arquitetural
 
-A visão lógica mostra como o aplicativo está dividido em componentes e quais dependências existem entre eles. Não existe backend: todos os componentes rodam dentro do aplicativo Expo, no tablet. A divisão em quatro camadas mantém as interfaces separadas da regra da avaliação e isola o motor de inferência, que depende do trabalho do repositório de IA.
+O aplicativo segue o estilo **monólito modular em camadas**. Esta seção explica esse modelo arquitetural. As visões das seções seguintes mostram como ele se aplica ao aplicativo.
+
+### 3.1 Características
+
+- **Monólito:** todo o sistema é uma única aplicação Expo, compilada em um único APK e executada em um único processo no tablet. Não há serviços separados, backend nem comunicação por rede entre partes do sistema.
+- **Modular:** o código é dividido em módulos por responsabilidade do negócio (`acesso`, `avaliacao`, `captura`, `inferencia` e `exportacao`), mais o módulo `db`, de persistência. Cada módulo expõe uma interface pública e esconde sua implementação dos demais.
+- **Em camadas:** os componentes são organizados em quatro camadas (apresentação, aplicação, domínio e processamento e infraestrutura local), e cada camada só depende das camadas abaixo dela. As telas, por exemplo, usam os módulos de `src` e não acessam o banco diretamente.
+
+O repositório de IA não é um serviço do sistema. Ele é um projeto de treino que roda fora do tablet e gera um artefato, o arquivo do modelo, que é empacotado no aplicativo. Em execução, o modelo é apenas mais um recurso local do monólito.
+
+### 3.2 Módulos e camadas
+
+| Módulo | Componentes | Camadas |
+|---|---|---|
+| `acesso` | Acesso e sessão | Aplicação |
+| `avaliacao` | Orquestrador da avaliação, Catálogo de tarefas | Aplicação |
+| `captura` | Captura do traçado, Imagem e preparo | Domínio e processamento |
+| `inferencia` | Motor de inferência, Resultado | Domínio e processamento |
+| `exportacao` | Exportador XML | Infraestrutura local |
+| `db` | Persistência (SQLite) | Infraestrutura local |
+
+As interfaces do profissional e do paciente ficam na pasta `app` e formam a camada de apresentação. O artefato do modelo fica em `assets/modelo` e é carregado pelo módulo `inferencia`. As figuras de referência do catálogo de tarefas ficam em `assets/tarefas`.
+
+### 3.3 Justificativa
+
+| Alternativa | Motivo da escolha ou do descarte |
+|---|---|
+| Monólito modular em camadas | Adotado. Atende à execução 100% offline em um único aparelho, é simples de construir, testar e instalar por APK, e a divisão em módulos permite que a equipe trabalhe em partes diferentes com pouco conflito |
+| Cliente-servidor ou microsserviços | Descartados. Exigiriam servidor e rede, o que contraria a restrição de funcionamento offline e traria custo de infraestrutura que ninguém assumiria ([Ata 02](../atas-reunioes/Ata-02-EPS-2026-08-24-PO.md), [Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md)) |
+| API local dentro do tablet | Descartada. Não traria ganho que justificasse a complexidade ([Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md)) |
+| Monólito sem divisão em módulos | Descartado. Misturaria telas, regra da avaliação, inferência e persistência, dificultando a troca do modelo e do runtime, que ainda estão em definição |
+
+A separação em módulos também prepara o aplicativo para mudanças previstas: o runtime do modelo e a estratégia de pré-processamento podem mudar sem afetar as telas nem o fluxo da avaliação, desde que o contrato da [seção 6.3](#63-contrato-entre-aplicativo-e-modelo) seja mantido.
+
+## 4. Visão lógica
+
+A visão lógica mostra como o aplicativo está dividido em componentes e quais dependências existem entre eles. Não existe backend separado: todos os componentes rodam dentro do aplicativo Expo, no tablet. A divisão em quatro camadas mantém as interfaces separadas da regra da avaliação e isola o motor de inferência, que depende do trabalho do repositório de IA.
 
 **Figura 2:** Diagrama de componentes do aplicativo
 
@@ -84,19 +124,19 @@ A visão lógica mostra como o aplicativo está dividido em componentes e quais 
 | Infraestrutura local | Artefato do modelo | Arquivo do modelo exportado do PyTorch, empacotado no aplicativo |
 | Infraestrutura local | Exportador XML | Monta o arquivo XML quando o profissional pede |
 
-### 3.1 Requisitos e restrições de arquitetura
+### 4.1 Requisitos e restrições de arquitetura
 
 1. Todo o processamento acontece no tablet, sem servidor, API externa, Wi-Fi ou dados móveis ([Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md)).
 2. A LGPD é tratada como requisito não funcional, mesmo com o sistema offline ([Ata 02](../atas-reunioes/Ata-02-EPS-2026-08-24-PO.md)).
 3. O resultado nunca aparece nas telas do paciente.
 4. Depois que o teste começa, o paciente não pode voltar para a área do profissional ([Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md)).
-5. O aplicativo salva todas as métricas de traçado que o conjunto de tablet e caneta fornecer: coordenadas, tempo, velocidade e, quando houver, pressão e inclinação ([Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md)). Esses dados vão para o XML. O modelo usa somente as imagens finais, porque o dataset não tem dados de caneta ([Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md)).
+5. O aplicativo salva todas as métricas de traçado que o conjunto de tablet e caneta fornecer: coordenadas, tempo, velocidade (calculada a partir das coordenadas e do tempo) e, quando houver, pressão e inclinação ([Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md)). Esses dados vão para o XML. O modelo usa somente as imagens finais, porque o dataset não tem dados de caneta ([Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md)).
 6. Apagamentos e desistências são registrados pelo próprio aplicativo, sem anotação manual ([Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md)).
 7. O progresso da avaliação é salvo no tablet, conforme a onda 2 do [Sequenciador](sequenciador.md).
 
-## 4. Visão de processos
+## 5. Visão de processos
 
-### 4.1 Fluxo da avaliação
+### 5.1 Fluxo da avaliação
 
 O diagrama de atividades segue o fluxo descrito pelo *Product Owner* na [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md) e inclui o botão de desistência e o registro das instruções definidos na [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md).
 
@@ -116,9 +156,9 @@ O diagrama de atividades segue o fluxo descrito pelo *Product Owner* na [Ata 04]
 8. Se os três desenhos foram confirmados, o aplicativo executa a inferência e salva a classe prevista, as probabilidades, os mapas de calor e a versão do modelo.
 9. O profissional volta à sua área, registra se deu instruções durante o teste e quais foram, consulta os desenhos com os mapas de calor e o resultado e, se quiser, gera o XML.
 
-### 4.2 Estados da avaliação
+### 5.2 Estados da avaliação
 
-A avaliação passa por estados bem definidos. Guardar o estado no banco permite retomar uma avaliação interrompida pelo fechamento do aplicativo e contar desistências por tarefa, que é uma das métricas do [Canvas MVP](canvas-mvp.md).
+A avaliação passa por estados bem definidos. Guardar o estado no banco permite retomar uma avaliação quando o aplicativo é fechado no meio do teste e contar desistências por tarefa, que é uma das métricas do [Canvas MVP](canvas-mvp.md).
 
 **Figura 4:** Diagrama de estados da avaliação
 
@@ -136,7 +176,7 @@ A avaliação passa por estados bem definidos. Guardar o estado no banco permite
 | Cancelada | O TCLE foi recusado |
 | Interrompida | O paciente desistiu. A tarefa em que ele parou fica registrada |
 
-### 4.3 Sequência da inferência
+### 5.3 Sequência da inferência
 
 O diagrama de sequência detalha o trecho entre a confirmação do último desenho e o registro do resultado. A tela de encerramento aparece antes da inferência terminar, para que o paciente não espere pelo processamento.
 
@@ -146,9 +186,9 @@ O diagrama de sequência detalha o trecho entre a confirmação do último desen
 
 **Fonte:** [Gabriel Lopes de Amorim](https://github.com/BrzGab), 2026.
 
-## 5. Visão de implementação
+## 6. Visão de implementação
 
-### 5.1 Tecnologias
+### 6.1 Tecnologias
 
 A tecnologia definida a princípio pela equipe é:
 
@@ -156,11 +196,12 @@ A tecnologia definida a princípio pela equipe é:
 |---|---|---|
 | Aplicativo (telas e lógica) | Expo (React Native) | Tablet |
 | Banco de dados | SQLite, acessado pelo `expo-sqlite` | Tablet |
-| Modelo de IA | PyTorch, com Python | Máquina de desenvolvimento (treino) e tablet (modelo exportado) |
+| Modelo de IA (treino e exportação) | PyTorch, com Python | Máquina de desenvolvimento |
+| Modelo de IA (execução) | Runtime do modelo, a definir (ver [Pendências](#10-pendencias)) | Tablet |
 
-Não existe backend. O Python é usado apenas no repositório de IA, para tratar o dataset, treinar, avaliar e exportar o modelo. No tablet, o modelo exportado é executado pelo próprio aplicativo, sem servidor local nem chamada de rede. Isso segue o que foi discutido na [Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md): uma API rodando dentro do tablet não traria ganho que justificasse a complexidade.
+Não existe backend separado. O Python é usado apenas no repositório de IA, para tratar o dataset, treinar, avaliar e exportar o modelo. No tablet, o modelo exportado é executado pelo próprio aplicativo, sem servidor local nem chamada de rede. Isso segue o que foi discutido na [Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md): uma API rodando dentro do tablet não traria ganho que justificasse a complexidade.
 
-### 5.2 Repositórios e pacotes
+### 6.2 Repositórios e pacotes
 
 | Repositório | Responsabilidade |
 |---|---|
@@ -201,7 +242,7 @@ MED-IA
 
 As telas em `app` correspondem às interfaces do profissional e do paciente. Elas só dependem dos módulos de `src` e não acessam o banco diretamente. O pacote `assets/modelo` recebe o arquivo gerado por `exportacao` no MED-IA. Essa é a única ligação entre os dois repositórios.
 
-### 5.3 Contrato entre aplicativo e modelo
+### 6.3 Contrato entre aplicativo e modelo
 
 O modelo recebe as três imagens (relógio, cubo e a figura geométrica) e devolve:
 
@@ -217,7 +258,7 @@ O modelo não gera um escore numérico como os testes em papel. Estão em estudo
 - ordem das classes na saída e formato dos mapas de calor;
 - versão do modelo, que é gravada junto com cada inferência.
 
-## 6. Visão de implantação
+## 7. Visão de implantação
 
 Em produção existe um único nó de execução, o tablet. A máquina de desenvolvimento aparece no diagrama porque é onde o modelo é treinado e exportado antes de entrar no APK.
 
@@ -233,7 +274,7 @@ Em produção existe um único nó de execução, o tablet. A máquina de desenv
 - O XML precisa ser gravado em uma pasta escolhida pelo profissional. Se ficasse no armazenamento privado, não seria possível copiá-lo para o REDCap.
 - A inferência roda no tablet, sem chamadas de rede.
 
-## 7. Visão de dados
+## 8. Visão de dados
 
 O banco SQLite guarda os dados abaixo. Os campos de cadastro são os definidos pelo cliente na [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md). Os dados exportados no XML são os pedidos na [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md): dados do traçado, inferência, horário, profissional e paciente.
 
@@ -265,10 +306,11 @@ Relações principais:
 - cada inferência tem três mapas de calor, e cada mapa se refere a um desenho;
 - uma avaliação pode ser exportada mais de uma vez.
 
-## 8. Decisões arquiteturais
+## 9. Decisões arquiteturais
 
 | Decisão | Justificativa | Origem |
 |---|---|---|
+| Estilo monólito modular em camadas | Um único aplicativo offline, com módulos separados por responsabilidade e cada camada dependendo só das camadas abaixo dela | Definição da equipe, [seção 3](#3-estilo-arquitetural) |
 | Execução 100% local no tablet, sem backend | Custo de infraestrutura que ninguém assumiria e proteção dos dados do paciente | [Ata 02](../atas-reunioes/Ata-02-EPS-2026-08-24-PO.md), [Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md) |
 | Aplicativo em Expo (React Native), distribuído como APK | Tablets da UniEuro e escopo sem Web, iOS ou loja | Definição da equipe, [Lean Inception](lean-inception.md) |
 | Banco SQLite no tablet | Banco relacional em arquivo, sem servidor, proposto na Ata 02 | [Ata 02](../atas-reunioes/Ata-02-EPS-2026-08-24-PO.md) |
@@ -279,7 +321,7 @@ Relações principais:
 | Salvar todas as métricas de caneta disponíveis | Os dados alimentam a pesquisa mesmo sem entrar no modelo | [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md) |
 | Registro automático de apagamentos e desistências | Métricas do Canvas MVP sem anotação manual | [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md) |
 
-## 9. Pendências
+## 10. Pendências
 
 | Item | Situação |
 |---|---|
@@ -293,14 +335,14 @@ Relações principais:
 | Recuperação de senha | Prevista nas histórias de usuário ([Ata 05](../atas-reunioes/Ata-05-EPS-2026-09-14-PO.md)), mas precisa funcionar sem e-mail ou rede |
 | Registro de apagamentos | O cliente ainda vai confirmar se o apagamento deve ser registrado ([Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md)) |
 
-## 10. Riscos e mitigações
+## 11. Riscos e mitigações
 
 | Risco | Mitigação |
 |---|---|
 | O modelo escolhido não roda no tablet com desempenho aceitável | Testar a exportação e a execução no aparelho logo nas primeiras sprints do MED-IA |
 | O runtime do modelo exigir módulo nativo, que não funciona no Expo Go | Usar *development build* do Expo desde o início do projeto |
 | Os mapas de calor dependerem de cálculo de gradiente, que o runtime do celular pode não suportar | Exportar o modelo já devolvendo os mapas como saída, e testar isso cedo |
-| O aplicativo e o modelo usarem pré-processamentos diferentes | Manter o contrato da seção 5.3 versionado junto com o modelo |
+| O aplicativo e o modelo usarem pré-processamentos diferentes | Manter o contrato da [seção 6.3](#63-contrato-entre-aplicativo-e-modelo) versionado junto com o modelo |
 | Perda de dados se o tablet quebrar ou for perdido | Orientar a exportação periódica do XML e proteger o banco do aplicativo |
 | O paciente acessar dados de outros pacientes | Bloquear a área do profissional durante o teste e exigir autenticação para voltar |
 | A caneta não fornecer pressão ou inclinação | Tratar esses campos como opcionais no banco e no XML |
