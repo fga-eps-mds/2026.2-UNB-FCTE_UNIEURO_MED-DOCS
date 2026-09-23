@@ -2,8 +2,8 @@
 
 Este documento estabelece as diretrizes iniciais da identidade visual do **Mnema**, nome provisório do aplicativo de apoio ao rastreio cognitivo por meio de tarefas de desenho. As definições orientam a construção do aplicativo, do protótipo e de materiais de comunicação, preservando clareza, sobriedade e acessibilidade.
 
-
-    **MNEMA NÃO É O NOME DEFINITIVO DO PRODUTO.** O nome ainda será validado com o cliente e **pode passar por mudanças**. Caso outro nome seja escolhido, o logotipo, a assinatura verbal e as aplicações descritas neste documento vão ser revisados.
+!!! warning "Nome provisório"
+    **MNEMA NÃO É O NOME DEFINITIVO DO PRODUTO.** O nome ainda será validado com o cliente e **pode passar por mudanças**. Caso outro nome seja escolhido, o logotipo, a assinatura verbal e as aplicações descritas neste documento vão ser revisadas.
 
 ## Protótipo de referência
 
@@ -36,7 +36,7 @@ Os nomes considerados foram Mnema, NeuroB, Neuri, Traço, Nooma e Cognara. A pro
 A proposta inicial combina um monograma **M** branco com uma base quadrada de cantos arredondados em tons de laranja e vinho. O nome aparece em caixa alta e em tom escuro, criando uma assinatura simples e reconhecível em telas pequenas.
 
 <figure class="brand-logo">
-  <img src="../assets/imagens/identidade-visual/logo-mnema-provisoria.svg" alt="Assinatura vertical provisória da Mnema">
+  <img src="../../assets/imagens/identidade-visual/logo-mnema-provisoria.svg" alt="Assinatura vertical provisória da Mnema">
   <figcaption>Reconstrução vetorial provisória baseada no protótipo inicial.</figcaption>
 </figure>
 
@@ -128,6 +128,6 @@ As cinco cores informadas no protótipo continham uma repetição de `#FFE8D6`. 
 
 | Versão | Descrição | Autor | Data | Revisor | Data de revisão |
 |---|---|---|---|---|---|
-| 1.0 | Criação da identidade visual inicial a partir do questionário do cliente, do protótipo e da paleta fornecida | [Mach1r0](https://github.com/Mach1r0) | 22/09/2026 | A definir | — |
-| 1.1 | Alinhamento das definições ao protótipo: adoção da fonte Inter, inclusão do Figma e simplificação das seções | [Mach1r0](https://github.com/Mach1r0) | 22/09/2026 | A definir | — |
-| 1.2 | Remoção da incorporação protegida do Figma e documentação do uso das cores nas telas | [Mach1r0](https://github.com/Mach1r0) | 22/09/2026 | A definir | — |
+| 1.0 | Criação da identidade visual inicial a partir do questionário do cliente, do protótipo e da paleta fornecida | [Mach1r0](https://github.com/Mach1r0) | 22/09/2026 | [Eduardo Ferreira](https://github.com/eduardoferre) | 23/09/2026 |
+| 1.1 | Alinhamento das definições ao protótipo: adoção da fonte Inter, inclusão do Figma e simplificação das seções | [Mach1r0](https://github.com/Mach1r0) | 22/09/2026 | [Eduardo Ferreira](https://github.com/eduardoferre) | 23/09/2026 |
+| 1.2 | Remoção da incorporação protegida do Figma e documentação do uso das cores nas telas | [Mach1r0](https://github.com/Mach1r0) | 22/09/2026 | [Eduardo Ferreira](https://github.com/eduardoferre) | 23/09/2026 |
