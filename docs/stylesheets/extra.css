@@ -251,6 +251,67 @@ box-shadow: none;
   background: var(--md-default-bg-color);
 }
 
+/* ---- Identidade visual ---- */
+.brand-logo {
+  max-width: 620px;
+  margin: 1.5rem auto;
+  padding: 1.25rem;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 16px;
+}
+
+.brand-logo img {
+  display: block;
+  width: 100%;
+  max-height: 420px;
+  margin: 0 auto;
+}
+
+.brand-logo figcaption {
+  color: #475569;
+  font-size: 0.8rem;
+}
+
+.type-specimen {
+  margin: 1.25rem 0;
+  padding: 1.5rem;
+  color: #0f172a;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 6px solid #9a3412;
+  border-radius: 12px;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.type-specimen p {
+  margin: 0.35rem 0;
+}
+
+.type-specimen .type-display {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.type-specimen .type-caption {
+  margin-top: 1rem;
+  color: #7f1d1d;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.type-specimen .type-body {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.type-specimen .type-characters {
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
 @media (max-width: 768px) {
   .feature-band .grid.cards > ul {
     grid-template-columns: 1fr;
