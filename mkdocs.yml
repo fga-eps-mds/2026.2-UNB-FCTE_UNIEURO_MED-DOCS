@@ -78,6 +78,7 @@ nav:
   - Início: index.md
   - Visão do Produto:
       - Síntese: produto/visao.md
+      - Arquitetura: produto/arquitetura.md
       - Lean Inception: produto/lean-inception.md
       - Funcionalidades: produto/funcionalidades.md
       - Sequenciador: produto/sequenciador.md

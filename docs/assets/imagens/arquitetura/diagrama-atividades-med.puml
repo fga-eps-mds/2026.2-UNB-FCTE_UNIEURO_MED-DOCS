@@ -1,0 +1,49 @@
+@startuml
+title Processo principal da avaliação — MED
+
+skinparam defaultFontSize 13
+skinparam activityFontSize 12
+skinparam ArrowThickness 1
+
+|Profissional de saúde|
+start
+:Autenticar-se;
+:Iniciar avaliação;
+:Informar dados do paciente;
+
+|Aplicativo MED|
+:Apresentar TCLE;
+
+|Paciente|
+if (Consentimento aceito?) then (Sim)
+else (Não)
+  |Aplicativo MED|
+  :Cancelar avaliação;
+  stop
+endif
+
+repeat
+  |Aplicativo MED|
+  :Apresentar tarefa;
+
+  |Paciente|
+  :Realizar e confirmar desenho;
+
+  |Aplicativo MED|
+  :Capturar e salvar desenho;
+repeat while (Há outra tarefa?) is (Sim) not (Não)
+
+:Preparar imagens;
+:Executar inferência local\ncom modelo PyTorch exportado;
+:Salvar resultado;
+
+|Paciente|
+:Visualizar encerramento\nsem escore;
+
+|Profissional de saúde|
+:Visualizar desenhos\ne resultado;
+
+|Aplicativo MED|
+:Gerar XML, quando solicitado;
+stop
+@enduml
