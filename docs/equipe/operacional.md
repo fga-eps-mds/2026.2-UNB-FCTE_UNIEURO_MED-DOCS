@@ -91,7 +91,7 @@ A estratégia de pareamento para o desenvolvimento do projeto visa manter uma me
 
 ## Histórico de Versão
 
-| Versão | Data | Descrição | Autor | Revisor |
-| :----: | ---------- | --------- | ------------ | ------------ |
-| 1.0 | 20/09/2026 | Criação do documento operacional da equipe e Adição das ferramentas utilizadas estratégia de pareamento| [Henrique Galdino Couto](https://github.com/hgaldino05) | [Daniel Ferreira Nunes](https://github.com/Mach1r0) |
-| 1.1 | 21/09/2026 | Inclusão do quadro de conhecimentos (planilha) | [Henrique Galdino Couto](https://github.com/hgaldino05) | [Daniel Ferreira Nunes](https://github.com/Mach1r0)  |
+| Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de revisão |
+| :----: | ---------- | --------- | ------------ | ------------ | ------------ |
+| 1.0 | 20/09/2026 | Criação do documento operacional da equipe e Adição das ferramentas utilizadas estratégia de pareamento| [Henrique Galdino Couto](https://github.com/hgaldino05) | [Daniel Ferreira Nunes](https://github.com/Mach1r0) |22/09/2026 |
+| 1.1 | 21/09/2026 | Inclusão do quadro de conhecimentos (planilha) | [Henrique Galdino Couto](https://github.com/hgaldino05) | [Daniel Ferreira Nunes](https://github.com/Mach1r0)  | 22/09/2026 |
