@@ -17,7 +17,7 @@ Esta página descreve quais arquivos existem, quem os gera e o que falta.
 | `Sonar_API-Measures-*.json` | Qualidade de produto | API do SonarCloud | Automatizado |
 | `zenhub_analytics.json` | Sprints e Agile EVM (projeto) | API do Zenhub | Automatizado — depende do *secret* |
 | `riscos_analytics.json` | Matriz de Riscos (projeto) | Plano de Riscos | Pendente — depende da issue #26 |
-| `fga-eps-mds-<repositório>-<data>-vX.Y.Z.json` | Métricas de cada versão do produto | Pipeline de release de APP e IA | Pendente — ver [Métricas por versão](#metricas-por-versao-do-produto) |
+| `fga-eps-mds-<repositório>-<data>-vX.Y.Z.json` | Métricas de cada versão do produto | Pipeline de release de APP e IA | Em revisão — ver [Métricas por versão](#metricas-por-versao-do-produto) |
 
 **Fonte:** [Vitor Carvalho Pereira](https://github.com/vcpVitor), 2026
 
@@ -136,12 +136,15 @@ SonarCloud, independente do dashboard:
 Por isso a pasta se chama `analytics-raw-data/` e reúne todos os arquivos de
 métricas, os do dashboard e os de cada versão.
 
-O pipeline que gera esses arquivos pertence a APP e IA e ainda não foi incorporado.
-Deste lado, a coleta diária já está preparada para recebê-los: ela copia para a
-pasta o `.json` anexado a cada release de APP e IA que ainda não estiver aqui. Isso
-garante o arquivo mesmo quando o pipeline de origem não consegue enviá-lo
-diretamente, o que depende de um *secret* com permissão de escrita neste
-repositório.
+O pipeline que gera esses arquivos está em revisão em
+[APP #26](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/pull/26) e
+[IA #11](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/pull/11). A cada PR
+fechado com merge, ele gera a release, com a versão definida pelos rótulos `MAJOR
+RELEASE`, `MINOR RELEASE` ou `NOT RELEASE` do PR, e anexa a ela o `.json` com as métricas.
+
+Deste lado, a coleta diária copia para a pasta o `.json` de cada release de APP e IA
+que ainda não estiver aqui. Com isso, nenhum dos repositórios precisa de *secret* de
+escrita em outro.
 
 ## Sprints e Agile EVM
 
