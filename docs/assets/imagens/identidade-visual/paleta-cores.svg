@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" role="img" aria-labelledby="title desc">
+  <title id="title">Prévia da paleta de cores da identidade visual</title>
+  <desc id="desc">Seis amostras apresentam as quatro cores da paleta inicial e as duas cores utilitárias.</desc>
+
+  <rect width="1200" height="580" fill="#FFFFFF"/>
+  <text x="60" y="68" fill="#0F172A" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">Paleta de cores</text>
+  <text x="60" y="104" fill="#475569" font-family="Inter, Arial, sans-serif" font-size="20">Cores da proposta inicial e neutros utilitários</text>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <g transform="translate(60 145)">
+      <rect width="340" height="170" rx="18" fill="#9A3412"/>
+      <text x="24" y="112" fill="#FFFFFF" font-size="24" font-weight="700">Laranja Mnema</text>
+      <text x="24" y="143" fill="#FFFFFF" font-size="20">#9A3412</text>
+    </g>
+    <g transform="translate(430 145)">
+      <rect width="340" height="170" rx="18" fill="#7F1D1D"/>
+      <text x="24" y="112" fill="#FFFFFF" font-size="24" font-weight="700">Vinho profundo</text>
+      <text x="24" y="143" fill="#FFFFFF" font-size="20">#7F1D1D</text>
+    </g>
+    <g transform="translate(800 145)">
+      <rect width="340" height="170" rx="18" fill="#FFE8D6"/>
+      <text x="24" y="112" fill="#0F172A" font-size="24" font-weight="700">Pêssego claro</text>
+      <text x="24" y="143" fill="#0F172A" font-size="20">#FFE8D6</text>
+    </g>
+    <g transform="translate(60 345)">
+      <rect width="340" height="170" rx="18" fill="#FEF3C7"/>
+      <text x="24" y="112" fill="#0F172A" font-size="24" font-weight="700">Creme</text>
+      <text x="24" y="143" fill="#0F172A" font-size="20">#FEF3C7</text>
+    </g>
+    <g transform="translate(430 345)">
+      <rect width="340" height="170" rx="18" fill="#0F172A"/>
+      <text x="24" y="112" fill="#FFFFFF" font-size="24" font-weight="700">Azul-noite</text>
+      <text x="24" y="143" fill="#FFFFFF" font-size="20">#0F172A</text>
+    </g>
+    <g transform="translate(800 345)">
+      <rect width="340" height="170" rx="18" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
+      <text x="24" y="112" fill="#0F172A" font-size="24" font-weight="700">Branco</text>
+      <text x="24" y="143" fill="#0F172A" font-size="20">#FFFFFF</text>
+    </g>
+  </g>
+</svg>
