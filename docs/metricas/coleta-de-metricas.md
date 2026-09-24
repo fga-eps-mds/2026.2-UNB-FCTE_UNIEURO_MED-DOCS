@@ -1,7 +1,7 @@
 # Coleta de métricas
 
 O dashboard analítico não consulta APIs durante a renderização: ele lê arquivos
-`.json` previamente gerados em `analytics/raw-data/`. Quando um arquivo não
+`.json` previamente gerados em `analytics-raw-data/`. Quando um arquivo não
 existe, a seção correspondente exibe um conjunto de dados de exemplo e sinaliza
 isso na tela.
 
@@ -17,6 +17,7 @@ Esta página descreve quais arquivos existem, quem os gera e o que falta.
 | `Sonar_API-Measures-*.json` | Qualidade de produto | API do SonarCloud | Automatizado |
 | `zenhub_analytics.json` | Sprints e Agile EVM (projeto) | API do Zenhub | Automatizado — depende do *secret* |
 | `riscos_analytics.json` | Matriz de Riscos (projeto) | Plano de Riscos | Pendente — depende da issue #26 |
+| `fga-eps-mds-<repositório>-<data>-vX.Y.Z.json` | Métricas de cada versão do produto | Pipeline de release de APP e IA | Pendente — ver [Métricas por versão](#metricas-por-versao-do-produto) |
 
 **Fonte:** [Vitor Carvalho Pereira](https://github.com/vcpVitor), 2026
 
@@ -32,6 +33,8 @@ faz commit de volta no repositório, e um gatilho de push criaria um laço de
 execuções.
 
 Usa o `GITHUB_TOKEN` da própria esteira — não requer nenhum segredo adicional.
+Antes de publicar, o job incorpora o que tiver chegado à `main` enquanto ele rodava
+(`git pull --rebase`), porque os pipelines de APP e IA também gravam nesta pasta.
 Se a coleta de um repositório falhar, o arquivo anterior é preservado e o
 workflow registra um aviso em vez de falhar por inteiro.
 
@@ -68,9 +71,17 @@ os arquivos `.json` de métricas geradas automaticamente pelos pipelines de CI/C
 a partir do SonarCloud.
 
 O mesmo workflow coleta, para cada projeto analisado, as medidas atuais e a série
-histórica: linhas de código, cobertura, testes, *bugs*, vulnerabilidades, *code
-smells*, *security hotspots*, densidade de duplicação, dívida técnica, as três
-notas de avaliação e o estado do *quality gate*.
+histórica. A lista começa pelas 12 métricas definidas pelo professor no Discord da
+disciplina em 14/09 — `files`, `functions`, `complexity`, `comment_lines_density`,
+`duplicated_lines_density`, `coverage`, `ncloc`, `tests`, `test_errors`,
+`test_failures`, `test_execution_time` e `security_rating` — e acrescenta as que
+alimentam os indicadores de confiabilidade e manutenibilidade do dashboard: *bugs*,
+vulnerabilidades, *code smells*, *security hotspots*, dívida técnica, as notas de
+avaliação e o estado do *quality gate*.
+
+Métricas que dependem de código ou de testes, como `functions` e `tests`, só
+aparecem no arquivo depois que o repositório passa a tê-los: o SonarCloud não as
+devolve enquanto não há o que medir.
 
 A API do SonarCloud é **aberta para projetos públicos** — a coleta não usa token
 nem depende de nenhum *secret*.
@@ -108,6 +119,29 @@ apresente "0% de cobertura apurada" onde na verdade não houve apuração alguma
 A função `get_sonar_metrics_data()` do `data_layer.py` converte esse arquivo na
 estrutura consumida pelo dashboard, seguindo o mesmo contrato das demais fontes:
 devolve uma tupla `(dados, is_mock)`.
+
+## Métricas por versão do produto
+
+O professor definiu, no Discord da disciplina em 14/09, um segundo requisito para o
+SonarCloud, independente do dashboard:
+
+- a chamada à API do SonarCloud é feita no pipeline **de cada repositório de
+  código**, quando um PR é fechado;
+- o `.json` gerado para cada versão do produto (releases *major* e *minor*) vai para
+  a pasta `analytics-raw-data/` deste repositório;
+- o nome segue o formato `fga-eps-mds-<repositório>-<MM-DD-YYYY-HH-MM-SS>-vX.Y.Z`;
+- cada release *major* publica, como *asset* no GitHub, o código-fonte e os testes
+  compactados, com a *tag* da release.
+
+Por isso a pasta se chama `analytics-raw-data/` e reúne todos os arquivos de
+métricas, os do dashboard e os de cada versão.
+
+O pipeline que gera esses arquivos pertence a APP e IA e ainda não foi incorporado.
+Deste lado, a coleta diária já está preparada para recebê-los: ela copia para a
+pasta o `.json` anexado a cada release de APP e IA que ainda não estiver aqui. Isso
+garante o arquivo mesmo quando o pipeline de origem não consegue enviá-lo
+diretamente, o que depende de um *secret* com permissão de escrita neste
+repositório.
 
 ## Sprints e Agile EVM
 
@@ -153,3 +187,5 @@ gerado por API: é a transcrição do Plano de Riscos, que ainda não foi elabor
 | Versão | Data | Descrição | Autor | Revisor |
 |:------:|------|-----------|-------|---------|
 | `1.0` | 20/09/2026 | Criação da página e automação da coleta de execuções de CI/CD | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
+| `1.1` | 21/09/2026 | Coleta do SonarCloud e do Zenhub | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
+| `1.2` | 24/09/2026 | Pasta renomeada para `analytics-raw-data/`, métricas exigidas pelo professor e seção de métricas por versão do produto | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |

@@ -71,7 +71,7 @@ def render_mock_alert(metric_name: str, file_name: str):
     """Exibe alerta visual informativo quando os dados ainda são mockados."""
     st.warning(
         f"Aviso: Exibindo dados simulados (mock) para **{metric_name}**. "
-        f"O arquivo `{file_name}` ainda não foi gerado pela esteira de CI/CD em `analytics/raw-data/`."
+        f"O arquivo `{file_name}` ainda não foi gerado pela esteira de CI/CD em `analytics-raw-data/`."
     )
 
 
@@ -355,7 +355,7 @@ def main():
     if any_mock:
         st.info(
             "Ambiente em modo de demonstração (dados simulados): "
-            "Os arquivos `.json` em `analytics/raw-data/` serão consumidos automaticamente assim que forem gerados pelo pipeline de CI/CD."
+            "Os arquivos `.json` em `analytics-raw-data/` serão consumidos automaticamente assim que forem gerados pelo pipeline de CI/CD."
         )
     
     evm_results = compute_agile_evm_metrics(

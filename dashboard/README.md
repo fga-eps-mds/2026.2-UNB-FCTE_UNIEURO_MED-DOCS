@@ -71,9 +71,9 @@ dashboard/
 
 ---
 
-## Origem dos Dados (`analytics/raw-data/`)
+## Origem dos Dados (`analytics-raw-data/`)
 
-O dashboard lê os arquivos `.json` em `../analytics/raw-data/`:
+O dashboard lê os arquivos `.json` em `../analytics-raw-data/`:
 - `zenhub_analytics.json`: Dados de velocity, issues e sprints.
 - `riscos_analytics.json`: Planilha/matriz de riscos da equipe.
 - `GitHub_API-Runs-*.json`: Histórico de execuções das GitHub Actions.

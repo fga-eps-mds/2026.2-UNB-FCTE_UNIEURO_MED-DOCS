@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Coleta as métricas de sprint do Zenhub e grava analytics/raw-data/zenhub_analytics.json,
+Coleta as métricas de sprint do Zenhub e grava analytics-raw-data/zenhub_analytics.json,
 no formato que o data_layer do dashboard espera.
 
 Requer a variável de ambiente ZENHUB_TOKEN. Sem ela, o script apenas avisa e sai
@@ -21,7 +21,7 @@ from pathlib import Path
 API = "https://api.zenhub.com/public/graphql"
 WORKSPACE_ID = "6a8c447d652b15002979b829"
 
-DESTINO = Path(__file__).resolve().parent.parent / "analytics" / "raw-data" / "zenhub_analytics.json"
+DESTINO = Path(__file__).resolve().parent.parent / "analytics-raw-data" / "zenhub_analytics.json"
 
 CONSULTA = """
 query($id: ID!) {
