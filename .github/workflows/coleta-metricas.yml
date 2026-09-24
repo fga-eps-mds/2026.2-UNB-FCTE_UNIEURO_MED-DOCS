@@ -1,6 +1,6 @@
 name: Coleta de métricas
 
-# Gera os arquivos .json que o dashboard analítico consome em analytics/raw-data/.
+# Gera os arquivos .json que o dashboard analítico consome em analytics-raw-data/.
 #
 # Não roda em push para a main de propósito: o job faz commit de volta no
 # repositório, e um gatilho de push criaria um laço de execuções.
@@ -33,11 +33,11 @@ jobs:
       - name: Coletar execuções de CI/CD dos repositórios
         run: |
           set -euo pipefail
-          mkdir -p analytics/raw-data
+          mkdir -p analytics-raw-data
           falhou=0
 
           for repo in DOCS APP IA; do
-            destino="analytics/raw-data/GitHub_API-Runs-${repo}.json"
+            destino="analytics-raw-data/GitHub_API-Runs-${repo}.json"
             echo "::group::${repo}"
 
             if gh api "repos/${ORG}/${PREFIX}-${repo}/actions/runs?per_page=100" \
@@ -74,12 +74,15 @@ jobs:
       - name: Coletar métricas de qualidade do SonarCloud
         run: |
           set -euo pipefail
-          metricas="ncloc,coverage,tests,bugs,vulnerabilities,code_smells,security_hotspots,duplicated_lines_density,sqale_index,sqale_rating,reliability_rating,security_rating,alert_status"
+          # As 12 primeiras são as exigidas pelo professor (Discord, 14/09); as demais
+          # alimentam os indicadores de confiabilidade e manutenibilidade do dashboard.
+          metricas="files,functions,complexity,comment_lines_density,duplicated_lines_density,coverage,ncloc,tests,test_errors,test_failures,test_execution_time,security_rating"
+          metricas="${metricas},bugs,vulnerabilities,code_smells,security_hotspots,sqale_index,sqale_rating,reliability_rating,alert_status"
 
           # Só IA e APP têm projeto no SonarCloud; DOCS não é analisado.
           for repo in APP IA; do
             chave="${ORG}_${PREFIX}-${repo}"
-            destino="analytics/raw-data/Sonar_API-Measures-${repo}.json"
+            destino="analytics-raw-data/Sonar_API-Measures-${repo}.json"
             echo "::group::${repo}"
 
             # A API do SonarCloud é aberta para projetos públicos: não usa token.
@@ -114,6 +117,22 @@ jobs:
             echo "::endgroup::"
           done
 
+      - name: Espelhar métricas das releases de APP e IA
+        run: |
+          set -euo pipefail
+          # Cada release de APP e IA anexa o .json do SonarCloud como asset. Quando o
+          # pipeline do repositório de código não consegue enviá-lo direto para cá
+          # (falta do secret API_TOKEN_DOC), é este passo que o traz. O nome do arquivo
+          # é único por release, então copiar de novo não duplica nada.
+          for repo in APP IA; do
+            gh release list -R "${ORG}/${PREFIX}-${repo}" --limit 100 --json tagName --jq '.[].tagName' |
+            while read -r tag; do
+              gh release download "${tag}" -R "${ORG}/${PREFIX}-${repo}" \
+                --pattern "fga-eps-mds-*.json" --dir analytics-raw-data --skip-existing 2>/dev/null || true
+            done
+          done
+          echo "Arquivos de release em analytics-raw-data: $(ls analytics-raw-data/fga-eps-mds-*.json 2>/dev/null | wc -l)"
+
       - name: Coletar métricas de sprint do Zenhub
         env:
           ZENHUB_TOKEN: ${{ secrets.ZENHUB_TOKEN }}
@@ -129,7 +148,7 @@ jobs:
             echo ""
             echo "| Repositório | Execuções | Sucesso |"
             echo "|---|---:|---:|"
-            for f in analytics/raw-data/GitHub_API-Runs-*.json; do
+            for f in analytics-raw-data/GitHub_API-Runs-*.json; do
               [ -e "$f" ] || continue
               repo=$(jq -r '.repositorio' "$f")
               total=$(jq '.workflow_runs | length' "$f")
@@ -144,7 +163,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add analytics/raw-data
+          git add analytics-raw-data
 
           if git diff --staged --quiet; then
             echo "Nenhuma alteração nas métricas."
@@ -152,4 +171,12 @@ jobs:
           fi
 
           git commit -m "chore: atualiza métricas coletadas da esteira de CI/CD"
-          git push
+
+          # Os pipelines de APP e IA também fazem push para a main; se um deles chegou
+          # antes, traz o commit dele e tenta de novo em vez de falhar.
+          for tentativa in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            echo "::warning::Push recusado (tentativa ${tentativa}); tentando de novo"
+            sleep 5
+          done
+          exit 1
