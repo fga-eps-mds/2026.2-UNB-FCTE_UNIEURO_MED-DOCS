@@ -1,6 +1,6 @@
 {
   "workspace": "UNB/FCTE-UNIEURO/MED",
-  "coletado_em": "2026-09-21T23:24:33Z",
+  "coletado_em": "2026-09-24T17:59:21Z",
   "sprints_velocity": {
     "Sprint: 1": {
       "delivered_story_points": 0.0,
@@ -31,9 +31,9 @@
       "start_at": "2026-09-14T03:59:00Z",
       "end_at": "2026-09-28T02:59:00Z",
       "total_points": 8.0,
-      "issues_total": 22,
-      "issues_closed": 3,
-      "issues_sem_estimativa": 21
+      "issues_total": 27,
+      "issues_closed": 7,
+      "issues_sem_estimativa": 26
     },
     "Sprint: Sep 28 - Oct 11, 2026": {
       "delivered_story_points": 0.0,
@@ -42,9 +42,9 @@
       "start_at": "2026-09-28T03:59:00Z",
       "end_at": "2026-10-12T02:59:00Z",
       "total_points": 0.0,
-      "issues_total": 0,
+      "issues_total": 2,
       "issues_closed": 0,
-      "issues_sem_estimativa": 0
+      "issues_sem_estimativa": 2
     },
     "Sprint: Oct 12 - Oct 25, 2026": {
       "delivered_story_points": 0.0,
