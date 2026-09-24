@@ -11,7 +11,7 @@ hide:
 
 Documentação da equipe na disciplina de Engenharia de Produto de Software
 
-[Comece por aqui](produto/visao-geral.md){ .md-button .md-button--primary }
+[Comece por aqui](produto/visao.md){ .md-button .md-button--primary }
 [Ver no GitHub](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS){ .md-button }
 
 </div>

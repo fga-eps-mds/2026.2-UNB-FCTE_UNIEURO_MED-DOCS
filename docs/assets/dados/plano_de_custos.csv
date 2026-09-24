@@ -1,0 +1,9 @@
+categoria,custo_semanal_brl,semanas,custo_total_brl,observacao
+Pessoas,3437.38,17,58435.54,"11 integrantes; orçamento médio aproximado pelo total oficial de estudantes da UnB"
+Depreciacao_dos_computadores,149.71,17,2545.07,"11 computadores de uso geral"
+Energia_eletrica,5.06,17,86.02,"Uso extraclasse estimado"
+Internet,21.34,17,362.78,"Rateio do plano residencial de referência"
+Servicos_licencas_hospedagem,0.00,17,0.00,"Planos educacionais/gratuitos e produto offline"
+Linha_de_base_BAC,3613.49,17,61429.41,"Valores totais calculados com premissas nao arredondadas"
+Reserva_gerencial,180.67,17,3071.47,"5% da linha de base; nao integra o BAC antes de aprovacao"
+Orcamento_total_autorizado,3794.17,17,64500.88,"BAC mais reserva gerencial"

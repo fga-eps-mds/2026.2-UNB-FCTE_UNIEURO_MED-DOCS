@@ -205,11 +205,121 @@ box-shadow: none;
   color: var(--warm-accent);
 }
 
+/* ---- Roadmap ---- */
+.roadmap-visual {
+  margin: 1.5rem 0 0.5rem;
+  overflow-x: auto;
+  border: 1px solid color-mix(in srgb, var(--md-default-fg-color) 18%, transparent);
+  background: #ffffff;
+}
+
+.roadmap-visual iframe {
+  display: block;
+  width: 100%;
+  height: min(75vh, 720px);
+  min-height: 540px;
+  border: 0;
+  margin: 0;
+}
+
+.roadmap-table {
+  overflow-x: auto;
+  max-height: 70vh;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.roadmap-table table:not([class]) {
+  min-width: 2100px;
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.roadmap-table table:not([class]) th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.roadmap-table table:not([class]) td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 220px;
+  background: var(--md-default-bg-color);
+}
+
+/* ---- Identidade visual ---- */
+.brand-logo {
+  max-width: 620px;
+  margin: 1.5rem auto;
+  padding: 1.25rem;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 16px;
+}
+
+.brand-logo img {
+  display: block;
+  width: 100%;
+  max-height: 420px;
+  margin: 0 auto;
+}
+
+.brand-logo figcaption {
+  color: #475569;
+  font-size: 0.8rem;
+}
+
+.type-specimen {
+  margin: 1.25rem 0;
+  padding: 1.5rem;
+  color: #0f172a;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 6px solid #9a3412;
+  border-radius: 12px;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.type-specimen p {
+  margin: 0.35rem 0;
+}
+
+.type-specimen .type-display {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.type-specimen .type-caption {
+  margin-top: 1rem;
+  color: #7f1d1d;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.type-specimen .type-body {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.type-specimen .type-characters {
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
 @media (max-width: 768px) {
   .feature-band .grid.cards > ul {
     grid-template-columns: 1fr;
   }
   .hero h1 {
     font-size: 2rem;
+  }
+  .roadmap-visual iframe {
+    min-height: 480px;
   }
 }
