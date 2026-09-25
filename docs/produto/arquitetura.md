@@ -189,7 +189,7 @@ Não existe backend separado. O Python é usado apenas no repositório de IA, pa
 | `2026.2-UNB-FCTE_UNIEURO_MED-IA` | Tratamento do dataset, treino, avaliação e exportação do modelo com Python e PyTorch |
 | `2026.2-UNB-FCTE_UNIEURO_MED-DOCS` | Documentação do produto e do processo, site MkDocs e dashboard |
 
-Os repositórios de código ainda não têm implementação. Os pacotes abaixo são uma proposta de organização e devem ser revisados quando o projeto Expo for criado.
+O projeto Expo do aplicativo já foi criado e está em `aplicativo/projeto-unieuro/`, dentro do `MED-APP`. A árvore abaixo mostra a estrutura realizada e marca como previstos os módulos que ainda serão implementados. O `MED-IA` ainda não tem implementação, e seus pacotes seguem como proposta de organização.
 
 **Figura 6:** Diagrama de pacotes
 
@@ -197,21 +197,29 @@ Os repositórios de código ainda não têm implementação. Os pacotes abaixo s
 
 **Fonte:** [Gabriel Lopes de Amorim](https://github.com/BrzGab), 2026.
 
+A Figura 6 mostra a organização conceitual dos pacotes e as dependências entre eles. A árvore a seguir mostra os caminhos como estão hoje no repositório. A figura ainda será regenerada para refletir esses caminhos.
+
 ```text
 MED-APP
-├── app                # telas (Expo Router)
-│   ├── profissional
-│   └── paciente
-├── src
-│   ├── acesso
-│   ├── avaliacao
-│   ├── captura
-│   ├── inferencia
-│   ├── exportacao
-│   └── db             # expo-sqlite
-└── assets
-    ├── modelo         # arquivo gerado pelo MED-IA
-    └── tarefas
+└── aplicativo/projeto-unieuro          # projeto Expo, SDK 57
+    ├── src
+    │   ├── app                         # telas e rotas (Expo Router)
+    │   │   ├── _layout.tsx
+    │   │   ├── index.tsx               # entrada, hoje a tela de acesso
+    │   │   └── register.tsx
+    │   ├── features                    # módulos por responsabilidade
+    │   │   ├── auth                    # acesso e sessão
+    │   │   ├── avaliacao               # previsto
+    │   │   ├── captura                 # previsto
+    │   │   ├── inferencia              # previsto
+    │   │   └── exportacao              # previsto
+    │   ├── db                          # previsto, expo-sqlite
+    │   ├── hooks                       # hooks compartilhados
+    │   └── constants                   # tema e constantes
+    └── assets
+        ├── images
+        ├── modelo                      # previsto, arquivo gerado pelo MED-IA
+        └── tarefas                     # previsto, figuras de referência
 
 MED-IA
 ├── dados
@@ -220,7 +228,7 @@ MED-IA
 └── exportacao
 ```
 
-As telas em `app` correspondem às interfaces do profissional e do paciente. Elas só dependem dos módulos de `src` e não acessam o banco diretamente. O pacote `assets/modelo` recebe o arquivo gerado por `exportacao` no MED-IA. Essa é a única ligação entre os dois repositórios.
+As rotas em `src/app` correspondem às interfaces do profissional e do paciente e formam a camada de apresentação. Elas só dependem dos módulos de `src` e não acessam o banco diretamente. Os módulos de negócio ficam em `src/features`, um por responsabilidade, e a persistência fica em `src/db`. O `tsconfig.json` declara o alias `@/` apontando para `src`, então os imports entre módulos usam esse prefixo. O pacote `assets/modelo` recebe o arquivo gerado por `exportacao` no MED-IA. Essa é a única ligação entre os dois repositórios.
 
 ### 6.3 Contrato entre aplicativo e modelo
 
@@ -305,3 +313,4 @@ Em produção existe um único nó de execução, o tablet. A máquina de desenv
 | 1.3 | Revisão de consistência com as atas e a Visão do Produto, retirada do nome MED como nome do produto e inclusão de introdução, pendências e riscos | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 23/09/2026 | A definir | — |
 | 1.4 | Ajuste dos diagramas de contexto, componentes e atividades, substituição do diagrama de implantação e inclusão dos diagramas de estados, sequência, pacotes e dados | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 23/09/2026 | A definir | — |
 | 1.5 | Registro da tecnologia (Expo, SQLite e PyTorch, sem backend) e da saída do modelo (classe, probabilidades e mapas de calor) | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 23/09/2026 | A definir | — |
+| 1.6 | Alinhamento da seção de repositórios e pacotes à estrutura real do projeto Expo | [Thales Germano](https://github.com/thalesgvl) | 25/09/2026 | A definir | — |
