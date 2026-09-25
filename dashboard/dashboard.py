@@ -488,12 +488,24 @@ def main():
     risks_data, is_risks_mock = get_risks_data()
     sonar_data, is_sonar_mock = get_sonar_metrics_data()
 
-    # Alerta global discreto caso algum dos eixos utilize dados mockados
-    any_mock = is_sprints_mock or is_risks_mock or is_sonar_mock
-    if any_mock:
+    # Alerta global discreto caso algum dos eixos utilize dados mockados.
+    # Nomeia a(s) fonte(s) em mock explicitamente: sem isso, o aviso genérico
+    # aparece sempre que qualquer uma estiver mockada (ex: Riscos, bloqueado
+    # pela issue #26) e passa a impressão de que TUDO está em modo demo,
+    # mesmo quando as outras fontes já são dados reais.
+    fontes_mock = []
+    if is_sprints_mock:
+        fontes_mock.append("Sprints/Agile EVM")
+    if is_risks_mock:
+        fontes_mock.append("Matriz de Riscos")
+    if is_sonar_mock:
+        fontes_mock.append("Qualidade de Produto")
+
+    if fontes_mock:
         st.info(
-            "Ambiente em modo de demonstração (dados simulados): "
-            "Os arquivos `.json` em `analytics-raw-data/` serão consumidos automaticamente assim que forem gerados pelo pipeline de CI/CD."
+            f"Modo de demonstração para: **{', '.join(fontes_mock)}**. "
+            "As demais abas já consomem dados reais de `analytics-raw-data/`. "
+            "Cada aba mostrada acima mostra seu próprio aviso quando usa dados simulados."
         )
     
     evm_results = compute_agile_evm_metrics(
