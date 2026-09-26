@@ -1,0 +1,67 @@
+@startuml
+title Processo principal da avaliação
+
+skinparam defaultFontSize 13
+skinparam activityFontSize 12
+skinparam ArrowThickness 1
+
+|Profissional de saúde|
+start
+:Autenticar-se;
+:Iniciar avaliação;
+:Informar nome, número da ficha\ne data de nascimento do paciente;
+
+|Aplicativo|
+:Bloquear a área do profissional;
+:Apresentar TCLE;
+
+|Paciente|
+if (Consentimento aceito?) then (Sim)
+else (Não)
+  |Aplicativo|
+  :Registrar recusa;
+  :Cancelar avaliação;
+  stop
+endif
+
+repeat
+  |Aplicativo|
+  :Apresentar tarefa;
+
+  |Paciente|
+  :Realizar desenho;
+  note right
+    Desfazer e limpar
+    ficam registrados
+  end note
+  if (Desistiu?) then (Sim)
+    |Aplicativo|
+    :Registrar desistência\ne tarefa interrompida;
+    break
+  endif
+
+  |Paciente|
+  :Confirmar desenho;
+
+  |Aplicativo|
+  :Capturar e salvar desenho;
+repeat while (Há outra tarefa?) is (Sim) not (Não)
+
+|Paciente|
+:Visualizar encerramento\nsem resultado;
+
+|Aplicativo|
+if (Três desenhos concluídos?) then (Sim)
+  :Preparar imagens;
+  :Executar inferência local\ncom modelo PyTorch exportado;
+  :Salvar classe, probabilidades\ne mapas de calor;
+endif
+
+|Profissional de saúde|
+:Registrar instruções dadas\ndurante o teste;
+:Visualizar desenhos, mapas de calor\ne resultado;
+
+|Aplicativo|
+:Gerar XML, quando solicitado;
+stop
+@enduml
