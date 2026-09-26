@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 980" role="img" aria-labelledby="title desc">
+  <title id="title">Diagrama de componentes lógicos do aplicativo</title>
+  <desc id="desc">O aplicativo Android separa apresentação, aplicação, serviços de domínio e infraestrutura local. O fluxo passa pelas interfaces, orquestração da avaliação, captura, inferência, armazenamento e exportação XML.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#64748B"/></marker>
+    <style>
+      .title{font:700 34px Inter,Arial,sans-serif;fill:#0F172A}.layer{font:700 18px Inter,Arial,sans-serif;fill:#7F1D1D;letter-spacing:1px}.heading{font:700 21px Inter,Arial,sans-serif;fill:#0F172A}.body{font:400 16px Inter,Arial,sans-serif;fill:#475569}.box{fill:#FFFFFF;stroke:#CBD5E1;stroke-width:2}.accent{fill:#FFE8D6;stroke:#9A3412;stroke-width:2}.line{stroke:#64748B;stroke-width:2.5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1500" height="980" fill="#FFFFFF"/><text x="60" y="60" class="title">Componentes lógicos do aplicativo</text><rect x="45" y="95" width="1410" height="825" rx="28" fill="#F8FAFC" stroke="#0F172A" stroke-width="3"/>
+
+  <text x="80" y="145" class="layer">APRESENTAÇÃO</text>
+  <g transform="translate(280 115)"><rect width="390" height="115" rx="16" class="accent"/><text x="195" y="48" text-anchor="middle" class="heading">Interface do profissional</text><text x="195" y="79" text-anchor="middle" class="body">acesso, cadastro, gestão e resultado</text></g>
+  <g transform="translate(830 115)"><rect width="390" height="115" rx="16" class="accent"/><text x="195" y="48" text-anchor="middle" class="heading">Interface do paciente</text><text x="195" y="79" text-anchor="middle" class="body">consentimento, instruções e desenho</text></g>
+
+  <text x="80" y="295" class="layer">APLICAÇÃO</text>
+  <g transform="translate(155 265)"><rect width="320" height="120" rx="16" class="box"/><text x="160" y="50" text-anchor="middle" class="heading">Acesso e sessão</text><text x="160" y="82" text-anchor="middle" class="body">autenticação local</text></g>
+  <g transform="translate(590 265)"><rect width="320" height="120" rx="16" class="accent"/><text x="160" y="50" text-anchor="middle" class="heading">Orquestrador da avaliação</text><text x="160" y="82" text-anchor="middle" class="body">estado e sequência das tarefas</text></g>
+  <g transform="translate(1025 265)"><rect width="320" height="120" rx="16" class="box"/><text x="160" y="50" text-anchor="middle" class="heading">Catálogo de tarefas</text><text x="160" y="82" text-anchor="middle" class="body">instruções e referências</text></g>
+
+  <text x="80" y="455" class="layer">DOMÍNIO E PROCESSAMENTO</text>
+  <g transform="translate(90 425)"><rect width="280" height="135" rx="16" class="box"/><text x="140" y="51" text-anchor="middle" class="heading">Captura do traçado</text><text x="140" y="83" text-anchor="middle" class="body">pontos, tempo e eventos</text><text x="140" y="108" text-anchor="middle" class="body">disponíveis no dispositivo</text></g>
+  <g transform="translate(440 425)"><rect width="280" height="135" rx="16" class="box"/><text x="140" y="51" text-anchor="middle" class="heading">Imagem e preparo</text><text x="140" y="83" text-anchor="middle" class="body">imagem final e entrada</text><text x="140" y="108" text-anchor="middle" class="body">normalizada do modelo</text></g>
+  <g transform="translate(790 425)"><rect width="280" height="135" rx="16" class="accent"/><text x="140" y="51" text-anchor="middle" class="heading">Motor de inferência</text><text x="140" y="83" text-anchor="middle" class="body">execução embarcada</text><text x="140" y="108" text-anchor="middle" class="body">sem chamadas externas</text></g>
+  <g transform="translate(1140 425)"><rect width="280" height="135" rx="16" class="box"/><text x="140" y="51" text-anchor="middle" class="heading">Resultado</text><text x="140" y="83" text-anchor="middle" class="body">classe e probabilidades</text><text x="140" y="108" text-anchor="middle" class="body">mapas de calor ao profissional</text></g>
+
+  <text x="80" y="640" class="layer">INFRAESTRUTURA LOCAL</text>
+  <g transform="translate(155 610)"><rect width="320" height="135" rx="16" class="box"/><text x="160" y="49" text-anchor="middle" class="heading">Persistência (SQLite)</text><text x="160" y="81" text-anchor="middle" class="body">profissional, paciente, avaliação</text><text x="160" y="106" text-anchor="middle" class="body">desenhos, eventos e resultados</text></g>
+  <g transform="translate(590 610)"><rect width="320" height="135" rx="16" class="box"/><text x="160" y="49" text-anchor="middle" class="heading">Artefato do modelo</text><text x="160" y="81" text-anchor="middle" class="body">empacotado no aplicativo</text><text x="160" y="106" text-anchor="middle" class="body">exportado do PyTorch</text></g>
+  <g transform="translate(1025 610)"><rect width="320" height="135" rx="16" class="box"/><text x="160" y="49" text-anchor="middle" class="heading">Exportador XML</text><text x="160" y="81" text-anchor="middle" class="body">gera arquivo para pesquisa</text><text x="160" y="106" text-anchor="middle" class="body">sem transmissão por rede</text></g>
+
+  <g transform="translate(350 805)"><rect width="800" height="70" rx="14" fill="#0F172A"/><text x="400" y="43" text-anchor="middle" style="font:600 18px Inter,Arial,sans-serif;fill:#FFFFFF">Aplicativo Expo · Android · armazenamento privado · tablet e caneta</text></g>
+
+  <path d="M475 230V265" class="line"/><path d="M1025 230V265" class="line"/><path d="M750 385V410H230V425" class="line"/><path d="M750 385V425" class="line"/><path d="M1185 385V425" class="line"/><path d="M370 492H440" class="line"/><path d="M720 492H790" class="line"/><path d="M1070 492H1140" class="line"/><path d="M230 560V610" class="line"/><path d="M930 560V610" class="line"/><path d="M1280 560V610" class="line"/><path d="M475 678H1025" class="line"/>
+</svg>

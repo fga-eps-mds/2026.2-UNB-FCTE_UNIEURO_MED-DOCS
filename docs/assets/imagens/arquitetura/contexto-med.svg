@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">Diagrama de contexto do aplicativo</title>
+  <desc id="desc">Profissional de saúde e paciente utilizam o aplicativo em um tablet Android. O aplicativo funciona sem rede, armazena os dados localmente e gera um arquivo XML que pode ser transferido manualmente para o REDCap.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#9A3412"/></marker>
+    <style>
+      .title{font:700 34px Inter,Arial,sans-serif;fill:#0F172A}.heading{font:700 23px Inter,Arial,sans-serif;fill:#0F172A}.body{font:400 18px Inter,Arial,sans-serif;fill:#334155}.small{font:600 16px Inter,Arial,sans-serif;fill:#7F1D1D}.line{stroke:#9A3412;stroke-width:3;fill:none;marker-end:url(#arrow)}.dash{stroke-dasharray:10 8}
+    </style>
+  </defs>
+  <rect width="1400" height="760" fill="#FFFFFF"/>
+  <text x="55" y="60" class="title">Contexto de execução do aplicativo</text>
+
+  <g transform="translate(55 145)"><rect width="270" height="150" rx="18" fill="#FFE8D6" stroke="#9A3412" stroke-width="2"/><text x="135" y="55" text-anchor="middle" class="heading">Profissional de saúde</text><text x="135" y="91" text-anchor="middle" class="body">Inicia e acompanha</text><text x="135" y="119" text-anchor="middle" class="body">a avaliação</text></g>
+  <g transform="translate(55 465)"><rect width="270" height="150" rx="18" fill="#FEF3C7" stroke="#9A3412" stroke-width="2"/><text x="135" y="55" text-anchor="middle" class="heading">Paciente</text><text x="135" y="91" text-anchor="middle" class="body">Realiza as tarefas</text><text x="135" y="119" text-anchor="middle" class="body">de desenho</text></g>
+
+  <g transform="translate(470 110)">
+    <rect width="500" height="540" rx="30" fill="#F8FAFC" stroke="#0F172A" stroke-width="4"/>
+    <text x="250" y="50" text-anchor="middle" class="small">LIMITE DO TABLET ANDROID</text>
+    <rect x="55" y="92" width="390" height="250" rx="22" fill="#9A3412"/>
+    <text x="250" y="155" text-anchor="middle" style="font:700 30px Inter,Arial,sans-serif;fill:#FFFFFF">Aplicativo (Expo)</text>
+    <text x="250" y="200" text-anchor="middle" style="font:400 19px Inter,Arial,sans-serif;fill:#FFFFFF">Fluxo da avaliação</text>
+    <text x="250" y="232" text-anchor="middle" style="font:400 19px Inter,Arial,sans-serif;fill:#FFFFFF">captura dos desenhos</text>
+    <text x="250" y="264" text-anchor="middle" style="font:400 19px Inter,Arial,sans-serif;fill:#FFFFFF">inferência e resultado</text>
+    <text x="250" y="310" text-anchor="middle" style="font:700 18px Inter,Arial,sans-serif;fill:#FFFFFF">100% offline</text>
+    <rect x="55" y="385" width="180" height="105" rx="16" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/><text x="145" y="430" text-anchor="middle" class="heading">Banco SQLite</text><text x="145" y="462" text-anchor="middle" class="body">no dispositivo</text>
+    <rect x="265" y="385" width="180" height="105" rx="16" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/><text x="355" y="430" text-anchor="middle" class="heading">Modelo de IA</text><text x="355" y="462" text-anchor="middle" class="body">embarcado</text>
+  </g>
+
+  <g transform="translate(1090 190)"><rect width="250" height="125" rx="18" fill="#FFE8D6" stroke="#9A3412" stroke-width="2"/><text x="125" y="54" text-anchor="middle" class="heading">Arquivo XML</text><text x="125" y="88" text-anchor="middle" class="body">exportado localmente</text></g>
+  <g transform="translate(1090 465)"><rect width="250" height="125" rx="18" fill="#FFFFFF" stroke="#7F1D1D" stroke-width="2"/><text x="125" y="54" text-anchor="middle" class="heading">REDCap</text><text x="125" y="88" text-anchor="middle" class="body">fora do aplicativo</text></g>
+
+  <path d="M325 220H470" class="line"/><text x="397" y="203" text-anchor="middle" class="small">opera</text>
+  <path d="M325 540H470" class="line"/><text x="397" y="523" text-anchor="middle" class="small">interage</text>
+  <path d="M970 250H1090" class="line"/><text x="1030" y="232" text-anchor="middle" class="small">gera</text>
+  <path d="M1215 315V465" class="line dash"/><text x="1235" y="395" class="small">transferência manual</text>
+  <text x="720" y="710" text-anchor="middle" class="small">Não existe servidor, API externa ou conexão de rede no tempo de execução do MVP.</text>
+</svg>
