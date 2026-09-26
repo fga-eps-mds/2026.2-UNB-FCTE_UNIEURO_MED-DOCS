@@ -1,0 +1,116 @@
+{
+  "workspace": "UNB/FCTE-UNIEURO/MED",
+  "coletado_em": "2026-09-24T17:59:21Z",
+  "sprints_velocity": {
+    "Sprint: 1": {
+      "delivered_story_points": 0.0,
+      "points_added": 0.0,
+      "state": "CLOSED",
+      "start_at": "2026-08-17T03:59:00Z",
+      "end_at": "2026-08-31T02:59:00Z",
+      "total_points": 0.0,
+      "issues_total": 0,
+      "issues_closed": 0,
+      "issues_sem_estimativa": 0
+    },
+    "Sprint: 2": {
+      "delivered_story_points": 0.0,
+      "points_added": 8.0,
+      "state": "CLOSED",
+      "start_at": "2026-08-31T03:59:00Z",
+      "end_at": "2026-09-14T02:59:00Z",
+      "total_points": 8.0,
+      "issues_total": 7,
+      "issues_closed": 1,
+      "issues_sem_estimativa": 6
+    },
+    "Sprint: 3": {
+      "delivered_story_points": 8.0,
+      "points_added": 0.0,
+      "state": "OPEN",
+      "start_at": "2026-09-14T03:59:00Z",
+      "end_at": "2026-09-28T02:59:00Z",
+      "total_points": 8.0,
+      "issues_total": 27,
+      "issues_closed": 7,
+      "issues_sem_estimativa": 26
+    },
+    "Sprint: Sep 28 - Oct 11, 2026": {
+      "delivered_story_points": 0.0,
+      "points_added": 0.0,
+      "state": "OPEN",
+      "start_at": "2026-09-28T03:59:00Z",
+      "end_at": "2026-10-12T02:59:00Z",
+      "total_points": 0.0,
+      "issues_total": 2,
+      "issues_closed": 0,
+      "issues_sem_estimativa": 2
+    },
+    "Sprint: Oct 12 - Oct 25, 2026": {
+      "delivered_story_points": 0.0,
+      "points_added": 0.0,
+      "state": "OPEN",
+      "start_at": "2026-10-12T03:59:00Z",
+      "end_at": "2026-10-26T02:59:00Z",
+      "total_points": 0.0,
+      "issues_total": 0,
+      "issues_closed": 0,
+      "issues_sem_estimativa": 0
+    },
+    "Sprint: Oct 26 - Nov 8, 2026": {
+      "delivered_story_points": 0.0,
+      "points_added": 0.0,
+      "state": "OPEN",
+      "start_at": "2026-10-26T03:59:00Z",
+      "end_at": "2026-11-09T02:59:00Z",
+      "total_points": 0.0,
+      "issues_total": 0,
+      "issues_closed": 0,
+      "issues_sem_estimativa": 0
+    },
+    "Sprint: Nov 9 - Nov 22, 2026": {
+      "delivered_story_points": 0.0,
+      "points_added": 0.0,
+      "state": "OPEN",
+      "start_at": "2026-11-09T03:59:00Z",
+      "end_at": "2026-11-23T02:59:00Z",
+      "total_points": 0.0,
+      "issues_total": 0,
+      "issues_closed": 0,
+      "issues_sem_estimativa": 0
+    },
+    "Sprint: Nov 23 - Dec 6, 2026": {
+      "delivered_story_points": 0.0,
+      "points_added": 0.0,
+      "state": "OPEN",
+      "start_at": "2026-11-23T03:59:00Z",
+      "end_at": "2026-12-07T02:59:00Z",
+      "total_points": 0.0,
+      "issues_total": 0,
+      "issues_closed": 0,
+      "issues_sem_estimativa": 0
+    },
+    "Sprint: Dec 7 - Dec 20, 2026": {
+      "delivered_story_points": 0.0,
+      "points_added": 0.0,
+      "state": "OPEN",
+      "start_at": "2026-12-07T03:59:00Z",
+      "end_at": "2026-12-21T02:59:00Z",
+      "total_points": 0.0,
+      "issues_total": 0,
+      "issues_closed": 0,
+      "issues_sem_estimativa": 0
+    },
+    "Sprint: Dec 21 - Jan 3, 2027": {
+      "delivered_story_points": 0.0,
+      "points_added": 0.0,
+      "state": "OPEN",
+      "start_at": "2026-12-21T03:59:00Z",
+      "end_at": "2027-01-04T02:59:00Z",
+      "total_points": 0.0,
+      "issues_total": 0,
+      "issues_closed": 0,
+      "issues_sem_estimativa": 0
+    }
+  }
+}
