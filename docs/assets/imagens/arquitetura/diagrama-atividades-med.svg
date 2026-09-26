@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 2290" role="img" aria-labelledby="title desc">
+  <title id="title">Processo principal da avaliação</title>
+  <desc id="desc">Diagrama de atividades com raias para profissional de saúde, aplicativo e paciente, desde a autenticação até a apresentação do resultado e a geração do XML, incluindo recusa do TCLE e desistência.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0F172A"/></marker>
+    <style>
+      .title{font:700 28px Inter,Arial,sans-serif;fill:#0F172A}.lane{font:500 22px Inter,Arial,sans-serif;fill:#0F172A}.text{font:400 16px Inter,Arial,sans-serif;fill:#0F172A}.label{font:400 15px Inter,Arial,sans-serif;fill:#0F172A}.node{fill:#F8FAFC;stroke:#64748B;stroke-width:1.5}.flow{fill:none;stroke:#0F172A;stroke-width:1.8;marker-end:url(#arrow)}.boundary{stroke:#0F172A;stroke-width:2;fill:none}
+    </style>
+  </defs>
+  <rect width="1100" height="2290" fill="#FFFFFF"/>
+  <text x="550" y="42" text-anchor="middle" class="title">Processo principal da avaliação</text>
+  <path d="M20 70V2260M300 70V2260M750 70V2260M1080 70V2260" class="boundary"/>
+  <text x="160" y="94" text-anchor="middle" class="lane">Profissional de saúde</text>
+  <text x="525" y="94" text-anchor="middle" class="lane">Aplicativo</text>
+  <text x="915" y="94" text-anchor="middle" class="lane">Paciente</text>
+  <circle cx="160" cy="128" r="13" fill="#0F172A"/>
+  <path d="M160 141V160" class="flow"/>
+  <rect x="95" y="162" width="130" height="48" rx="16" class="node"/><text x="160" y="192" text-anchor="middle" class="text">Autenticar-se</text>
+  <path d="M160 210V238" class="flow"/>
+  <rect x="87" y="240" width="146" height="48" rx="16" class="node"/><text x="160" y="270" text-anchor="middle" class="text">Iniciar avaliação</text>
+  <path d="M160 288V316" class="flow"/>
+  <rect x="45" y="318" width="230" height="66" rx="16" class="node"/><text x="160" y="346" text-anchor="middle" class="text"><tspan x="160">Informar nome, ficha e</tspan><tspan x="160" dy="21">data de nascimento</tspan></text>
+  <path d="M160 384V406H450V428" class="flow"/>
+  <rect x="315" y="430" width="270" height="48" rx="16" class="node"/><text x="450" y="460" text-anchor="middle" class="text">Bloquear a área do profissional</text>
+  <path d="M450 478V506" class="flow"/>
+  <rect x="365" y="508" width="170" height="48" rx="16" class="node"/><text x="450" y="538" text-anchor="middle" class="text">Apresentar TCLE</text>
+  <path d="M450 556V574H915V584" class="flow"/>
+  <polygon points="815,611 835,586 995,586 1015,611 995,636 835,636" class="node"/>
+  <text x="915" y="617" text-anchor="middle" class="text">Consentimento aceito?</text>
+  <text x="787" y="603" class="label">Não</text>
+  <path d="M815 611H650V638" class="flow"/>
+  <rect x="565" y="640" width="170" height="66" rx="16" class="node"/><text x="650" y="668" text-anchor="middle" class="text"><tspan x="650">Registrar recusa e</tspan><tspan x="650" dy="21">cancelar avaliação</tspan></text>
+  <path d="M650 706V726" class="flow"/>
+  <circle cx="650" cy="745" r="16" fill="#FFFFFF" stroke="#0F172A" stroke-width="2"/><circle cx="650" cy="745" r="10" fill="#0F172A"/>
+  <text x="1023" y="603" class="label">Sim</text>
+  <path d="M1015 611H1050V804H466" class="flow"/>
+  <polygon points="450,790 464,804 450,818 436,804" fill="#FFFFFF" stroke="#64748B" stroke-width="1.4"/>
+  <path d="M450 818V830" class="flow"/>
+  <rect x="365" y="832" width="170" height="48" rx="16" class="node"/><text x="450" y="862" text-anchor="middle" class="text">Apresentar tarefa</text>
+  <path d="M450 880V898H915V918" class="flow"/>
+  <rect x="805" y="920" width="220" height="66" rx="16" class="node"/><text x="915" y="948" text-anchor="middle" class="text"><tspan x="915">Realizar desenho</tspan><tspan x="915" dy="21">(pode desfazer ou limpar)</tspan></text>
+  <path d="M915 986V1008" class="flow"/>
+  <polygon points="835,1035 855,1010 975,1010 995,1035 975,1060 855,1060" class="node"/>
+  <text x="915" y="1041" text-anchor="middle" class="text">Desistiu?</text>
+  <text x="803" y="1027" class="label">Sim</text>
+  <path d="M835 1035H741" class="flow"/>
+  <rect x="560" y="1002" width="180" height="66" rx="16" class="node"/><text x="650" y="1030" text-anchor="middle" class="text"><tspan x="650">Registrar desistência</tspan><tspan x="650" dy="21">e tarefa interrompida</tspan></text>
+  <text x="923" y="1078" class="label">Não</text>
+  <path d="M915 1060V1098" class="flow"/>
+  <rect x="815" y="1100" width="200" height="48" rx="16" class="node"/><text x="915" y="1130" text-anchor="middle" class="text">Confirmar desenho</text>
+  <path d="M915 1148V1166H450V1186" class="flow"/>
+  <rect x="340" y="1188" width="220" height="48" rx="16" class="node"/><text x="450" y="1218" text-anchor="middle" class="text">Capturar e salvar desenho</text>
+  <path d="M450 1236V1274" class="flow"/>
+  <polygon points="360,1301 380,1276 520,1276 540,1301 520,1326 380,1326" class="node"/>
+  <text x="450" y="1307" text-anchor="middle" class="text">Há outra tarefa?</text>
+  <text x="325" y="1293" class="label">Sim</text>
+  <path d="M360 1301H330V804H434" class="flow"/>
+  <text x="458" y="1343" class="label">Não</text>
+  <path d="M450 1326V1358" class="flow"/>
+  <path d="M650 1068V1374H466" class="flow"/>
+  <polygon points="450,1360 464,1374 450,1388 436,1374" fill="#FFFFFF" stroke="#64748B" stroke-width="1.4"/>
+  <path d="M450 1388V1400H915V1418" class="flow"/>
+  <rect x="805" y="1420" width="220" height="66" rx="16" class="node"/><text x="915" y="1448" text-anchor="middle" class="text"><tspan x="915">Visualizar encerramento</tspan><tspan x="915" dy="21">sem resultado</tspan></text>
+  <path d="M915 1486V1504H450V1528" class="flow"/>
+  <polygon points="325,1555 345,1530 555,1530 575,1555 555,1580 345,1580" class="node"/>
+  <text x="450" y="1561" text-anchor="middle" class="text">Três desenhos concluídos?</text>
+  <text x="585" y="1547" class="label">Não</text>
+  <path d="M575 1555H690V1894H466" class="flow"/>
+  <text x="458" y="1597" class="label">Sim</text>
+  <path d="M450 1580V1608" class="flow"/>
+  <rect x="365" y="1610" width="170" height="48" rx="16" class="node"/><text x="450" y="1640" text-anchor="middle" class="text">Preparar imagens</text>
+  <path d="M450 1658V1686" class="flow"/>
+  <rect x="325" y="1688" width="250" height="70" rx="16" class="node"/><text x="450" y="1716" text-anchor="middle" class="text"><tspan x="450">Executar inferência local</tspan><tspan x="450" dy="21">com modelo PyTorch exportado</tspan></text>
+  <path d="M450 1758V1784" class="flow"/>
+  <rect x="325" y="1786" width="250" height="66" rx="16" class="node"/><text x="450" y="1814" text-anchor="middle" class="text"><tspan x="450">Salvar classe, probabilidades</tspan><tspan x="450" dy="21">e mapas de calor</tspan></text>
+  <path d="M450 1852V1878" class="flow"/>
+  <polygon points="450,1880 464,1894 450,1908 436,1894" fill="#FFFFFF" stroke="#64748B" stroke-width="1.4"/>
+  <path d="M450 1908V1920H160V1938" class="flow"/>
+  <rect x="35" y="1940" width="250" height="66" rx="16" class="node"/><text x="160" y="1968" text-anchor="middle" class="text"><tspan x="160">Registrar instruções dadas</tspan><tspan x="160" dy="21">durante o teste</tspan></text>
+  <path d="M160 2006V2032" class="flow"/>
+  <rect x="35" y="2034" width="250" height="66" rx="16" class="node"/><text x="160" y="2062" text-anchor="middle" class="text"><tspan x="160">Visualizar desenhos, mapas</tspan><tspan x="160" dy="21">de calor e resultado</tspan></text>
+  <path d="M160 2100V2112H450V2126" class="flow"/>
+  <rect x="320" y="2128" width="260" height="48" rx="16" class="node"/><text x="450" y="2158" text-anchor="middle" class="text">Gerar XML, quando solicitado</text>
+  <path d="M450 2176V2200" class="flow"/>
+  <circle cx="450" cy="2219" r="16" fill="#FFFFFF" stroke="#0F172A" stroke-width="2"/><circle cx="450" cy="2219" r="10" fill="#0F172A"/>
+</svg>
