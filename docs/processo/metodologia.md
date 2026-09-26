@@ -2,510 +2,318 @@
 title: Metodologia
 ---
 
-# Metodologias e Técnicas
+# Metodologia do Projeto
 
-## 1. Introdução
+## 1. Finalidade
 
-Durante o desenvolvimento do projeto, a equipe utiliza diferentes metodologias,
-técnicas e práticas para apoiar a descoberta do produto, o planejamento, o
-desenvolvimento, o acompanhamento do projeto e a validação das entregas.
+Este documento descreve **como a equipe organiza e executa o trabalho do projeto**,
+desde a descoberta do produto até a validação de cada incremento. Os métodos e as
+técnicas adotados não são atividades isoladas: eles formam um ciclo integrado de
+decisão, desenvolvimento, verificação e aprendizado.
 
-Este documento apresenta as principais abordagens adotadas, descrevendo sua
-finalidade, a forma como são aplicadas no contexto do projeto e os artefatos
-produzidos ao longo do processo.
+A metodologia foi adaptada ao contexto do MED:
 
-O trabalho se organiza em quatro momentos, cada um coberto por uma seção abaixo:
+- projeto acadêmico desenvolvido ao longo de um semestre;
+- produto construído com participação do *Product Owner* e do cliente;
+- equipe distribuída entre Produto/UX, Mobile, Dados/IA, Qualidade e DevOps;
+- três repositórios, com responsabilidades e branches de integração diferentes;
+- entregas incrementais organizadas em sprints e releases;
+- funcionamento do aplicativo e da inferência 100% offline;
+- necessidade de acompanhar escopo, prazo, custo, qualidade e riscos.
 
-| Momento | Abordagens | Seções |
+O objetivo dessa combinação é manter o produto alinhado à necessidade do cliente,
+permitir mudanças de forma rastreável e produzir evidências de que cada entrega foi
+construída, verificada e validada.
+
+## 2. Ciclo de trabalho
+
+O projeto percorre continuamente seis etapas. Embora a descoberta tenha maior
+intensidade no início do semestre, novas informações podem fazer a equipe retornar a
+etapas anteriores.
+
+| Etapa | Como acontece no MED | Entrada | Saída esperada |
+|---|---|---|---|
+| **1. Descobrir** | Equipe, PO e cliente discutem problema, pessoas usuárias, jornadas, restrições e hipóteses | Necessidade apresentada pelo cliente | Visão compartilhada e hipóteses registradas |
+| **2. Delimitar e priorizar** | Funcionalidades são avaliadas por valor, esforço e experiência; o MVP é organizado em ondas | Visão e hipóteses | Canvas MVP, sequenciador e Product Backlog priorizado |
+| **3. Planejar** | Histórias e tarefas são selecionadas conforme prioridade, dependências e capacidade | Backlog priorizado e resultados da sprint anterior | Objetivo e backlog da sprint |
+| **4. Desenvolver** | O trabalho é executado em branches, acompanhado no Zenhub e integrado por Pull Request | Item pronto para desenvolvimento | Incremento implementado e revisado |
+| **5. Verificar e validar** | Pipelines, testes, revisão e demonstração confrontam a entrega com os critérios de aceitação | Incremento desenvolvido | Evidências técnicas e aceite ou ajustes solicitados |
+| **6. Medir e adaptar** | A equipe analisa entrega, prazo, custo, qualidade, riscos e feedback | Dados da sprint e feedback | Backlog, processo e planos atualizados |
+
+O encadeamento principal é:
+
+> Visão do Produto → funcionalidades → sequenciador → Canvas MVP →
+> Product Backlog → sprint → incremento → verificação e validação →
+> medição e adaptação.
+
+## 3. Descoberta e definição do produto
+
+A descoberta utiliza a Lean Inception para construir entendimento compartilhado
+antes de transformar necessidades em trabalho de desenvolvimento. A equipe não
+considera a dinâmica encerrada apenas porque os quadros foram preenchidos: suas
+decisões precisam aparecer no backlog, no roadmap e nos incrementos.
+
+No MED, a descoberta ocorreu em reuniões com o PO, o cliente e o professor, entre
+agosto e setembro de 2026. As decisões estão registradas nas
+[atas de reunião](../atas-reunioes/index.md) e foram consolidadas nos seguintes
+artefatos:
+
+| Decisão necessária | Técnica utilizada | Evidência produzida |
 |---|---|---|
-| Descoberta e definição do produto | Lean Inception | [2](#2-lean-inception) |
-| Planejamento e execução | Scrum, EAP, backlog e histórias de usuário | [3](#3-scrum) e [4](#4-escopo-e-requisitos) |
-| Colaboração e desenvolvimento | Quadro de tarefas, fluxo de Git, revisão de código, prototipação | [5](#5-gestao-do-trabalho-e-colaboracao) a [7](#7-prototipacao) |
-| Acompanhamento e qualidade | Documentação como código, CI/CD, Agile EVM, velocity e gestão de riscos | [8](#8-documentacao-como-codigo-e-cicd) e [9](#9-monitoramento-e-metricas) |
+| Qual problema resolver, para quem e com qual diferencial | Visão do Produto | [Síntese da Visão](../produto/visao.md) |
+| O que o produto é, faz e não faz | É / Não é / Faz / Não faz | [Lean Inception](../produto/lean-inception.md) |
+| Quem usa o produto e em qual contexto | Personas e jornadas | [Lean Inception](../produto/lean-inception.md) |
+| Quais soluções podem atender às necessidades | Brainstorming de funcionalidades | [Funcionalidades](../produto/funcionalidades.md) |
+| O que entrega maior valor com esforço e risco aceitáveis | Revisão técnica, de negócio e de UX | [Funcionalidades](../produto/funcionalidades.md) |
+| Qual é a ordem incremental de entrega | Sequenciador | [Sequenciador](../produto/sequenciador.md) |
+| Qual recorte permite validar as principais hipóteses | Canvas MVP | [Canvas MVP](../produto/canvas-mvp.md) |
+
+Uma nova informação do cliente só altera o produto depois que seu impacto sobre
+escopo, arquitetura, prazo, custo e riscos é discutido. A decisão é registrada em
+ata ou issue e, quando aprovada, atualiza os artefatos afetados e o backlog.
+
+## 4. Do escopo ao planejamento
+
+### 4.1 Integração dos planos
+
+A Estrutura Analítica do Projeto (EAP) delimita o escopo total em entregas e
+pacotes de trabalho. Esses pacotes orientam a criação de épicos, histórias e tarefas.
+O roadmap distribui resultados ao longo das sprints e releases, enquanto o plano
+de custos associa o período à linha de base acompanhada por EVM-Ágil.
+
+| Artefato | Pergunta respondida | Como orienta a execução |
+|---|---|---|
+| EAP | Qual é o escopo total? | Define entregas e fronteiras do projeto |
+| Product Backlog | Qual valor ainda precisa ser entregue? | Mantém histórias priorizadas e critérios de aceitação |
+| Roadmap | Em que sequência os resultados serão demonstrados? | Relaciona ondas, sprints, releases e resultados esperados |
+| Cronograma | Quais são os marcos e prazos? | Estabelece datas de demonstração e entrega |
+| Plano de Custos | Qual é a linha de base econômica? | Permite comparar valor planejado, agregado e custo real |
+
+O detalhamento está na [EAP](../EAP.md), no
+[Roadmap do Produto](roadmap.md), no [Cronograma](cronograma.md) e no
+[Plano de Custos](plano_de_custos.md).
+
+### 4.2 Histórias, tarefas e defeitos
+
+Necessidades funcionais são registradas como histórias de usuário, no formato
+"Como *perfil*, quero *ação*, para que *benefício*". Trabalho técnico, gerencial ou
+documental é registrado como tarefa. Defeitos encontrados durante verificação ou
+uso são registrados como relatos de bug.
+
+Os itens são mantidos como issues para preservar autoria, discussão, dependências,
+responsabilidade e ligação com Pull Requests. O backlog é repriorizado quando o
+cliente altera uma necessidade, um risco se materializa, uma dependência bloqueia
+o trabalho ou uma medição indica desvio relevante.
+
+### 4.3 Critérios de entrada e conclusão
+
+Um item está **pronto para entrar em uma sprint** quando possui:
+
+- objetivo ou valor esperado compreensível;
+- critérios de aceitação observáveis;
+- repositório e responsáveis identificados;
+- prioridade, dependências e impedimentos conhecidos;
+- referências de produto, arquitetura ou protótipo quando necessárias;
+- tamanho suficientemente pequeno para ser verificado dentro da sprint.
+
+Um item só é considerado **concluído** quando:
+
+- seus critérios de aceitação foram atendidos;
+- a mudança foi submetida por Pull Request vinculado à issue;
+- as verificações pertinentes foram executadas e registradas;
+- o pipeline aplicável foi aprovado;
+- pelo menos outra pessoa revisou a mudança;
+- a alteração foi integrada à branch de integração correta;
+- documentação e quadro refletem a situação real;
+- quando aplicável, o PO ou cliente validou o comportamento entregue.
+
+Trabalho iniciado, código existente apenas em branch ou PR ainda não integrado não
+é contabilizado como valor concluído.
+
+## 5. Execução em sprints
+
+### 5.1 Cadência
+
+O semestre está organizado em oito sprints, em geral com duas semanas, agrupadas
+nas releases R1, R2, R3 e release final. Datas, objetivos, dependências e resultados
+demonstráveis estão definidos no [Roadmap do Produto](roadmap.md).
+
+Cada sprint percorre o seguinte ciclo:
+
+1. **Planejar:** analisar resultados anteriores, confirmar o objetivo e selecionar
+   itens prontos conforme prioridade, dependências e capacidade.
+2. **Executar e acompanhar:** desenvolver os itens e manter issues, responsáveis,
+   impedimentos e PRs atualizados no GitHub e no Zenhub.
+3. **Verificar:** executar revisão, build, testes e análises antes da integração.
+4. **Validar:** demonstrar o incremento e confrontá-lo com os critérios de
+   aceitação e as necessidades do PO e do cliente.
+5. **Inspecionar e adaptar:** analisar métricas, riscos, acertos, falhas e
+   impedimentos; registrar ações para a sprint seguinte.
+
+### 5.2 Eventos e evidências
+
+| Evento | Participantes principais | Objetivo | Evidência esperada |
+|---|---|---|---|
+| Planejamento da sprint | Equipe e liderança do período | Definir objetivo e selecionar trabalho pronto | Sprint e issues atualizadas no Zenhub |
+| Alinhamento recorrente | Equipe | Comunicar progresso e impedimentos | Quadro atualizado e responsáveis acionados |
+| Revisão técnica | Autor e revisor do PR | Verificar correção, clareza, testes e arquitetura | Comentários, aprovação e checks do PR |
+| Review | Equipe, PO e/ou cliente | Demonstrar valor e obter aceite ou ajustes | Feedback, decisão e pendências registrados |
+| Retrospectiva | Equipe | Melhorar a forma de trabalho | Ação de melhoria com responsável |
+
+Os encontros com PO e cliente que geram decisões de produto são registrados nas
+[atas de reunião](../atas-reunioes/index.md). Conversas que alterem escopo,
+prioridade, prazo ou responsabilidade devem ser refletidas na issue ou no artefato
+correspondente; a mensagem no canal, isoladamente, não registra a decisão.
 
-## 2. Lean Inception
+### 5.3 Papéis e responsabilidades
 
-### 2.1 Visão geral
-
-A Lean Inception é uma abordagem colaborativa utilizada para promover o
-alinhamento entre os participantes do projeto acerca do produto a ser
-desenvolvido e do seu Produto Mínimo Viável (MVP).
-
-Seu objetivo é construir um entendimento compartilhado entre as partes
-envolvidas, permitindo discutir objetivos, usuários, funcionalidades, jornadas e
-prioridades antes do início do desenvolvimento.
-
-No projeto, a Lean Inception foi conduzida na etapa inicial de descoberta e definição
-do produto, em reuniões com o *Product Owner*, o cliente e o professor, entre
-agosto e setembro de 2026. Cada encontro está registrado nas
-[atas de reunião](../atas-reunioes/index.md). O conjunto de artefatos gerados é
-a [Visão do Produto](../produto/visao.md).
-
-As atividades utilizadas são apresentadas a seguir.
-
-### 2.2 Visão do Produto
-
-A Visão do Produto foi utilizada para alinhar entre equipe e stakeholders qual
-produto está sendo desenvolvido, para quem ele se destina, qual problema busca
-resolver e qual é o seu principal diferencial.
-
-A atividade produz uma declaração concisa que sintetiza o propósito do produto e
-serve como referência para as demais decisões tomadas durante o projeto.
-
-**Aplicação no projeto:** o produto é um aplicativo Android que roda localmente, sem
-internet, no tablet do hospital, com modelo de IA embarcado, para triagem
-cognitiva de pessoas idosas por meio de tarefas de desenho.
-
-#### Finalidade
-
-- Alinhar o entendimento da equipe sobre o produto;
-- Identificar o público-alvo;
-- Explicitar o problema ou necessidade atendida;
-- Registrar os principais benefícios esperados;
-- Apoiar decisões posteriores sobre funcionalidades e escopo.
-
-#### Artefato resultante
-
-- [Declaração da Visão do Produto](../produto/lean-inception.md#1-declaracao-da-visao-do-produto).
-
-### 2.3 O Produto É / Não É / Faz / Não Faz
-
-A técnica "É / Não É / Faz / Não Faz" foi utilizada para esclarecer os limites do
-produto.
-
-Ela auxilia a equipe a construir um entendimento compartilhado sobre o que o
-produto representa, quais funções fazem parte de sua proposta e, principalmente,
-quais elementos estão fora do escopo inicialmente definido.
-
-A atividade é organizada em quatro perspectivas:
-
-| Perspectiva | Objetivo |
-|-------------|----------|
-| É | Características que definem o produto |
-| Não é | Características que não representam o produto |
-| Faz | Funções e comportamentos esperados |
-| Não faz | Funções explicitamente fora do escopo |
-
-**Aplicação no projeto:** a técnica deixou explícito, por exemplo, que o produto é uma
-ferramenta de apoio à decisão e não um diagnóstico, e que não envia dados a
-servidor externo.
-
-#### Finalidade
-
-- Reduzir ambiguidades;
-- Estabelecer limites iniciais de escopo;
-- Alinhar expectativas entre equipe e stakeholders;
-- Evitar interpretações diferentes sobre o produto.
-
-#### Artefato resultante
-
-- [Quadro É / Não É / Faz / Não Faz](../produto/lean-inception.md#2-e-nao-e-faz-nao-faz).
-
-### 2.4 Objetivos de Negócio
-
-Os objetivos de negócio foram levantados e agrupados em conjuntos afins
-(*clusters*), para deixar claro que resultados o produto precisa alcançar para
-ser considerado bem-sucedido.
-
-**Aplicação no projeto:** os objetivos foram organizados em torno da qualidade da IA
-e do escore, da experiência do paciente idoso, da experiência do profissional de
-saúde e da qualidade dos dados coletados.
-
-#### Finalidade
-
-- Explicitar o valor esperado do produto;
-- Dar critério para priorizar funcionalidades;
-- Servir de base para as hipóteses e métricas do Canvas MVP.
-
-#### Artefato resultante
-
-- [Objetivos de Negócio](../produto/lean-inception.md#3-objetivos-de-negocio).
-
-### 2.5 Personas
-
-As personas foram utilizadas para representar grupos relevantes de usuários do
-produto.
-
-A definição das personas permite que decisões relacionadas às funcionalidades,
-experiência e prioridades do produto sejam tomadas considerando as necessidades,
-objetivos e dificuldades dos usuários.
-
-**Aplicação no projeto:** foram definidas duas personas, o paciente idoso (Seu José)
-e o profissional da saúde (Dr. Marcelo).
-
-#### Finalidade
-
-- Identificar os principais usuários do produto;
-- Entender necessidades e objetivos;
-- Apoiar a definição das funcionalidades;
-- Orientar decisões de experiência do usuário.
-
-#### Artefato resultante
-
-- [Personas do projeto](../produto/lean-inception.md#4-personas).
-
-### 2.6 Jornadas dos Usuários
-
-As jornadas dos usuários descrevem sequências de interação entre as personas e o
-produto para alcançar determinados objetivos.
-
-Elas permitem visualizar o produto sob a perspectiva do usuário e verificar como
-as funcionalidades propostas participam de situações reais de utilização.
-
-**Aplicação no projeto:** foram mapeadas três jornadas: o paciente realizando a
-triagem, o profissional aplicando o teste na rotina e o profissional usando o
-aplicativo pela primeira vez.
-
-#### Finalidade
-
-- Compreender como o usuário interage com o produto;
-- Identificar funcionalidades necessárias em cada etapa;
-- Encontrar lacunas ou problemas na experiência;
-- Apoiar a priorização das funcionalidades.
-
-#### Artefato resultante
-
-- [Jornadas dos usuários](../produto/lean-inception.md#5-jornadas-de-usuario).
-
-### 2.7 Brainstorming de Funcionalidades
-
-Após o alinhamento sobre produto, objetivos e usuários, a equipe realiza o
-levantamento das funcionalidades que podem compor o produto.
-
-O brainstorming permite que diferentes participantes contribuam com ideias, sem
-uma filtragem prematura das possibilidades. Depois, as funcionalidades são
-agrupadas e avaliadas.
-
-#### Finalidade
-
-- Identificar possíveis funcionalidades;
-- Explorar diferentes soluções para as necessidades dos usuários;
-- Criar uma base inicial para priorização;
-- Apoiar a definição do MVP.
-
-#### Artefato resultante
-
-- [Lista de funcionalidades por cluster](../produto/funcionalidades.md#atividade-6-brainstorming-de-funcionalidades).
-
-### 2.8 Revisão Técnica, de Negócio e de UX
-
-Cada funcionalidade levantada é avaliada sob três perspectivas: o esforço
-técnico, o valor para o negócio e o impacto na experiência do usuário.
-
-O resultado dessa avaliação alimenta diretamente o sequenciador.
-
-#### Finalidade
-
-- Estimar de forma comparável o esforço e o valor de cada funcionalidade;
-- Evidenciar riscos técnicos e de experiência antes do desenvolvimento;
-- Apoiar decisões de priorização com critérios explícitos.
-
-#### Artefato resultante
-
-- [Revisão técnica, de negócio e de UX](../produto/funcionalidades.md#atividade-7-revisao-tecnica-de-negocio-e-de-ux).
-
-### 2.9 Sequenciador de Funcionalidades
-
-O sequenciador é utilizado para organizar as funcionalidades de forma
-incremental.
-
-Seu objetivo é auxiliar a equipe a decidir quais funcionalidades devem aparecer
-primeiro e quais podem ser desenvolvidas posteriormente. A técnica também
-auxilia na identificação do conjunto mínimo de funcionalidades necessário para
-compor o MVP.
-
-**Aplicação no projeto:** o sequenciador define as ondas de entrega. As ondas
-indicam a ordem de valor do produto e servem de base para o
-[Roadmap do Produto](roadmap.md), mas **não equivalem** às sprints.
-
-#### Finalidade
-
-- Organizar a evolução incremental do produto;
-- Apoiar o planejamento das entregas;
-- Priorizar funcionalidades;
-- Identificar o MVP.
-
-#### Artefato resultante
-
-- [Sequenciador de funcionalidades](../produto/sequenciador.md).
-
-### 2.10 Produto Mínimo Viável — MVP
-
-O MVP corresponde ao menor conjunto de funcionalidades capaz de entregar valor
-suficiente para permitir validação e aprendizado sobre o produto.
-
-Na Lean Inception, o MVP não deve ser entendido apenas como uma versão com poucas
-funcionalidades, mas como uma entrega capaz de testar hipóteses e gerar
-aprendizado para orientar as próximas evoluções do produto.
-
-**Aplicação no projeto:** o MVP é o fluxo completo rodando localmente no tablet, do
-login do profissional à apresentação do resultado da triagem, com os três testes
-de desenho. Ele é entregue na Release 3 (30/11), conforme o
-[Roadmap](roadmap.md#marcos-oficiais).
-
-#### Finalidade
-
-- Entregar valor de maneira antecipada;
-- Validar hipóteses;
-- Obter feedback;
-- Reduzir o risco de desenvolver funcionalidades sem valor;
-- Orientar a evolução incremental do produto.
-
-### 2.11 Canvas MVP
-
-O Canvas MVP consolida as principais decisões obtidas durante a Lean Inception.
-
-Ele reúne em um único artefato informações sobre o MVP planejado e serve como
-síntese da estratégia definida pela equipe: proposta, usuários, jornadas,
-funcionalidades, hipóteses a validar, métricas de validação, custo e cronograma.
-
-#### Finalidade
-
-- Consolidar as decisões tomadas durante a Lean Inception;
-- Registrar a estratégia do MVP;
-- Criar uma referência compartilhada para equipe e stakeholders;
-- Apoiar o planejamento das próximas etapas do projeto.
-
-#### Artefato resultante
-
-- [Canvas MVP](../produto/canvas-mvp.md).
-
-## 3. Scrum
-
-### 3.1 Visão geral
-
-A execução do projeto segue o Scrum, framework ágil que organiza o trabalho em
-ciclos curtos (*sprints*), cada um entregando um incremento do produto. A
-abordagem é adequada ao projeto porque o produto é novo, as hipóteses precisam ser
-validadas com o cliente e o escopo evolui a partir do aprendizado.
-
-### 3.2 Aplicação no projeto
-
-- **Sprints:** o semestre está dividido em oito sprints, em geral de duas
-  semanas, cada uma com objetivo, entregas e critério de conclusão definidos no
-  [Roadmap do Produto](roadmap.md#planejamento-detalhado).
-- **Releases:** as sprints se agrupam em releases demonstráveis (R1 em 28/09,
-  R2 em 26/10, R3 em 30/11 e release final em 07/12). Ao fim de cada release, a
-  equipe apresenta o incremento ao cliente.
-- **Papéis:** o *Product Owner* representa o cliente e valida escopo e
-  prioridades; a equipe de desenvolvimento é organizada em frentes de
-  responsabilidade (por exemplo, Mobile, Dados/IA, Produto/UX, Qualidade e
-  DevOps). Os integrantes estão listados na página da [Equipe](../equipe/equipe.md).
-- **Eventos:** dailies para alinhamento rápido, reuniões de review com o
-  *Product Owner* para validar o que foi entregue e retrospectivas para registrar
-  aprendizados e limitações.
-- **Artefatos:** Product Backlog priorizado, backlog da sprint e o incremento
-  demonstrável de cada sprint.
-
-#### Finalidade
-
-- Entregar valor de forma incremental e frequente;
-- Obter feedback do *Product Owner* e do cliente a cada ciclo;
-- Adaptar o plano à medida que o produto é descoberto;
-- Dar previsibilidade ao acompanhamento do semestre.
-
-## 4. Escopo e requisitos
-
-### 4.1 Estrutura Analítica do Projeto (EAP)
-
-A EAP decompõe o escopo total do projeto em partes menores, organizadas
-hierarquicamente até chegar aos pacotes de trabalho. No projeto, ela funciona como
-norte estratégico do escopo macro e se integra ao Scrum: os pacotes de trabalho
-são desdobrados no Product Backlog em épicos e histórias de usuário, e o
-progresso do escopo é atualizado à medida que as histórias são validadas.
-
-#### Artefato resultante
-
-- Estrutura Analítica do Projeto (EAP).
-
-### 4.2 Product Backlog e Histórias de Usuário
-
-Os requisitos do produto são registrados como histórias de usuário, no formato
-"Como *perfil*, quero *ação*, para que *benefício*", acompanhadas de critérios de
-aceitação. As histórias são organizadas em blocos por tema (por exemplo, acesso e
-cadastro do médico, termo de consentimento) e priorizadas a partir do
-sequenciador.
-
-Cada história é registrada como *issue* no GitHub, por meio de um modelo que
-exige:
-
-- contexto e problema;
-- critérios de aceitação objetivos, observáveis e testáveis;
-- regras de negócio;
-- referências e protótipos;
-- prioridade sugerida;
-- **definição de pronta**, isto é, a história expressa valor claro e seus
-  critérios podem ser testados.
-
-#### Finalidade
-
-- Manter os requisitos centrados no valor para o usuário;
-- Tornar o aceite verificável;
-- Rastrear cada entrega até a necessidade que a originou.
-
-#### Artefato resultante
-
-- Product Backlog (histórias de usuário do MVP).
-
-## 5. Gestão do trabalho e colaboração
-
-### 5.1 Quadro de tarefas
-
-O acompanhamento das sprints é feito em um quadro no Zenhub integrado ao GitHub
-([abrir board](https://app.zenhub.com/workspaces/unbfcte-unieuromed-6a8c447d652b15002979b829/board)).
-Cada item do trabalho é uma *issue*, criada a partir de um dos modelos do
-repositório:
-
-| Modelo | Uso |
+| Papel ou grupo | Responsabilidade na metodologia |
 |---|---|
-| História (*user story*) | Funcionalidade proposta a partir da necessidade de uma pessoa usuária |
-| Tarefa (*task*) | Atividade técnica, operacional ou de documentação |
-| Relatório de bug | Defeito encontrado no produto |
+| PO e cliente | Esclarecer necessidades, priorizar valor e validar incrementos |
+| Liderança do período | Facilitar a sprint, acompanhar impedimentos e manter comunicação com o PO |
+| Responsáveis pelo item | Implementar, manter a issue atualizada, produzir evidências e responder à revisão |
+| Revisor | Conferir mudança, riscos e verificações, solicitando correções quando necessário |
+| Produto/UX | Manter coerência entre necessidade, fluxo, protótipo, acessibilidade e backlog |
+| Mobile | Implementar e verificar a experiência executada no tablet |
+| Dados/IA | Preparar, avaliar e exportar o modelo com rastreabilidade experimental |
+| Qualidade/DevOps | Apoiar testes, pipelines, métricas, releases e evidências de qualidade |
 
-As tarefas seguem a estrutura Objetivo, Contexto, Atividades, Critérios de
-conclusão, Dependências e impedimentos e Prioridade sugerida, e são agrupadas em
-épicos (por exemplo, "Planejamento do Projeto").
+A qualidade é compartilhada: a frente de Qualidade/DevOps apoia o processo, mas
+autor e revisor continuam responsáveis pela entrega que integram.
 
-### 5.2 Comunicação
+## 6. Gestão visual e comunicação
 
-| Canal | Uso |
+### 6.1 Fluxo de trabalho
+
+O Zenhub, integrado ao GitHub, representa o estado real do trabalho. Itens futuros
+permanecem no backlog; itens selecionados formam o backlog da sprint; itens em
+execução possuem responsável; mudanças submetidas aguardam revisão; somente itens
+que satisfazem os critérios de conclusão chegam ao estado final.
+
+O quadro é usado para tornar prioridade e responsabilidade visíveis, identificar
+bloqueios e PRs parados, planejar conforme a capacidade e manter rastreabilidade
+entre backlog, issue, PR e release. O quadro está no
+[workspace do Zenhub](https://app.zenhub.com/workspaces/unbfcte-unieuromed-6a8c447d652b15002979b829/board).
+
+### 6.2 Canais e registro
+
+| Canal | Uso principal | Registro permanente quando necessário |
+|---|---|---|
+| WhatsApp | Alinhamento cotidiano e comunicação rápida | Issue, PR ou ata |
+| Discord | Alinhamento com PO e discussões síncronas | Issue, decisão de produto ou ata |
+| GitHub | Discussão e rastreabilidade técnica | A própria issue, PR ou commit |
+| Zenhub | Priorização e acompanhamento | Issue associada |
+| Figma | Construção e validação visual | Link no documento ou na história |
+
+Decisões relevantes não permanecem somente em mensagens. Mudanças de requisito,
+aceites, riscos, impedimentos e justificativas precisam chegar ao mecanismo de
+rastreabilidade adequado.
+
+## 7. Desenvolvimento, integração e qualidade
+
+### 7.1 Fluxo de contribuição
+
+Cada alteração parte de uma issue e segue este fluxo:
+
+1. confirmar escopo, critérios de aceitação e repositório afetado;
+2. criar uma branch a partir da branch de integração correta;
+3. produzir uma mudança pequena e verificável, com commits semânticos;
+4. executar localmente as verificações pertinentes;
+5. abrir PR vinculado à issue, explicando como verificar a mudança;
+6. obter pipeline aprovado e revisão de pelo menos outra pessoa;
+7. corrigir problemas encontrados ou registrar limitações aceitas;
+8. integrar a mudança e atualizar issue, documentação e quadro.
+
+No MED-DOCS, as branches partem de `main` e usam `docs/`, `fix/` ou `chore/`,
+conforme o [Guia de Contribuição](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/blob/main/CONTRIBUTING.md).
+No MED-APP e no MED-IA,
+as branches de trabalho partem de `develop` e os PRs apontam para `develop`; as
+regras específicas de cada repositório prevalecem.
+
+### 7.2 Verificação proporcional à mudança
+
+| Tipo de entrega | Verificação mínima esperada |
 |---|---|
-| Discord | Alinhamento com o *Product Owner* e reuniões de review |
-| WhatsApp | Comunicação diária da equipe e organização das dailies |
-| GitHub | Discussão técnica em issues e pull requests |
+| Documentação | Build do MkDocs, links e navegação conferidos, histórico atualizado quando aplicável |
+| Aplicativo | Lint/build, testes automatizados relacionados e verificação do fluxo alterado |
+| Modelo de IA | Script reexecutável, versão dos dados, parâmetros, semente, divisão e métricas registradas |
+| Pipeline | Execução bem-sucedida e evidência do artefato ou métrica produzido |
+| Integração APP–IA | Contrato versionado, execução offline e teste no dispositivo-alvo |
 
-### 5.3 Atas de reunião
+Testes automatizados reduzem regressões, mas não substituem a validação com o PO
+nem os testes funcionais no tablet. Cobertura elevada também não basta se os
+comportamentos críticos não forem exercitados.
 
-As reuniões com o *Product Owner* e com o cliente são registradas em atas,
-seguindo um modelo padronizado, com pontos discutidos, decisões tomadas e
-presença. As atas dão rastreabilidade às decisões de negócio.
+### 7.3 Integração contínua e documentação como código
 
-Consulte as [atas de reunião](../atas-reunioes/index.md).
+Documentação, aplicativo e projeto de IA são versionados. Os pipelines fornecem
+feedback antes da integração e geram evidências compatíveis com cada repositório.
+Falha de build, teste ou análise obrigatória impede que o item seja considerado
+concluído.
 
-## 6. Práticas de desenvolvimento
+Branches, commits, issues, PRs, checks e releases compõem a trilha de auditoria.
+Credenciais e dados de pacientes não fazem parte dela e nunca são versionados.
 
-O fluxo de contribuição segue o
-[Guia de Contribuição](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/blob/main/CONTRIBUTING.md)
-do repositório.
+## 8. Monitoramento e tomada de decisão
 
-- **Branches:** cada mudança é feita em uma branch própria, nomeada por tipo:
-  `feature/nome-da-funcionalidade`, `bugfix/nome-do-erro` ou
-  `docs/nome-do-documento`.
-- **Commits:** mensagens claras e em português, com prefixo que indica o tipo da
-  alteração (`docs:`, `feat:`, `fix:`).
-- **Pull requests:** todo PR usa o modelo do repositório, que pede descrição,
-  tipo de alteração, issue relacionada (`Closes #NN`), como testar, evidências e
-  um checklist de conferência.
-- **Revisão de código:** o autor solicita a revisão de pelo menos uma pessoa da
-  equipe e deve ser capaz de explicar cada linha do que submeteu.
-- **Vínculo com as issues:** o PR fecha a issue correspondente, mantendo o quadro
-  do Zenhub atualizado.
+O dashboard consolida dados de planejamento, entrega e qualidade. As métricas não
+são produzidas apenas para exposição: elas devem provocar análise e, quando
+necessário, uma ação rastreável.
 
-#### Finalidade
+| Dimensão | Evidência | Pergunta para decisão | Resposta esperada a desvio |
+|---|---|---|---|
+| Escopo | Backlog, itens adicionados e pontos aceitos | O escopo mudou ou o valor planejado foi entregue? | Repriorizar, negociar corte ou atualizar linha de base |
+| Prazo | Velocity, burnup, PV, EV e SPI | O ritmo permite cumprir a release? | Remover impedimento, rever capacidade ou replanejar escopo |
+| Custo | BAC, AC, CPI, CV e EAC | O custo permanece coerente com o valor entregue? | Investigar e seguir o controle de mudanças do plano de custos |
+| Qualidade | Testes, cobertura, bugs e SonarCloud | O incremento está verificável e sustentável? | Corrigir, aumentar testes ou priorizar dívida técnica |
+| Processo | Pipelines, PRs e bloqueios | O fluxo fornece feedback em tempo adequado? | Corrigir pipeline, redistribuir revisão ou reduzir itens |
+| Riscos | Probabilidade, impacto e resposta | Algum risco mudou ou se materializou? | Executar resposta, designar responsável e atualizar plano |
 
-- Manter o histórico do projeto organizado e rastreável;
-- Compartilhar conhecimento e reduzir defeitos por meio da revisão por pares;
-- Garantir que nenhuma alteração entre sem que ao menos outra pessoa a tenha
-  lido.
+Os limites de atenção para CPI e SPI e o processo de alteração da linha de base
+estão no [Plano de Custos](plano_de_custos.md). Uma decisão orientada por dados
+registra contexto, indicador, interpretação, ação escolhida e responsável.
 
-## 7. Prototipação
+Dados ausentes ou simulados precisam ser identificados como tal. Uma visualização
+não deve induzir a equipe a tratar estimativas como resultado real.
 
-Os protótipos de interface e a identidade visual do produto são construídos no
-Figma. A prototipação permite validar fluxos e telas com o *Product Owner* e com
-o cliente antes da implementação, reduzindo retrabalho. Os protótipos são
-referenciados nas histórias de usuário e servem de insumo para a equipe de
-desenvolvimento.
+## 9. Inspeção e adaptação da metodologia
 
-Como o público inclui pessoas idosas com pouca familiaridade com tecnologia, a
-prototipação considera aspectos de acessibilidade, como contraste e tamanho de
-fonte.
+Ao final de cada ciclo, a equipe confronta o processo planejado com o ocorrido:
 
-## 8. Documentação como código e CI/CD
+1. identifica resultado, desvio ou impedimento relevante;
+2. investiga sua causa, sem limitar a análise ao sintoma;
+3. define uma ação pequena e verificável;
+4. atribui responsável e prazo;
+5. verifica na retrospectiva seguinte se a ação teve o efeito esperado;
+6. incorpora ao processo as mudanças que se mostrarem úteis.
 
-### 8.1 Documentação como código
+Exemplos incluem alterar pareamentos, dividir histórias grandes, antecipar uma
+prova técnica, reforçar testes de um fluxo crítico ou mudar a coleta de uma métrica
+pouco confiável.
 
-Esta documentação é escrita em Markdown, versionada no mesmo repositório e
-publicada como site com [MkDocs](https://www.mkdocs.org/) e o tema Material. Isso
-permite tratar a documentação com as mesmas práticas do código: branches, pull
-requests e revisão.
+Quando a adaptação modificar uma regra permanente, este documento ou o guia do
+repositório é atualizado. Quando afetar produto, prazo, custo ou arquitetura, os
+respectivos artefatos também são revisados.
 
-### 8.2 Integração e entrega contínuas
+## 10. Métodos e técnicas de apoio
 
-O repositório possui um fluxo do GitHub Actions que constrói o site a cada pull
-request e o publica no GitHub Pages a cada alteração na branch principal. Para o
-produto, o escopo da Release 1 prevê pipeline de CI/CD configurado, com testes
-automatizados e cobertura mínima definida no plano da disciplina.
+Esta tabela mostra onde cada elemento contribui para o ciclo, em vez de apresentar
+definições isoladas.
 
-#### Finalidade
-
-- Detectar erros de build antes de integrar a mudança;
-- Manter a documentação sempre publicada e atualizada;
-- Reduzir trabalho manual de publicação.
-
-## 9. Monitoramento e métricas
-
-O acompanhamento do projeto é apoiado por um dashboard gerencial próprio, feito
-em Python com Streamlit, Plotly e Pandas, que consolida indicadores de prazo,
-custo, qualidade e processo.
-
-### 9.1 Agile EVM
-
-O Agile EVM (*Earned Value Management* adaptado ao contexto ágil) compara o que
-foi planejado com o que foi efetivamente entregue, em pontos de história.
-
-| Indicador | O que mostra |
-|---|---|
-| PV (valor planejado) e EV (valor agregado) | Progresso planejado e progresso real |
-| SPI (índice de desempenho de prazo) | Se a equipe está adiantada ou atrasada |
-| CPI (índice de desempenho de custo) | Se o custo está acima ou abaixo do orçamento |
-| SV, CV | Variações de prazo e de custo |
-| EAC | Estimativa de custo no término |
-
-### 9.2 Velocity e burnup
-
-A *velocity* registra os pontos de história entregues por sprint e sua média,
-apoiando o planejamento das sprints seguintes. O gráfico de burnup compara o
-trabalho planejado, o realizado e a trajetória ideal.
-
-### 9.3 Gestão de riscos
-
-Os riscos são avaliados em uma matriz de probabilidade × impacto (5 × 5), com
-planos de mitigação. Cada etapa do roadmap também lista seus principais riscos.
-
-### 9.4 Métricas de processo e CI/CD
-
-O dashboard acompanha ainda a taxa de sucesso dos pipelines e o tempo médio de
-feedback, para avaliar a saúde do processo de entrega.
-
-#### Finalidade
-
-- Apoiar decisões gerenciais com dados;
-- Antecipar desvios de prazo e custo;
-- Comparar o planejado com o realizado a cada release.
-
-## 10. Resumo da aplicação
-
-| Metodologia/Técnica | Objetivo | Artefato |
-|---------------------|----------|----------|
-| Lean Inception | Alinhar equipe e stakeholders acerca do MVP | Conjunto de artefatos da Inception |
-| Visão do Produto | Estabelecer propósito e direção do produto | [Visão do Produto](../produto/visao.md) |
-| É / Não É / Faz / Não Faz | Delimitar entendimento e escopo | [Quadro de definição do produto](../produto/lean-inception.md#2-e-nao-e-faz-nao-faz) |
-| Objetivos de Negócio | Explicitar o valor esperado | [Objetivos de Negócio](../produto/lean-inception.md#3-objetivos-de-negocio) |
-| Personas | Representar grupos de usuários | [Personas](../produto/lean-inception.md#4-personas) |
-| Jornadas | Representar interações do usuário | [Jornadas dos usuários](../produto/lean-inception.md#5-jornadas-de-usuario) |
-| Brainstorming de funcionalidades | Identificar soluções e funcionalidades | [Funcionalidades](../produto/funcionalidades.md) |
-| Revisão técnica, de negócio e de UX | Comparar esforço, valor e experiência | [Revisão](../produto/funcionalidades.md#atividade-7-revisao-tecnica-de-negocio-e-de-ux) |
-| Sequenciador | Organizar funcionalidades de forma incremental | [Sequenciador](../produto/sequenciador.md) |
-| MVP e Canvas MVP | Definir e consolidar a primeira entrega validável | [Canvas MVP](../produto/canvas-mvp.md) |
-| Scrum | Entregar valor em ciclos curtos com feedback | [Roadmap do Produto](roadmap.md) |
-| EAP | Decompor o escopo em pacotes de trabalho | EAP |
-| Histórias de usuário | Registrar requisitos com critérios de aceitação | Product Backlog e issues no GitHub |
-| Quadro de tarefas (Zenhub) | Acompanhar o andamento das sprints | Board do Zenhub |
-| Atas de reunião | Registrar decisões com o PO e o cliente | [Atas de reunião](../atas-reunioes/index.md) |
-| Fluxo de Git e revisão de código | Integrar mudanças com rastreabilidade e qualidade | Branches, commits e pull requests |
-| Prototipação | Validar telas e fluxos antes da implementação | Protótipos no Figma |
-| Documentação como código e CI/CD | Manter documentação e entrega automatizadas | Este site e o fluxo do GitHub Actions |
-| Agile EVM, velocity e riscos | Monitorar prazo, custo, entrega e riscos | Dashboard gerencial |
+| Método ou técnica | Papel no ciclo | Evidência |
+|---|---|---|
+| Lean Inception | Alinhar problema, pessoas, funcionalidades, hipóteses e MVP | Visão do Produto e Canvas MVP |
+| EAP | Delimitar e decompor o escopo | Estrutura Analítica do Projeto |
+| Histórias de usuário | Transformar necessidades em valor verificável | Product Backlog e issues |
+| Scrum adaptado | Organizar planejamento, entrega, validação e melhoria | Sprints, incrementos, reviews e retrospectivas |
+| Gestão visual | Tornar fluxo, prioridade e bloqueios visíveis | Zenhub e histórico das issues |
+| Prototipação | Antecipar validação de telas e acessibilidade | Figma e referências nas histórias |
+| Revisão por pares e CI | Fornecer feedback antes da integração | PR, aprovação e checks |
+| EVM-Ágil | Integrar escopo, prazo e custo | Indicadores e auditoria do dashboard |
+| Velocity e burnup | Analisar ritmo e mudança de escopo | Zenhub e dashboard |
+| Gestão de riscos | Antecipar eventos incertos e acompanhar respostas | Registro e matriz de riscos |
+| SonarCloud e testes | Acompanhar qualidade e regressões | Métricas e resultados dos testes |
+| Atas e decisões | Preservar contexto, autoria e justificativa | Atas, issues e histórico documental |
 
 ## 11. Referências
 
@@ -525,3 +333,4 @@ Management in Scrum Projects. In: *Agile Conference*, 2006. IEEE, 2006.
 | Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de Revisão |
 |---|---|---|---|---|---|
 | 1.0 | Criação do documento de metodologias e técnicas | [Thales Germano](https://github.com/thalesgvl) | 21/09/2026 | | |
+| 1.1 | Reestruturação como metodologia integrada, com ciclo, papéis, critérios, qualidade, medição e adaptação | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | 25/09/2026 | | |
