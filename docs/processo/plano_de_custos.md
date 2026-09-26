@@ -22,7 +22,8 @@ dados apresentados no Dashboard Gerencial e Analítico.
 | Premissa | Valor adotado |
 |---|---:|
 | Período do projeto | 17 semanas |
-| Equipe de EPS | 11 integrantes |
+| Equipe de EPS | 11 integrantes na R1 (7 semanas) e 10 integrantes a partir da R2 (10 semanas) |
+| Semanas-integrante consideradas | 177 (11 × 7 + 10 × 10) |
 | Créditos anuais de referência | 40 créditos |
 | Créditos da disciplina | 4 créditos |
 | Dotação atualizada da UnB em 2026 | R$ 2.700.943.579,00 |
@@ -33,7 +34,7 @@ dados apresentados no Dashboard Gerencial e Analítico.
 | Orçamento anual aproximado por estudante | R$ 53.123,21 |
 | Orçamento proporcional da disciplina por estudante | R$ 5.312,32 |
 | Orçamento semanal médio por estudante | R$ 312,49 |
-| Computadores de uso geral | 11 unidades já disponíveis |
+| Computadores de uso geral | 11 unidades na R1 e 10 a partir da R2, já disponíveis |
 | Vida útil contábil dos computadores | 5 anos (depreciação de 20% ao ano) |
 | Uso extraclasse considerado | 14 horas por semana e por integrante |
 | Tablet Android | Disponibilizado pelo parceiro; desembolso previsto de R$ 0,00 |
@@ -53,6 +54,12 @@ oficial mais recente disponível na tabela 2.18 do
 6.805 do mestrado e 4.848 do doutorado. A tabela apresenta separadamente 232
 residentes médicos, mas não os incorpora ao total geral. Os 5.252 estudantes de
 especialização também não integram esse total consolidado.
+
+!!! info "Saída de integrante"
+    O integrante Marcelo Araújo dos Santos trancou a disciplina. Como ele participou
+    das atividades até a Sprint Review de 23/09/2026 (Ata 07), os custos da R1
+    permanecem calculados com 11 integrantes. A partir da R2 (29/09/2026), todas as
+    categorias proporcionais à equipe passam a considerar 10 integrantes.
 
 !!! warning "Orçamento por estudante, não custo contábil individual"
     O valor de R$ 53.123,21 é obtido pela divisão da dotação atualizada da
@@ -79,15 +86,18 @@ disciplina:
 **Orçamento proporcional da disciplina por estudante:**
 `R$ 53.123,21 ÷ 40 créditos × 4 créditos = R$ 5.312,32`.
 
-Para 11 integrantes, o custo estimado de pessoas durante o semestre é:
+O orçamento semanal por estudante é `R$ 5.312,32 ÷ 17 = R$ 312,49`. Considerando
+11 integrantes nas 7 semanas da R1 e 10 integrantes nas 10 semanas restantes, o
+projeto soma 177 semanas-integrante:
 
 **Custo econômico de pessoas:**
-`11 × (R$ 2.700.943.579,00 ÷ 50.843 ÷ 40 × 4) = R$ 58.435,54`.
+`(11 × 7 + 10 × 10) × (R$ 2.700.943.579,00 ÷ 50.843 ÷ 40 × 4 ÷ 17) = R$ 55.310,64`.
 
 Os totais usam os valores não arredondados; os valores unitários exibidos são
 arredondados para duas casas decimais.
 
-O valor semanal médio de pessoas é de **R$ 3.437,38**.
+O custo semanal de pessoas é de **R$ 3.437,38** na R1 e de **R$ 3.124,89** a partir
+da R2, com média de **R$ 3.253,57** no semestre.
 
 ### 3.2 Computadores
 
@@ -96,7 +106,7 @@ do equipamento visível no custo econômico do projeto, considera-se um equipame
 referência de R$ 3.500,00, com vida útil de cinco anos. A depreciação estimada é de
 R$ 13,61 por equipamento por semana.
 
-**Custo dos computadores:** `11 × R$ 13,61 × 17 = R$ 2.545,07`.
+**Custo dos computadores:** `177 × R$ 13,61 = R$ 2.408,97`.
 
 Não foi incluída uma estação dedicada de IA. Caso a equipe contrate GPU em nuvem ou
 adquira equipamento específico, o valor deverá entrar pelo processo de mudança deste
@@ -107,14 +117,14 @@ plano.
 Considera-se consumo médio de 0,56 kWh por computador a cada semana de trabalho
 extraclasse e custo semanal aproximado de R$ 0,46 por integrante:
 
-**Custo de energia:** `11 × R$ 0,46 × 17 = R$ 86,02`.
+**Custo de energia:** `177 × R$ 0,46 = R$ 81,42`.
 
 ### 3.4 Internet
 
 Para um plano residencial de referência de R$ 100,00 mensais, rateado pelas horas de
 uso, estima-se R$ 1,94 por integrante por semana:
 
-**Custo de internet:** `11 × R$ 1,94 × 17 = R$ 362,78`.
+**Custo de internet:** `177 × R$ 1,94 = R$ 343,38`.
 
 ### 3.5 Produto e serviços
 
@@ -142,37 +152,42 @@ no LibreOffice Calc, Microsoft Excel ou Google Planilhas.
 
 | Categoria | Custo semanal médio | Quantidade de semanas | Custo total |
 |---|---:|---:|---:|
-| Pessoas | R$ 3.437,38 | 17 | R$ 58.435,54 |
-| Depreciação dos computadores | R$ 149,71 | 17 | R$ 2.545,07 |
-| Energia elétrica | R$ 5,06 | 17 | R$ 86,02 |
-| Internet | R$ 21,34 | 17 | R$ 362,78 |
+| Pessoas | R$ 3.253,57 | 17 | R$ 55.310,64 |
+| Depreciação dos computadores | R$ 141,70 | 17 | R$ 2.408,97 |
+| Energia elétrica | R$ 4,79 | 17 | R$ 81,42 |
+| Internet | R$ 20,20 | 17 | R$ 343,38 |
 | Serviços, licenças e hospedagem | R$ 0,00 | 17 | R$ 0,00 |
-| **Linha de base (BAC)** | **R$ 3.613,49** | **17** | **R$ 61.429,41** |
+| **Linha de base (BAC)** | **R$ 3.420,26** | **17** | **R$ 58.144,41** |
+
+O custo semanal médio é a média do semestre. O custo semanal efetivo é de
+R$ 3.613,49 na R1, com 11 integrantes, e de R$ 3.284,99 a partir da R2, com 10
+integrantes.
 
 Foi definida uma **reserva gerencial de 5%**, separada da linha de base, para eventos
 não previstos que sejam formalmente aprovados:
 
 | Componente orçamentário | Valor |
 |---|---:|
-| Linha de base de custos (BAC) | R$ 61.429,41 |
-| Reserva gerencial (5%) | R$ 3.071,47 |
-| **Orçamento total autorizado** | **R$ 64.500,88** |
+| Linha de base de custos (BAC) | R$ 58.144,41 |
+| Reserva gerencial (5%) | R$ 2.907,22 |
+| **Orçamento total autorizado** | **R$ 61.051,63** |
 
 A reserva não integra o BAC enquanto não houver mudança aprovada. Assim, os índices
-de EVM são calculados inicialmente sobre **R$ 61.429,41**.
+de EVM são calculados sobre **R$ 58.144,41**.
 
 ## 5. Distribuição planejada por release
 
 A distribuição temporal segue os marcos do cronograma. Os valores correspondem ao
-custo semanal médio multiplicado pelas semanas de cada período.
+custo semanal efetivo de cada período multiplicado pelas suas semanas: R$ 3.613,49
+na R1 (11 integrantes) e R$ 3.284,99 a partir da R2 (10 integrantes).
 
 | Período | Semanas consideradas | Custo planejado | Acumulado planejado |
 |---|---:|---:|---:|
 | R1 — 10/08 a 28/09 | 7 | R$ 25.294,46 | R$ 25.294,46 |
-| R2 — 29/09 a 26/10 | 4 | R$ 14.453,98 | R$ 39.748,44 |
-| R3 — 27/10 a 30/11 | 5 | R$ 18.067,47 | R$ 57.815,91 |
-| Release final — 01/12 a 07/12 | 1 | R$ 3.613,50 | R$ 61.429,41 |
-| **Total** | **17** | **R$ 61.429,41** | **R$ 61.429,41** |
+| R2 — 29/09 a 26/10 | 4 | R$ 13.139,98 | R$ 38.434,44 |
+| R3 — 27/10 a 30/11 | 5 | R$ 16.424,97 | R$ 54.859,41 |
+| Release final — 01/12 a 07/12 | 1 | R$ 3.285,00 | R$ 58.144,41 |
+| **Total** | **17** | **R$ 58.144,41** | **R$ 58.144,41** |
 
 O centavo residual do último período compensa o arredondamento dos valores semanais.
 
@@ -184,7 +199,7 @@ iniciado como valor entregue.
 
 | Sigla | Indicador | Cálculo/uso |
 |---|---|---|
-| BAC | Orçamento no término | Linha de base aprovada: R$ 61.429,41 |
+| BAC | Orçamento no término | Linha de base aprovada: R$ 58.144,41 |
 | PV | Valor planejado | BAC × percentual de escopo planejado até a data |
 | EV | Valor agregado | BAC × percentual de pontos aceitos até a data |
 | AC | Custo real | Custo das semanas decorridas, ajustado por mudanças reais |
@@ -233,6 +248,7 @@ O processo de controle é:
 | 21/09/2026 | Criação da linha de base inicial | — | R$ 61.284,29 | Versão 1.0 deste documento | Daniel Ferreira Nunes |
 | 22/09/2026 | Atualização da fonte de pessoas para o orçamento da UnB em 2026 | + R$ 17.520,70 | R$ 78.804,99 | Painel Gestão UnB e Anuário Estatístico 2025 | Daniel Ferreira Nunes |
 | 22/09/2026 | Adoção do total oficial de 50.843 estudantes como denominador | - R$ 17.375,58 | R$ 61.429,41 | Tabela 2.18 do Anuário Estatístico 2025 | Daniel Ferreira Nunes |
+| 26/09/2026 | Saída do integrante Marcelo Araújo dos Santos a partir da R2 (10 semanas com 10 integrantes) | - R$ 3.285,00 | R$ 58.144,41 | Trancamento da disciplina; última participação registrada na Ata 07 | Daniel Ferreira Nunes |
 
 ## 8. Responsabilidades e frequência
 
@@ -261,3 +277,4 @@ O processo de controle é:
 | 1.0 | 21/09/2026 | Criação do plano, linha de base, distribuição por release e controle por EVM-Ágil | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | — | — |
 | 1.1 | 22/09/2026 | Atualização do orçamento por estudante com dados do Painel Gestão UnB e recálculo da linha de base | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | — | — |
 | 1.2 | 22/09/2026 | Inclusão do Repositório DPO e adoção do total oficial de 50.843 estudantes da tabela 2.18 | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | — | — |
+| 1.3 | 26/09/2026 | Recálculo da linha de base após o trancamento de um integrante: 11 integrantes na R1 e 10 a partir da R2 | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | — | — |
