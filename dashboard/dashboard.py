@@ -174,6 +174,33 @@ def render_evm_tab(evm: dict, is_mock: bool):
         fig_vel.update_layout(get_plotly_layout("Histórico de Velocity (Story Points)", height=380))
         st.plotly_chart(fig_vel, use_container_width=True, config=PLOTLY_CONFIG)
 
+    st.markdown("#### Burndown — Orçamento Restante a Entregar")
+    # Espelha o burnup (BAC − PV/EV): mesma base de cálculo, sem precisar de novos
+    # campos em metrics.py. Sprints sem EV apurado (ainda não concluídas) ficam
+    # com gap no traço real, igual ao burnup faz com None.
+    bac = evm["bac"]
+    remaining_ideal = [round(bac - pv, 2) for pv in evm["burnup_pv"]]
+    remaining_actual = [round(bac - ev, 2) if ev is not None else None for ev in evm["burnup_ev"]]
+    fig_burndown = go.Figure()
+    fig_burndown.add_trace(go.Scatter(
+        x=evm["burnup_labels"],
+        y=remaining_ideal,
+        name="Restante Ideal (PV)",
+        mode="lines+markers",
+        line=dict(color="#94A3B8", width=2.5, dash="dash")
+    ))
+    fig_burndown.add_trace(go.Scatter(
+        x=evm["burnup_labels"],
+        y=remaining_actual,
+        name="Restante Real (EV)",
+        mode="lines+markers",
+        fill="tozeroy",
+        fillcolor="rgba(248, 113, 113, 0.15)",
+        line=dict(color="#F87171", width=3)
+    ))
+    fig_burndown.update_layout(get_plotly_layout("Burndown — Orçamento Restante (BAC − PV / BAC − EV)", height=340))
+    st.plotly_chart(fig_burndown, use_container_width=True, config=PLOTLY_CONFIG)
+
     st.markdown("#### Índices de Desempenho SPI e CPI")
     fig_indices = go.Figure()
     fig_indices.add_trace(go.Scatter(

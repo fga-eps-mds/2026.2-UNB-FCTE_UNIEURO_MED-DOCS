@@ -31,7 +31,10 @@ ANALYSIS_NOTES_DIR = os.path.join(_DASH_ROOT, "historico_analises")
 
 INITIAL_PLANNED_SPRINTS_R1 = 5
 INITIAL_PLANNED_POINTS_PRP0 = 65.0
-WEEKLY_SPRINT_BUDGET_BRL = 3200.0
+# Sincronizado com a linha de base semanal do Plano de Custos
+# (docs/processo/plano_de_custos.md, seção 4: BAC = R$ 61.429,41 / 17 semanas).
+# Cada sprint dura 1 semana, então o custo semanal é o custo por sprint.
+WEEKLY_SPRINT_BUDGET_BRL = 3613.49
 
 THEME_COLORS = {
     "primary": "#38BDF8",       # Sky Blue brilhante
