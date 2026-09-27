@@ -88,11 +88,11 @@ Os riscos foram divididos nas seguintes categorias:
 | R04 | Mudanças nos requisitos solicitadas pelo cliente (UniEuro) | Retrabalho e impacto no cronograma do projeto |
 | R05 | Problemas de saúde de integrantes | Ausência temporária e atraso nas entregas |
 | R06 | Falta de disponibilidade do cliente ou de especialistas (ex.: professor/PO da UniEuro) | Dificuldade na definição de requisitos e atrasos no projeto |
-| R07 | Distribuição inadequada de tarefas, especialmente perto das releases | Queda na produtividade e risco de burnout |
+| R07 | Distribuição inadequada de tarefas, especialmente perto das release | Queda na produtividade e risco de burnout |
 | R08 | Problemas técnicos em equipamentos (tablets, notebooks) | Interrupção do trabalho e perda de produtividade |
 | R09 | Forte dependência entre tarefas de frentes diferentes (ex.: modelo de IA e aplicativo) | Efeito cascata de atrasos no cronograma |
-| R10 | Falha na gravação, App fechado no meio de uma avaliação, ou problema no armazenamento local do Tablet | Perda de avaliações já realizadas e necessidade de repetir a coleta |
-| R11 | Limitações da solução ou erros na implementação (ex.: desempenho do modelo de IA no tablet) | Entregas que não atendem aos requisitos esperados |
+| R10 | Falha na gravação, fechamento do aplicativo durante uma avaliação ou problema no armazenamento local do Tablet | Perda de avaliações já realizadas e necessidade de repetir a coleta |
+| R11 | Limitações da solução ou erros na implementação, como desempenho insuficiente do modelo de IA no tablet | Entregas que não atendem aos requisitos esperados |
 | R12 | Falta ou baixa qualidade dos dados disponíveis para treinar/validar o modelo | Dificuldade na validação e baixa confiabilidade da solução |
 | R13 | Dados insuficientes, modelo mal calibrado ou problema mais difícil do que o previsto | Resultado da avaliação pouco confiável, exigindo retrabalho no modelo |
 | R14 | Falta de cuidado no tratamento/armazenamento de dados pessoais de saúde dos usuários | Exposição indevida de dados ou impedimento de uso em ambiente real |
@@ -116,9 +116,31 @@ Os riscos foram divididos nas seguintes categorias:
 | R13 | Validação incremental do modelo com dados de teste desde as primeiras sprints | Ajustar o modelo, buscar mais dados ou simplificar o problema a ser resolvido |
 | R14 | Anonimização de dados e boas práticas de segurança desde o início do projeto | Revisão do tratamento de dados e adequação às exigências da LGPD |
 
+## Monitoramento dos Riscos
+
+<iframe width="700" height="400" src="https://docs.google.com/spreadsheets/d/1ZarJ5KuICboZrPrMZGIZyJAHq8Ju39r4wP2-Lx8_pqc/preview"></iframe>
+
+## Gráfico Impacto X Probabilidade de cada Risco por Sprint
+
+<iframe width="1200" height="700" frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTejXRkOfqXWpRfc1pocJMvWkX0TJ5t-oaOfZRiwPMVeY88WhsgXMddbEWA_K1EpaSrunR9_o0qTtCw/pubchart?oid=1663055085&amp;format=interactive"></iframe>
+
+## Gráfico Impacto X Probabilidade Total por Sprint
+
+<iframe width="700" height="400" frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTejXRkOfqXWpRfc1pocJMvWkX0TJ5t-oaOfZRiwPMVeY88WhsgXMddbEWA_K1EpaSrunR9_o0qTtCw/pubchart?oid=365709643&format=interactive"></iframe>
+
+## Conclusão
+
+A gestão de riscos é essencial no desenvolvimento de software para garantir que possíveis problemas sejam identificados e tratados antes de impactarem significativamente o projeto. Este Plano de Gestão de Riscos fornece uma abordagem sistemática para identificar, analisar e mitigar riscos, minimizando incertezas e maximizando as chances de sucesso. Com a categorização detalhada dos riscos, suas causas e consequências, e a elaboração de estratégias de prevenção e solução, o plano assegura que a equipe esteja preparada para enfrentar desafios e realizar entregas com qualidade e dentro do prazo. A revisão contínua e a participação ativa da equipe são fundamentais para adaptar-se a novos riscos e ajustar estratégias conforme necessário, garantindo uma trajetória segura e eficiente rumo à entrega de um produto final de alta qualidade.
+
+### R1
+
+Na Release 1, o foco da equipe está na construção da base inicial do aplicativo e na validação do primeiro fluxo funcional. Os principais riscos estão relacionados à adaptação da equipe às tecnologias escolhidas, à disponibilidade dos integrantes e à implementação da autenticação.
+
+A redução da equipe de 11 para 10 integrantes a partir da Sprint 2 não compromete diretamente a R1, mas exige organização e distribuição equilibrada das atividades restantes. A equipe deve estar atenta à comunicação e ao planejamento para evitar atrasos e garantir que as entregas sejam concluídas com sucesso.
 
 ## Histórico de versões
 
 | Versão | Descrição | Autor | Data | Revisor | Data de revisão |
 |---|---|---|---|---|---|
 | 1.0 | Criação da documentação de riscos | [Eduardo Ferreira](https://github.com/eduardoferre) | 27/09/2026 | A definir | — |
+| 1.1 | Adição dos gráficos de impacto e probabilidade e conclusão da R1 | [Eduardo Ferreira](https://github.com/eduardoferre) | 27/09/2026 | A definir | — |
