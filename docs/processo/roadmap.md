@@ -4,7 +4,7 @@
 
 O roadmap relaciona os marcos da disciplina ao incremento que a equipe consegue demonstrar. As ondas do [sequenciador](../produto/sequenciador.md) indicam prioridade, não equivalem às sprints. As entregas abaixo distinguem o que já existe na branch de integração do APP dos objetivos das próximas releases, que dependem de implementação, testes e validação.
 
-O quadro do Miro registra o planejamento visual original; **a tabela de sta página é a referência atual para o escopo das releases**.
+O quadro do Miro registra o planejamento visual original; **a tabela de desta página é a referência atual para o escopo das releases**.
 
 <div class="roadmap-visual" markdown>
 
