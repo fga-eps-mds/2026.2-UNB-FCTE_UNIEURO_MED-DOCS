@@ -43,14 +43,14 @@ Esta página reúne os integrantes da equipe responsável pelo projeto MED, alé
         <br /><sub><b>Daniel Ferreira Nunes</b></sub>
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center">
       <a href="https://github.com/eduardoferre">
         <img src="https://github.com/eduardoferre.png" width="100" height="100" style="border-radius: 50%; object-fit: cover;" alt=""/>
         <br /><sub><b>Eduardo de Almeida Ferreira</b></sub>
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center">
       <a href="https://github.com/BrzGab">
         <img src="https://github.com/BrzGab.png" width="100" height="100" style="border-radius: 50%; object-fit: cover;" alt=""/>
@@ -63,6 +63,8 @@ Esta página reúne os integrantes da equipe responsável pelo projeto MED, alé
         <br /><sub><b>Gustavo Henrique Rodrigues de Sousa</b></sub>
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center">
       <a href="https://github.com/hgaldino05">
         <img src="https://github.com/hgaldino05.png" width="100" height="100" style="border-radius: 50%; object-fit: cover;" alt=""/>
@@ -75,20 +77,14 @@ Esta página reúne os integrantes da equipe responsável pelo projeto MED, alé
         <br /><sub><b>Lucas Mendonça Arruda</b></sub>
       </a>
     </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/santosm46">
-        <img src="https://github.com/santosm46.png" width="100" height="100" style="border-radius: 50%; object-fit: cover;" alt=""/>
-        <br /><sub><b>Marcelo Araújo dos Santos</b></sub>
-      </a>
-    </td>
     <td align="center">
       <a href="https://github.com/thalesgvl">
         <img src="https://github.com/thalesgvl.png" width="100" height="100" style="border-radius: 50%; object-fit: cover;" alt=""/>
         <br /><sub><b>Thales Germano Vargas Lima</b></sub>
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center">
       <a href="https://github.com/vcpVitor">
         <img src="https://github.com/vcpVitor.png" width="100" height="100" style="border-radius: 50%; object-fit: cover;" alt=""/>
