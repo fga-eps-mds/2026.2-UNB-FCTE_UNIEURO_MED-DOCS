@@ -17,7 +17,8 @@ O documento cobre:
 3. visão lógica, com os componentes do aplicativo;
 4. visão de processos, com o fluxo da avaliação, os estados da avaliação e a sequência da inferência;
 5. visão de implementação, com os repositórios e os pacotes;
-6. visão de implantação, com os dispositivos e artefatos.
+6. visão de implantação, com os dispositivos e artefatos;
+7. modelagem de dados, com o MER e o DER do banco SQLite.
 
 ### 1.3 Fontes
 
@@ -31,7 +32,7 @@ O aplicativo roda em um dos dois tablets Android que a UniEuro está adquirindo 
 
 ![Diagrama de contexto do aplicativo, com o profissional de saúde, o paciente, o tablet e o REDCap](../assets/imagens/arquitetura/contexto-med.svg)
 
-**Fonte:** [Daniel Ferreira Nunes](https://github.com/Mach1r0), 2026, com ajustes de [Gabriel Lopes de Amorim](https://github.com/BrzGab).
+**Fonte:** [Daniel Ferreira Nunes](https://github.com/Mach1r0), 2026.
 
 | Elemento | Papel |
 |---|---|
@@ -87,7 +88,7 @@ A visão lógica mostra como o aplicativo está dividido em componentes e quais 
 
 ![Diagrama de componentes organizados nas camadas de apresentação, aplicação, domínio e processamento e infraestrutura local](../assets/imagens/arquitetura/componentes-med.svg)
 
-**Fonte:** [Daniel Ferreira Nunes](https://github.com/Mach1r0), 2026, com ajustes de [Gabriel Lopes de Amorim](https://github.com/BrzGab).
+**Fonte:** [Daniel Ferreira Nunes](https://github.com/Mach1r0), 2026.
 
 | Camada | Componente | Responsabilidade |
 |---|---|---|
@@ -124,7 +125,7 @@ O diagrama de atividades segue o fluxo descrito pelo *Product Owner* na [Ata 04]
 
 ![Diagrama de atividades com raias para profissional de saúde, aplicativo e paciente](../assets/imagens/arquitetura/diagrama-atividades-med.svg)
 
-**Fonte:** [Daniel Ferreira Nunes](https://github.com/Mach1r0), 2026, com ajustes de [Gabriel Lopes de Amorim](https://github.com/BrzGab). [Consultar a fonte PlantUML](../assets/imagens/arquitetura/diagrama-atividades-med.puml).
+**Fonte:** [Daniel Ferreira Nunes](https://github.com/Mach1r0), 2026. [Consultar a fonte PlantUML](../assets/imagens/arquitetura/diagrama-atividades-med.puml).
 
 1. O profissional faz login, inicia a avaliação e informa nome, número da ficha e data de nascimento do paciente.
 2. O aplicativo bloqueia a área do profissional e exibe o TCLE.
@@ -177,7 +178,7 @@ A tecnologia definida a princípio pela equipe é:
 | Aplicativo (telas e lógica) | Expo (React Native) | Tablet |
 | Banco de dados | SQLite, acessado pelo `expo-sqlite` | Tablet |
 | Modelo de IA (treino e exportação) | PyTorch, com Python | Máquina de desenvolvimento |
-| Modelo de IA (execução) | Runtime do modelo, a definir (ver [Pendências](#9-pendencias)) | Tablet |
+| Modelo de IA (execução) | Runtime do modelo, a definir (ver [Pendências](#10-pendencias)) | Tablet |
 
 Não existe backend separado. O Python é usado apenas no repositório de IA, para tratar o dataset, treinar, avaliar e exportar o modelo. No tablet, o modelo exportado é executado pelo próprio aplicativo, sem servidor local nem chamada de rede. Isso segue o que foi discutido na [Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md): uma API rodando dentro do tablet não traria ganho que justificasse a complexidade.
 
@@ -262,7 +263,56 @@ Em produção existe um único nó de execução, o tablet. A máquina de desenv
 - O XML precisa ser gravado em uma pasta escolhida pelo profissional. Se ficasse no armazenamento privado, não seria possível copiá-lo para o REDCap.
 - A inferência roda no tablet, sem chamadas de rede.
 
-## 8. Decisões arquiteturais
+## 8. Modelagem de dados
+
+Esta seção descreve os dados que o aplicativo guarda no banco SQLite do tablet. Os campos de cadastro são os definidos pelo cliente na [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md). Os dados de traçado, inferência, horário, profissional e paciente são os pedidos para o XML na [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md).
+
+### 8.1 Modelo Entidade-Relacionamento (MER)
+
+**Entidades e atributos**
+
+Os identificadores estão sublinhados, e os atributos opcionais estão marcados com (opcional).
+
+| Entidade | Atributos |
+|---|---|
+| PROFISSIONAL | <u>id_profissional</u>, nome_completo, email, crm, cpf, senha_hash |
+| PACIENTE | <u>id_paciente</u>, nome, numero_ficha, data_nascimento |
+| AVALIACAO | <u>id_avaliacao</u>, data_hora_inicio, data_hora_termino (opcional), estado, instrucoes_dadas (opcional), tarefa_interrompida (opcional) |
+| CONSENTIMENTO | <u>id_consentimento</u>, versao_tcle, aceito, assinado_por, data_hora |
+| TAREFA | <u>id_tarefa</u>, tipo, ordem, data_hora_inicio, data_hora_termino (opcional) |
+| DESENHO | <u>id_desenho</u>, imagem_final, data_hora_confirmacao |
+| EVENTO_TRACADO | <u>id_evento</u>, tipo, ordem, coord_x, coord_y, instante, pressao (opcional), inclinacao (opcional) |
+| INFERENCIA | <u>id_inferencia</u>, classe_prevista, prob_normal, prob_ccl, prob_demencia, versao_modelo, data_hora |
+| MAPA_CALOR | <u>id_mapa</u>, imagem |
+| EXPORTACAO | <u>id_exportacao</u>, data_hora, versao_esquema_xml, nome_arquivo |
+
+**Relacionamentos**
+
+| Relacionamento | Entidades | Cardinalidade | Descrição |
+|---|---|---|---|
+| CONDUZ | PROFISSIONAL e AVALIACAO | 1:N | Um profissional conduz várias avaliações, e cada avaliação é conduzida por um único profissional |
+| PARTICIPA | PACIENTE e AVALIACAO | 1:N | Um paciente pode participar de várias avaliações, e cada avaliação é de um único paciente |
+| REGISTRA | AVALIACAO e CONSENTIMENTO | 1:1 | Cada avaliação tem no máximo um registro de consentimento. Ele não existe enquanto o TCLE está na tela |
+| POSSUI | AVALIACAO e TAREFA | 1:N | Uma avaliação tem até três tarefas. Uma avaliação interrompida pode ter menos |
+| RESULTA_EM | TAREFA e DESENHO | 1:1 | Cada tarefa tem no máximo um desenho confirmado |
+| CAPTURA | TAREFA e EVENTO_TRACADO | 1:N | Cada tarefa registra vários eventos de traçado (traço, desfazer ou limpar), mesmo que o desenho não seja confirmado |
+| GERA | AVALIACAO e INFERENCIA | 1:1 | Uma avaliação tem no máximo uma inferência, que só existe quando os três desenhos foram confirmados |
+| PRODUZ | INFERENCIA e MAPA_CALOR | 1:N | Cada inferência produz três mapas de calor |
+| REFERE_SE | DESENHO e MAPA_CALOR | 1:1 | Cada mapa de calor se refere a um desenho |
+| SOLICITA | PROFISSIONAL e EXPORTACAO | 1:N | Um profissional pode solicitar várias exportações |
+| EXPORTA | AVALIACAO e EXPORTACAO | 1:N | Uma avaliação pode ser exportada mais de uma vez |
+
+Duas regras não aparecem no diagrama, porque a notação só permite cardinalidade máxima 1 ou N: uma avaliação tem no máximo **três** tarefas, e cada inferência tem exatamente **três** mapas de calor. O aplicativo precisa garantir essas regras.
+
+### 8.2 Diagrama Entidade-Relacionamento (DER)
+
+**Figura 8:** Diagrama Entidade-Relacionamento
+
+![Diagrama entidade-relacionamento com as entidades profissional, paciente, avaliação, consentimento, tarefa, desenho, evento de traçado, inferência, mapa de calor e exportação, seus atributos e as cardinalidades dos relacionamentos](../assets/imagens/arquitetura/der-med.png)
+
+**Fonte:** [Gabriel Lopes de Amorim](https://github.com/BrzGab), 2026.
+
+## 9. Decisões arquiteturais
 
 | Decisão | Justificativa | Origem |
 |---|---|---|
@@ -277,7 +327,7 @@ Em produção existe um único nó de execução, o tablet. A máquina de desenv
 | Salvar todas as métricas de caneta disponíveis | Os dados alimentam a pesquisa mesmo sem entrar no modelo | [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md) |
 | Registro automático de apagamentos e desistências | Métricas do Canvas MVP sem anotação manual | [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md) |
 
-## 9. Pendências
+## 10. Pendências
 
 | Item | Situação |
 |---|---|
@@ -291,7 +341,7 @@ Em produção existe um único nó de execução, o tablet. A máquina de desenv
 | Recuperação de senha | Prevista nas histórias de usuário ([Ata 05](../atas-reunioes/Ata-05-EPS-2026-09-14-PO.md)), mas precisa funcionar sem e-mail ou rede |
 | Registro de apagamentos | O cliente ainda vai confirmar se o apagamento deve ser registrado ([Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md)) |
 
-## 10. Riscos e mitigações
+## 11. Riscos e mitigações
 
 | Risco | Mitigação |
 |---|---|
@@ -314,3 +364,4 @@ Em produção existe um único nó de execução, o tablet. A máquina de desenv
 | 1.4 | Ajuste dos diagramas de contexto, componentes e atividades, substituição do diagrama de implantação e inclusão dos diagramas de estados, sequência, pacotes e dados | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 23/09/2026 | A definir | — |
 | 1.5 | Registro da tecnologia (Expo, SQLite e PyTorch, sem backend) e da saída do modelo (classe, probabilidades e mapas de calor) | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 23/09/2026 | A definir | — |
 | 1.6 | Alinhamento da seção de repositórios e pacotes à estrutura real do projeto Expo | [Thales Germano](https://github.com/thalesgvl) | 25/09/2026 | A definir | — |
+| 1.7 | Inclusão da modelagem de dados (MER e DER) e ajuste das fontes das figuras | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 26/09/2026 | A definir | — |
