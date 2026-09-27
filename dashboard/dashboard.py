@@ -278,13 +278,24 @@ def render_risks_tab(risks_raw: list, is_mock: bool):
             showscale=False
         ))
         
+        # Agrupa por célula (impacto, probabilidade): com muitos riscos mapeados é comum
+        # mais de um cair na mesma combinação, e uma anotação por risco esconderia todas
+        # menos a última desenhada.
+        riscos_por_celula = {}
         for r in risks_raw:
+            celula = (r["impacto"] - 1, r["probabilidade"] - 1)
+            riscos_por_celula.setdefault(celula, []).append(r["id"])
+
+        for (x, y), ids in riscos_por_celula.items():
+            # Empilha verticalmente (<br>) em vez de lado a lado quando há 3+ na mesma
+            # célula: a caixa cresce para cima/baixo em vez de invadir a célula vizinha.
+            separador = ", " if len(ids) <= 2 else "<br>"
             fig_heat.add_annotation(
-                x=r["impacto"] - 1,
-                y=r["probabilidade"] - 1,
-                text=f"<b>{r['id']}</b>",
+                x=x,
+                y=y,
+                text=f"<b>{separador.join(ids)}</b>",
                 showarrow=False,
-                font=dict(color="#FFFFFF", size=12),
+                font=dict(color="#FFFFFF", size=11 if len(ids) <= 2 else 9),
                 bgcolor="rgba(15, 23, 42, 0.9)",
                 bordercolor="#38BDF8",
                 borderwidth=1.5,
