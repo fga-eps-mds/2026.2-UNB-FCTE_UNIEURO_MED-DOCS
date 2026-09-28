@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.graph_objects as go
 import pandas as pd
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 from src.config import (
     ORGANIZATION,
@@ -11,11 +11,47 @@ from src.config import (
     INITIAL_PLANNED_POINTS_PRP0,
     WEEKLY_SPRINT_BUDGET_BRL,
     ANALYSIS_NOTES_DIR,
-    THEME_COLORS
+    THEME_COLORS,
+    REPOS_CONFIG
 )
 from src.theme import apply_custom_theme, render_kpi, get_plotly_layout
-from src.data_layer import get_zenhub_sprints_data, get_risks_data, get_github_runs_data
+from src.data_layer import get_zenhub_sprints_data, get_risks_data, get_github_runs_data, get_sonar_metrics_data
 from src.metrics import compute_agile_evm_metrics, process_risks_summary
+
+RATING_LETTERS = {1.0: "A", 2.0: "B", 3.0: "C", 4.0: "D", 5.0: "E"}
+
+
+def rating_to_letter(value) -> str:
+    """Converte a nota numérica do SonarCloud (1.0-5.0) para a letra A-E."""
+    try:
+        return RATING_LETTERS.get(round(float(value)), "N/A")
+    except (TypeError, ValueError):
+        return "N/A"
+
+
+def filter_started_sprints(sprints: list) -> list:
+    """Remove sprints cujo início ainda não chegou.
+
+    O Zenhub devolve todas as sprints recorrentes já agendadas no workspace,
+    inclusive as que só começam daqui a meses. Sem esse filtro o burnup/velocity
+    esticaria até essas datas futuras. Sprints sem `start_at` (dado mock antigo)
+    são mantidas, já que nesse caso não há como avaliar se já começaram.
+    """
+    hoje = datetime.now(timezone.utc)
+    resultado = []
+    for s in sprints:
+        start_at = s.get("start_at")
+        if not start_at:
+            resultado.append(s)
+            continue
+        try:
+            inicio = datetime.fromisoformat(start_at.replace("Z", "+00:00"))
+        except (TypeError, ValueError):
+            resultado.append(s)
+            continue
+        if inicio <= hoje:
+            resultado.append(s)
+    return resultado
 
 PLOTLY_CONFIG = {"displaylogo": False, "responsive": True}
 
@@ -138,6 +174,33 @@ def render_evm_tab(evm: dict, is_mock: bool):
         fig_vel.update_layout(get_plotly_layout("Histórico de Velocity (Story Points)", height=380))
         st.plotly_chart(fig_vel, use_container_width=True, config=PLOTLY_CONFIG)
 
+    st.markdown("#### Burndown — Orçamento Restante a Entregar")
+    # Espelha o burnup (BAC − PV/EV): mesma base de cálculo, sem precisar de novos
+    # campos em metrics.py. Sprints sem EV apurado (ainda não concluídas) ficam
+    # com gap no traço real, igual ao burnup faz com None.
+    bac = evm["bac"]
+    remaining_ideal = [round(bac - pv, 2) for pv in evm["burnup_pv"]]
+    remaining_actual = [round(bac - ev, 2) if ev is not None else None for ev in evm["burnup_ev"]]
+    fig_burndown = go.Figure()
+    fig_burndown.add_trace(go.Scatter(
+        x=evm["burnup_labels"],
+        y=remaining_ideal,
+        name="Restante Ideal (PV)",
+        mode="lines+markers",
+        line=dict(color="#94A3B8", width=2.5, dash="dash")
+    ))
+    fig_burndown.add_trace(go.Scatter(
+        x=evm["burnup_labels"],
+        y=remaining_actual,
+        name="Restante Real (EV)",
+        mode="lines+markers",
+        fill="tozeroy",
+        fillcolor="rgba(248, 113, 113, 0.15)",
+        line=dict(color="#F87171", width=3)
+    ))
+    fig_burndown.update_layout(get_plotly_layout("Burndown — Orçamento Restante (BAC − PV / BAC − EV)", height=340))
+    st.plotly_chart(fig_burndown, use_container_width=True, config=PLOTLY_CONFIG)
+
     st.markdown("#### Índices de Desempenho SPI e CPI")
     fig_indices = go.Figure()
     fig_indices.add_trace(go.Scatter(
@@ -242,13 +305,24 @@ def render_risks_tab(risks_raw: list, is_mock: bool):
             showscale=False
         ))
         
+        # Agrupa por célula (impacto, probabilidade): com muitos riscos mapeados é comum
+        # mais de um cair na mesma combinação, e uma anotação por risco esconderia todas
+        # menos a última desenhada.
+        riscos_por_celula = {}
         for r in risks_raw:
+            celula = (r["impacto"] - 1, r["probabilidade"] - 1)
+            riscos_por_celula.setdefault(celula, []).append(r["id"])
+
+        for (x, y), ids in riscos_por_celula.items():
+            # Empilha verticalmente (<br>) em vez de lado a lado quando há 3+ na mesma
+            # célula: a caixa cresce para cima/baixo em vez de invadir a célula vizinha.
+            separador = ", " if len(ids) <= 2 else "<br>"
             fig_heat.add_annotation(
-                x=r["impacto"] - 1,
-                y=r["probabilidade"] - 1,
-                text=f"<b>{r['id']}</b>",
+                x=x,
+                y=y,
+                text=f"<b>{separador.join(ids)}</b>",
                 showarrow=False,
-                font=dict(color="#FFFFFF", size=12),
+                font=dict(color="#FFFFFF", size=11 if len(ids) <= 2 else 9),
                 bgcolor="rgba(15, 23, 42, 0.9)",
                 bordercolor="#38BDF8",
                 borderwidth=1.5,
@@ -276,7 +350,107 @@ def render_risks_tab(risks_raw: list, is_mock: bool):
     st.dataframe(df_risks, use_container_width=True, hide_index=True)
 
 
-def render_process_tab(is_mock: bool):
+def render_quality_tab(sonar_data: dict, is_mock: bool):
+    """Renderiza a aba de Qualidade de Produto (SonarCloud), uma seção por repositório."""
+    if is_mock:
+        render_mock_alert("Qualidade de Produto", "Sonar_API-Measures-*.json")
+
+    st.markdown("### Qualidade de Produto (SonarCloud)")
+
+    repos_disponiveis = [key for key in REPOS_CONFIG if key in sonar_data]
+    if not repos_disponiveis:
+        st.info("Nenhuma métrica de qualidade disponível para os repositórios de código (APP/IA).")
+        return
+
+    repo_key = st.radio(
+        "Repositório:",
+        options=repos_disponiveis,
+        format_func=lambda k: REPOS_CONFIG[k]["name"],
+        horizontal=True,
+        key="quality_repo_selector"
+    )
+    metrics = sonar_data[repo_key]
+
+    q1, q2, q3, q4 = st.columns(4)
+    with q1:
+        render_kpi("Linhas de Código", f"{metrics['ncloc']:,}", "ncloc", THEME_COLORS["primary"])
+    with q2:
+        cobertura = metrics.get("coverage")
+        cobertura_txt = f"{cobertura:.1f}%" if cobertura is not None else "N/A"
+        cobertura_sub = "Cobertura de testes" if cobertura is not None else "Sem testes apurados ainda"
+        render_kpi("Cobertura", cobertura_txt, cobertura_sub, THEME_COLORS["secondary"])
+    with q3:
+        gate = metrics.get("quality_gate") or "N/A"
+        gate_color = THEME_COLORS["secondary"] if gate == "OK" else (THEME_COLORS["danger"] if gate == "ERROR" else THEME_COLORS["accent"])
+        render_kpi("Quality Gate", gate, "Estado do portão de qualidade", gate_color)
+    with q4:
+        render_kpi("Débito Técnico", f"{metrics['technical_debt_min']} min", "Tempo estimado de correção", THEME_COLORS["warning"])
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    col_issues, col_ratings = st.columns([1.35, 1.0])
+    with col_issues:
+        fig_issues = go.Figure(go.Bar(
+            x=["Bugs", "Vulnerabilidades", "Code Smells", "Security Hotspots"],
+            y=[metrics["bugs"], metrics["vulnerabilities"], metrics["code_smells"], metrics["security_hotspots"]],
+            marker=dict(color=["#F87171", "#FB923C", "#FBBF24", "#A78BFA"]),
+            text=[metrics["bugs"], metrics["vulnerabilities"], metrics["code_smells"], metrics["security_hotspots"]],
+            textposition="auto"
+        ))
+        fig_issues.update_layout(get_plotly_layout(f"Achados Estáticos — {REPOS_CONFIG[repo_key]['name']}", height=340))
+        st.plotly_chart(fig_issues, use_container_width=True, config=PLOTLY_CONFIG)
+
+    with col_ratings:
+        st.markdown("#### Notas de Avaliação")
+        render_kpi("Manutenibilidade", rating_to_letter(metrics.get("maintainability_rating")), "Sqale Rating", THEME_COLORS["primary"])
+        st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+        render_kpi("Confiabilidade", rating_to_letter(metrics.get("reliability_rating")), "Reliability Rating", THEME_COLORS["primary"])
+        st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+        render_kpi("Segurança", rating_to_letter(metrics.get("security_rating")), "Security Rating", THEME_COLORS["primary"])
+
+    # Restrito a ncloc/coverage: as demais métricas do histórico (ratings, contagens
+    # de achados) misturam unidades diferentes e, com 1 ponto só por dia de coleta,
+    # não formam uma série legível junto com essas duas.
+    series_historico = {"ncloc": [], "coverage": []}
+    for serie in metrics.get("history", []):
+        if serie.get("metric") not in series_historico:
+            continue
+        pontos = [item for item in serie.get("history", []) if "value" in item]
+        series_historico[serie["metric"]] = pontos
+
+    if any(series_historico.values()):
+        st.markdown("#### Evolução Histórica (Linhas de Código e Cobertura)")
+        fig_hist = go.Figure()
+        for nome_metrica, pontos in series_historico.items():
+            if not pontos:
+                continue
+            fig_hist.add_trace(go.Scatter(
+                x=[p["date"] for p in pontos],
+                y=[float(p["value"]) for p in pontos],
+                name=nome_metrica,
+                mode="lines+markers"
+            ))
+        fig_hist.update_layout(get_plotly_layout("Métricas ao Longo do Tempo", height=320))
+        st.plotly_chart(fig_hist, use_container_width=True, config=PLOTLY_CONFIG)
+
+    st.markdown("#### Detalhamento Completo")
+    tabela = pd.DataFrame([{
+        "Repositório": REPOS_CONFIG[repo_key]["name"],
+        "Linhas de Código": metrics["ncloc"],
+        "Testes": metrics["tests"],
+        "Cobertura (%)": metrics.get("coverage") if metrics.get("coverage") is not None else "N/A",
+        "Duplicidade (%)": metrics["duplicated_lines_density"],
+        "Bugs": metrics["bugs"],
+        "Vulnerabilidades": metrics["vulnerabilities"],
+        "Code Smells": metrics["code_smells"],
+        "Security Hotspots": metrics["security_hotspots"],
+        "Débito Técnico (min)": metrics["technical_debt_min"],
+        "Coletado em": metrics.get("collected_at") or "N/A"
+    }])
+    st.dataframe(tabela, use_container_width=True, hide_index=True)
+
+
+def render_process_tab():
     """Renderiza a aba de Processo e CI/CD."""
     runs_data, is_runs_mock = get_github_runs_data()
     
@@ -348,14 +522,28 @@ def main():
     sim_prp0, sim_ps, sim_budget = render_sidebar()
     
     sprints_data, is_sprints_mock = get_zenhub_sprints_data()
+    sprints_data = filter_started_sprints(sprints_data)
     risks_data, is_risks_mock = get_risks_data()
-    
-    # Alerta global discreto caso algum dos eixos utilize dados mockados
-    any_mock = is_sprints_mock or is_risks_mock
-    if any_mock:
+    sonar_data, is_sonar_mock = get_sonar_metrics_data()
+
+    # Alerta global discreto caso algum dos eixos utilize dados mockados.
+    # Nomeia a(s) fonte(s) em mock explicitamente: sem isso, o aviso genérico
+    # aparece sempre que qualquer uma estiver mockada (ex: Riscos, bloqueado
+    # pela issue #26) e passa a impressão de que TUDO está em modo demo,
+    # mesmo quando as outras fontes já são dados reais.
+    fontes_mock = []
+    if is_sprints_mock:
+        fontes_mock.append("Sprints/Agile EVM")
+    if is_risks_mock:
+        fontes_mock.append("Matriz de Riscos")
+    if is_sonar_mock:
+        fontes_mock.append("Qualidade de Produto")
+
+    if fontes_mock:
         st.info(
-            "Ambiente em modo de demonstração (dados simulados): "
-            "Os arquivos `.json` em `analytics-raw-data/` serão consumidos automaticamente assim que forem gerados pelo pipeline de CI/CD."
+            f"Modo de demonstração para: **{', '.join(fontes_mock)}**. "
+            "As demais abas já consomem dados reais de `analytics-raw-data/`. "
+            "Cada aba mostrada acima mostra seu próprio aviso quando usa dados simulados."
         )
     
     evm_results = compute_agile_evm_metrics(
@@ -365,10 +553,11 @@ def main():
         sprint_budget_brl=sim_budget
     )
 
-    tab_evm, tab_riscos, tab_processo, tab_teoria = st.tabs([
+    tab_evm, tab_riscos, tab_processo, tab_qualidade, tab_teoria = st.tabs([
         "Agile EVM e Velocity",
         "Gestão de Riscos",
         "Processo e CI/CD",
+        "Qualidade de Produto",
         "Memória de Cálculo"
     ])
 
@@ -379,7 +568,10 @@ def main():
         render_risks_tab(risks_data, is_risks_mock)
 
     with tab_processo:
-        render_process_tab(is_mock=True)
+        render_process_tab()
+
+    with tab_qualidade:
+        render_quality_tab(sonar_data, is_sonar_mock)
 
     with tab_teoria:
         render_theory_tab()
