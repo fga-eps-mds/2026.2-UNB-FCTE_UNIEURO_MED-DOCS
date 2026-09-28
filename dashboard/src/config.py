@@ -26,7 +26,7 @@ _CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 _DASH_ROOT = os.path.dirname(_CURRENT_DIR)
 _DOCS_ROOT = os.path.dirname(_DASH_ROOT)
 
-RAW_DATA_DIR = os.path.join(_DOCS_ROOT, "analytics", "raw-data")
+RAW_DATA_DIR = os.path.join(_DOCS_ROOT, "analytics-raw-data")
 ANALYSIS_NOTES_DIR = os.path.join(_DASH_ROOT, "historico_analises")
 
 INITIAL_PLANNED_SPRINTS_R1 = 5

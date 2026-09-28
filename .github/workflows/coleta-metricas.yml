@@ -1,0 +1,182 @@
+name: Coleta de métricas
+
+# Gera os arquivos .json que o dashboard analítico consome em analytics-raw-data/.
+#
+# Não roda em push para a main de propósito: o job faz commit de volta no
+# repositório, e um gatilho de push criaria um laço de execuções.
+
+on:
+  schedule:
+    - cron: "0 9 * * *" # 06:00 em Brasília
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: coleta-metricas
+  cancel-in-progress: false
+
+jobs:
+  coletar:
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      ORG: fga-eps-mds
+      PREFIX: 2026.2-UNB-FCTE_UNIEURO_MED
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Coletar execuções de CI/CD dos repositórios
+        run: |
+          set -euo pipefail
+          mkdir -p analytics-raw-data
+          falhou=0
+
+          for repo in DOCS APP IA; do
+            destino="analytics-raw-data/GitHub_API-Runs-${repo}.json"
+            echo "::group::${repo}"
+
+            if gh api "repos/${ORG}/${PREFIX}-${repo}/actions/runs?per_page=100" \
+                 --paginate --slurp > /tmp/bruto.json 2>/tmp/erro.txt; then
+
+              # --paginate --slurp devolve um array de páginas; concatena os runs
+              # de todas elas e guarda apenas os campos que o dashboard lê.
+              jq '{
+                    repositorio: "'"${repo}"'",
+                    coletado_em: (now | todate),
+                    workflow_runs: (
+                      [.[].workflow_runs[]] | map({
+                        id, name, head_branch, event, status, conclusion,
+                        created_at, updated_at, run_number, html_url
+                      })
+                    )
+                  }' /tmp/bruto.json > "${destino}"
+
+              total=$(jq '.workflow_runs | length' "${destino}")
+              echo "${repo}: ${total} execuções"
+            else
+              echo "::warning::Falha ao coletar ${repo} — arquivo anterior preservado"
+              cat /tmp/erro.txt
+              falhou=1
+            fi
+
+            echo "::endgroup::"
+          done
+
+          if [ "${falhou}" -eq 1 ]; then
+            echo "::warning::Ao menos um repositório não pôde ser coletado"
+          fi
+
+      - name: Coletar métricas de qualidade do SonarCloud
+        run: |
+          set -euo pipefail
+          # As 12 primeiras são as exigidas pelo professor (Discord, 14/09); as demais
+          # alimentam os indicadores de confiabilidade e manutenibilidade do dashboard.
+          metricas="files,functions,complexity,comment_lines_density,duplicated_lines_density,coverage,ncloc,tests,test_errors,test_failures,test_execution_time,security_rating"
+          metricas="${metricas},bugs,vulnerabilities,code_smells,security_hotspots,sqale_index,sqale_rating,reliability_rating,alert_status"
+
+          # Só IA e APP têm projeto no SonarCloud; DOCS não é analisado.
+          for repo in APP IA; do
+            chave="${ORG}_${PREFIX}-${repo}"
+            destino="analytics-raw-data/Sonar_API-Measures-${repo}.json"
+            echo "::group::${repo}"
+
+            # A API do SonarCloud é aberta para projetos públicos: não usa token.
+            atual=$(curl -sf "https://sonarcloud.io/api/measures/component?component=${chave}&metricKeys=${metricas}" || echo "")
+            historico=$(curl -sf "https://sonarcloud.io/api/measures/search_history?component=${chave}&metrics=${metricas}&ps=1000" || echo "")
+
+            if [ -z "${atual}" ] || echo "${atual}" | jq -e '.errors' >/dev/null 2>&1; then
+              echo "::warning::SonarCloud não retornou dados para ${repo} — arquivo anterior preservado"
+              echo "::endgroup::"
+              continue
+            fi
+
+            jq -n --argjson atual "${atual}" \
+                  --argjson historico "${historico:-null}" \
+                  --arg repo "${repo}" \
+                  --arg chave "${chave}" '{
+                    repositorio: $repo,
+                    projeto_sonar: $chave,
+                    coletado_em: (now | todate),
+                    medidas: (
+                      $atual.component.measures
+                      | map({(.metric): (.value // .periods[0].value)})
+                      | add // {}
+                    ),
+                    historico: (
+                      if $historico == null then []
+                      else ($historico.measures // []) end
+                    )
+                  }' > "${destino}"
+
+            echo "${repo}: $(jq -r '.medidas.ncloc // "?"') linhas, cobertura $(jq -r '.medidas.coverage // "n/d"')"
+            echo "::endgroup::"
+          done
+
+      - name: Espelhar métricas das releases de APP e IA
+        run: |
+          set -euo pipefail
+          # Cada release de APP e IA anexa o .json do SonarCloud como asset. Quando o
+          # pipeline do repositório de código não consegue enviá-lo direto para cá
+          # (falta do secret API_TOKEN_DOC), é este passo que o traz. O nome do arquivo
+          # é único por release, então copiar de novo não duplica nada.
+          for repo in APP IA; do
+            gh release list -R "${ORG}/${PREFIX}-${repo}" --limit 100 --json tagName --jq '.[].tagName' |
+            while read -r tag; do
+              gh release download "${tag}" -R "${ORG}/${PREFIX}-${repo}" \
+                --pattern "fga-eps-mds-*.json" --dir analytics-raw-data --skip-existing 2>/dev/null || true
+            done
+          done
+          echo "Arquivos de release em analytics-raw-data: $(ls analytics-raw-data/fga-eps-mds-*.json 2>/dev/null | wc -l)"
+
+      - name: Coletar métricas de sprint do Zenhub
+        env:
+          ZENHUB_TOKEN: ${{ secrets.ZENHUB_TOKEN }}
+        run: |
+          # O script sai sem erro quando o segredo não está cadastrado, para não
+          # derrubar a coleta das demais fontes.
+          python3 scripts/coleta_zenhub.py
+
+      - name: Resumo da execução
+        run: |
+          {
+            echo "### Métricas coletadas"
+            echo ""
+            echo "| Repositório | Execuções | Sucesso |"
+            echo "|---|---:|---:|"
+            for f in analytics-raw-data/GitHub_API-Runs-*.json; do
+              [ -e "$f" ] || continue
+              repo=$(jq -r '.repositorio' "$f")
+              total=$(jq '.workflow_runs | length' "$f")
+              ok=$(jq '[.workflow_runs[] | select(.conclusion == "success")] | length' "$f")
+              taxa=$( [ "$total" -gt 0 ] && echo "scale=1; $ok * 100 / $total" | bc || echo "0" )
+              echo "| $repo | $total | ${taxa}% |"
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publicar alterações
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add analytics-raw-data
+
+          if git diff --staged --quiet; then
+            echo "Nenhuma alteração nas métricas."
+            exit 0
+          fi
+
+          git commit -m "chore: atualiza métricas coletadas da esteira de CI/CD"
+
+          # Os pipelines de APP e IA também fazem push para a main; se um deles chegou
+          # antes, traz o commit dele e tenta de novo em vez de falhar.
+          for tentativa in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            echo "::warning::Push recusado (tentativa ${tentativa}); tentando de novo"
+            sleep 5
+          done
+          exit 1
