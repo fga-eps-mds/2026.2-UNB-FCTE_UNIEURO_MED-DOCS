@@ -1,7 +1,8 @@
 import os
 import json
 import glob
-from typing import Dict, List, Any, Tuple
+from datetime import datetime
+from typing import Dict, List, Any, Tuple, Optional
 from .config import RAW_DATA_DIR
 
 
@@ -228,3 +229,28 @@ def get_sonar_metrics_data() -> Tuple[Dict[str, Any], bool]:
         return mock_sonar, True
 
     return resultado, False
+
+
+def get_latest_collection_timestamp() -> Optional[datetime]:
+    """Data/hora da coleta mais recente entre as fontes reais em RAW_DATA_DIR.
+
+    Cada fonte (Zenhub, GitHub, SonarCloud) grava seu próprio "coletado_em";
+    como elas podem ficar desatualizadas de forma independente (ex: um secret
+    que expira só numa delas), mostrar a mais recente — não "hoje" — é o que
+    de fato avisa quando algo parou de atualizar.
+    """
+    padroes = ["zenhub_analytics.json", "GitHub_API-Runs-*.json", "Sonar_API-Measures-*.json"]
+    datas = []
+    for padrao in padroes:
+        for caminho in glob.glob(os.path.join(RAW_DATA_DIR, padrao)):
+            dados = load_json_file(caminho)
+            if not isinstance(dados, dict):
+                continue
+            bruta = dados.get("coletado_em")
+            if not bruta:
+                continue
+            try:
+                datas.append(datetime.fromisoformat(bruta.replace("Z", "+00:00")))
+            except (TypeError, ValueError):
+                continue
+    return max(datas) if datas else None

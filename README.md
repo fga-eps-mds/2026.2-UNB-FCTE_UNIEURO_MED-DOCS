@@ -7,6 +7,13 @@ https://fga-eps-mds.github.io/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/
 
 > A documentação **do produto** fica em repositório próprio, quando aplicável.
 
+## Dashboard Analítico
+
+O painel gerencial e analítico da equipe (Agile EVM, Riscos, Processo/CI-CD e Qualidade de Produto) está publicado em:
+https://2026-2-unb-fcte-unieuro-med-docs.streamlit.app
+
+Consome os `.json` versionados em [`analytics-raw-data/`](analytics-raw-data/), atualizados diariamente pela esteira de CI/CD (veja [`dashboard/README.md`](dashboard/README.md) para rodar localmente).
+
 ## Estrutura
 
 ```
