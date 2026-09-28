@@ -1,26 +1,62 @@
 {
   "repositorio": "IA",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-IA",
-  "coletado_em": "2026-09-21T04:02:11Z",
+  "coletado_em": "2026-09-28T05:41:58Z",
   "medidas": {
     "reliability_rating": "1.0",
-    "code_smells": "0",
     "duplicated_lines_density": "0.0",
+    "code_smells": "0",
     "security_rating": "1.0",
+    "comment_lines_density": "13.6",
     "security_hotspots": "0",
     "sqale_index": "0",
     "sqale_rating": "1.0",
     "bugs": "0",
     "ncloc": "19",
+    "files": "1",
     "vulnerabilities": "0"
   },
   "historico": [
     {
-      "metric": "ncloc",
+      "metric": "files",
       "history": [
         {
           "date": "2026-09-17T20:50:04+0000",
-          "value": "19"
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "metric": "functions",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
+      "metric": "complexity",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
+      "metric": "comment_lines_density",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "13.6"
+        }
+      ]
+    },
+    {
+      "metric": "duplicated_lines_density",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "0.0"
         }
       ]
     },
@@ -33,10 +69,52 @@
       ]
     },
     {
+      "metric": "ncloc",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "19"
+        }
+      ]
+    },
+    {
       "metric": "tests",
       "history": [
         {
           "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
+      "metric": "test_errors",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
+      "metric": "test_failures",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
+      "metric": "test_execution_time",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
+      "metric": "security_rating",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "1.0"
         }
       ]
     },
@@ -77,15 +155,6 @@
       ]
     },
     {
-      "metric": "duplicated_lines_density",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "0.0"
-        }
-      ]
-    },
-    {
       "metric": "sqale_index",
       "history": [
         {
@@ -105,15 +174,6 @@
     },
     {
       "metric": "reliability_rating",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "1.0"
-        }
-      ]
-    },
-    {
-      "metric": "security_rating",
       "history": [
         {
           "date": "2026-09-17T20:50:04+0000",
