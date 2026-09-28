@@ -23,11 +23,13 @@ A unidade de acompanhamento é cada repositório com código executável, na bra
 
 No APP, as condições que reprovam o gate são **cobertura de código novo de 0,0%** frente ao limite de 80% e **duplicação de código novo de 4,2%** frente ao limite de 3%. Esses valores de **código novo** não devem ser confundidos com os 0,0% de cobertura e 4,1% de duplicação do **código total**. Os demais itens do gate consultado estavam aprovados.
 
-A ausência de cobertura na IA significa **sem medição publicada**, não 0%. Seu gate aprovado se refere ao pequeno conjunto analisado, ainda sem implementação de inferência e suíte de testes na branch de integração; não comprova qualidade do modelo. Da mesma forma, zero bugs reportados não equivale a ausência de defeitos em uso. O APP ainda não publica no Sonar a cobertura prevista pelo [PR de testes #31](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/pull/31), que está em revisão.
+A ausência de cobertura na IA significa **sem medição publicada**, não 0%. Seu gate aprovado se refere ao pequeno conjunto analisado, ainda sem implementação de inferência e suíte de testes na branch de integração; não comprova qualidade do modelo. Da mesma forma, zero bugs reportados não equivale a ausência de defeitos em uso. Na consulta de 26/09, o APP ainda não publicava no Sonar a cobertura prevista pelo [PR de testes #31](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/pull/31).
+
+Os arquivos [`Sonar_API-Measures-*.json`](../metricas/coleta-de-metricas.md#qualidade-de-produto) incorporados pela `main` foram coletados em **21/09/2026** e exibem 19 NCLOC para APP e IA, sem cobertura publicada. São registros anteriores à consulta acima e não informam a branch nem o commit analisado; portanto, não substituem a linha de base de `develop` de 26/09. A próxima coleta deve registrar esses identificadores e a data da análise.
 
 ### Atualização da linha de base
 
-Ao final de cada sprint, a frente de Qualidade/DevOps registra os valores atuais da API do SonarCloud ou do painel do projeto, com link para a análise. Dados coletados em PR são identificados como **pré-integração**; só a análise da branch de integração compõe o resultado consolidado da sprint. Se uma métrica não for publicada, registra-se **N/D — não disponível**, a causa e a ação para instrumentá-la. Valores simulados do dashboard nunca substituem resultados do Sonar ou do pipeline.
+Ao final de cada sprint, a frente de Qualidade/DevOps compara a análise da branch de integração com os arquivos gerados pelo [pipeline de coleta](../metricas/coleta-de-metricas.md), registra a data e o commit e atualiza o painel. Dados coletados em PR são identificados como **pré-integração**; só a análise da branch de integração compõe o resultado consolidado da sprint. Se uma métrica não for publicada, registra-se **N/D — não disponível**, a causa e a ação para instrumentá-la. Arquivos antigos e valores simulados do dashboard não substituem resultados atuais do Sonar ou do pipeline.
 
 ## 3. Critérios de qualidade
 
@@ -45,7 +47,7 @@ A meta de cobertura do cronograma refere-se ao projeto acadêmico; a regra de ac
 
 ### 3.2 Comportamento do aplicativo no tablet
 
-Uma história só é aceita quando seus critérios observáveis passam no dispositivo-alvo, com evidência vinculada à issue ou ao PR. Considerando a redução do escopo da R1 proposta no [PR de roadmap #57](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/pull/57), verificar especialmente cadastro e login do profissional **sem internet**, persistência após fechar e reabrir o aplicativo, rejeição de campos e credenciais inválidos e bloqueio de acesso não autorizado. Se o replanejamento não for aprovado, os cenários de avaliação e desenho previstos no cronograma também precisam ser executados na R1. Telas navegáveis, isoladamente, não atendem a esses critérios.
+Uma história só é aceita quando seus critérios observáveis passam no dispositivo-alvo, com evidência vinculada à issue ou ao PR. O [roadmap incorporado à `main`](roadmap.md) planeja cadastro e login do profissional na R1 e o início da avaliação na R2. Para aceitar as histórias de acesso, verificar funcionamento **sem internet**, persistência após fechar e reabrir o aplicativo, rejeição de campos e credenciais inválidos e bloqueio de acesso não autorizado. Telas navegáveis, isoladamente, não atendem a esses critérios; o planejamento da release não comprova entrega.
 
 Para as releases seguintes, os roteiros devem incluir consentimento, as três tarefas de desenho, salvamento/recuperação local, execução da inferência embarcada e separação entre a tela de resultado do profissional e a tela final do paciente. Cada roteiro registra versão do APK, modelo do tablet, configuração de rede, passos, resultado esperado, resultado observado, evidência e responsável. A liberação exige **100% dos cenários críticos aprovados** e **nenhum defeito bloqueador aberto**; cenários não executados são pendências, não aprovações.
 
@@ -53,7 +55,7 @@ Para as releases seguintes, os roteiros devem incluir consentimento, as três ta
 
 SonarCloud avalia o código da IA, não a validade do modelo. Quando o treino e a inferência forem versionados, cada experimento deve registrar versão dos dados, separação treino/validação/teste, semente, parâmetros, versão do código, métricas (por exemplo, acurácia, F1 e AUC quando aplicáveis), resultados por execução e limitações. A equipe deve definir com o PO critérios quantitativos de aceitação do modelo, inclusive por perfil de paciente, antes de declarar sua adequação. **Não há meta clínica aprovada neste plano.**
 
-A integração deve comprovar que o artefato exportado executa no tablet sem rede, mantém o formato de entrada/saída acordado e não envia dados clínicos. Dados brutos e identificações de pacientes não podem ser versionados. Resultados de treino ainda presentes apenas em PR são evidência preliminar, não resultado de release.
+A integração deve comprovar que o artefato exportado executa no tablet sem rede, mantém o formato de entrada/saída acordado e não envia dados clínicos. Dados brutos e identificações de pacientes não podem ser versionados. Resultados de treino ainda presentes apenas em PR são evidência preliminar, não resultado de release. Registrar e acompanhar no [Plano de Gestão de Riscos](riscos.md) perda de dados locais (R10), desempenho do modelo (R13) e proteção de dados sensíveis (R14).
 
 ## 4. Verificação, registro e resposta a desvios
 
@@ -68,11 +70,11 @@ Quando uma meta falhar: (1) registrar o resultado e a evidência; (2) abrir ou a
 
 ## 5. Ações iniciais a partir da linha de base
 
-1. **APP — cobertura:** concluir a revisão do [PR #31](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/pull/31), executar a suíte e publicar o relatório LCOV na análise da branch de integração. Reavaliar a cobertura total, a cobertura nova e o gate; registrar o denominador e as exclusões.
+1. **APP — cobertura:** verificar a integração dos testes do [PR #31](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/pull/31), executar a suíte e publicar o relatório LCOV na análise da branch de integração. Reavaliar a cobertura total, a cobertura nova e o gate; registrar o denominador e as exclusões.
 2. **APP — duplicação:** localizar no Sonar os trechos novos que levaram a duplicação a 4,2%, corrigir ou justificar o achado e repetir a análise. A meta operacional é atender à condição de ≤ 3% do gate.
-3. **R1 — fluxo real:** executar e registrar os critérios de aceitação das histórias de [cadastro](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/5) e [login](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/6) com o tablet desconectado.
+3. **R1 — acesso planejado:** executar e registrar os critérios de aceitação das histórias de [cadastro](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/5) e [login](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/6) com o tablet desconectado. Se os critérios não passarem, registrar o desvio e manter as histórias pendentes.
 4. **IA — evidência válida:** integrar código reproduzível de treino e inferência, adicionar testes e repetir a análise Sonar. Definir com o PO as métricas e metas do modelo antes de comparar versões ou reivindicar qualidade clínica.
-5. **Painel gerencial:** apresentar somente dados coletados e datados; identificar claramente N/D, fonte simulada ou análise desatualizada. Manter os links para os projetos Sonar e para os relatórios de teste de cada release.
+5. **Painel gerencial:** conferir a aba de Qualidade de Produto incorporada à `main` com a [coleta de métricas](../metricas/coleta-de-metricas.md); identificar claramente N/D, fonte simulada ou análise desatualizada. Manter os links para os projetos Sonar e para os relatórios de teste de cada release.
 
 ## 6. Referências e histórico
 
@@ -80,7 +82,9 @@ Quando uma meta falhar: (1) registrar o resultado e a evidência; (2) abrir ou a
 - [Projeto IA no SonarCloud — branch develop](https://sonarcloud.io/project/overview?id=fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-IA&branch=develop). Consulta em 26/09/2026.
 - [Cronograma do MED](cronograma.md) — metas de cobertura e marcos de release.
 - [Metodologia do MED](metodologia.md) — critérios de conclusão, PRs e ciclo de inspeção.
+- [Coleta de métricas](../metricas/coleta-de-metricas.md) — origem e limitações dos arquivos do painel.
 
 | Versão | Data | Descrição | Autor(es) | Revisor(es) |
 |---|---|---|---|---|
 | 1.0 | 26/09/2026 | Criação do plano com linha de base do SonarCloud, critérios de teste e ações para APP e IA | Equipe MED (proposta para revisão) | Pendente |
+| 1.1 | 27/09/2026 | Alinhamento ao roadmap, à coleta automatizada e ao plano de riscos incorporados à main | Equipe MED (proposta para revisão) | Pendente |
