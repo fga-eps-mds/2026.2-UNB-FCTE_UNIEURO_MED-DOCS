@@ -10,7 +10,7 @@ from src.config import (
     PROJECT_PREFIX,
     INITIAL_PLANNED_SPRINTS_R1,
     INITIAL_PLANNED_POINTS_PRP0,
-    WEEKLY_SPRINT_BUDGET_BRL,
+    SPRINT_BUDGET_BRL,
     ANALYSIS_NOTES_DIR,
     THEME_COLORS,
     REPOS_CONFIG
@@ -107,7 +107,7 @@ def render_sidebar():
         "Custo Médio / Sprint (R$):",
         min_value=500.0,
         max_value=20000.0,
-        value=WEEKLY_SPRINT_BUDGET_BRL,
+        value=SPRINT_BUDGET_BRL,
         step=200.0
     )
     

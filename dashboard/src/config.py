@@ -32,9 +32,13 @@ ANALYSIS_NOTES_DIR = os.path.join(_DASH_ROOT, "historico_analises")
 INITIAL_PLANNED_SPRINTS_R1 = 5
 INITIAL_PLANNED_POINTS_PRP0 = 65.0
 # Sincronizado com a linha de base semanal do Plano de Custos
-# (docs/processo/plano_de_custos.md, seção 4: BAC = R$ 61.429,41 / 17 semanas).
-# Cada sprint dura 1 semana, então o custo semanal é o custo por sprint.
+# (docs/processo/plano_de_custos.md, seção 4: BAC = R$ 58.144,41 / 17 semanas).
 WEEKLY_SPRINT_BUDGET_BRL = 3613.49
+# Cadência real confirmada em analytics-raw-data/zenhub_analytics.json: cada
+# sprint cobre 14 dias corridos (ex: 17/08-31/08, 31/08-14/09), não 1 semana.
+SPRINT_DURATION_WEEKS = 2
+# Custo por sprint usado no EVM = taxa semanal do Plano de Custos × semanas/sprint.
+SPRINT_BUDGET_BRL = round(WEEKLY_SPRINT_BUDGET_BRL * SPRINT_DURATION_WEEKS, 2)
 
 THEME_COLORS = {
     "primary": "#38BDF8",       # Sky Blue brilhante
