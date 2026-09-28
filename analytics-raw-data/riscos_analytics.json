@@ -1,0 +1,128 @@
+[
+  {
+    "id": "R01",
+    "titulo": "Dificuldade com as tecnologias definidas",
+    "categoria": "Técnico",
+    "probabilidade": 3,
+    "impacto": 4,
+    "estrategia": "Mitigar",
+    "acao": "Capacitação prévia da equipe e escolha adequada de tecnologias"
+  },
+  {
+    "id": "R02",
+    "titulo": "Saída de algum integrante do projeto",
+    "categoria": "Gerencial",
+    "probabilidade": 4,
+    "impacto": 3,
+    "estrategia": "Mitigar",
+    "acao": "Documentação do projeto e compartilhamento de conhecimento"
+  },
+  {
+    "id": "R03",
+    "titulo": "Divergência nos horários disponíveis dos integrantes",
+    "categoria": "Organizacional",
+    "probabilidade": 3,
+    "impacto": 4,
+    "estrategia": "Mitigar",
+    "acao": "Planejamento de horários e definição de reuniões fixas"
+  },
+  {
+    "id": "R04",
+    "titulo": "Alteração no escopo do projeto",
+    "categoria": "Gerencial",
+    "probabilidade": 2,
+    "impacto": 3,
+    "estrategia": "Mitigar",
+    "acao": "Definição clara de requisitos e controle de mudanças"
+  },
+  {
+    "id": "R05",
+    "titulo": "Integrante com problema de saúde",
+    "categoria": "Externo",
+    "probabilidade": 2,
+    "impacto": 3,
+    "estrategia": "Aceitar",
+    "acao": "Distribuição equilibrada de tarefas"
+  },
+  {
+    "id": "R06",
+    "titulo": "Indisponibilidade do cliente ou de especialistas para esclarecimento de requisitos",
+    "categoria": "Externo",
+    "probabilidade": 2,
+    "impacto": 2,
+    "estrategia": "Mitigar",
+    "acao": "Agendamento prévio de reuniões com cliente/especialistas"
+  },
+  {
+    "id": "R07",
+    "titulo": "Sobrecarga de membros da equipe, principalmente perto das entregas de release",
+    "categoria": "Gerencial",
+    "probabilidade": 2,
+    "impacto": 2,
+    "estrategia": "Mitigar",
+    "acao": "Planejamento adequado da carga de trabalho"
+  },
+  {
+    "id": "R08",
+    "titulo": "Falha de equipamento",
+    "categoria": "Externo",
+    "probabilidade": 1,
+    "impacto": 2,
+    "estrategia": "Mitigar",
+    "acao": "Manutenção preventiva e uso de backup de arquivos"
+  },
+  {
+    "id": "R09",
+    "titulo": "Dependência entre atividades",
+    "categoria": "Organizacional",
+    "probabilidade": 2,
+    "impacto": 3,
+    "estrategia": "Mitigar",
+    "acao": "Planejamento das atividades considerando dependências"
+  },
+  {
+    "id": "R10",
+    "titulo": "Perda ou corrupção de dados armazenados localmente no dispositivo",
+    "categoria": "Técnico",
+    "probabilidade": 3,
+    "impacto": 3,
+    "estrategia": "Mitigar",
+    "acao": "Testes de persistência de dados e rotina de backup/exportação periódica"
+  },
+  {
+    "id": "R11",
+    "titulo": "Resultados insatisfatórios da solução desenvolvida",
+    "categoria": "Técnico",
+    "probabilidade": 2,
+    "impacto": 4,
+    "estrategia": "Mitigar",
+    "acao": "Testes contínuos e validações frequentes com o cliente"
+  },
+  {
+    "id": "R12",
+    "titulo": "Falta de dados adequados para desenvolvimento e validação",
+    "categoria": "Externo",
+    "probabilidade": 2,
+    "impacto": 3,
+    "estrategia": "Mitigar",
+    "acao": "Busca antecipada por bases de dados adequadas"
+  },
+  {
+    "id": "R13",
+    "titulo": "Dificuldade em treinar um modelo de IA com desempenho adequado",
+    "categoria": "Técnico",
+    "probabilidade": 3,
+    "impacto": 4,
+    "estrategia": "Mitigar",
+    "acao": "Validação incremental do modelo com dados de teste desde as primeiras sprints"
+  },
+  {
+    "id": "R14",
+    "titulo": "Questões de privacidade e proteção de dados sensíveis",
+    "categoria": "Externo",
+    "probabilidade": 1,
+    "impacto": 3,
+    "estrategia": "Evitar",
+    "acao": "Anonimização de dados e boas práticas de segurança desde o início do projeto"
+  }
+]

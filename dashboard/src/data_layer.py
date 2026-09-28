@@ -160,3 +160,71 @@ def get_github_runs_data() -> Tuple[Dict[str, Any], bool]:
         "recent_feedback_series": [round(d / 60, 1) for d in durations[-10:]]
     }
     return real_runs, False
+
+def get_sonar_metrics_data() -> Tuple[Dict[str, Any], bool]:
+    """
+    Carrega as métricas de qualidade de produto coletadas do SonarCloud ou
+    dados mock de fallback.
+    Retorna uma tupla (dados, is_mock).
+    """
+    pattern = os.path.join(RAW_DATA_DIR, "Sonar_API-Measures-*.json")
+    files = glob.glob(pattern)
+
+    resultado: Dict[str, Any] = {}
+
+    for fpath in files:
+        data = load_json_file(fpath)
+        if not data or "medidas" not in data:
+            continue
+
+        repo = data.get("repositorio", os.path.basename(fpath))
+        medidas = data.get("medidas", {})
+
+        def _num(chave, padrao=0.0):
+            try:
+                return float(medidas[chave])
+            except (KeyError, TypeError, ValueError):
+                return padrao
+
+        resultado[repo] = {
+            "ncloc": int(_num("ncloc")),
+            # Ausência de cobertura significa projeto sem testes, não cobertura zero
+            # apurada: o SonarCloud simplesmente não devolve a métrica nesse caso.
+            "coverage": _num("coverage", None) if "coverage" in medidas else None,
+            "tests": int(_num("tests")),
+            "bugs": int(_num("bugs")),
+            "vulnerabilities": int(_num("vulnerabilities")),
+            "code_smells": int(_num("code_smells")),
+            "security_hotspots": int(_num("security_hotspots")),
+            "duplicated_lines_density": _num("duplicated_lines_density"),
+            "technical_debt_min": int(_num("sqale_index")),
+            "maintainability_rating": _num("sqale_rating"),
+            "reliability_rating": _num("reliability_rating"),
+            "security_rating": _num("security_rating"),
+            "quality_gate": medidas.get("alert_status"),
+            "collected_at": data.get("coletado_em"),
+            "history": data.get("historico", [])
+        }
+
+    if not resultado:
+        mock_sonar = {
+            "APP": {
+                "ncloc": 2400, "coverage": 86.2, "tests": 48, "bugs": 1,
+                "vulnerabilities": 0, "code_smells": 12, "security_hotspots": 0,
+                "duplicated_lines_density": 1.4, "technical_debt_min": 55,
+                "maintainability_rating": 1.0, "reliability_rating": 1.0,
+                "security_rating": 1.0, "quality_gate": "OK",
+                "collected_at": None, "history": []
+            },
+            "IA": {
+                "ncloc": 1150, "coverage": 88.0, "tests": 31, "bugs": 0,
+                "vulnerabilities": 0, "code_smells": 5, "security_hotspots": 0,
+                "duplicated_lines_density": 0.8, "technical_debt_min": 20,
+                "maintainability_rating": 1.0, "reliability_rating": 1.0,
+                "security_rating": 1.0, "quality_gate": "OK",
+                "collected_at": None, "history": []
+            }
+        }
+        return mock_sonar, True
+
+    return resultado, False
