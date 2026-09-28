@@ -63,14 +63,33 @@ def filter_started_sprints(sprints: list) -> list:
 PLOTLY_CONFIG = {"displaylogo": False, "responsive": True}
 
 
+def agora_brasilia() -> datetime:
+    """Data/hora atual no fuso de Brasília, para nomes de arquivo e carimbos de tempo."""
+    return datetime.now(ZoneInfo("America/Sao_Paulo"))
+
+
+def formatar_data_brasilia(valor) -> str:
+    """Formata um timestamp (datetime ou string ISO) como dd/mm/aaaa HH:MM no horário de Brasília."""
+    if not valor:
+        return "N/A"
+    dt = valor
+    if isinstance(dt, str):
+        try:
+            dt = datetime.fromisoformat(dt.replace("Z", "+00:00"))
+        except (TypeError, ValueError):
+            return "N/A"
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(ZoneInfo("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M")
+
+
 def render_header():
     """Renderiza o cabeçalho executivo do dashboard."""
     ultima_coleta = get_latest_collection_timestamp()
     if ultima_coleta:
-        local = ultima_coleta.astimezone(ZoneInfo("America/Sao_Paulo"))
-        texto_atualizacao = f"Atualizado em: {local.strftime('%d/%m/%Y %H:%M')} (horário de Brasília, última coleta real)"
+        texto_atualizacao = f"Atualizado em: {formatar_data_brasilia(ultima_coleta)} (horário de Brasília, última coleta real)"
     else:
-        texto_atualizacao = "Atualizado em: dados de exemplo — nenhuma coleta real encontrada em analytics-raw-data/"
+        texto_atualizacao = "Atualizado em: dados de exemplo. Nenhuma coleta real encontrada em analytics-raw-data/"
     st.caption(texto_atualizacao)
     st.markdown(f"""
     <div class="hero-header">
@@ -94,21 +113,30 @@ def render_sidebar():
         min_value=10.0,
         max_value=300.0,
         value=INITIAL_PLANNED_POINTS_PRP0,
-        step=5.0
+        step=5.0,
+        help="Total de pontos de história que a equipe planejou entregar nesta release. "
+             "É a base do orçamento total (BAC): mais escopo planejado, para o mesmo custo "
+             "por sprint, significa um BAC maior."
     )
     sim_ps = st.sidebar.number_input(
         "Sprints Planejadas (PS):",
         min_value=1,
         max_value=15,
         value=INITIAL_PLANNED_SPRINTS_R1,
-        step=1
+        step=1,
+        help="Número de sprints previstas para consumir todo o escopo inicial. Junto com a "
+             "sprint em curso, define quanto do cronograma já deveria ter passado (PPC), "
+             "o referencial usado para calcular o Valor Planejado (PV) de cada sprint."
     )
     sim_budget = st.sidebar.number_input(
         "Custo Médio / Sprint (R$):",
         min_value=500.0,
         max_value=20000.0,
         value=SPRINT_BUDGET_BRL,
-        step=200.0
+        step=200.0,
+        help="Custo estimado de uma sprint completa (2 semanas), derivado da taxa semanal do "
+             "Plano de Custos. Multiplicado pelas sprints planejadas, define o orçamento total "
+             "(BAC); multiplicado pelas sprints já fechadas, define o Custo Real (AC)."
     )
     
     st.sidebar.markdown("---")
@@ -134,21 +162,46 @@ def render_evm_tab(evm: dict, is_mock: bool):
     
     row1_c1, row1_c2, row1_c3 = st.columns(3)
     with row1_c1:
-        render_kpi("BAC (Orçamento Total)", f"R$ {evm['bac']:,.2f}", "Escopo Inicial Valorizado", THEME_COLORS["primary"])
+        render_kpi(
+            "BAC (Orçamento Total)", f"R$ {evm['bac']:,.2f}", "Escopo Inicial Valorizado", THEME_COLORS["primary"],
+            help_text="Orçamento total aprovado para entregar todo o escopo planejado (linha de base "
+                      "de custos). É fixo durante a execução: só muda por uma mudança formal aprovada, "
+                      "nunca por variações de desempenho da sprint."
+        )
     with row1_c2:
-        render_kpi("EV Acumulado", f"R$ {evm['current_ev']:,.2f}", "Valor de Negócio Entregue", THEME_COLORS["primary"])
+        render_kpi(
+            "EV Acumulado", f"R$ {evm['current_ev']:,.2f}", "Valor de Negócio Entregue", THEME_COLORS["primary"],
+            help_text="Valor do trabalho já entregue e aceito, convertido em R$ proporcionalmente ao "
+                      "escopo concluído. Mede o que foi produzido, diferente do Custo Real (AC), que "
+                      "mede o que foi gasto para produzir."
+        )
     with row1_c3:
-        render_kpi("Média Velocity", f"{evm['avg_velocity']} SP", "Média entregue por sprint", THEME_COLORS["accent"])
+        render_kpi(
+            "Média Velocity", f"{evm['avg_velocity']} SP", "Média entregue por sprint", THEME_COLORS["accent"],
+            help_text="Média de pontos de história entregues pelas sprints já fechadas. Serve para "
+                      "projetar quantas sprints faltam para o escopo restante, mas varia naturalmente "
+                      "entre sprints; uma sprint isolada abaixo da média não é, por si só, um problema."
+        )
 
     st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
 
     row2_c1, row2_c2 = st.columns(2)
     with row2_c1:
         spi_color = THEME_COLORS["secondary"] if evm['current_spi'] >= 1.0 else THEME_COLORS["danger"]
-        render_kpi("SPI (Eficiência de Cronograma)", f"{evm['current_spi']:.2f}", "Índice de prazo (≥ 1.0 no cronograma)", spi_color)
+        render_kpi(
+            "SPI (Eficiência de Cronograma)", f"{evm['current_spi']:.2f}", "Índice de prazo (≥ 1.0 no cronograma)", spi_color,
+            help_text="SPI = EV ÷ PV. Compara o valor entregue com o valor que deveria ter sido "
+                      "entregue até este ponto do cronograma. Abaixo de 1.0, a equipe entregou menos "
+                      "escopo do que o planejado para a fase atual; acima de 1.0, mais do que o planejado."
+        )
     with row2_c2:
         cpi_color = THEME_COLORS["secondary"] if evm['current_cpi'] >= 1.0 else THEME_COLORS["danger"]
-        render_kpi("CPI (Eficiência de Custo)", f"{evm['current_cpi']:.2f}", "Índice de custo (≥ 1.0 no orçamento)", cpi_color)
+        render_kpi(
+            "CPI (Eficiência de Custo)", f"{evm['current_cpi']:.2f}", "Índice de custo (≥ 1.0 no orçamento)", cpi_color,
+            help_text="CPI = EV ÷ AC. Compara o valor entregue com o quanto foi efetivamente gasto para "
+                      "entregá-lo. Abaixo de 1.0, cada unidade de valor está custando mais do que o "
+                      "orçado; acima de 1.0, menos."
+        )
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -162,7 +215,8 @@ def render_evm_tab(evm: dict, is_mock: bool):
         y=evm["burnup_pv"],
         name="PV (Planejado)",
         mode="lines+markers",
-        line=dict(color="#94A3B8", width=2.5, dash="dash")
+        line=dict(color="#94A3B8", width=2.5, dash="dash"),
+        hovertemplate="<b>%{x}</b><br>Planejado até aqui: R$ %{y:,.2f}<extra></extra>"
     ))
     fig_burnup.add_trace(go.Scatter(
         x=evm["burnup_labels"],
@@ -171,10 +225,19 @@ def render_evm_tab(evm: dict, is_mock: bool):
         mode="lines+markers",
         fill="tozeroy",
         fillcolor="rgba(56, 189, 248, 0.15)",
-        line=dict(color="#38BDF8", width=3)
+        line=dict(color="#38BDF8", width=3),
+        hovertemplate="<b>%{x}</b><br>Entregue até aqui: R$ %{y:,.2f}<extra></extra>"
     ))
     fig_burnup.update_layout(get_plotly_layout("Burnup — Planejado (PV) × Realizado (EV)", y_title="R$"))
     st.plotly_chart(fig_burnup, use_container_width=True, config=PLOTLY_CONFIG)
+    with st.expander("O que este gráfico mostra?"):
+        st.markdown(
+            "A linha tracejada (PV) é o valor que **deveria** ter sido entregue até cada sprint, "
+            "segundo o cronograma planejado. A linha cheia (EV) é o valor **realmente** aceito pela "
+            "equipe. A distância vertical entre as duas em um mesmo ponto é a variação de prazo (SV) "
+            "acumulada até ali. Não indica um atraso definitivo, apenas o desvio acumulado naquele "
+            "momento, que pode ser recuperado ou aumentar nas sprints seguintes."
+        )
 
     st.markdown("#### Histórico de Velocity")
     fig_vel = go.Figure(go.Bar(
@@ -185,10 +248,18 @@ def render_evm_tab(evm: dict, is_mock: bool):
             line=dict(color="rgba(255, 255, 255, 0.3)", width=1)
         ),
         text=[f"{v} SP" for v in evm["velocity_series"]],
-        textposition="auto"
+        textposition="auto",
+        hovertemplate="<b>%{x}</b><br>Entregue: %{y} SP<extra></extra>"
     ))
     fig_vel.update_layout(get_plotly_layout("Velocity por Sprint (Story Points Entregues)", height=360, y_title="Story Points"))
     st.plotly_chart(fig_vel, use_container_width=True, config=PLOTLY_CONFIG)
+    with st.expander("O que este gráfico mostra?"):
+        st.markdown(
+            "Quantos pontos de história cada sprint **fechada** entregou. Uma sprint com poucos pontos "
+            "não é necessariamente ruim: pode refletir histórias maiores do que o normal, feriados, "
+            "ou trabalho técnico (ex: spikes, dívida técnica) que não gera pontos diretamente. O valor "
+            "serve principalmente para calibrar quanto escopo colocar nas próximas sprints."
+        )
 
     st.markdown("#### Burndown — Orçamento Restante a Entregar")
     # Espelha o burnup (BAC − PV/EV): mesma base de cálculo, sem precisar de novos
@@ -203,7 +274,8 @@ def render_evm_tab(evm: dict, is_mock: bool):
         y=remaining_ideal,
         name="Restante Ideal (PV)",
         mode="lines+markers",
-        line=dict(color="#94A3B8", width=2.5, dash="dash")
+        line=dict(color="#94A3B8", width=2.5, dash="dash"),
+        hovertemplate="<b>%{x}</b><br>Deveria restar: R$ %{y:,.2f}<extra></extra>"
     ))
     fig_burndown.add_trace(go.Scatter(
         x=evm["burnup_labels"],
@@ -212,10 +284,18 @@ def render_evm_tab(evm: dict, is_mock: bool):
         mode="lines+markers",
         fill="tozeroy",
         fillcolor="rgba(248, 113, 113, 0.15)",
-        line=dict(color="#F87171", width=3)
+        line=dict(color="#F87171", width=3),
+        hovertemplate="<b>%{x}</b><br>Falta entregar: R$ %{y:,.2f}<extra></extra>"
     ))
     fig_burndown.update_layout(get_plotly_layout("Burndown — Orçamento Restante (BAC − PV / BAC − EV)", y_title="R$"))
     st.plotly_chart(fig_burndown, use_container_width=True, config=PLOTLY_CONFIG)
+    with st.expander("O que este gráfico mostra?"):
+        st.markdown(
+            "É o espelho do burnup: em vez de acumular o que já foi entregue, mostra quanto do "
+            "orçamento total (BAC) **ainda falta entregar** em valor de negócio, não quanto falta "
+            "gastar. A linha ideal cai de forma constante ao longo do cronograma; a linha real cai "
+            "mais devagar sempre que a equipe entrega menos valor do que o previsto para aquele ponto."
+        )
 
     st.markdown("#### Índices de Desempenho SPI e CPI")
     fig_indices = go.Figure()
@@ -224,18 +304,28 @@ def render_evm_tab(evm: dict, is_mock: bool):
         y=evm["spi_series"][1:],
         name="SPI (Cronograma)",
         mode="lines+markers",
-        line=dict(color="#FBBF24", width=2.5)
+        line=dict(color="#FBBF24", width=2.5),
+        hovertemplate="<b>%{x}</b><br>SPI: %{y:.2f}<extra></extra>"
     ))
     fig_indices.add_trace(go.Scatter(
         x=evm["burnup_labels"][1:len(evm["cpi_series"])],
         y=evm["cpi_series"][1:],
         name="CPI (Custo)",
         mode="lines+markers",
-        line=dict(color="#34D399", width=2.5)
+        line=dict(color="#34D399", width=2.5),
+        hovertemplate="<b>%{x}</b><br>CPI: %{y:.2f}<extra></extra>"
     ))
     fig_indices.add_hline(y=1.0, line_dash="dot", line_color="#94A3B8", annotation_text="Meta (1.0)")
     fig_indices.update_layout(get_plotly_layout("Evolução Histórica do SPI e CPI por Sprint", height=360, y_title="Índice"))
     st.plotly_chart(fig_indices, use_container_width=True, config=PLOTLY_CONFIG)
+    with st.expander("O que este gráfico mostra?"):
+        st.markdown(
+            "SPI (prazo) e CPI (custo) são acompanhados separadamente porque um projeto pode estar "
+            "bem em um e comprometido no outro. Não existe um único número que resuma os dois. A "
+            "linha pontilhada em 1.0 é a referência neutra: abaixo dela, o índice aponta menos "
+            "entregue (ou mais caro) do que o planejado; muito acima dela também vale investigar, "
+            "pois às vezes sinaliza escopo subestimado em vez de desempenho excepcional."
+        )
 
     st.markdown("### Tabela de Auditoria e Rastreabilidade do Agile EVM")
     st.dataframe(evm["audit_df"], use_container_width=True, hide_index=True)
@@ -244,7 +334,7 @@ def render_evm_tab(evm: dict, is_mock: bool):
     st.download_button(
         label="Exportar Tabela de Auditoria (CSV)",
         data=csv_data,
-        file_name=f"auditoria_evm_{PROJECT_PREFIX.lower()}_{datetime.now().strftime('%Y%m%d')}.csv",
+        file_name=f"auditoria_evm_{PROJECT_PREFIX.lower()}_{agora_brasilia().strftime('%Y%m%d')}.csv",
         mime="text/csv"
     )
 
@@ -252,7 +342,7 @@ def render_evm_tab(evm: dict, is_mock: bool):
     st.markdown("### Parecer Técnico e Análise da Sprint")
     os.makedirs(ANALYSIS_NOTES_DIR, exist_ok=True)
     
-    hoje_str = datetime.now().strftime("%Y-%m-%d")
+    hoje_str = agora_brasilia().strftime("%Y-%m-%d")
     arquivo_nota = os.path.join(ANALYSIS_NOTES_DIR, f"{hoje_str}_analise_gerencial.txt")
     
     conteudo_salvo = ""
@@ -288,20 +378,38 @@ def render_risks_tab(risks_raw: list, is_mock: bool):
     media_sev = round(df_risks["Severidade (P×I)"].mean(), 1) if total_r > 0 else 0
 
     with r1:
-        render_kpi("Total de Riscos", str(total_r), "Mapeados no projeto", THEME_COLORS["primary"])
+        render_kpi(
+            "Total de Riscos", str(total_r), "Mapeados no projeto", THEME_COLORS["primary"],
+            help_text="Quantidade de riscos formalmente registrados no plano de riscos. Um número "
+                      "baixo não significa projeto sem risco: pode significar mapeamento incompleto."
+        )
     with r2:
-        render_kpi("Riscos Críticos", str(crit_r), "Severidade ≥ 16", THEME_COLORS["danger"] if crit_r > 0 else THEME_COLORS["secondary"])
+        render_kpi(
+            "Riscos Críticos", str(crit_r), "Severidade ≥ 16", THEME_COLORS["danger"] if crit_r > 0 else THEME_COLORS["secondary"],
+            help_text="Riscos com severidade (probabilidade × impacto) ≥ 16, o canto superior direito "
+                      "da matriz. Segundo o plano de riscos, exigem ação preventiva ativa, não apenas "
+                      "monitoramento passivo."
+        )
     with r3:
-        render_kpi("Riscos Altos", str(alto_r), "Severidade 10 a 15", THEME_COLORS["warning"])
+        render_kpi(
+            "Riscos Altos", str(alto_r), "Severidade 10 a 15", THEME_COLORS["warning"],
+            help_text="Severidade entre 10 e 15. Merecem plano de mitigação acompanhado, mas sem a "
+                      "mesma urgência dos críticos."
+        )
     with r4:
-        render_kpi("Severidade Média", str(media_sev), "Média ponderada (P×I)", THEME_COLORS["accent"])
+        render_kpi(
+            "Severidade Média", str(media_sev), "Média ponderada (P×I)", THEME_COLORS["accent"],
+            help_text="Média aritmética simples da severidade de todos os riscos mapeados. É um "
+                      "indicador geral de quão pesada é a carteira de riscos como um todo. Não "
+                      "substitui olhar os riscos críticos individualmente."
+        )
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     col_matriz, col_cat = st.columns([1.35, 1.0])
 
     with col_matriz:
-        st.caption("🟢 Baixo (1–5) · 🟡 Médio (6–12) · 🟠 Alto (15–16) · 🔴 Crítico (20–25) — severidade = probabilidade × impacto")
+        st.caption("🟢 Baixo (1–5) · 🟡 Médio (6–12) · 🟠 Alto (15–16) · 🔴 Crítico (20–25). Severidade = probabilidade × impacto")
         z_scores = [
             [1, 2, 3, 4, 5],
             [2, 4, 6, 8, 10],
@@ -363,6 +471,18 @@ def render_risks_tab(risks_raw: list, is_mock: bool):
         fig_cat.update_layout(get_plotly_layout("Distribuição de Riscos por Categoria", height=400))
         st.plotly_chart(fig_cat, use_container_width=True, config=PLOTLY_CONFIG)
 
+    with st.expander("O que estes gráficos mostram?"):
+        st.markdown(
+            "**Matriz de Probabilidade × Impacto:** cruza a chance de o risco acontecer (linhas) com "
+            "a gravidade se ele acontecer (colunas). Quanto mais próximo do canto superior direito, "
+            "maior a severidade combinada. A cor de fundo de cada célula é fixa: mostra a faixa de "
+            "severidade daquela combinação. Os IDs escritos dentro são os riscos que caem ali, não "
+            "uma contagem.\n\n"
+            "**Distribuição por Categoria:** mostra se a carteira de riscos está concentrada numa "
+            "única frente (ex: só Técnico) ou espalhada entre Produto, Equipe, Infraestrutura etc. "
+            "Útil para saber se o time de gestão de risco precisa de outros olhares além do técnico."
+        )
+
     st.markdown("#### Detalhamento dos Riscos e Planos de Ação")
     st.dataframe(df_risks, use_container_width=True, hide_index=True)
 
@@ -390,18 +510,37 @@ def render_quality_tab(sonar_data: dict, is_mock: bool):
 
     q1, q2, q3, q4 = st.columns(4)
     with q1:
-        render_kpi("Linhas de Código", f"{metrics['ncloc']:,}", "ncloc", THEME_COLORS["primary"])
+        render_kpi(
+            "Linhas de Código", f"{metrics['ncloc']:,}", "ncloc", THEME_COLORS["primary"],
+            help_text="Linhas de código executável analisadas pelo SonarCloud (não conta comentários "
+                      "nem linhas em branco). É uma medida de tamanho do projeto, não de qualidade."
+        )
     with q2:
         cobertura = metrics.get("coverage")
         cobertura_txt = f"{cobertura:.1f}%" if cobertura is not None else "N/A"
         cobertura_sub = "Cobertura de testes" if cobertura is not None else "Sem testes apurados ainda"
-        render_kpi("Cobertura", cobertura_txt, cobertura_sub, THEME_COLORS["secondary"])
+        render_kpi(
+            "Cobertura", cobertura_txt, cobertura_sub, THEME_COLORS["secondary"],
+            help_text="Percentual do código exercitado por testes automatizados. Mede a superfície "
+                      "testada, não garante ausência de bugs: código coberto também pode ter "
+                      "asserções fracas ou testes que não checam o comportamento certo."
+        )
     with q3:
         gate = metrics.get("quality_gate") or "N/A"
         gate_color = THEME_COLORS["secondary"] if gate == "OK" else (THEME_COLORS["danger"] if gate == "ERROR" else THEME_COLORS["accent"])
-        render_kpi("Quality Gate", gate, "Estado do portão de qualidade", gate_color)
+        render_kpi(
+            "Quality Gate", gate, "Estado do portão de qualidade", gate_color,
+            help_text="Selo geral do SonarCloud que resume se o código atende aos critérios mínimos "
+                      "configurados (bugs, cobertura, duplicidade etc.) num único veredito. É um "
+                      "agregado, não substitui olhar as métricas individuais abaixo."
+        )
     with q4:
-        render_kpi("Débito Técnico", f"{metrics['technical_debt_min']} min", "Tempo estimado de correção", THEME_COLORS["warning"])
+        render_kpi(
+            "Débito Técnico", f"{metrics['technical_debt_min']} min", "Tempo estimado de correção", THEME_COLORS["warning"],
+            help_text="Tempo estimado pelo próprio SonarCloud para corrigir todos os problemas de "
+                      "manutenibilidade apontados na análise. É uma estimativa da ferramenta, não uma "
+                      "medição direta do esforço real da equipe."
+        )
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -411,19 +550,45 @@ def render_quality_tab(sonar_data: dict, is_mock: bool):
         y=[metrics["bugs"], metrics["vulnerabilities"], metrics["code_smells"], metrics["security_hotspots"]],
         marker=dict(color=["#F87171", "#FB923C", "#FBBF24", "#A78BFA"]),
         text=[metrics["bugs"], metrics["vulnerabilities"], metrics["code_smells"], metrics["security_hotspots"]],
-        textposition="auto"
+        textposition="auto",
+        hovertemplate="<b>%{x}</b><br>Ocorrências: %{y}<extra></extra>"
     ))
     fig_issues.update_layout(get_plotly_layout(f"Achados Estáticos — {REPOS_CONFIG[repo_key]['name']}", height=360, y_title="Ocorrências"))
     st.plotly_chart(fig_issues, use_container_width=True, config=PLOTLY_CONFIG)
+    with st.expander("O que cada tipo de achado significa?"):
+        st.markdown(
+            "- **Bugs**: trechos que o SonarCloud considera erros prováveis em tempo de execução.\n"
+            "- **Vulnerabilidades**: brechas de segurança já confirmadas pela análise estática.\n"
+            "- **Code Smells**: más práticas que não quebram o sistema, mas dificultam manutenção "
+            "futura (ex: função grande demais, duplicação de lógica).\n"
+            "- **Security Hotspots**: trechos sensíveis que merecem revisão manual; nem todo hotspot "
+            "é uma vulnerabilidade real, é um convite para o time olhar com atenção."
+        )
 
     st.markdown("#### Notas de Avaliação")
+    st.caption(
+        "Escala do SonarCloud: **A** é a melhor nota (menor risco) e **E** a pior. Cada nota reflete "
+        "o pior problema não corrigido daquela categoria, não uma média."
+    )
     n1, n2, n3 = st.columns(3)
     with n1:
-        render_kpi("Manutenibilidade", rating_to_letter(metrics.get("maintainability_rating")), "Sqale Rating", THEME_COLORS["primary"])
+        render_kpi(
+            "Manutenibilidade", rating_to_letter(metrics.get("maintainability_rating")), "Sqale Rating", THEME_COLORS["primary"],
+            help_text="Avalia o esforço para evoluir o código no futuro, com base nos Code Smells "
+                      "encontrados e no débito técnico estimado para corrigi-los."
+        )
     with n2:
-        render_kpi("Confiabilidade", rating_to_letter(metrics.get("reliability_rating")), "Reliability Rating", THEME_COLORS["primary"])
+        render_kpi(
+            "Confiabilidade", rating_to_letter(metrics.get("reliability_rating")), "Reliability Rating", THEME_COLORS["primary"],
+            help_text="Avalia a chance de o código apresentar bugs em produção, com base na "
+                      "gravidade dos Bugs encontrados pela análise estática."
+        )
     with n3:
-        render_kpi("Segurança", rating_to_letter(metrics.get("security_rating")), "Security Rating", THEME_COLORS["primary"])
+        render_kpi(
+            "Segurança", rating_to_letter(metrics.get("security_rating")), "Security Rating", THEME_COLORS["primary"],
+            help_text="Avalia a exposição a vulnerabilidades de segurança, com base na gravidade das "
+                      "Vulnerabilidades encontradas pela análise estática."
+        )
 
     # Restrito a ncloc/coverage: as demais métricas do histórico (ratings, contagens
     # de achados) misturam unidades diferentes e, com 1 ponto só por dia de coleta,
@@ -449,6 +614,10 @@ def render_quality_tab(sonar_data: dict, is_mock: bool):
             ))
         fig_hist.update_layout(get_plotly_layout("Métricas ao Longo do Tempo", height=360, y_title="Valor"))
         st.plotly_chart(fig_hist, use_container_width=True, config=PLOTLY_CONFIG)
+        st.caption(
+            "Cada ponto é uma coleta da esteira de CI/CD, não uma sprint. Com poucos pontos "
+            "acumulados, a tendência ainda não é estatisticamente significativa."
+        )
 
     st.markdown("#### Detalhamento Completo")
     tabela = pd.DataFrame([{
@@ -462,7 +631,7 @@ def render_quality_tab(sonar_data: dict, is_mock: bool):
         "Code Smells": metrics["code_smells"],
         "Security Hotspots": metrics["security_hotspots"],
         "Débito Técnico (min)": metrics["technical_debt_min"],
-        "Coletado em": metrics.get("collected_at") or "N/A"
+        "Coletado em": formatar_data_brasilia(metrics.get("collected_at"))
     }])
     st.dataframe(tabela, use_container_width=True, hide_index=True)
 
@@ -478,11 +647,26 @@ def render_process_tab():
     
     p1, p2, p3 = st.columns(3)
     with p1:
-        render_kpi("Taxa de Sucesso CI/CD", f"{runs_data['success_rate']}%", "Builds sem erro", THEME_COLORS["secondary"])
+        render_kpi(
+            "Taxa de Sucesso CI/CD", f"{runs_data['success_rate']}%", "Builds sem erro", THEME_COLORS["secondary"],
+            help_text="Percentual de execuções da esteira (GitHub Actions) que terminaram sem erro. "
+                      "Mede a estabilidade do processo de integração, não a qualidade do código "
+                      "entregue. Uma esteira estável pode conviver com código de baixa qualidade."
+        )
     with p2:
-        render_kpi("Tempo Médio de Feedback", f"{runs_data['avg_duration_min']} min", "Duração média de execução", THEME_COLORS["primary"])
+        render_kpi(
+            "Tempo Médio de Feedback", f"{runs_data['avg_duration_min']} min", "Duração média de execução", THEME_COLORS["primary"],
+            help_text="Tempo médio entre o início e o fim de uma execução da esteira. Quanto menor, "
+                      "mais rápido o time descobre se uma mudança quebrou algo. É velocidade de "
+                      "feedback, não qualidade do que foi testado."
+        )
     with p3:
-        render_kpi("Total de Builds Monitoradas", str(runs_data['total_runs']), "Execuções rastreadas", THEME_COLORS["accent"])
+        render_kpi(
+            "Total de Builds Monitoradas", str(runs_data['total_runs']), "Execuções rastreadas", THEME_COLORS["accent"],
+            help_text="Quantidade de execuções já registradas nas fontes de dados coletadas. Cresce "
+                      "com o tempo; serve mais como contexto de volume do que como indicador isolado "
+                      "de desempenho."
+        )
 
     st.markdown("<br>", unsafe_allow_html=True)
     
@@ -495,7 +679,8 @@ def render_process_tab():
             mode="lines+markers",
             line=dict(color="#38BDF8", width=2.5),
             fill="tozeroy",
-            fillcolor="rgba(56, 189, 248, 0.12)"
+            fillcolor="rgba(56, 189, 248, 0.12)",
+            hovertemplate="<b>%{x}</b><br>Duração: %{y:.1f} min<extra></extra>"
         ))
         fig_ci.update_layout(get_plotly_layout("Tempo de Resposta dos Últimos Pipelines", height=360, y_title="Minutos"))
         st.plotly_chart(fig_ci, use_container_width=True, config=PLOTLY_CONFIG)
@@ -509,6 +694,15 @@ def render_process_tab():
         )])
         fig_donut.update_layout(get_plotly_layout("Estabilidade da Esteira de Integração", height=360))
         st.plotly_chart(fig_donut, use_container_width=True, config=PLOTLY_CONFIG)
+
+    with st.expander("O que estes gráficos mostram?"):
+        st.markdown(
+            "**Tempo de Resposta:** duração das últimas execuções, na ordem em que ocorreram. Picos "
+            "pontuais costumam ser normais (dependências reinstaladas, cache frio); uma tendência de "
+            "alta sustentada ao longo de várias execuções é o sinal que vale investigar.\n\n"
+            "**Estabilidade:** proporção de execuções com sucesso versus falha em todo o histórico "
+            "coletado até agora. Não reflete só as execuções recentes do gráfico ao lado."
+        )
 
 
 def render_theory_tab():

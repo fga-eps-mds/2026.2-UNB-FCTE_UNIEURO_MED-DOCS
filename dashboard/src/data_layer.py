@@ -234,9 +234,9 @@ def get_sonar_metrics_data() -> Tuple[Dict[str, Any], bool]:
 def get_latest_collection_timestamp() -> Optional[datetime]:
     """Data/hora da coleta mais recente entre as fontes reais em RAW_DATA_DIR.
 
-    Cada fonte (Zenhub, GitHub, SonarCloud) grava seu próprio "coletado_em";
-    como elas podem ficar desatualizadas de forma independente (ex: um secret
-    que expira só numa delas), mostrar a mais recente — não "hoje" — é o que
+    Cada fonte (Zenhub, GitHub, SonarCloud) grava seu próprio "coletado_em".
+    Como elas podem ficar desatualizadas de forma independente (ex: um secret
+    que expira só numa delas), mostrar a mais recente, e não "hoje", é o que
     de fato avisa quando algo parou de atualizar.
     """
     padroes = ["zenhub_analytics.json", "GitHub_API-Runs-*.json", "Sonar_API-Measures-*.json"]
