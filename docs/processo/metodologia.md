@@ -88,10 +88,11 @@ de custos associa o período à linha de base acompanhada por EVM-Ágil.
 | Roadmap | Em que sequência os resultados serão demonstrados? | Relaciona ondas, sprints, releases e resultados esperados |
 | Cronograma | Quais são os marcos e prazos? | Estabelece datas de demonstração e entrega |
 | Plano de Custos | Qual é a linha de base econômica? | Permite comparar valor planejado, agregado e custo real |
+| Plano de Qualidade | Como comprovar a qualidade do incremento? | Define metas, evidências e resposta a desvios |
 
 O detalhamento está na [EAP](../EAP.md), no
-[Roadmap do Produto](roadmap.md), no [Cronograma](cronograma.md) e no
-[Plano de Custos](plano_de_custos.md).
+[Roadmap do Produto](roadmap.md), no [Cronograma](cronograma.md), no
+[Plano de Custos](plano_de_custos.md) e no [Plano de Qualidade](plano_de_qualidade.md).
 
 ### 4.2 Histórias, tarefas e defeitos
 
@@ -334,3 +335,4 @@ Management in Scrum Projects. In: *Agile Conference*, 2006. IEEE, 2006.
 |---|---|---|---|---|---|
 | 1.0 | Criação do documento de metodologias e técnicas | [Thales Germano](https://github.com/thalesgvl) | 21/09/2026 | | |
 | 1.1 | Reestruturação como metodologia integrada, com ciclo, papéis, critérios, qualidade, medição e adaptação | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | 25/09/2026 | | |
+| 1.2 | Inclusão do Plano de Qualidade entre os planos integrados | Equipe MED (proposta para revisão) | 26/09/2026 | Pendente | — |
