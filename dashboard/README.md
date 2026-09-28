@@ -10,8 +10,10 @@ O painel consolida os indicadores gerenciais e de processo exigidos para a prime
 
 - **Agile EVM (Earned Value Management)**: BAC, PRP0, PA, PRPn, PPC, PC, RPC, APC, PV, EV, AC, SPI, CPI, SV, CV e EAC (Sulaiman et al., 2006).
 - **Velocity**: Histórico por sprint e média de entrega de Story Points.
+- **Burndown**: Orçamento restante a entregar (ideal x real), complementar ao burnup.
 - **Matriz de Riscos**: Mapa de calor 5x5 (Probabilidade x Impacto) e planos de mitigação.
 - **Processo e CI/CD**: Taxa de sucesso de pipelines e tempo médio de feedback.
+- **Qualidade de Produto**: Métricas do SonarCloud (cobertura, bugs, vulnerabilidades, code smells, security hotspots, ratings) por repositório de código (APP/IA).
 
 ---
 
@@ -58,7 +60,6 @@ dashboard/
 ├── dashboard.py                  # Ponto de entrada do Streamlit
 ├── requirements.txt              # Dependências do projeto
 ├── README.md                     # Documentação de execução e arquitetura
-├── COMO_INTEGRAR_REPOSITORIOS.md # Guia de CI/CD para os 3 repositórios
 ├── historico_analises/           # Pareceres técnicos salvos localmente
 └── src/
     ├── __init__.py
@@ -71,11 +72,12 @@ dashboard/
 
 ---
 
-## Origem dos Dados (`analytics/raw-data/`)
+## Origem dos Dados (`analytics-raw-data/`)
 
-O dashboard lê os arquivos `.json` em `../analytics/raw-data/`:
+O dashboard lê os arquivos `.json` em `../analytics-raw-data/`:
 - `zenhub_analytics.json`: Dados de velocity, issues e sprints.
 - `riscos_analytics.json`: Planilha/matriz de riscos da equipe.
 - `GitHub_API-Runs-*.json`: Histórico de execuções das GitHub Actions.
+- `Sonar_API-Measures-*.json`: Métricas de qualidade de produto do SonarCloud (APP/IA).
 
 > Caso os arquivos ainda não tenham sido extraídos no ambiente local, o dashboard utiliza estruturas iniciais estruturadas para permitir a execução imediata.
