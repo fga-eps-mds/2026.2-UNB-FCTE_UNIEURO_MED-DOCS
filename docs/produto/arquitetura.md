@@ -86,7 +86,7 @@ A visão lógica mostra como o aplicativo está dividido em componentes e quais 
 
 **Figura 2:** Diagrama de componentes do aplicativo
 
-![Diagrama de componentes organizados nas camadas de apresentação, aplicação, domínio e processamento e infraestrutura local](../assets/imagens/arquitetura/componentes-med.svg)
+![Arquitetura-alvo do MVP organizada em componentes lógicos](../assets/imagens/arquitetura/componentes-med-v2.svg)
 
 **Fonte:** [Daniel Ferreira Nunes](https://github.com/Mach1r0), 2026.
 
