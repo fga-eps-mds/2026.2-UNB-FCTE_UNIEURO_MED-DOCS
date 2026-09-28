@@ -3,6 +3,7 @@ import plotly.graph_objects as go
 import pandas as pd
 import os
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 from src.config import (
     ORGANIZATION,
@@ -15,7 +16,13 @@ from src.config import (
     REPOS_CONFIG
 )
 from src.theme import apply_custom_theme, render_kpi, get_plotly_layout
-from src.data_layer import get_zenhub_sprints_data, get_risks_data, get_github_runs_data, get_sonar_metrics_data
+from src.data_layer import (
+    get_zenhub_sprints_data,
+    get_risks_data,
+    get_github_runs_data,
+    get_sonar_metrics_data,
+    get_latest_collection_timestamp
+)
 from src.metrics import compute_agile_evm_metrics, process_risks_summary
 
 RATING_LETTERS = {1.0: "A", 2.0: "B", 3.0: "C", 4.0: "D", 5.0: "E"}
@@ -58,6 +65,13 @@ PLOTLY_CONFIG = {"displaylogo": False, "responsive": True}
 
 def render_header():
     """Renderiza o cabeçalho executivo do dashboard."""
+    ultima_coleta = get_latest_collection_timestamp()
+    if ultima_coleta:
+        local = ultima_coleta.astimezone(ZoneInfo("America/Sao_Paulo"))
+        texto_atualizacao = f"Atualizado em: {local.strftime('%d/%m/%Y %H:%M')} (horário de Brasília, última coleta real)"
+    else:
+        texto_atualizacao = "Atualizado em: dados de exemplo — nenhuma coleta real encontrada em analytics-raw-data/"
+    st.caption(texto_atualizacao)
     st.markdown(f"""
     <div class="hero-header">
         <div class="hero-title">Painel Analítico e Decisório — {PROJECT_PREFIX}</div>
@@ -138,41 +152,43 @@ def render_evm_tab(evm: dict, is_mock: bool):
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    g1, g2 = st.columns([1.35, 1.0])
-    with g1:
-        fig_burnup = go.Figure()
-        fig_burnup.add_trace(go.Scatter(
-            x=evm["burnup_labels"],
-            y=evm["burnup_pv"],
-            name="PV (Planejado)",
-            mode="lines+markers",
-            line=dict(color="#94A3B8", width=2.5, dash="dash")
-        ))
-        fig_burnup.add_trace(go.Scatter(
-            x=evm["burnup_labels"],
-            y=evm["burnup_ev"],
-            name="EV (Realizado)",
-            mode="lines+markers",
-            fill="tozeroy",
-            fillcolor="rgba(56, 189, 248, 0.15)",
-            line=dict(color="#38BDF8", width=3)
-        ))
-        fig_burnup.update_layout(get_plotly_layout("Evolução do Valor Agregado — Burnup (PV × EV)", height=380))
-        st.plotly_chart(fig_burnup, use_container_width=True, config=PLOTLY_CONFIG)
+    # Largura cheia em vez de colunas lado a lado: com 2+ séries e legenda,
+    # um gráfico espremido em meia coluna fica ilegível. Cada gráfico ganha
+    # o espaço inteiro da aba, empilhado verticalmente.
+    st.markdown("#### Evolução do Valor Agregado (Burnup)")
+    fig_burnup = go.Figure()
+    fig_burnup.add_trace(go.Scatter(
+        x=evm["burnup_labels"],
+        y=evm["burnup_pv"],
+        name="PV (Planejado)",
+        mode="lines+markers",
+        line=dict(color="#94A3B8", width=2.5, dash="dash")
+    ))
+    fig_burnup.add_trace(go.Scatter(
+        x=evm["burnup_labels"],
+        y=evm["burnup_ev"],
+        name="EV (Realizado)",
+        mode="lines+markers",
+        fill="tozeroy",
+        fillcolor="rgba(56, 189, 248, 0.15)",
+        line=dict(color="#38BDF8", width=3)
+    ))
+    fig_burnup.update_layout(get_plotly_layout("Burnup — Planejado (PV) × Realizado (EV)", y_title="R$"))
+    st.plotly_chart(fig_burnup, use_container_width=True, config=PLOTLY_CONFIG)
 
-    with g2:
-        fig_vel = go.Figure(go.Bar(
-            x=evm["velocity_labels"],
-            y=evm["velocity_series"],
-            marker=dict(
-                color=["#38BDF8" if i % 2 == 0 else "#0284C7" for i in range(len(evm["velocity_series"]))],
-                line=dict(color="rgba(255, 255, 255, 0.3)", width=1)
-            ),
-            text=[f"{v} SP" for v in evm["velocity_series"]],
-            textposition="auto"
-        ))
-        fig_vel.update_layout(get_plotly_layout("Histórico de Velocity (Story Points)", height=380))
-        st.plotly_chart(fig_vel, use_container_width=True, config=PLOTLY_CONFIG)
+    st.markdown("#### Histórico de Velocity")
+    fig_vel = go.Figure(go.Bar(
+        x=evm["velocity_labels"],
+        y=evm["velocity_series"],
+        marker=dict(
+            color=["#38BDF8" if i % 2 == 0 else "#0284C7" for i in range(len(evm["velocity_series"]))],
+            line=dict(color="rgba(255, 255, 255, 0.3)", width=1)
+        ),
+        text=[f"{v} SP" for v in evm["velocity_series"]],
+        textposition="auto"
+    ))
+    fig_vel.update_layout(get_plotly_layout("Velocity por Sprint (Story Points Entregues)", height=360, y_title="Story Points"))
+    st.plotly_chart(fig_vel, use_container_width=True, config=PLOTLY_CONFIG)
 
     st.markdown("#### Burndown — Orçamento Restante a Entregar")
     # Espelha o burnup (BAC − PV/EV): mesma base de cálculo, sem precisar de novos
@@ -198,7 +214,7 @@ def render_evm_tab(evm: dict, is_mock: bool):
         fillcolor="rgba(248, 113, 113, 0.15)",
         line=dict(color="#F87171", width=3)
     ))
-    fig_burndown.update_layout(get_plotly_layout("Burndown — Orçamento Restante (BAC − PV / BAC − EV)", height=340))
+    fig_burndown.update_layout(get_plotly_layout("Burndown — Orçamento Restante (BAC − PV / BAC − EV)", y_title="R$"))
     st.plotly_chart(fig_burndown, use_container_width=True, config=PLOTLY_CONFIG)
 
     st.markdown("#### Índices de Desempenho SPI e CPI")
@@ -218,7 +234,7 @@ def render_evm_tab(evm: dict, is_mock: bool):
         line=dict(color="#34D399", width=2.5)
     ))
     fig_indices.add_hline(y=1.0, line_dash="dot", line_color="#94A3B8", annotation_text="Meta (1.0)")
-    fig_indices.update_layout(get_plotly_layout("Evolução Histórica do SPI e CPI por Sprint", height=300))
+    fig_indices.update_layout(get_plotly_layout("Evolução Histórica do SPI e CPI por Sprint", height=360, y_title="Índice"))
     st.plotly_chart(fig_indices, use_container_width=True, config=PLOTLY_CONFIG)
 
     st.markdown("### Tabela de Auditoria e Rastreabilidade do Agile EVM")
@@ -283,8 +299,9 @@ def render_risks_tab(risks_raw: list, is_mock: bool):
     st.markdown("<br>", unsafe_allow_html=True)
 
     col_matriz, col_cat = st.columns([1.35, 1.0])
-    
+
     with col_matriz:
+        st.caption("🟢 Baixo (1–5) · 🟡 Médio (6–12) · 🟠 Alto (15–16) · 🔴 Crítico (20–25) — severidade = probabilidade × impacto")
         z_scores = [
             [1, 2, 3, 4, 5],
             [2, 4, 6, 8, 10],
@@ -329,7 +346,7 @@ def render_risks_tab(risks_raw: list, is_mock: bool):
                 borderpad=4
             )
 
-        layout_heat = get_plotly_layout("Matriz de Probabilidade × Impacto (5×5)", height=380)
+        layout_heat = get_plotly_layout("Matriz de Probabilidade × Impacto (5×5)", height=400)
         layout_heat["xaxis"]["title"] = dict(text="Impacto no Projeto", font=dict(color="#94A3B8"))
         layout_heat["yaxis"]["title"] = dict(text="Probabilidade de Ocorrência", font=dict(color="#94A3B8"))
         fig_heat.update_layout(layout_heat)
@@ -343,7 +360,7 @@ def render_risks_tab(risks_raw: list, is_mock: bool):
             hole=0.45,
             marker=dict(colors=["#38BDF8", "#34D399", "#A78BFA", "#FBBF24", "#F87171"])
         )])
-        fig_cat.update_layout(get_plotly_layout("Distribuição de Riscos por Categoria", height=380))
+        fig_cat.update_layout(get_plotly_layout("Distribuição de Riscos por Categoria", height=400))
         st.plotly_chart(fig_cat, use_container_width=True, config=PLOTLY_CONFIG)
 
     st.markdown("#### Detalhamento dos Riscos e Planos de Ação")
@@ -388,24 +405,24 @@ def render_quality_tab(sonar_data: dict, is_mock: bool):
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    col_issues, col_ratings = st.columns([1.35, 1.0])
-    with col_issues:
-        fig_issues = go.Figure(go.Bar(
-            x=["Bugs", "Vulnerabilidades", "Code Smells", "Security Hotspots"],
-            y=[metrics["bugs"], metrics["vulnerabilities"], metrics["code_smells"], metrics["security_hotspots"]],
-            marker=dict(color=["#F87171", "#FB923C", "#FBBF24", "#A78BFA"]),
-            text=[metrics["bugs"], metrics["vulnerabilities"], metrics["code_smells"], metrics["security_hotspots"]],
-            textposition="auto"
-        ))
-        fig_issues.update_layout(get_plotly_layout(f"Achados Estáticos — {REPOS_CONFIG[repo_key]['name']}", height=340))
-        st.plotly_chart(fig_issues, use_container_width=True, config=PLOTLY_CONFIG)
+    st.markdown("#### Achados Estáticos")
+    fig_issues = go.Figure(go.Bar(
+        x=["Bugs", "Vulnerabilidades", "Code Smells", "Security Hotspots"],
+        y=[metrics["bugs"], metrics["vulnerabilities"], metrics["code_smells"], metrics["security_hotspots"]],
+        marker=dict(color=["#F87171", "#FB923C", "#FBBF24", "#A78BFA"]),
+        text=[metrics["bugs"], metrics["vulnerabilities"], metrics["code_smells"], metrics["security_hotspots"]],
+        textposition="auto"
+    ))
+    fig_issues.update_layout(get_plotly_layout(f"Achados Estáticos — {REPOS_CONFIG[repo_key]['name']}", height=360, y_title="Ocorrências"))
+    st.plotly_chart(fig_issues, use_container_width=True, config=PLOTLY_CONFIG)
 
-    with col_ratings:
-        st.markdown("#### Notas de Avaliação")
+    st.markdown("#### Notas de Avaliação")
+    n1, n2, n3 = st.columns(3)
+    with n1:
         render_kpi("Manutenibilidade", rating_to_letter(metrics.get("maintainability_rating")), "Sqale Rating", THEME_COLORS["primary"])
-        st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+    with n2:
         render_kpi("Confiabilidade", rating_to_letter(metrics.get("reliability_rating")), "Reliability Rating", THEME_COLORS["primary"])
-        st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+    with n3:
         render_kpi("Segurança", rating_to_letter(metrics.get("security_rating")), "Security Rating", THEME_COLORS["primary"])
 
     # Restrito a ncloc/coverage: as demais métricas do histórico (ratings, contagens
@@ -430,7 +447,7 @@ def render_quality_tab(sonar_data: dict, is_mock: bool):
                 name=nome_metrica,
                 mode="lines+markers"
             ))
-        fig_hist.update_layout(get_plotly_layout("Métricas ao Longo do Tempo", height=320))
+        fig_hist.update_layout(get_plotly_layout("Métricas ao Longo do Tempo", height=360, y_title="Valor"))
         st.plotly_chart(fig_hist, use_container_width=True, config=PLOTLY_CONFIG)
 
     st.markdown("#### Detalhamento Completo")
@@ -480,7 +497,7 @@ def render_process_tab():
             fill="tozeroy",
             fillcolor="rgba(56, 189, 248, 0.12)"
         ))
-        fig_ci.update_layout(get_plotly_layout("Tempo de Resposta dos Últimos Pipelines (Minutos)", height=320))
+        fig_ci.update_layout(get_plotly_layout("Tempo de Resposta dos Últimos Pipelines", height=360, y_title="Minutos"))
         st.plotly_chart(fig_ci, use_container_width=True, config=PLOTLY_CONFIG)
 
     with col_ci_donut:
@@ -490,7 +507,7 @@ def render_process_tab():
             hole=0.55,
             marker=dict(colors=["#34D399", "#F87171"])
         )])
-        fig_donut.update_layout(get_plotly_layout("Estabilidade da Esteira de Integração", height=320))
+        fig_donut.update_layout(get_plotly_layout("Estabilidade da Esteira de Integração", height=360))
         st.plotly_chart(fig_donut, use_container_width=True, config=PLOTLY_CONFIG)
 
 

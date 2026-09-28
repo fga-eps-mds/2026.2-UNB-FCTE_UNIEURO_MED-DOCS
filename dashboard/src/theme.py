@@ -131,39 +131,54 @@ def render_kpi(label: str, value: str, subtext: str = "", color: str = None):
     """, unsafe_allow_html=True)
 
 
-def get_plotly_layout(title: str, height: int = 380) -> dict:
-    """Retorna layout Plotly com título em destaque nítido e sem sobreposição."""
-    return dict(
+def get_plotly_layout(title: str, height: int = 420, y_title: str = None, y2_title: str = None) -> dict:
+    """Retorna layout Plotly com título em destaque nítido e sem sobreposição.
+
+    `y_title`/`y2_title` rotulam os eixos (esquerdo/direito) — sem isso, um
+    gráfico com valores em R$ e outro com índices ficam ambíguos lado a lado.
+    """
+    layout = dict(
         title=dict(
             text=f"<b>{title}</b>",
-            font=dict(size=15, color="#38BDF8", family="Plus Jakarta Sans, sans-serif"),
-            y=0.96,
+            font=dict(size=16, color="#38BDF8", family="Plus Jakarta Sans, sans-serif"),
+            y=0.97,
             x=0,
             xanchor="left"
         ),
         height=height,
-        margin=dict(l=25, r=25, t=65, b=60),
+        margin=dict(l=35, r=35, t=70, b=75),
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(family="Plus Jakarta Sans, sans-serif", color="#CBD5E1", size=11),
+        font=dict(family="Plus Jakarta Sans, sans-serif", color="#CBD5E1", size=12),
         xaxis=dict(
             showgrid=True,
             gridcolor="rgba(148, 163, 184, 0.18)",
             zeroline=False,
-            tickfont=dict(size=11, color="#94A3B8")
+            tickfont=dict(size=12, color="#94A3B8")
         ),
         yaxis=dict(
             showgrid=True,
             gridcolor="rgba(148, 163, 184, 0.18)",
             zeroline=False,
-            tickfont=dict(size=11, color="#94A3B8")
+            tickfont=dict(size=12, color="#94A3B8"),
+            title=dict(text=y_title, font=dict(size=12, color="#94A3B8")) if y_title else None
         ),
         legend=dict(
             orientation="h",
             yanchor="top",
-            y=-0.22,
+            y=-0.2,
             xanchor="center",
             x=0.5,
-            font=dict(size=11, color="#CBD5E1")
+            font=dict(size=12, color="#CBD5E1")
         )
     )
+    if y2_title:
+        layout["yaxis2"] = dict(
+            overlaying="y",
+            side="right",
+            showgrid=False,
+            zeroline=False,
+            tickfont=dict(size=12, color="#94A3B8"),
+            title=dict(text=y2_title, font=dict(size=12, color="#94A3B8"))
+        )
+    return layout
