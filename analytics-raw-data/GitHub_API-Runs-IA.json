@@ -1,7 +1,19 @@
 {
   "repositorio": "IA",
-  "coletado_em": "2026-09-30T09:18:23Z",
+  "coletado_em": "2026-10-01T09:20:43Z",
   "workflow_runs": [
+    {
+      "id": 36767191424,
+      "name": "Export de métricas",
+      "head_branch": "docs/resultados-modelo-base",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "skipped",
+      "created_at": "2026-09-30T19:39:32Z",
+      "updated_at": "2026-09-30T19:39:33Z",
+      "run_number": 3,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/actions/runs/36767191424"
+    },
     {
       "id": 36376520477,
       "name": "Build",
