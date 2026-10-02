@@ -1,7 +1,7 @@
 {
   "repositorio": "IA",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-IA",
-  "coletado_em": "2026-10-01T09:20:44Z",
+  "coletado_em": "2026-10-02T09:18:17Z",
   "medidas": {
     "reliability_rating": "1.0",
     "duplicated_lines_density": "0.0",
@@ -13,131 +13,12 @@
     "sqale_rating": "1.0",
     "bugs": "0",
     "ncloc": "19",
-    "files": "1",
-    "vulnerabilities": "0"
+    "vulnerabilities": "0",
+    "files": "1"
   },
   "historico": [
     {
-      "metric": "files",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "1"
-        }
-      ]
-    },
-    {
-      "metric": "functions",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000"
-        }
-      ]
-    },
-    {
-      "metric": "complexity",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000"
-        }
-      ]
-    },
-    {
-      "metric": "comment_lines_density",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "13.6"
-        }
-      ]
-    },
-    {
-      "metric": "duplicated_lines_density",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "0.0"
-        }
-      ]
-    },
-    {
-      "metric": "coverage",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000"
-        }
-      ]
-    },
-    {
-      "metric": "ncloc",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "19"
-        }
-      ]
-    },
-    {
-      "metric": "tests",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000"
-        }
-      ]
-    },
-    {
-      "metric": "test_errors",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000"
-        }
-      ]
-    },
-    {
-      "metric": "test_failures",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000"
-        }
-      ]
-    },
-    {
-      "metric": "test_execution_time",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000"
-        }
-      ]
-    },
-    {
-      "metric": "security_rating",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "1.0"
-        }
-      ]
-    },
-    {
-      "metric": "bugs",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "0"
-        }
-      ]
-    },
-    {
-      "metric": "vulnerabilities",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "0"
-        }
-      ]
-    },
-    {
-      "metric": "code_smells",
+      "metric": "sqale_index",
       "history": [
         {
           "date": "2026-09-17T20:50:04+0000",
@@ -155,7 +36,15 @@
       ]
     },
     {
-      "metric": "sqale_index",
+      "metric": "alert_status",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
+      "metric": "vulnerabilities",
       "history": [
         {
           "date": "2026-09-17T20:50:04+0000",
@@ -182,10 +71,121 @@
       ]
     },
     {
-      "metric": "alert_status",
+      "metric": "complexity",
       "history": [
         {
           "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
+      "metric": "tests",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
+      "metric": "test_execution_time",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
+      "metric": "test_errors",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
+      "metric": "test_failures",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
+      "metric": "duplicated_lines_density",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "0.0"
+        }
+      ]
+    },
+    {
+      "metric": "coverage",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
+      "metric": "bugs",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "metric": "security_rating",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "1.0"
+        }
+      ]
+    },
+    {
+      "metric": "ncloc",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "19"
+        }
+      ]
+    },
+    {
+      "metric": "files",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "metric": "functions",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
+      "metric": "comment_lines_density",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "13.6"
+        }
+      ]
+    },
+    {
+      "metric": "code_smells",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "0"
         }
       ]
     }
