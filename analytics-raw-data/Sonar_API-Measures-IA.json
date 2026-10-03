@@ -1,7 +1,7 @@
 {
   "repositorio": "IA",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-IA",
-  "coletado_em": "2026-10-02T09:18:17Z",
+  "coletado_em": "2026-10-03T09:16:11Z",
   "medidas": {
     "reliability_rating": "1.0",
     "duplicated_lines_density": "0.0",
@@ -27,19 +27,19 @@
       ]
     },
     {
+      "metric": "alert_status",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        }
+      ]
+    },
+    {
       "metric": "security_hotspots",
       "history": [
         {
           "date": "2026-09-17T20:50:04+0000",
           "value": "0"
-        }
-      ]
-    },
-    {
-      "metric": "alert_status",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000"
         }
       ]
     },
