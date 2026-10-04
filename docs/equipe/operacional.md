@@ -14,7 +14,7 @@ A tabela abaixo mostra a escala de lideranças da equipe, com a indicação dos 
 | :---: | :---: | :---: |
 | 31/08/2026 a 14/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | [Gabriel Lopes de Amorim](https://github.com/BrzGab) |
 | 14/09/2026 a 28/09/2026 | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | [Henrique Galdino Couto](https://github.com/hgaldino05) |
-| 28/09/2026 a 12/10/2026 | A definir | A definir |
+| 28/09/2026 a 12/10/2026 | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | [Thales Germano Vargas Lima](https://github.com/thalesgvl) |
 | 12/10/2026 a 26/10/2026 | A definir | A definir |
 | 26/10/2026 a 09/11/2026 | A definir | A definir |
 | 09/11/2026 a 23/11/2026 | A definir | A definir |
@@ -112,8 +112,9 @@ A estratégia de pareamento para o desenvolvimento do projeto visa manter uma me
 
 ## Histórico de Versão
 
-| Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de revisão |
+| Versão | Data | Descrição | Autor(es) | Revisor(es) | Data de revisão |
 | :----: | ---------- | --------- | ------------ | ------------ | ------------ |
 | 1.0 | 20/09/2026 | Criação do documento operacional da equipe e Adição das ferramentas utilizadas estratégia de pareamento| [Henrique Galdino Couto](https://github.com/hgaldino05) | [Daniel Ferreira Nunes](https://github.com/Mach1r0) |23/09/2026 |
 | 1.1 | 21/09/2026 | Inclusão do quadro de conhecimentos (planilha) | [Henrique Galdino Couto](https://github.com/hgaldino05) | [Daniel Ferreira Nunes](https://github.com/Mach1r0)  | 23/09/2026 |
 | 1.2 | 22/09/2026 | Inclusão da escala de lideranças | [Henrique Galdino Couto](https://github.com/hgaldino05) | [Daniel Ferreira Nunes](https://github.com/Mach1r0)  | 23/09/2026 |
+| 1.3 | 04/10/2026 | Registro da dupla de liderança de 28/09 a 12/10 e correção da ordem do cabeçalho desta tabela | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | | |
