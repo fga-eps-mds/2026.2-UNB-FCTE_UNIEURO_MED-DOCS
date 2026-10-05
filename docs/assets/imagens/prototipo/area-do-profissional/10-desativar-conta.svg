@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
-  <title>Configurações</title>
+  <title>Configurações — desativar conta</title>
   <rect width="1280" height="800" fill="#E8EBF8"/>
   <rect x="0" y="0" width="1280" height="72" rx="0" fill="#FFFFFF"/>
   <line x1="0" y1="72" x2="1280" y2="72" stroke="#E2E8F0" stroke-width="1"/>
@@ -46,4 +46,19 @@
   <g transform="translate(725.765625 602.0) scale(1.0)" fill="none" stroke="#7F1D1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3M13 6l4 4-4 4M17 10H8"/></g>
   <text x="753.8" y="617.4" font-family="Inter" font-size="15" font-weight="600" fill="#7F1D1D">Sair do aplicativo</text>
   <text x="936.0" y="618" font-family="Inter" font-size="14" font-weight="600" fill="#7F1D1D">Desativar minha conta</text>
+  <rect x="0" y="0" width="1280" height="800" rx="0" fill="#0F172A" opacity="0.45"/>
+  <rect x="360" y="196" width="560" height="408" rx="20" fill="#FFFFFF"/>
+  <text x="392.0" y="248" font-family="Inter" font-size="22" font-weight="700" fill="#0F172A">Desativar a sua conta?</text>
+  <text x="392.0" y="284" font-family="Inter" font-size="15" font-weight="400" fill="#475569">Você não vai mais conseguir entrar com esta conta neste</text>
+  <text x="392.0" y="306" font-family="Inter" font-size="15" font-weight="400" fill="#475569">tablet. Os exames que você aplicou continuam salvos</text>
+  <text x="392.0" y="328" font-family="Inter" font-size="15" font-weight="400" fill="#475569">para a pesquisa.</text>
+  <text x="392.0" y="374" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">CONFIRME COM A SUA SENHA</text>
+  <rect x="392" y="386" width="496" height="52" rx="12" fill="#F3F4FC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="408.0" y="417.5" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">••••••••</text>
+  <text x="392.0" y="468" font-family="Inter" font-size="13" font-weight="400" fill="#475569">A desativação fica registrada com data e horário.</text>
+  <text x="392.0" y="490" font-family="Inter" font-size="13" font-weight="400" fill="#475569">Para voltar a usar a conta, fale com o responsável pela pesquisa.</text>
+  <rect x="392" y="524" width="240" height="52" rx="14" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.5"/>
+  <text x="477.3" y="555.8" font-family="Inter" font-size="16" font-weight="600" fill="#9A3412">Cancelar</text>
+  <rect x="648" y="524" width="240" height="52" rx="14" fill="#7F1D1D"/>
+  <text x="707.2" y="555.8" font-family="Inter" font-size="16" font-weight="600" fill="#FFFFFF">Desativar conta</text>
 </svg>

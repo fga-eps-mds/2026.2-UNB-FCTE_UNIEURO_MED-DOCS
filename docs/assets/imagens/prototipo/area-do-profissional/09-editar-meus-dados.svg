@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <title>Configurações — editar meus dados</title>
+  <rect width="1280" height="800" fill="#E8EBF8"/>
+  <rect x="0" y="0" width="1280" height="72" rx="0" fill="#FFFFFF"/>
+  <line x1="0" y1="72" x2="1280" y2="72" stroke="#E2E8F0" stroke-width="1"/>
+  <g transform="translate(40 27) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l-6 6 6 6"/></g>
+  <text x="66.0" y="42" font-family="Inter" font-size="16" font-weight="600" fill="#9A3412">Configurações</text>
+  <g transform="translate(1185.765625 27) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3M13 6l4 4-4 4M17 10H8"/></g>
+  <text x="1211.8" y="42" font-family="Inter" font-size="15" font-weight="600" fill="#9A3412">Sair</text>
+  <text x="1000.3" y="33" font-family="Inter" font-size="15" font-weight="600" fill="#0F172A">Ana Carolina Souza</text>
+  <text x="1052.5" y="52" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">CRM 12345/DF</text>
+  <text x="40.0" y="128" font-family="Inter" font-size="28" font-weight="700" fill="#0F172A">Editar meus dados</text>
+  <text x="40.0" y="156" font-family="Inter" font-size="15" font-weight="400" fill="#475569">As mudanças valem para os próximos exames. Os exames já aplicados continuam com o seu registro.</text>
+  <rect x="40" y="180" width="700" height="560" rx="20" fill="#FFFFFF"/>
+  <text x="72.0" y="226" font-family="Inter" font-size="18" font-weight="700" fill="#0F172A">Dados do cadastro</text>
+  <text x="72.0" y="256" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">NOME COMPLETO</text>
+  <rect x="72" y="268" width="636" height="48" rx="12" fill="#F3F4FC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="88.0" y="297.5" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">Ana Carolina Souza</text>
+  <text x="72.0" y="340" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">E-MAIL</text>
+  <rect x="72" y="352" width="636" height="48" rx="12" fill="#F3F4FC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="88.0" y="381.5" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">ana.souza@unieuro.com.br</text>
+  <text x="72.0" y="424" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">CRM</text>
+  <rect x="72" y="436" width="300" height="48" rx="12" fill="#F3F4FC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="88.0" y="465.5" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">12345</text>
+  <text x="408.0" y="424" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">UF DO CRM</text>
+  <rect x="408" y="436" width="300" height="48" rx="12" fill="#F3F4FC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="424.0" y="465.5" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">DF</text>
+  <text x="72.0" y="508" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">CPF</text>
+  <rect x="72" y="520" width="636" height="48" rx="12" fill="#E8EBF8"/>
+  <text x="88.0" y="550" font-family="Inter" font-size="15" font-weight="400" fill="#94A3B8">000.000.000-00</text>
+  <text x="555.2" y="550" font-family="Inter" font-size="13" font-weight="400" fill="#475569">Não pode ser alterado</text>
+  <text x="72.0" y="600" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">CONFIRME COM A SUA SENHA ATUAL</text>
+  <rect x="72" y="612" width="300" height="48" rx="12" fill="#F3F4FC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="88.0" y="641.5" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">••••••••</text>
+  <rect x="388" y="612" width="150" height="48" rx="14" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.5"/>
+  <text x="430.5" y="641.4" font-family="Inter" font-size="15" font-weight="600" fill="#9A3412">Cancelar</text>
+  <rect x="554" y="612" width="154" height="48" rx="14" fill="#9A3412"/>
+  <text x="608.2" y="641.4" font-family="Inter" font-size="15" font-weight="600" fill="#FFFFFF">Salvar</text>
+  <text x="72.0" y="700" font-family="Inter" font-size="13" font-weight="400" fill="#475569">Se o e-mail ou o CRM já forem de outra conta do tablet, nada é alterado.</text>
+  <rect x="772" y="180" width="468" height="560" rx="20" fill="#FFFFFF"/>
+  <text x="804.0" y="226" font-family="Inter" font-size="18" font-weight="700" fill="#0F172A">Trocar a senha</text>
+  <text x="804.0" y="256" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">SENHA ATUAL</text>
+  <rect x="804" y="268" width="404" height="48" rx="12" fill="#F3F4FC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="820.0" y="297.5" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">••••••••</text>
+  <text x="804.0" y="340" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">NOVA SENHA</text>
+  <rect x="804" y="352" width="404" height="48" rx="12" fill="#F3F4FC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="820.0" y="381.5" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">••••••••</text>
+  <text x="804.0" y="424" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">CONFIRMAR NOVA SENHA</text>
+  <rect x="804" y="436" width="404" height="48" rx="12" fill="#F3F4FC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="820.0" y="465.5" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">••••••••</text>
+  <text x="804.0" y="516" font-family="Inter" font-size="13" font-weight="400" fill="#475569">A nova senha segue as mesmas regras</text>
+  <text x="804.0" y="535" font-family="Inter" font-size="13" font-weight="400" fill="#475569">do cadastro.</text>
+  <rect x="804" y="612" width="404" height="48" rx="14" fill="#9A3412"/>
+  <text x="958.4" y="641.4" font-family="Inter" font-size="15" font-weight="600" fill="#FFFFFF">Trocar senha</text>
+</svg>
