@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;600&display=swap');
+
 :root {
   --md-primary-fg-color: #4c8c6b;        
   --md-primary-fg-color--light: #63a382;
@@ -311,6 +313,84 @@ box-shadow: none;
   font-size: 1.2rem;
   font-weight: 400;
 }
+
+/* ---- Identidade visual: amostras do guia ---- */
+.type-specimen .type-outfit {
+  font-family: Outfit, Inter, Arial, sans-serif;
+  font-weight: 600;
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.75rem;
+}
+
+.swatch span {
+  height: 64px;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  border-radius: 12px;
+}
+
+.swatch code {
+  width: fit-content;
+}
+
+.feedback-grid {
+  display: grid;
+  gap: 0.6rem;
+  margin: 1.25rem 0;
+}
+
+.feedback {
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 0.85rem;
+}
+
+.feedback .twemoji svg {
+  fill: currentColor;
+}
+
+.feedback--sucesso { color: #166534; background: #dcfce7; }
+.feedback--aviso   { color: #92400e; background: #fef3c7; }
+.feedback--erro    { color: #b91c1c; background: #fee2e2; }
+.feedback--info    { color: #1e40af; background: #dbeafe; }
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.btn-sample {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 1.25rem;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  font-family: Outfit, Inter, Arial, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.btn-primario            { color: #ffffff; background: #9a3412; }
+.btn-secundario          { color: #9a3412; background: #ffffff; border-color: #9a3412; }
+.btn-destrutivo          { color: #ffffff; background: #7f1d1d; }
+.btn-destrutivo-contorno { color: #7f1d1d; background: #ffffff; border-color: #7f1d1d; }
+.btn-discreto            { color: #475569; background: #f3f4fc; border-color: #64748b; border-width: 1.5px; }
+.btn-texto               { color: #9a3412; background: transparent; padding: 0 0.5rem; }
 
 @media (max-width: 768px) {
   .feature-band .grid.cards > ul {
