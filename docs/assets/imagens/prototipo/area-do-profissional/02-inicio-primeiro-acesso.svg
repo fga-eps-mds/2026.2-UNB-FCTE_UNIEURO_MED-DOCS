@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <title>Início — primeiro acesso</title>
+  <rect width="1280" height="800" fill="#E8EBF8"/>
+  <rect x="0" y="0" width="1280" height="72" rx="0" fill="#FFFFFF"/>
+  <line x1="0" y1="72" x2="1280" y2="72" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="40" y="16" width="40" height="40" rx="12" fill="#9A3412"/>
+  <text x="50.7" y="43.2" font-family="Inter" font-size="20" font-weight="700" fill="#FFFFFF">M</text>
+  <text x="92.0" y="36" font-family="Inter" font-size="16" font-weight="700" fill="#0F172A" letter-spacing="0.6">MNEMA</text>
+  <text x="92.0" y="53" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">RASTREIO COGNITIVO</text>
+  <g transform="translate(1185.765625 27) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3M13 6l4 4-4 4M17 10H8"/></g>
+  <text x="1211.8" y="42" font-family="Inter" font-size="15" font-weight="600" fill="#9A3412">Sair</text>
+  <rect x="989.765625" y="14" width="172" height="44" rx="14" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.5"/>
+  <g transform="translate(1008.1796875 26.0) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h14M3 10h14M3 15h14"/><circle cx="7" cy="5" r="1.8" fill="#FFFFFF"/><circle cx="13" cy="10" r="1.8" fill="#FFFFFF"/><circle cx="8" cy="15" r="1.8" fill="#FFFFFF"/></g>
+  <text x="1036.2" y="41.4" font-family="Inter" font-size="15" font-weight="600" fill="#9A3412">Configurações</text>
+  <text x="828.3" y="33" font-family="Inter" font-size="15" font-weight="600" fill="#0F172A">Ana Carolina Souza</text>
+  <text x="880.5" y="52" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">CRM 12345/DF</text>
+  <text x="40.0" y="128" font-family="Inter" font-size="28" font-weight="700" fill="#0F172A">Seus pacientes</text>
+  <text x="40.0" y="156" font-family="Inter" font-size="15" font-weight="400" fill="#475569">Nenhum exame aplicado ainda.</text>
+  <rect x="1040" y="98" width="200" height="52" rx="14" fill="#9A3412"/>
+  <g transform="translate(1078.109375 114.0) scale(1.0)" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4v12M4 10h12"/></g>
+  <text x="1106.1" y="129.8" font-family="Inter" font-size="16" font-weight="600" fill="#FFFFFF">Novo exame</text>
+  <rect x="40" y="180" width="560" height="48" rx="12" fill="#F3F4FC" stroke="#CBD5E1" stroke-width="1"/>
+  <g transform="translate(54 194.0) scale(1.0)" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="6"/><path d="M13.5 13.5L18 18"/></g>
+  <text x="84.0" y="209.5" font-family="Inter" font-size="15" font-weight="400" fill="#94A3B8">Buscar por nome ou número da ficha</text>
+  <rect x="1030" y="180" width="210" height="48" rx="14" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.5"/>
+  <g transform="translate(1053.09375 194.0) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9A6.5 6.5 0 0 1 15 5.5M15.5 2v4h-4M16.5 11A6.5 6.5 0 0 1 5 14.5M4.5 18v-4h4"/></g>
+  <text x="1081.1" y="209.4" font-family="Inter" font-size="15" font-weight="600" fill="#9A3412">Sincronizar tablets</text>
+  <rect x="796" y="180" width="222" height="48" rx="14" fill="#F3F4FC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <g transform="translate(815.421875 194.0) scale(1.0)" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v10M6 9l4 4 4-4M4 17h12"/></g>
+  <text x="843.4" y="209.4" font-family="Inter" font-size="15" font-weight="600" fill="#94A3B8">Exportar todos (XML)</text>
+  <rect x="40" y="248" width="1200" height="528" rx="20" fill="#FFFFFF"/>
+  <circle cx="640" cy="410" r="44" fill="#FFE8D6"/>
+  <g transform="translate(616 386) scale(2.4)" fill="none" stroke="#9A3412" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="7" r="3.5"/><path d="M3.5 17.5a6.5 6.5 0 0 1 13 0"/></g>
+  <text x="513.0" y="496" font-family="Inter" font-size="22" font-weight="700" fill="#0F172A">Nenhum paciente ainda</text>
+  <text x="322.9" y="526" font-family="Inter" font-size="15" font-weight="400" fill="#475569">Os pacientes aparecem aqui depois do primeiro exame. Comece pelo botão Novo exame.</text>
+</svg>

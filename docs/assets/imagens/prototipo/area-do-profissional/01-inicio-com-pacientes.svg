@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <title>Início — com pacientes</title>
+  <rect width="1280" height="800" fill="#E8EBF8"/>
+  <rect x="0" y="0" width="1280" height="72" rx="0" fill="#FFFFFF"/>
+  <line x1="0" y1="72" x2="1280" y2="72" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="40" y="16" width="40" height="40" rx="12" fill="#9A3412"/>
+  <text x="50.7" y="43.2" font-family="Inter" font-size="20" font-weight="700" fill="#FFFFFF">M</text>
+  <text x="92.0" y="36" font-family="Inter" font-size="16" font-weight="700" fill="#0F172A" letter-spacing="0.6">MNEMA</text>
+  <text x="92.0" y="53" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">RASTREIO COGNITIVO</text>
+  <g transform="translate(1185.765625 27) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3M13 6l4 4-4 4M17 10H8"/></g>
+  <text x="1211.8" y="42" font-family="Inter" font-size="15" font-weight="600" fill="#9A3412">Sair</text>
+  <rect x="989.765625" y="14" width="172" height="44" rx="14" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.5"/>
+  <g transform="translate(1008.1796875 26.0) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h14M3 10h14M3 15h14"/><circle cx="7" cy="5" r="1.8" fill="#FFFFFF"/><circle cx="13" cy="10" r="1.8" fill="#FFFFFF"/><circle cx="8" cy="15" r="1.8" fill="#FFFFFF"/></g>
+  <text x="1036.2" y="41.4" font-family="Inter" font-size="15" font-weight="600" fill="#9A3412">Configurações</text>
+  <text x="828.3" y="33" font-family="Inter" font-size="15" font-weight="600" fill="#0F172A">Ana Carolina Souza</text>
+  <text x="880.5" y="52" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">CRM 12345/DF</text>
+  <text x="40.0" y="128" font-family="Inter" font-size="28" font-weight="700" fill="#0F172A">Seus pacientes</text>
+  <text x="40.0" y="156" font-family="Inter" font-size="15" font-weight="400" fill="#475569">8 pacientes e 12 exames aplicados por você. O exame mais recente aparece primeiro.</text>
+  <rect x="1040" y="98" width="200" height="52" rx="14" fill="#9A3412"/>
+  <g transform="translate(1078.109375 114.0) scale(1.0)" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4v12M4 10h12"/></g>
+  <text x="1106.1" y="129.8" font-family="Inter" font-size="16" font-weight="600" fill="#FFFFFF">Novo exame</text>
+  <rect x="40" y="180" width="560" height="48" rx="12" fill="#F3F4FC" stroke="#CBD5E1" stroke-width="1"/>
+  <g transform="translate(54 194.0) scale(1.0)" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="6"/><path d="M13.5 13.5L18 18"/></g>
+  <text x="84.0" y="209.5" font-family="Inter" font-size="15" font-weight="400" fill="#94A3B8">Buscar por nome ou número da ficha</text>
+  <rect x="1030" y="180" width="210" height="48" rx="14" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.5"/>
+  <g transform="translate(1053.09375 194.0) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9A6.5 6.5 0 0 1 15 5.5M15.5 2v4h-4M16.5 11A6.5 6.5 0 0 1 5 14.5M4.5 18v-4h4"/></g>
+  <text x="1081.1" y="209.4" font-family="Inter" font-size="15" font-weight="600" fill="#9A3412">Sincronizar tablets</text>
+  <rect x="796" y="180" width="222" height="48" rx="14" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.5"/>
+  <g transform="translate(815.421875 194.0) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v10M6 9l4 4 4-4M4 17h12"/></g>
+  <text x="843.4" y="209.4" font-family="Inter" font-size="15" font-weight="600" fill="#9A3412">Exportar todos (XML)</text>
+  <rect x="40" y="248" width="1200" height="528" rx="20" fill="#FFFFFF"/>
+  <text x="72.0" y="278" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">PACIENTE</text>
+  <text x="430.0" y="278" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">FICHA</text>
+  <text x="570.0" y="278" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">NASCIMENTO</text>
+  <text x="780.0" y="278" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">ÚLTIMO EXAME</text>
+  <text x="1000.0" y="278" font-family="Inter" font-size="11" font-weight="600" fill="#475569" letter-spacing="0.9">EXAMES</text>
+  <line x1="40" y1="292" x2="1240" y2="292" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="72.0" y="332" font-family="Inter" font-size="16" font-weight="600" fill="#0F172A">José Alves Martins</text>
+  <text x="430.0" y="332" font-family="Inter" font-size="15" font-weight="400" fill="#475569">2026-0184</text>
+  <text x="570.0" y="322" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">14/03/1948</text>
+  <text x="570.0" y="342" font-family="Inter" font-size="13" font-weight="400" fill="#475569">78 anos</text>
+  <text x="780.0" y="322" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">05/10/2026</text>
+  <rect x="780" y="330" width="78.90625" height="24" rx="12" fill="#E2E8F0"/>
+  <text x="790.0" y="346" font-family="Inter" font-size="12" font-weight="600" fill="#0F172A">Concluído</text>
+  <text x="1015.3" y="332" font-family="Inter" font-size="15" font-weight="600" fill="#0F172A">2</text>
+  <rect x="1092" y="308" width="116" height="38" rx="14" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.5"/>
+  <g transform="translate(1106.9296875 317.0) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v10M6 9l4 4 4-4M4 17h12"/></g>
+  <text x="1134.9" y="332.0" font-family="Inter" font-size="14" font-weight="600" fill="#9A3412">Exportar</text>
+  <line x1="64" y1="361" x2="1216" y2="361" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="72.0" y="401" font-family="Inter" font-size="16" font-weight="600" fill="#0F172A">Maria das Graças Lima</text>
+  <text x="430.0" y="401" font-family="Inter" font-size="15" font-weight="400" fill="#475569">2026-0181</text>
+  <text x="570.0" y="391" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">02/07/1952</text>
+  <text x="570.0" y="411" font-family="Inter" font-size="13" font-weight="400" fill="#475569">74 anos</text>
+  <text x="780.0" y="391" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">03/10/2026</text>
+  <rect x="780" y="399" width="94.828125" height="24" rx="12" fill="#FFE8D6"/>
+  <text x="790.0" y="415" font-family="Inter" font-size="12" font-weight="600" fill="#9A3412">Interrompido</text>
+  <text x="1016.8" y="401" font-family="Inter" font-size="15" font-weight="600" fill="#0F172A">1</text>
+  <rect x="1092" y="377" width="116" height="38" rx="14" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.5"/>
+  <g transform="translate(1106.9296875 386.0) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v10M6 9l4 4 4-4M4 17h12"/></g>
+  <text x="1134.9" y="401.0" font-family="Inter" font-size="14" font-weight="600" fill="#9A3412">Exportar</text>
+  <line x1="64" y1="430" x2="1216" y2="430" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="72.0" y="470" font-family="Inter" font-size="16" font-weight="600" fill="#0F172A">Antônio Carlos Ferreira</text>
+  <text x="430.0" y="470" font-family="Inter" font-size="15" font-weight="400" fill="#475569">2026-0179</text>
+  <text x="570.0" y="460" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">21/11/1945</text>
+  <text x="570.0" y="480" font-family="Inter" font-size="13" font-weight="400" fill="#475569">80 anos</text>
+  <text x="780.0" y="460" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">02/10/2026</text>
+  <rect x="780" y="468" width="78.90625" height="24" rx="12" fill="#E2E8F0"/>
+  <text x="790.0" y="484" font-family="Inter" font-size="12" font-weight="600" fill="#0F172A">Concluído</text>
+  <text x="1016.8" y="470" font-family="Inter" font-size="15" font-weight="600" fill="#0F172A">1</text>
+  <rect x="1092" y="446" width="116" height="38" rx="14" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.5"/>
+  <g transform="translate(1106.9296875 455.0) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v10M6 9l4 4 4-4M4 17h12"/></g>
+  <text x="1134.9" y="470.0" font-family="Inter" font-size="14" font-weight="600" fill="#9A3412">Exportar</text>
+  <line x1="64" y1="499" x2="1216" y2="499" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="72.0" y="539" font-family="Inter" font-size="16" font-weight="600" fill="#0F172A">Helena Souza Prado</text>
+  <text x="430.0" y="539" font-family="Inter" font-size="15" font-weight="400" fill="#475569">2026-0172</text>
+  <text x="570.0" y="529" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">09/05/1950</text>
+  <text x="570.0" y="549" font-family="Inter" font-size="13" font-weight="400" fill="#475569">76 anos</text>
+  <text x="780.0" y="529" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">30/09/2026</text>
+  <rect x="780" y="537" width="78.90625" height="24" rx="12" fill="#E2E8F0"/>
+  <text x="790.0" y="553" font-family="Inter" font-size="12" font-weight="600" fill="#0F172A">Concluído</text>
+  <text x="1015.2" y="539" font-family="Inter" font-size="15" font-weight="600" fill="#0F172A">3</text>
+  <rect x="1092" y="515" width="116" height="38" rx="14" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.5"/>
+  <g transform="translate(1106.9296875 524.0) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v10M6 9l4 4 4-4M4 17h12"/></g>
+  <text x="1134.9" y="539.0" font-family="Inter" font-size="14" font-weight="600" fill="#9A3412">Exportar</text>
+  <line x1="64" y1="568" x2="1216" y2="568" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="72.0" y="608" font-family="Inter" font-size="16" font-weight="600" fill="#0F172A">Raimundo Nonato Costa</text>
+  <text x="430.0" y="608" font-family="Inter" font-size="15" font-weight="400" fill="#475569">2026-0166</text>
+  <text x="570.0" y="598" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">17/01/1949</text>
+  <text x="570.0" y="618" font-family="Inter" font-size="13" font-weight="400" fill="#475569">77 anos</text>
+  <text x="780.0" y="598" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">29/09/2026</text>
+  <rect x="780" y="606" width="117.953125" height="24" rx="12" fill="#FEF3C7"/>
+  <text x="790.0" y="622" font-family="Inter" font-size="12" font-weight="600" fill="#7F1D1D">Recusou o termo</text>
+  <text x="1016.8" y="608" font-family="Inter" font-size="15" font-weight="600" fill="#0F172A">1</text>
+  <rect x="1092" y="584" width="116" height="38" rx="14" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.5"/>
+  <g transform="translate(1106.9296875 593.0) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v10M6 9l4 4 4-4M4 17h12"/></g>
+  <text x="1134.9" y="608.0" font-family="Inter" font-size="14" font-weight="600" fill="#9A3412">Exportar</text>
+  <line x1="64" y1="637" x2="1216" y2="637" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="72.0" y="677" font-family="Inter" font-size="16" font-weight="600" fill="#0F172A">Francisca Oliveira Reis</text>
+  <text x="430.0" y="677" font-family="Inter" font-size="15" font-weight="400" fill="#475569">2026-0160</text>
+  <text x="570.0" y="667" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">28/08/1955</text>
+  <text x="570.0" y="687" font-family="Inter" font-size="13" font-weight="400" fill="#475569">71 anos</text>
+  <text x="780.0" y="667" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">26/09/2026</text>
+  <rect x="780" y="675" width="78.90625" height="24" rx="12" fill="#E2E8F0"/>
+  <text x="790.0" y="691" font-family="Inter" font-size="12" font-weight="600" fill="#0F172A">Concluído</text>
+  <text x="1015.3" y="677" font-family="Inter" font-size="15" font-weight="600" fill="#0F172A">2</text>
+  <rect x="1092" y="653" width="116" height="38" rx="14" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.5"/>
+  <g transform="translate(1106.9296875 662.0) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v10M6 9l4 4 4-4M4 17h12"/></g>
+  <text x="1134.9" y="677.0" font-family="Inter" font-size="14" font-weight="600" fill="#9A3412">Exportar</text>
+  <line x1="64" y1="706" x2="1216" y2="706" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="72.0" y="746" font-family="Inter" font-size="16" font-weight="600" fill="#0F172A">Sebastião Rocha Lima</text>
+  <text x="430.0" y="746" font-family="Inter" font-size="15" font-weight="400" fill="#475569">2026-0157</text>
+  <text x="570.0" y="736" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">12/12/1944</text>
+  <text x="570.0" y="756" font-family="Inter" font-size="13" font-weight="400" fill="#475569">81 anos</text>
+  <text x="780.0" y="736" font-family="Inter" font-size="15" font-weight="400" fill="#0F172A">25/09/2026</text>
+  <rect x="780" y="744" width="78.90625" height="24" rx="12" fill="#E2E8F0"/>
+  <text x="790.0" y="760" font-family="Inter" font-size="12" font-weight="600" fill="#0F172A">Concluído</text>
+  <text x="1015.3" y="746" font-family="Inter" font-size="15" font-weight="600" fill="#0F172A">2</text>
+  <rect x="1092" y="722" width="116" height="38" rx="14" fill="#FFFFFF" stroke="#9A3412" stroke-width="1.5"/>
+  <g transform="translate(1106.9296875 731.0) scale(1.0)" fill="none" stroke="#9A3412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v10M6 9l4 4 4-4M4 17h12"/></g>
+  <text x="1134.9" y="746.0" font-family="Inter" font-size="14" font-weight="600" fill="#9A3412">Exportar</text>
+</svg>
