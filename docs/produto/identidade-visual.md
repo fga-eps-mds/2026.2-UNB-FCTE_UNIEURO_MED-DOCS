@@ -502,41 +502,18 @@ Antes de aprovar uma tela desenhada ou um PR com interface:
 
 ## Referências
 
-### Acessibilidade e legislação
-
-1. W3C. **Web Content Accessibility Guidelines (WCAG) 2.2**. World Wide Web Consortium, 2023. Disponível em: <https://www.w3.org/TR/WCAG22/>.
-2. W3C. **Understanding SC 1.4.3: Contrast (Minimum)**. Disponível em: <https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html>.
-3. W3C. **Understanding SC 1.4.11: Non-text Contrast**. Disponível em: <https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html>.
-4. W3C. **Understanding SC 1.4.1: Use of Color**. Disponível em: <https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html>.
-5. W3C. **Understanding SC 2.5.8: Target Size (Minimum)**. Disponível em: <https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html>.
-6. W3C WAI. **Older Users and Web Accessibility: Meeting the Needs of Ageing Web Users**. Disponível em: <https://www.w3.org/WAI/older-users/>.
-7. BRASIL. Ministério do Planejamento, Orçamento e Gestão. **eMAG: Modelo de Acessibilidade em Governo Eletrônico**, versão 3.1. Brasília, 2014. Disponível em: <https://emag.governoeletronico.gov.br/>.
-8. BRASIL. **Lei nº 13.146, de 6 de julho de 2015**. Institui a Lei Brasileira de Inclusão da Pessoa com Deficiência (Estatuto da Pessoa com Deficiência). Disponível em: <https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13146.htm>.
-9. ANDROID DEVELOPERS. **Make apps more accessible**. Google. Disponível em: <https://developer.android.com/guide/topics/ui/accessibility/apps>.
-10. GOOGLE. **Android Accessibility Help: touch target size**. Disponível em: <https://support.google.com/accessibility/android/answer/7101858>.
-
-### Ergonomia, leitura e público idoso
-
-11. INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO 9241-112:2017**: Ergonomics of human-system interaction — Part 112: Principles for the presentation of information. Genebra: ISO, 2017.
-12. INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. **ISO 9241-171:2008**: Ergonomics of human-system interaction — Part 171: Guidance on software accessibility. Genebra: ISO, 2008.
-13. TINKER, M. A. **Legibility of Print**. Ames: Iowa State University Press, 1963.
-14. NIELSEN, J. **Usability for Senior Citizens: Improved, But Still Lacking**. Nielsen Norman Group, 2013. Disponível em: <https://www.nngroup.com/articles/usability-for-senior-citizens/>.
-
-### Sistema de design, fontes e ícones
-
-15. GOOGLE. **Material Design 3: Color roles**. Disponível em: <https://m3.material.io/styles/color/roles>.
-16. GOOGLE. **Material Design 3: Typography**. Disponível em: <https://m3.material.io/styles/typography/overview>.
-17. GOOGLE. **Material Design 3: Buttons**. Disponível em: <https://m3.material.io/components/buttons/overview>.
-18. GOOGLE. **Material Design 3: Dialogs**. Disponível em: <https://m3.material.io/components/dialogs/overview>.
-19. FUENZALIDA, R. **Outfit**. Google Fonts. Disponível em: <https://fonts.google.com/specimen/Outfit>.
-20. ANDERSSON, R. **Inter**. Google Fonts. Disponível em: <https://fonts.google.com/specimen/Inter>.
-21. PICTOGRAMMERS. **Material Design Icons**. Disponível em: <https://pictogrammers.com/library/mdi/>.
-22. EXPO. **Icons (`@expo/vector-icons`)**. Disponível em: <https://docs.expo.dev/guides/icons/>.
-23. EXPO. **Fonts**. Disponível em: <https://docs.expo.dev/develop/user-interface/fonts/>.
-
-### Ferramentas usadas na conferência
-
-24. WEBAIM. **Contrast Checker**. Disponível em: <https://webaim.org/resources/contrastchecker/>. Os valores de contraste deste guia foram calculados com a fórmula de luminância relativa da WCAG 2.2.
+- [WCAG 2.2 — Contraste mínimo](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)
+- [WCAG 2.2 — Contraste de elementos que não são texto](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html)
+- [WCAG 2.2 — Uso de cor](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html)
+- [WCAG 2.2 — Tamanho mínimo do alvo](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)
+- [W3C WAI — Usuários idosos e acessibilidade](https://www.w3.org/WAI/older-users/)
+- [Android Accessibility — tamanho do alvo de toque](https://support.google.com/accessibility/android/answer/7101858)
+- [Material Design 3 — Botões](https://m3.material.io/components/buttons/overview)
+- [Material Design Icons](https://pictogrammers.com/library/mdi/)
+- [Expo — Ícones](https://docs.expo.dev/guides/icons/)
+- [Google Fonts — Outfit](https://fonts.google.com/specimen/Outfit)
+- [Google Fonts — Inter](https://fonts.google.com/specimen/Inter)
+- [WebAIM — Verificador de contraste](https://webaim.org/resources/contrastchecker/)
 
 ## Histórico de versões
 
