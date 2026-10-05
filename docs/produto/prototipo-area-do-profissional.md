@@ -3,7 +3,7 @@
 Esta página reúne as telas da área do profissional, desenhadas a partir do que o *Product Owner* pediu na avaliação da R1, em 02/10/2026. Segundo ele, a tela que aparece depois do login "acabou ficando esquecida". Ela precisa trazer os pacientes atendidos, o botão de novo exame, a exportação dos dados, a sincronização entre tablets e as configurações.
 
 !!! info "Situação em 05/10/2026"
-    A **tela inicial** ([APP #46](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/46)) e a **conta do profissional** ([APP #54](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/54) e [APP #55](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/55)) vão para validação com o PO e o cliente na reunião de 05/10. As demais telas são propostas para as próximas histórias e ainda não foram validadas.
+    A **tela inicial** ([APP #46](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/46)) vai para validação com o PO e o cliente na reunião de 05/10. As telas da conta do profissional entram na semana seguinte. As demais telas são propostas para as próximas histórias e ainda não foram validadas.
 
 O arquivo-fonte fica no Figma, na página "Área do profissional" do [protótipo](https://www.figma.com/design/5ItJcn9EA8J4SZsPSP7N04/UNIEURO-MED-APP?node-id=0-1&p=f&t=2dh7DnCIHmLi4ty8-0). As imagens abaixo são as mesmas telas. Os arquivos `.svg` da [pasta das imagens](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/tree/main/docs/assets/imagens/prototipo/area-do-profissional) podem ser arrastados para o Figma e viram camadas editáveis.
 
@@ -36,11 +36,9 @@ Abre ao tocar em um paciente da lista. O resultado aparece como probabilidade de
 
 ## Conta do profissional
 
-Completa o CRUD do profissional, que o professor apontou como incompleto em 05/10: o cadastro ([APP #5](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/5)) e o login ([APP #6](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/6)) já existiam, mas faltavam a atualização e a exclusão. As duas telas abrem a partir das configurações.
+Completa o CRUD do profissional, que o professor apontou como incompleto em 05/10: o cadastro ([APP #5](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/5)) e o login ([APP #6](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/6)) já existiam, mas faltavam a atualização e a exclusão. As duas telas abrem a partir das configurações e fazem parte da história [APP #5](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/5), que passou a cobrir o CRUD da conta.
 
 ### Editar os meus dados e trocar a senha
-
-História: [APP #54](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/54).
 
 ![Edição dos dados do cadastro e troca de senha](../assets/imagens/prototipo/area-do-profissional/09-editar-meus-dados.png)
 
@@ -48,8 +46,6 @@ História: [APP #54](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-
 - O CPF aparece só para leitura, porque identifica o profissional. A confirmar com o PO.
 
 ### Desativar a conta
-
-História: [APP #55](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/55).
 
 ![Diálogo de desativação da conta com confirmação por senha](../assets/imagens/prototipo/area-do-profissional/10-desativar-conta.png)
 
@@ -73,7 +69,7 @@ Estas telas ainda não foram validadas com o PO e o cliente.
 ??? note "Configurações do profissional"
     ![Configurações com os dados da conta, os ajustes do teste, a versão e a saída](../assets/imagens/prototipo/area-do-profissional/07-configuracoes.png)
 
-    Os ajustes do teste, alto contraste e letras maiores, vêm da história APP #24. Editar os dados e desativar a conta são as histórias APP #54 e #55.
+    Os ajustes do teste, alto contraste e letras maiores, vêm da história APP #24. Editar os dados e desativar a conta fazem parte da história APP #5.
 
 ??? note "Proposta de logo — DOCS #84"
     ![Duas opções de logo minimalista](../assets/imagens/prototipo/area-do-profissional/08-proposta-de-logo.png)
@@ -91,4 +87,4 @@ Estas telas ainda não foram validadas com o PO e o cliente.
 | Versão | Descrição | Autor | Data | Revisor | Data de revisão |
 |---|---|---|---|---|---|
 | 1.0 | Criação da página com a tela inicial para validação e as propostas das telas seguintes | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | 05/10/2026 | | |
-| 1.1 | Inclusão das telas da conta do profissional: editar dados, trocar a senha e desativar a conta | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | 05/10/2026 | | |
+| 1.1 | Inclusão das telas da conta do profissional: editar dados, trocar a senha e desativar a conta (história APP #5) | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | 05/10/2026 | | |
