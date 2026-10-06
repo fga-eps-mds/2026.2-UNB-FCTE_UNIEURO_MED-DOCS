@@ -1,6 +1,6 @@
 {
   "repositorio": "IA",
-  "coletado_em": "2026-10-05T09:29:11Z",
+  "coletado_em": "2026-10-06T09:19:18Z",
   "workflow_runs": [
     {
       "id": 37252136305,
@@ -22,7 +22,7 @@
       "status": "completed",
       "conclusion": "success",
       "created_at": "2026-10-05T01:37:16Z",
-      "updated_at": "2026-10-05T01:37:50Z",
+      "updated_at": "2026-10-05T16:09:56Z",
       "run_number": 19,
       "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/actions/runs/37252136200"
     },

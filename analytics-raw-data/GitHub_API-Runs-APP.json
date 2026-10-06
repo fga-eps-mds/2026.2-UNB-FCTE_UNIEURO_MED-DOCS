@@ -1,7 +1,103 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-10-05T09:29:09Z",
+  "coletado_em": "2026-10-06T09:19:17Z",
   "workflow_runs": [
+    {
+      "id": 37418319307,
+      "name": "Build",
+      "head_branch": "fix/camada_app_banco",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-06T05:23:48Z",
+      "updated_at": "2026-10-06T05:25:22Z",
+      "run_number": 43,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/37418319307"
+    },
+    {
+      "id": 37347714321,
+      "name": "Build",
+      "head_branch": "feat/46-tela-inicial-profissional",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-05T17:20:41Z",
+      "updated_at": "2026-10-05T17:22:37Z",
+      "run_number": 42,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/37347714321"
+    },
+    {
+      "id": 37340307582,
+      "name": "Export de métricas",
+      "head_branch": "chore/fluxo-claude-code",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "skipped",
+      "created_at": "2026-10-05T16:22:18Z",
+      "updated_at": "2026-10-05T16:23:01Z",
+      "run_number": 7,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/37340307582"
+    },
+    {
+      "id": 37340305765,
+      "name": "Build",
+      "head_branch": "develop",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-05T16:22:17Z",
+      "updated_at": "2026-10-05T16:24:00Z",
+      "run_number": 41,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/37340305765"
+    },
+    {
+      "id": 37340190146,
+      "name": "Export de métricas",
+      "head_branch": "fix/52-promises-splash-screen",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-05T16:21:23Z",
+      "updated_at": "2026-10-05T16:23:01Z",
+      "run_number": 6,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/37340190146"
+    },
+    {
+      "id": 37340189570,
+      "name": "Build",
+      "head_branch": "develop",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-05T16:21:23Z",
+      "updated_at": "2026-10-05T16:22:43Z",
+      "run_number": 40,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/37340189570"
+    },
+    {
+      "id": 37339422510,
+      "name": "Build",
+      "head_branch": "fix/52-promises-splash-screen",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-05T16:15:28Z",
+      "updated_at": "2026-10-05T16:17:02Z",
+      "run_number": 39,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/37339422510"
+    },
+    {
+      "id": 37335833200,
+      "name": "Build",
+      "head_branch": "feat/46-tela-inicial-profissional",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-05T15:48:46Z",
+      "updated_at": "2026-10-05T15:50:29Z",
+      "run_number": 38,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/37335833200"
+    },
     {
       "id": 37240895063,
       "name": "Build",
@@ -34,7 +130,7 @@
       "status": "completed",
       "conclusion": "success",
       "created_at": "2026-10-04T22:39:32Z",
-      "updated_at": "2026-10-04T22:41:03Z",
+      "updated_at": "2026-10-05T16:11:04Z",
       "run_number": 36,
       "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/37240846904"
     },
