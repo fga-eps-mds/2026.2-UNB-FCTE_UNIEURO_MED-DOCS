@@ -8,9 +8,7 @@ from zoneinfo import ZoneInfo
 from src.config import (
     ORGANIZATION,
     PROJECT_PREFIX,
-    INITIAL_PLANNED_SPRINTS_R1,
-    INITIAL_PLANNED_POINTS_PRP0,
-    SPRINT_BUDGET_BRL,
+    RELEASES,
     ANALYSIS_NOTES_DIR,
     THEME_COLORS,
     REPOS_CONFIG
@@ -23,7 +21,7 @@ from src.data_layer import (
     get_sonar_metrics_data,
     get_latest_collection_timestamp
 )
-from src.metrics import compute_agile_evm_metrics, process_risks_summary
+from src.metrics import compute_release_evm, process_risks_summary
 
 RATING_LETTERS = {1.0: "A", 2.0: "B", 3.0: "C", 4.0: "D", 5.0: "E"}
 
@@ -101,48 +99,12 @@ def render_header():
 
 
 def render_sidebar():
-    """Barra lateral com metadados do projeto e filtros dinâmicos."""
+    """Barra lateral com metadados do projeto. O EVM não tem parâmetros ajustáveis."""
     st.sidebar.markdown("### Governança do Projeto")
     st.sidebar.info(f"**Organização:** `{ORGANIZATION}`\n\n**Projeto:** `{PROJECT_PREFIX}`")
-    
-    st.sidebar.markdown("---")
-    st.sidebar.markdown("#### Parâmetros de Simulação (EVM)")
-    
-    sim_prp0 = st.sidebar.number_input(
-        "Escopo Inicial (PRP₀ em SP):",
-        min_value=10.0,
-        max_value=300.0,
-        value=INITIAL_PLANNED_POINTS_PRP0,
-        step=5.0,
-        help="Total de pontos de história que a equipe planejou entregar nesta release. "
-             "É a base do orçamento total (BAC): mais escopo planejado, para o mesmo custo "
-             "por sprint, significa um BAC maior."
-    )
-    sim_ps = st.sidebar.number_input(
-        "Sprints Planejadas (PS):",
-        min_value=1,
-        max_value=15,
-        value=INITIAL_PLANNED_SPRINTS_R1,
-        step=1,
-        help="Número de sprints previstas para consumir todo o escopo inicial. Junto com a "
-             "sprint em curso, define quanto do cronograma já deveria ter passado (PPC), "
-             "o referencial usado para calcular o Valor Planejado (PV) de cada sprint."
-    )
-    sim_budget = st.sidebar.number_input(
-        "Custo Médio / Sprint (R$):",
-        min_value=500.0,
-        max_value=20000.0,
-        value=SPRINT_BUDGET_BRL,
-        step=200.0,
-        help="Custo estimado de uma sprint completa (2 semanas), derivado da taxa semanal do "
-             "Plano de Custos. Multiplicado pelas sprints planejadas, define o orçamento total "
-             "(BAC); multiplicado pelas sprints já fechadas, define o Custo Real (AC)."
-    )
-    
+
     st.sidebar.markdown("---")
     st.sidebar.caption("Repositórios Integrados:\n- `-DOCS` (Documentação e Analytics)\n- `-IA` (Módulo de Inteligência Artificial)\n- `-APP` (Aplicação Mobile)")
-    
-    return sim_prp0, sim_ps, sim_budget
 
 
 def render_mock_alert(metric_name: str, file_name: str):
@@ -153,183 +115,250 @@ def render_mock_alert(metric_name: str, file_name: str):
     )
 
 
-def render_evm_tab(evm: dict, is_mock: bool):
-    """Renderiza a aba do Agile EVM, Burnup e Velocity."""
+def _layout_barras(titulo: str, y_title: str, height: int) -> dict:
+    """Layout para barras agrupadas: afasta a legenda para não cobrir os rótulos do eixo."""
+    layout = get_plotly_layout(titulo, height=height, y_title=y_title)
+    layout["legend"]["y"] = -0.32
+    layout["margin"]["b"] = 105
+    layout["barmode"] = "group"
+    return layout
+
+
+def _formatar_release(r: dict) -> str:
+    return f"{r['id']} ({r['inicio']:%d/%m} a {r['fim']:%d/%m})"
+
+
+def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
+    """Renderiza a aba do Agile EVM por release, com burn de pontos e velocity."""
     if is_mock:
         render_mock_alert("Sprints e Agile EVM", "zenhub_analytics.json")
 
-    st.markdown("### Desempenho de Prazo e Custos (Agile EVM)")
-    
+    st.markdown("### Desempenho de Prazo e Custos por Release (Agile EVM)")
+    st.caption(
+        "O EVM é calculado por release, com o orçamento (BAC) de cada release do Plano de Custos e "
+        "os pontos reais do ZenHub. Não há parâmetros ajustáveis: o painel reflete o que aconteceu."
+    )
+
+    with st.expander("Como funciona o Agile EVM e como ler os índices"):
+        st.markdown(
+            "O Agile EVM compara, em reais, o que estava planejado com o que foi entregue e gasto. "
+            "Ele é calculado por release porque é a release que tem orçamento e escopo próprios.\n\n"
+            "- **BAC:** orçamento da release, vindo do Plano de Custos.\n"
+            "- **PRP:** pontos de história planejados para a release (soma dos pontos das sprints "
+            "que terminam dentro dela).\n"
+            "- **RPC:** pontos de história já entregues.\n"
+            "- **PPC:** fração dos dias da release já decorrida. **APC:** RPC dividido pelo PRP.\n"
+            "- **PV** = PPC × BAC, o valor que deveria estar entregue. **EV** = APC × BAC, o valor "
+            "realmente entregue. **AC:** custo incorrido.\n"
+            "- **SPI** = EV ÷ PV (prazo) e **CPI** = EV ÷ AC (custo). Abaixo de 1,0 há atraso ou "
+            "custo acima do valor entregue; acima de 1,0, o contrário.\n\n"
+            "**Limitações a considerar na leitura:**\n\n"
+            "- O PRP só é confiável se todas as histórias da release estiverem estimadas.\n"
+            "- Ainda não há custo real apurado, então o AC é estimado pela linha de base de custo "
+            "(PPC × BAC). Por isso o CPI coincide com o SPI até que o custo real seja registrado.\n"
+            "- Uma sprint nem sempre coincide com os limites da release. Cada sprint é atribuída à "
+            "release em que ela termina.\n"
+            "- Releases que ainda não começaram não aparecem: só há o que medir depois da data de início."
+        )
+
+    releases = evm["releases"]
+    ids = [r["id"] for r in releases]
+    escolhido = st.radio(
+        "Release:",
+        options=ids,
+        index=ids.index(evm["atual"]),
+        format_func=lambda i: _formatar_release(next(r for r in releases if r["id"] == i)),
+        horizontal=True,
+        key="evm_release_selector"
+    )
+    r = next(x for x in releases if x["id"] == escolhido)
+
+    if r["prp"] <= 0:
+        st.warning(
+            "Nenhum ponto estimado nas sprints desta release. Sem o PRP não é possível calcular "
+            "o valor entregue (EV) nem os índices."
+        )
+
     row1_c1, row1_c2, row1_c3 = st.columns(3)
     with row1_c1:
         render_kpi(
-            "BAC (Orçamento Total)", f"R$ {evm['bac']:,.2f}", "Escopo Inicial Valorizado", THEME_COLORS["primary"],
-            help_text="Orçamento total aprovado para entregar todo o escopo planejado (linha de base "
-                      "de custos). É fixo durante a execução: só muda por uma mudança formal aprovada, "
-                      "nunca por variações de desempenho da sprint."
+            "BAC da Release", f"R$ {r['bac']:,.2f}", f"Orçamento da {r['id']}", THEME_COLORS["primary"],
+            help_text="Orçamento total da release, vindo do Plano de Custos. É fixo durante a "
+                      "execução: só muda por uma mudança formal aprovada, nunca por variações de "
+                      "desempenho."
         )
     with row1_c2:
         render_kpi(
-            "EV Acumulado", f"R$ {evm['current_ev']:,.2f}", "Valor de Negócio Entregue", THEME_COLORS["primary"],
-            help_text="Valor do trabalho já entregue e aceito, convertido em R$ proporcionalmente ao "
-                      "escopo concluído. Mede o que foi produzido, diferente do Custo Real (AC), que "
-                      "mede o que foi gasto para produzir."
+            "PV (Valor Planejado)", f"R$ {r['pv']:,.2f}", f"{r['ppc'] * 100:.0f}% do prazo decorrido", THEME_COLORS["accent"],
+            help_text="Quanto do orçamento já deveria ter sido entregue neste ponto do prazo da "
+                      "release. É o percentual do prazo decorrido (PPC) aplicado ao BAC."
         )
     with row1_c3:
+        ev_txt = "N/A" if r["ev"] is None else f"R$ {r['ev']:,.2f}"
         render_kpi(
-            "Média Velocity", f"{evm['avg_velocity']} SP", "Média entregue por sprint", THEME_COLORS["accent"],
-            help_text="Média de pontos de história entregues pelas sprints já fechadas. Serve para "
-                      "projetar quantas sprints faltam para o escopo restante, mas varia naturalmente "
-                      "entre sprints; uma sprint isolada abaixo da média não é, por si só, um problema."
+            "EV (Valor Agregado)", ev_txt, "Valor realmente entregue", THEME_COLORS["primary"],
+            help_text="Valor do trabalho já entregue e aceito, convertido em reais pela fração do "
+                      "escopo concluído (APC) aplicada ao BAC. Mede o que foi produzido, não o que "
+                      "foi gasto. Sem pontos estimados, não pode ser calculado."
         )
 
     st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
 
-    row2_c1, row2_c2 = st.columns(2)
+    row2_c1, row2_c2, row2_c3 = st.columns(3)
     with row2_c1:
-        spi_color = THEME_COLORS["secondary"] if evm['current_spi'] >= 1.0 else THEME_COLORS["danger"]
+        spi = r["spi"]
+        spi_color = THEME_COLORS["accent"] if spi is None else (THEME_COLORS["secondary"] if spi >= 1.0 else THEME_COLORS["danger"])
         render_kpi(
-            "SPI (Eficiência de Cronograma)", f"{evm['current_spi']:.2f}", "Índice de prazo (≥ 1.0 no cronograma)", spi_color,
-            help_text="SPI = EV ÷ PV. Compara o valor entregue com o valor que deveria ter sido "
-                      "entregue até este ponto do cronograma. Abaixo de 1.0, a equipe entregou menos "
-                      "escopo do que o planejado para a fase atual; acima de 1.0, mais do que o planejado."
+            "SPI (Cronograma)", "N/A" if spi is None else f"{spi:.2f}", "EV ÷ PV, referência 1.0", spi_color,
+            help_text="SPI = EV ÷ PV. Compara o valor entregue com o que deveria ter sido entregue "
+                      "até este ponto do prazo. Abaixo de 1.0, entregou-se menos do que o planejado "
+                      "para esta fase; acima de 1.0, mais."
         )
     with row2_c2:
-        cpi_color = THEME_COLORS["secondary"] if evm['current_cpi'] >= 1.0 else THEME_COLORS["danger"]
+        cpi = r["cpi"]
+        cpi_color = THEME_COLORS["accent"] if cpi is None else (THEME_COLORS["secondary"] if cpi >= 1.0 else THEME_COLORS["danger"])
         render_kpi(
-            "CPI (Eficiência de Custo)", f"{evm['current_cpi']:.2f}", "Índice de custo (≥ 1.0 no orçamento)", cpi_color,
-            help_text="CPI = EV ÷ AC. Compara o valor entregue com o quanto foi efetivamente gasto para "
-                      "entregá-lo. Abaixo de 1.0, cada unidade de valor está custando mais do que o "
-                      "orçado; acima de 1.0, menos."
+            "CPI (Custo)", "N/A" if cpi is None else f"{cpi:.2f}", "EV ÷ AC, AC estimado", cpi_color,
+            help_text="CPI = EV ÷ AC. Compara o valor entregue com o quanto foi gasto para "
+                      "entregá-lo. Aqui o AC é estimado pela linha de base de custo, então o CPI "
+                      "coincide com o SPI até que haja custo real apurado."
+        )
+    with row2_c3:
+        apc_txt = f"{r['rpc']:.0f} de {r['prp']:.0f} SP"
+        render_kpi(
+            "Escopo Entregue", apc_txt, "RPC de PRP, em pontos de história", THEME_COLORS["secondary"],
+            help_text="Pontos de história entregues (RPC) sobre os pontos planejados para a "
+                      "release (PRP). O PRP só é confiável quando todas as histórias estão estimadas."
         )
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Largura cheia em vez de colunas lado a lado: com 2+ séries e legenda,
-    # um gráfico espremido em meia coluna fica ilegível. Cada gráfico ganha
-    # o espaço inteiro da aba, empilhado verticalmente.
-    st.markdown("#### Evolução do Valor Agregado (Burnup)")
-    fig_burnup = go.Figure()
-    fig_burnup.add_trace(go.Scatter(
-        x=evm["burnup_labels"],
-        y=evm["burnup_pv"],
-        name="PV (Planejado)",
-        mode="lines+markers",
-        line=dict(color="#94A3B8", width=2.5, dash="dash"),
-        hovertemplate="<b>%{x}</b><br>Planejado até aqui: R$ %{y:,.2f}<extra></extra>"
+    visiveis = releases
+    st.markdown("#### Planejado, Entregue e Custo por Release")
+    fig_rel = go.Figure()
+    fig_rel.add_trace(go.Bar(
+        x=[x["id"] for x in visiveis], y=[x["pv"] for x in visiveis], name="PV (Planejado)",
+        marker=dict(color="#94A3B8"),
+        hovertemplate="<b>%{x}</b><br>Planejado: R$ %{y:,.2f}<extra></extra>"
     ))
-    fig_burnup.add_trace(go.Scatter(
-        x=evm["burnup_labels"],
-        y=evm["burnup_ev"],
-        name="EV (Realizado)",
-        mode="lines+markers",
-        fill="tozeroy",
-        fillcolor="rgba(56, 189, 248, 0.15)",
-        line=dict(color="#38BDF8", width=3),
-        hovertemplate="<b>%{x}</b><br>Entregue até aqui: R$ %{y:,.2f}<extra></extra>"
+    fig_rel.add_trace(go.Bar(
+        x=[x["id"] for x in visiveis], y=[x["ev"] for x in visiveis], name="EV (Entregue)",
+        marker=dict(color="#38BDF8"),
+        hovertemplate="<b>%{x}</b><br>Entregue: R$ %{y:,.2f}<extra></extra>"
     ))
-    fig_burnup.update_layout(get_plotly_layout("Burnup — Planejado (PV) × Realizado (EV)", y_title="R$"))
-    st.plotly_chart(fig_burnup, use_container_width=True, config=PLOTLY_CONFIG)
+    fig_rel.add_trace(go.Bar(
+        x=[x["id"] for x in visiveis], y=[x["ac"] for x in visiveis], name="AC (Custo estimado)",
+        marker=dict(color="#FBBF24"),
+        hovertemplate="<b>%{x}</b><br>Custo estimado: R$ %{y:,.2f}<extra></extra>"
+    ))
+    fig_rel.update_layout(_layout_barras("PV, EV e AC por Release", "R$", 400))
+    st.plotly_chart(fig_rel, use_container_width=True, config=PLOTLY_CONFIG)
     with st.expander("O que este gráfico mostra?"):
         st.markdown(
-            "A linha tracejada (PV) é o valor que **deveria** ter sido entregue até cada sprint, "
-            "segundo o cronograma planejado. A linha cheia (EV) é o valor **realmente** aceito pela "
-            "equipe. A distância vertical entre as duas em um mesmo ponto é a variação de prazo (SV) "
-            "acumulada até ali. Não indica um atraso definitivo, apenas o desvio acumulado naquele "
-            "momento, que pode ser recuperado ou aumentar nas sprints seguintes."
+            "Para cada release que já começou, a barra cinza é o valor que deveria estar entregue "
+            "(PV), a azul é o valor realmente entregue (EV) e a amarela é o custo estimado (AC). "
+            "Quando o EV fica abaixo do PV, entregou-se menos do que o planejado até aquele ponto. "
+            "Uma release sem barra azul ainda não tem pontos estimados para calcular o EV."
         )
 
-    st.markdown("#### Histórico de Velocity")
-    fig_vel = go.Figure(go.Bar(
-        x=evm["velocity_labels"],
-        y=evm["velocity_series"],
-        marker=dict(
-            color=["#38BDF8" if i % 2 == 0 else "#0284C7" for i in range(len(evm["velocity_series"]))],
-            line=dict(color="rgba(255, 255, 255, 0.3)", width=1)
-        ),
-        text=[f"{v} SP" for v in evm["velocity_series"]],
-        textposition="auto",
-        hovertemplate="<b>%{x}</b><br>Entregue: %{y} SP<extra></extra>"
-    ))
-    fig_vel.update_layout(get_plotly_layout("Velocity por Sprint (Story Points Entregues)", height=360, y_title="Story Points"))
-    st.plotly_chart(fig_vel, use_container_width=True, config=PLOTLY_CONFIG)
-    with st.expander("O que este gráfico mostra?"):
-        st.markdown(
-            "Quantos pontos de história cada sprint **fechada** entregou. Uma sprint com poucos pontos "
-            "não é necessariamente ruim: pode refletir histórias maiores do que o normal, feriados, "
-            "ou trabalho técnico (ex: spikes, dívida técnica) que não gera pontos diretamente. O valor "
-            "serve principalmente para calibrar quanto escopo colocar nas próximas sprints."
-        )
-
-    st.markdown("#### Burndown — Orçamento Restante a Entregar")
-    # Espelha o burnup (BAC − PV/EV): mesma base de cálculo, sem precisar de novos
-    # campos em metrics.py. Sprints sem EV apurado (ainda não concluídas) ficam
-    # com gap no traço real, igual ao burnup faz com None.
-    bac = evm["bac"]
-    remaining_ideal = [round(bac - pv, 2) for pv in evm["burnup_pv"]]
-    remaining_actual = [round(bac - ev, 2) if ev is not None else None for ev in evm["burnup_ev"]]
-    fig_burndown = go.Figure()
-    fig_burndown.add_trace(go.Scatter(
-        x=evm["burnup_labels"],
-        y=remaining_ideal,
-        name="Restante Ideal (PV)",
-        mode="lines+markers",
-        line=dict(color="#94A3B8", width=2.5, dash="dash"),
-        hovertemplate="<b>%{x}</b><br>Deveria restar: R$ %{y:,.2f}<extra></extra>"
-    ))
-    fig_burndown.add_trace(go.Scatter(
-        x=evm["burnup_labels"],
-        y=remaining_actual,
-        name="Restante Real (EV)",
-        mode="lines+markers",
-        fill="tozeroy",
-        fillcolor="rgba(248, 113, 113, 0.15)",
-        line=dict(color="#F87171", width=3),
-        hovertemplate="<b>%{x}</b><br>Falta entregar: R$ %{y:,.2f}<extra></extra>"
-    ))
-    fig_burndown.update_layout(get_plotly_layout("Burndown — Orçamento Restante (BAC − PV / BAC − EV)", y_title="R$"))
-    st.plotly_chart(fig_burndown, use_container_width=True, config=PLOTLY_CONFIG)
-    with st.expander("O que este gráfico mostra?"):
-        st.markdown(
-            "É o espelho do burnup: em vez de acumular o que já foi entregue, mostra quanto do "
-            "orçamento total (BAC) **ainda falta entregar** em valor de negócio, não quanto falta "
-            "gastar. A linha ideal cai de forma constante ao longo do cronograma; a linha real cai "
-            "mais devagar sempre que a equipe entrega menos valor do que o previsto para aquele ponto."
-        )
-
-    st.markdown("#### Índices de Desempenho SPI e CPI")
-    fig_indices = go.Figure()
-    fig_indices.add_trace(go.Scatter(
-        x=evm["burnup_labels"][1:len(evm["spi_series"])],
-        y=evm["spi_series"][1:],
-        name="SPI (Cronograma)",
-        mode="lines+markers",
-        line=dict(color="#FBBF24", width=2.5),
-        hovertemplate="<b>%{x}</b><br>SPI: %{y:.2f}<extra></extra>"
-    ))
-    fig_indices.add_trace(go.Scatter(
-        x=evm["burnup_labels"][1:len(evm["cpi_series"])],
-        y=evm["cpi_series"][1:],
-        name="CPI (Custo)",
-        mode="lines+markers",
-        line=dict(color="#34D399", width=2.5),
-        hovertemplate="<b>%{x}</b><br>CPI: %{y:.2f}<extra></extra>"
-    ))
-    fig_indices.add_hline(y=1.0, line_dash="dot", line_color="#94A3B8", annotation_text="Meta (1.0)")
-    fig_indices.update_layout(get_plotly_layout("Evolução Histórica do SPI e CPI por Sprint", height=360, y_title="Índice"))
-    st.plotly_chart(fig_indices, use_container_width=True, config=PLOTLY_CONFIG)
+    com_indice = [x for x in visiveis if x["spi"] is not None]
+    st.markdown("#### Índices de Desempenho SPI e CPI por Release")
+    if com_indice:
+        fig_idx = go.Figure()
+        fig_idx.add_trace(go.Bar(
+            x=[x["id"] for x in com_indice], y=[x["spi"] for x in com_indice], name="SPI (Cronograma)",
+            marker=dict(color="#FBBF24"),
+            hovertemplate="<b>%{x}</b><br>SPI: %{y:.2f}<extra></extra>"
+        ))
+        fig_idx.add_trace(go.Bar(
+            x=[x["id"] for x in com_indice], y=[x["cpi"] for x in com_indice], name="CPI (Custo)",
+            marker=dict(color="#34D399"),
+            hovertemplate="<b>%{x}</b><br>CPI: %{y:.2f}<extra></extra>"
+        ))
+        fig_idx.add_hline(y=1.0, line_dash="dot", line_color="#94A3B8", annotation_text="Referência (1.0)")
+        fig_idx.update_layout(_layout_barras("SPI e CPI por Release", "Índice", 380))
+        st.plotly_chart(fig_idx, use_container_width=True, config=PLOTLY_CONFIG)
+    else:
+        st.info("Nenhuma release tem pontos estimados suficientes para calcular SPI e CPI.")
     with st.expander("O que este gráfico mostra?"):
         st.markdown(
             "SPI (prazo) e CPI (custo) são acompanhados separadamente porque um projeto pode estar "
-            "bem em um e comprometido no outro. Não existe um único número que resuma os dois. A "
-            "linha pontilhada em 1.0 é a referência neutra: abaixo dela, o índice aponta menos "
-            "entregue (ou mais caro) do que o planejado; muito acima dela também vale investigar, "
-            "pois às vezes sinaliza escopo subestimado em vez de desempenho excepcional."
+            "bem em um e comprometido no outro. A linha pontilhada em 1.0 é a referência neutra. "
+            "Com o AC estimado pela linha de base, os dois índices coincidem; eles só passam a "
+            "divergir quando o custo real for registrado."
+        )
+
+    serie = r["serie"]
+    st.markdown(f"#### Burnup e Burndown de Pontos da {r['id']}")
+    if serie:
+        rotulos = [p["sprint"] for p in serie]
+        fig_up = go.Figure()
+        fig_up.add_trace(go.Scatter(
+            x=rotulos, y=[p["entregue_acum"] for p in serie], name="Pontos entregues (acumulado)",
+            mode="lines+markers", fill="tozeroy", fillcolor="rgba(56, 189, 248, 0.15)",
+            line=dict(color="#38BDF8", width=3),
+            hovertemplate="<b>%{x}</b><br>Entregues: %{y:.0f} SP<extra></extra>"
+        ))
+        fig_up.add_hline(y=r["prp"], line_dash="dash", line_color="#94A3B8",
+                         annotation_text=f"Escopo planejado (PRP): {r['prp']:.0f} SP")
+        fig_up.update_layout(get_plotly_layout(f"Burnup de Pontos da {r['id']}", height=360, y_title="Story Points"))
+        st.plotly_chart(fig_up, use_container_width=True, config=PLOTLY_CONFIG)
+
+        fig_down = go.Figure()
+        fig_down.add_trace(go.Scatter(
+            x=rotulos, y=[p["restante_ideal"] for p in serie], name="Restante ideal",
+            mode="lines+markers", line=dict(color="#94A3B8", width=2.5, dash="dash"),
+            hovertemplate="<b>%{x}</b><br>Deveria restar: %{y:.0f} SP<extra></extra>"
+        ))
+        fig_down.add_trace(go.Scatter(
+            x=rotulos, y=[p["restante"] for p in serie], name="Restante real",
+            mode="lines+markers", fill="tozeroy", fillcolor="rgba(248, 113, 113, 0.15)",
+            line=dict(color="#F87171", width=3),
+            hovertemplate="<b>%{x}</b><br>Falta entregar: %{y:.0f} SP<extra></extra>"
+        ))
+        fig_down.update_layout(get_plotly_layout(f"Burndown de Pontos da {r['id']}", height=360, y_title="Story Points"))
+        st.plotly_chart(fig_down, use_container_width=True, config=PLOTLY_CONFIG)
+        with st.expander("O que estes gráficos mostram?"):
+            st.markdown(
+                "O burnup acumula os pontos entregues sprint a sprint e a linha tracejada marca o "
+                "escopo planejado da release (PRP). O burndown é o espelho: quanto ainda falta "
+                "entregar, comparado com o ritmo ideal para terminar no fim do prazo. Se o PRP "
+                "mudar, as duas curvas se ajustam."
+            )
+    else:
+        st.info("Nenhuma sprint termina dentro desta release até agora.")
+
+    st.markdown("#### Histórico de Velocity")
+    fechadas = [s for s in velocity_sprints if s.get("status") == "CLOSED"]
+    if fechadas:
+        fig_vel = go.Figure(go.Bar(
+            x=[s["name"] for s in fechadas],
+            y=[s["delivered_sp"] for s in fechadas],
+            marker=dict(
+                color=["#38BDF8" if i % 2 == 0 else "#0284C7" for i in range(len(fechadas))],
+                line=dict(color="rgba(255, 255, 255, 0.3)", width=1)
+            ),
+            text=[f"{s['delivered_sp']:.0f} SP" for s in fechadas],
+            textposition="auto",
+            hovertemplate="<b>%{x}</b><br>Entregue: %{y} SP<extra></extra>"
+        ))
+        fig_vel.update_layout(get_plotly_layout("Velocity por Sprint (Story Points Entregues)", height=360, y_title="Story Points"))
+        st.plotly_chart(fig_vel, use_container_width=True, config=PLOTLY_CONFIG)
+        media = sum(s["delivered_sp"] for s in fechadas) / len(fechadas)
+        st.caption(f"Média das sprints fechadas: {media:.1f} SP por sprint.")
+    else:
+        st.info("Ainda não há sprints fechadas para calcular a velocity.")
+    with st.expander("O que este gráfico mostra?"):
+        st.markdown(
+            "Quantos pontos de história cada sprint fechada entregou. Uma sprint com poucos pontos "
+            "não é necessariamente ruim: pode refletir histórias maiores do que o normal, feriados, "
+            "ou trabalho técnico que não gera pontos diretamente. Se as histórias não foram "
+            "estimadas, a velocity aparece zerada e deixa de refletir o trabalho feito."
         )
 
     st.markdown("### Tabela de Auditoria e Rastreabilidade do Agile EVM")
     st.dataframe(evm["audit_df"], use_container_width=True, hide_index=True)
-    
+
     csv_data = evm["audit_df"].to_csv(index=False, sep=";", encoding="utf-8-sig")
     st.download_button(
         label="Exportar Tabela de Auditoria (CSV)",
@@ -655,10 +684,11 @@ def render_process_tab():
         )
     with p2:
         render_kpi(
-            "Tempo Médio de Feedback", f"{runs_data['avg_duration_min']} min", "Duração média de execução", THEME_COLORS["primary"],
-            help_text="Tempo médio entre o início e o fim de uma execução da esteira. Quanto menor, "
-                      "mais rápido o time descobre se uma mudança quebrou algo. É velocidade de "
-                      "feedback, não qualidade do que foi testado."
+            "Tempo Mediano de Execução", f"{runs_data['median_duration_min']} min", "Mediana da duração das execuções", THEME_COLORS["primary"],
+            help_text="Valor central da duração das execuções da esteira, do início ao fim. Usa a "
+                      "mediana porque poucas execuções atípicas (como um deploy que ficou horas "
+                      "aguardando) distorceriam a média. Quanto menor, mais rápido o time descobre "
+                      "se uma mudança quebrou algo."
         )
     with p3:
         render_kpi(
@@ -697,9 +727,10 @@ def render_process_tab():
 
     with st.expander("O que estes gráficos mostram?"):
         st.markdown(
-            "**Tempo de Resposta:** duração das últimas execuções, na ordem em que ocorreram. Picos "
+            "**Tempo de Resposta:** duração das últimas execuções, ordenadas por data de início. Picos "
             "pontuais costumam ser normais (dependências reinstaladas, cache frio); uma tendência de "
-            "alta sustentada ao longo de várias execuções é o sinal que vale investigar.\n\n"
+            "alta sustentada ao longo de várias execuções é o sinal que vale investigar. O indicador "
+            "acima usa a mediana de todas as execuções, que não é afetada por execuções atípicas.\n\n"
             "**Estabilidade:** proporção de execuções com sucesso versus falha em todo o histórico "
             "coletado até agora. Não reflete só as execuções recentes do gráfico ao lado."
         )
@@ -709,20 +740,23 @@ def render_theory_tab():
     """Memória de cálculo e critérios formais."""
     st.markdown("### Fundamentação Teórica e Critérios Acadêmicos")
     st.markdown(r"""
-    A formulação do **Agile EVM** segue o modelo de **Sulaiman, Barton e Blackburn (2006)** (*"AgileEVM - Earned Value Management in Scrum Projects"*):
+    A formulação do **Agile EVM** segue o modelo de **Sulaiman, Barton e Blackburn (2006)** (*"AgileEVM - Earned Value Management in Scrum Projects"*), aplicado **por release**:
 
-    1. **BAC (Budget at Completion)**: Orçamento total planejado da release:
-       $$BAC = PRP_0 \times \text{Custo Unitário}$$
-    2. **PRPₙ (Planned Release Points)**: Escopo total na Sprint $n$, considerando pontos adicionados ($PA$):
-       $$PRP_n = PRP_0 + \sum_{k=1}^{n} PA_k$$
-    3. **PPC (Planned Percent Complete)**: Percentual de tempo decorrido:
-       $$PPC = \frac{n}{PS}$$
-    4. **APC (Actual Percent Complete)**: Percentual de escopo concluído:
-       $$APC_n = \frac{RPC_n}{PRP_n}$$
+    1. **BAC (Budget at Completion)**: orçamento da release, do Plano de Custos.
+    2. **PRP (Planned Release Points)**: pontos de história planejados para a release, somados nas sprints que terminam nela.
+    3. **PPC (Planned Percent Complete)**: fração dos dias da release já decorrida:
+       $$PPC = \frac{\text{dias decorridos}}{\text{dias da release}}$$
+    4. **APC (Actual Percent Complete)**: fração do escopo concluído, com $RPC$ os pontos entregues:
+       $$APC = \frac{RPC}{PRP}$$
     5. **PV (Planned Value)**: $PV = PPC \times BAC$
-    6. **EV (Earned Value)**: $EV = APC_n \times BAC$
-    7. **SPI (Schedule Performance Index)**: $SPI = \frac{EV}{PV}$
-    8. **CPI (Cost Performance Index)**: $CPI = \frac{EV}{AC_n}$
+    6. **EV (Earned Value)**: $EV = APC \times BAC$
+    7. **AC (Actual Cost)**: custo incorrido. Sem custo real apurado, é estimado por $AC = PPC \times BAC$.
+    8. **SPI (Schedule Performance Index)**: $SPI = \frac{EV}{PV}$
+    9. **CPI (Cost Performance Index)**: $CPI = \frac{EV}{AC}$
+    10. **SV e CV**: $SV = EV - PV$ e $CV = EV - AC$
+    11. **ETC e EAC**: $ETC = \frac{BAC - EV}{CPI}$ e $EAC = AC + ETC$
+
+    **Hipóteses e limites:** o BAC de cada release é provisório e segue o Plano de Custos. O PRP depende de todas as histórias estarem estimadas no ZenHub. Cada sprint é atribuída à release em que termina. Como o AC é estimado, o CPI coincide com o SPI até que o custo real seja registrado.
     """)
 
 
@@ -730,10 +764,10 @@ def main():
     apply_custom_theme()
     render_header()
     
-    sim_prp0, sim_ps, sim_budget = render_sidebar()
+    render_sidebar()
     
-    sprints_data, is_sprints_mock = get_zenhub_sprints_data()
-    sprints_data = filter_started_sprints(sprints_data)
+    sprints_all, is_sprints_mock = get_zenhub_sprints_data()
+    sprints_data = filter_started_sprints(sprints_all)
     risks_data, is_risks_mock = get_risks_data()
     sonar_data, is_sonar_mock = get_sonar_metrics_data()
 
@@ -757,12 +791,7 @@ def main():
             "Cada aba mostrada acima mostra seu próprio aviso quando usa dados simulados."
         )
     
-    evm_results = compute_agile_evm_metrics(
-        sprints=sprints_data,
-        prp_0=sim_prp0,
-        planned_sprints=sim_ps,
-        sprint_budget_brl=sim_budget
-    )
+    evm_results = compute_release_evm(sprints=sprints_all, releases=RELEASES)
 
     tab_evm, tab_riscos, tab_processo, tab_qualidade, tab_teoria = st.tabs([
         "Agile EVM e Velocity",
@@ -773,7 +802,7 @@ def main():
     ])
 
     with tab_evm:
-        render_evm_tab(evm_results, is_sprints_mock)
+        render_evm_tab(evm_results, sprints_data, is_sprints_mock)
 
     with tab_riscos:
         render_risks_tab(risks_data, is_risks_mock)

@@ -1,6 +1,7 @@
 import os
 import json
 import glob
+import statistics
 from datetime import datetime
 from typing import Dict, List, Any, Tuple, Optional
 from .config import RAW_DATA_DIR
@@ -35,19 +36,28 @@ def get_zenhub_sprints_data() -> Tuple[List[Dict[str, Any]], bool]:
                     "name": name,
                     "delivered_sp": float(info.get("delivered_story_points", info.get("delivered_sp", 0.0))),
                     "points_added": float(info.get("points_added", 0.0)),
+                    "total_points": float(info.get("total_points", 0.0)),
                     "status": info.get("state", "CLOSED").upper(),
                     "start_at": info.get("start_at"),
                     "end_at": info.get("end_at")
                 })
             return result, False
 
-    # Dados mock de exemplo para a DA-R1
+    # Dados mock de exemplo: sprints de 14 dias com datas, para que o EVM por release
+    # consiga atribuir cada sprint a uma release mesmo sem o arquivo real.
+    def _exemplo(nome, entregues, total, inicio, fim, status):
+        return {
+            "name": nome, "delivered_sp": entregues, "points_added": 0.0,
+            "total_points": total,
+            "status": status, "start_at": inicio, "end_at": fim,
+        }
+
     mock_data = [
-        {"name": "Sprint 1", "delivered_sp": 10.0, "points_added": 0.0, "status": "CLOSED"},
-        {"name": "Sprint 2", "delivered_sp": 14.0, "points_added": 3.0, "status": "CLOSED"},
-        {"name": "Sprint 3", "delivered_sp": 13.0, "points_added": 0.0, "status": "CLOSED"},
-        {"name": "Sprint 4", "delivered_sp": 16.0, "points_added": 0.0, "status": "ACTIVE"},
-        {"name": "Sprint 5", "delivered_sp": 0.0, "points_added": 0.0, "status": "FUTURE"}
+        _exemplo("Sprint 1", 10.0, 12.0, "2026-08-17T03:59:00Z", "2026-08-31T02:59:00Z", "CLOSED"),
+        _exemplo("Sprint 2", 14.0, 16.0, "2026-08-31T03:59:00Z", "2026-09-14T02:59:00Z", "CLOSED"),
+        _exemplo("Sprint 3", 13.0, 13.0, "2026-09-14T03:59:00Z", "2026-09-28T02:59:00Z", "CLOSED"),
+        _exemplo("Sprint 4", 4.0, 16.0, "2026-09-28T03:59:00Z", "2026-10-12T02:59:00Z", "OPEN"),
+        _exemplo("Sprint 5", 0.0, 0.0, "2026-10-12T03:59:00Z", "2026-10-26T02:59:00Z", "OPEN"),
     ]
     return mock_data, True
 
@@ -117,14 +127,18 @@ def get_github_runs_data() -> Tuple[Dict[str, Any], bool]:
     """
     Carrega dados agregados das execuções de CI/CD do GitHub Actions ou dados mock.
     Retorna uma tupla (dados, is_mock).
+
+    O tempo de execução usa a MEDIANA, não a média: execuções atípicas (ex: deploy do
+    site que ficou horas aguardando) distorcem a média e não representam o tempo
+    normal de feedback da esteira.
     """
     pattern = os.path.join(RAW_DATA_DIR, "GitHub_API-Runs-*.json")
     files = glob.glob(pattern)
-    
+
     total_runs = 0
     success_runs = 0
-    durations = []
-    
+    execucoes = []  # (created_at, duração em segundos)
+
     for fpath in files:
         data = load_json_file(fpath)
         if data and "workflow_runs" in data:
@@ -132,13 +146,12 @@ def get_github_runs_data() -> Tuple[Dict[str, Any], bool]:
                 total_runs += 1
                 if run.get("conclusion") == "success":
                     success_runs += 1
-                
+
                 if "created_at" in run and "updated_at" in run:
-                    from datetime import datetime
                     try:
                         c_at = datetime.fromisoformat(run["created_at"].replace("Z", "+00:00"))
                         u_at = datetime.fromisoformat(run["updated_at"].replace("Z", "+00:00"))
-                        durations.append((u_at - c_at).total_seconds())
+                        execucoes.append((c_at, (u_at - c_at).total_seconds()))
                     except Exception:
                         pass
 
@@ -146,21 +159,24 @@ def get_github_runs_data() -> Tuple[Dict[str, Any], bool]:
         mock_runs = {
             "total_runs": 28,
             "success_rate": 89.3,
-            "avg_duration_min": 3.6,
-            "recent_feedback_series": [4.2, 3.8, 3.5, 3.1, 3.6]
+            "median_duration_min": 0.6,
+            "recent_feedback_series": [0.7, 0.6, 0.5, 0.6, 0.6]
         }
         return mock_runs, True
 
-    avg_min = (sum(durations) / len(durations) / 60) if durations else 3.5
+    execucoes.sort(key=lambda e: e[0])
+    duracoes_min = [segundos / 60 for _, segundos in execucoes]
+    mediana_min = statistics.median(duracoes_min) if duracoes_min else 0.0
     success_rate = (success_runs / total_runs * 100) if total_runs > 0 else 100.0
 
     real_runs = {
         "total_runs": total_runs,
         "success_rate": round(success_rate, 1),
-        "avg_duration_min": round(avg_min, 1),
-        "recent_feedback_series": [round(d / 60, 1) for d in durations[-10:]]
+        "median_duration_min": round(mediana_min, 1),
+        "recent_feedback_series": [round(d, 1) for d in duracoes_min[-10:]]
     }
     return real_runs, False
+
 
 def get_sonar_metrics_data() -> Tuple[Dict[str, Any], bool]:
     """

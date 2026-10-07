@@ -1,131 +1,183 @@
-from typing import Dict, List, Any
+from datetime import date, datetime, timedelta, timezone
+from typing import Any, Dict, List, Optional
+from zoneinfo import ZoneInfo
+
 import pandas as pd
 
+from .config import FUSO_BRASILIA
 
-def compute_agile_evm_metrics(
+
+def _data_brasilia(valor: Optional[str]) -> Optional[date]:
+    """Converte um timestamp ISO (normalmente em UTC) para a data civil em Brasília."""
+    if not valor:
+        return None
+    try:
+        dt = datetime.fromisoformat(str(valor).replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(ZoneInfo(FUSO_BRASILIA)).date()
+
+
+def _limites(release: Dict[str, Any]) -> tuple:
+    return date.fromisoformat(release["inicio"]), date.fromisoformat(release["fim"])
+
+
+def release_da_sprint(sprint: Dict[str, Any], releases: List[Dict[str, Any]]) -> Optional[str]:
+    """Id da release a que a sprint pertence, ou None se cai fora de todas.
+
+    Usa a data de término da sprint (em Brasília): uma sprint entrega o que
+    foi planejado para a release em que ela termina, mesmo que comece antes dela.
+    Sprints sem data de término usam a data de início.
+    """
+    referencia = _data_brasilia(sprint.get("end_at")) or _data_brasilia(sprint.get("start_at"))
+    if referencia is None:
+        return None
+    for release in releases:
+        inicio, fim = _limites(release)
+        if inicio <= referencia <= fim:
+            return release["id"]
+    return None
+
+
+def _ppc(release: Dict[str, Any], dia: date) -> float:
+    """Percentual do prazo da release já decorrido em `dia` (0.0 a 1.0)."""
+    inicio, fim = _limites(release)
+    duracao = (fim - inicio).days + 1
+    decorridos = min(max((dia - inicio).days + 1, 0), duracao)
+    return decorridos / duracao
+
+
+def compute_release_evm(
     sprints: List[Dict[str, Any]],
-    prp_0: float,
-    planned_sprints: float,
-    sprint_budget_brl: float
+    releases: List[Dict[str, Any]],
+    hoje: Optional[date] = None,
 ) -> Dict[str, Any]:
-    """Calcula indicadores de prazo e custo do Agile EVM (Sulaiman et al., 2006)."""
-    bac = prp_0 * (sprint_budget_brl / (prp_0 / planned_sprints if planned_sprints > 0 else 1))
-    
-    total_rpc = 0.0
-    total_pa = 0.0
-    accumulated_ac = 0.0
-    
-    burnup_labels = ["Início"]
-    burnup_pv = [0.0]
-    burnup_ev = [0.0]
-    burnup_ideal = [0.0]
-    
-    spi_series = [1.0]
-    cpi_series = [1.0]
-    velocity_series = []
-    velocity_labels = []
-    
-    table_rows = []
+    """Agile EVM por release (Sulaiman et al., 2006), sem parâmetros de simulação.
 
-    for idx, s in enumerate(sprints):
-        n = idx + 1
-        name = s.get("name", f"Sprint {n}")
-        delivered_sp = float(s.get("delivered_sp", 0.0))
-        points_added = float(s.get("points_added", 0.0))
-        is_done = s.get("status", "CLOSED").upper() == "CLOSED"
+    Entradas reais: BAC de cada release (config.RELEASES, vindo do Plano de Custos)
+    e, por sprint, os pontos planejados (`total_points`) e entregues (`delivered_sp`).
+    Hipóteses: PRP = soma dos pontos das sprints que terminam na release; PPC = fração
+    dos dias da release já decorrida; AC é estimado pela linha de base de custo
+    (PPC x BAC), pois não há custo real apurado, então CPI coincide com SPI.
+    """
+    hoje = hoje or datetime.now(ZoneInfo(FUSO_BRASILIA)).date()
 
-        total_pa += points_added
-        prp_n = prp_0 + total_pa
-        ppc = min(1.0, n / planned_sprints)
-        pv = round(ppc * bac, 2)
+    por_release: Dict[str, List[Dict[str, Any]]] = {r["id"]: [] for r in releases}
+    for s in sprints:
+        destino = release_da_sprint(s, releases)
+        if destino:
+            por_release[destino].append(s)
 
-        burnup_labels.append(name)
-        burnup_pv.append(pv)
-        burnup_ideal.append(round((n / planned_sprints) * bac, 2))
+    resultado = []
+    for release in releases:
+        inicio, fim = _limites(release)
+        lista = sorted(por_release[release["id"]], key=lambda s: s.get("end_at") or "")
+        bac = float(release["bac_brl"])
 
-        if is_done:
-            total_rpc += delivered_sp
-            apc = total_rpc / prp_n if prp_n > 0 else 0.0
-            ev = round(apc * bac, 2)
-            accumulated_ac += sprint_budget_brl
+        prp = sum(float(s.get("total_points", 0.0)) for s in lista)
+        rpc = sum(float(s.get("delivered_sp", 0.0)) for s in lista)
 
-            spi = round(ev / pv, 2) if pv > 0 else 1.0
-            cpi = round(ev / accumulated_ac, 2) if accumulated_ac > 0 else 1.0
-            sv = round(ev - pv, 2)
-            cv = round(ev - accumulated_ac, 2)
-            etc = round((bac - ev) / cpi, 2) if cpi > 0 else 0.0
-            eac = round(accumulated_ac + etc, 2)
-
-            burnup_ev.append(ev)
-            spi_series.append(spi)
-            cpi_series.append(cpi)
-            velocity_series.append(delivered_sp)
-            velocity_labels.append(name)
-
-            table_rows.append({
-                "Sprint": name,
-                "PRP₀ (SP)": f"{prp_0:.1f}",
-                "PA (SP)": f"{points_added:.1f}",
-                "PRPₙ (SP)": f"{prp_n:.1f}",
-                "PPC": f"{ppc*100:.1f}%",
-                "PC (SP)": f"{delivered_sp:.1f}",
-                "RPC (SP)": f"{total_rpc:.1f}",
-                "PV (R$)": f"R$ {pv:,.2f}",
-                "EV (R$)": f"R$ {ev:,.2f}",
-                "AC (R$)": f"R$ {accumulated_ac:,.2f}",
-                "SPI": f"{spi:.2f}",
-                "CPI": f"{cpi:.2f}",
-                "CV (R$)": f"R$ {cv:,.2f}",
-                "SV (R$)": f"R$ {sv:,.2f}",
-                "EAC (R$)": f"R$ {eac:,.2f}",
-                "Status": "Finalizada"
-            })
+        if hoje < inicio:
+            status = "Futura"
+        elif hoje > fim:
+            status = "Concluída"
         else:
-            burnup_ev.append(None)
-            table_rows.append({
-                "Sprint": name,
-                "PRP₀ (SP)": f"{prp_0:.1f}",
-                "PA (SP)": f"{points_added:.1f}",
-                "PRPₙ (SP)": f"{prp_n:.1f}",
-                "PPC": f"{ppc*100:.1f}%",
-                "PC (SP)": f"{delivered_sp:.1f}",
-                "RPC (SP)": "-",
-                "PV (R$)": f"R$ {pv:,.2f}",
-                "EV (R$)": "-",
-                "AC (R$)": "-",
-                "SPI": "-",
-                "CPI": "-",
-                "CV (R$)": "-",
-                "SV (R$)": "-",
-                "EAC (R$)": "-",
-                "Status": "Em Andamento / Futura"
+            status = "Em andamento"
+
+        ppc = _ppc(release, hoje)
+        apc = min(1.0, rpc / prp) if prp > 0 else None
+        pv = round(ppc * bac, 2)
+        ac = round(ppc * bac, 2)
+        ev = round(apc * bac, 2) if apc is not None else None
+
+        calculavel = status != "Futura" and ev is not None and pv > 0
+        spi = round(ev / pv, 2) if calculavel else None
+        cpi = round(ev / ac, 2) if calculavel and ac > 0 else None
+        sv = round(ev - pv, 2) if calculavel else None
+        cv = round(ev - ac, 2) if calculavel else None
+        etc = round((bac - ev) / cpi, 2) if cpi else None
+        eac = round(ac + etc, 2) if etc is not None else None
+
+        serie = []
+        acumulado = 0.0
+        for s in lista:
+            acumulado += float(s.get("delivered_sp", 0.0))
+            fim_sprint = _data_brasilia(s.get("end_at")) or fim
+            serie.append({
+                "sprint": s.get("name", "Sprint"),
+                "entregue_acum": acumulado,
+                "restante": max(prp - acumulado, 0.0),
+                "restante_ideal": round(prp * (1 - _ppc(release, min(fim_sprint, fim))), 2),
             })
 
-    current_spi = spi_series[-1] if len(spi_series) > 1 else 1.0
-    current_cpi = cpi_series[-1] if len(cpi_series) > 1 else 1.0
-    current_ev_list = [v for v in burnup_ev if v is not None]
-    current_ev = current_ev_list[-1] if current_ev_list else 0.0
-    etc_current = round((bac - current_ev) / current_cpi, 2) if current_cpi > 0 else 0.0
+        resultado.append({
+            "id": release["id"],
+            "nome": release["nome"],
+            "inicio": inicio,
+            "fim": fim,
+            "status": status,
+            "bac": bac,
+            "prp": prp,
+            "rpc": rpc,
+            "n_sprints": len(lista),
+            "ppc": ppc,
+            "apc": apc,
+            "pv": pv,
+            "ev": ev,
+            "ac": ac,
+            "spi": spi,
+            "cpi": cpi,
+            "sv": sv,
+            "cv": cv,
+            "etc": etc,
+            "eac": eac,
+            "serie": serie,
+        })
 
-    avg_velocity = round(sum(velocity_series) / len(velocity_series), 1) if velocity_series else 0.0
+    # Release que ainda não começou não tem o que medir: fica de fora até a data de início.
+    iniciadas = [r for r in resultado if r["status"] != "Futura"]
+    resultado = iniciadas or resultado[:1]
 
-    return {
-        "bac": bac,
-        "current_ev": current_ev,
-        "current_spi": current_spi,
-        "current_cpi": current_cpi,
-        "etc_current": etc_current,
-        "avg_velocity": avg_velocity,
-        "burnup_labels": burnup_labels,
-        "burnup_pv": burnup_pv,
-        "burnup_ev": burnup_ev,
-        "burnup_ideal": burnup_ideal,
-        "velocity_labels": velocity_labels,
-        "velocity_series": velocity_series,
-        "spi_series": spi_series,
-        "cpi_series": cpi_series,
-        "audit_df": pd.DataFrame(table_rows)
-    }
+    atual = next((r["id"] for r in resultado if r["status"] == "Em andamento"), None)
+    if atual is None:
+        concluidas = [r["id"] for r in resultado if r["status"] == "Concluída"]
+        atual = concluidas[-1] if concluidas else resultado[0]["id"]
+
+    return {"releases": resultado, "atual": atual, "audit_df": _tabela_auditoria(resultado)}
+
+
+def _brl(valor: Optional[float]) -> str:
+    return "-" if valor is None else f"R$ {valor:,.2f}"
+
+
+def _num(valor: Optional[float], casas: int = 2) -> str:
+    return "-" if valor is None else f"{valor:.{casas}f}"
+
+
+def _tabela_auditoria(releases: List[Dict[str, Any]]) -> pd.DataFrame:
+    linhas = []
+    for r in releases:
+        linhas.append({
+            "Release": r["id"],
+            "Período": f"{r['inicio']:%d/%m} a {r['fim']:%d/%m}",
+            "Status": r["status"],
+            "BAC (R$)": _brl(r["bac"]),
+            "PRP (SP)": _num(r["prp"], 1),
+            "RPC (SP)": _num(r["rpc"], 1),
+            "PPC": f"{r['ppc'] * 100:.1f}%",
+            "APC": "-" if r["apc"] is None else f"{r['apc'] * 100:.1f}%",
+            "PV (R$)": _brl(r["pv"]),
+            "EV (R$)": _brl(r["ev"]),
+            "AC (R$)": _brl(r["ac"]),
+            "SPI": _num(r["spi"]),
+            "CPI": _num(r["cpi"]),
+            "SV (R$)": _brl(r["sv"]),
+            "CV (R$)": _brl(r["cv"]),
+            "EAC (R$)": _brl(r["eac"]),
+        })
+    return pd.DataFrame(linhas)
 
 
 def process_risks_summary(risks: List[Dict[str, Any]]) -> pd.DataFrame:
