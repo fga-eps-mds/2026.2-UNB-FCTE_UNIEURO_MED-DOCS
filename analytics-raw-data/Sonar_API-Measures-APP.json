@@ -1,7 +1,7 @@
 {
   "repositorio": "APP",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-APP",
-  "coletado_em": "2026-10-06T09:19:18Z",
+  "coletado_em": "2026-10-07T09:20:12Z",
   "medidas": {
     "coverage": "96.0",
     "reliability_rating": "1.0",
