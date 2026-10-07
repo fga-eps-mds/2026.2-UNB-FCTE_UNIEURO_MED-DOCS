@@ -17,6 +17,7 @@ O padrão adotado está descrito no [modelo de ata](modelo-ata.md).
 | [06](Ata-06-EPS-2026-09-15-PO.md) | 15/09/2026 | Cadastro, TCLE, métricas e identidade visual | Cliente |
 | [07](Ata-07-EPS-2026-09-23-PO.md) | 23/09/2026 | Validação da identidade visual, do protótipo e das histórias da R1 | Professor, *Product Owner*, Cliente |
 | [08](Ata-08-EPS-2026-10-02-PO.md) | 02/10/2026 | Entrega da R1 e avaliação da disciplina | Professor, *Product Owner*, Cliente |
+| [09](Ata-09-EPS-2026-10-05-PO.md) | 05/10/2026 | Validação das histórias da Release Minor 1, CRUD do médico e sincronização | Professor, *Product Owner* |
 
 **Fonte:** [Vitor Carvalho Pereira](https://github.com/vcpVitor), 2026
 
@@ -27,3 +28,4 @@ O padrão adotado está descrito no [modelo de ata](modelo-ata.md).
 | `1.0` | 20/09/2026 | Criação do índice de atas | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | [Henrique Galdino Couto](https://github.com/hgaldino05) |
 | `1.1` | 24/09/2026 | Inclusão da ata 07 | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
 | `1.2` | 04/10/2026 | Inclusão da ata 08 | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
+| `1.3` | 06/10/2026 | Inclusão da ata 09 | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
