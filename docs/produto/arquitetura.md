@@ -328,6 +328,8 @@ Duas regras não aparecem no diagrama, porque a notação só permite cardinalid
 | Exportação em XML por ação do profissional | Importação no REDCap pela equipe de pesquisa | [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md) |
 | Salvar todas as métricas de caneta disponíveis | Os dados alimentam a pesquisa mesmo sem entrar no modelo | [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md) |
 | Registro automático de apagamentos e desistências | Métricas do Canvas MVP sem anotação manual | [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md) |
+| APK de entrega sem permissão de internet | Sem a permissão, nenhuma biblioteca consegue tirar dado do tablet, mesmo por engano | [APP #63](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/63) |
+| Backup do Android e transferência entre aparelhos desligados | O backup e a transferência copiariam o banco, com dados do profissional e dos pacientes, para fora do tablet sem ação de ninguém | [APP #62](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/62) |
 
 ## 10. Pendências
 
