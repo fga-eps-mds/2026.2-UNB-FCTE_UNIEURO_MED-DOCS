@@ -103,3 +103,4 @@ As datas vêm do [Cronograma](../processo/cronograma.md), e o recorte de cada re
 | Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de Revisão |
 |---|---|---|---|---|---|
 | 1.0 | Criação da página com o registro da Atividade 10 da Lean Inception, transcrita do quadro de Visão do Produto | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 18/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 19/09/2026 |
+| 1.1 | Métricas das hipóteses mensuráveis no semestre, separação das métricas que dependem do uso real e inclusão do custo por release e do cronograma, conforme a avaliação da R1 | [Gustavo Henrique](https://github.com/GustavoHenriqueRS) | 08/10/2026 | A definir | — |
