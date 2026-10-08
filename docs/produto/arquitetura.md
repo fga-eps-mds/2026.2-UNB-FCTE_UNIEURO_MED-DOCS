@@ -353,7 +353,7 @@ Duas regras não aparecem no diagrama, porque a notação só permite cardinalid
 | O runtime do modelo exigir módulo nativo, que não funciona no Expo Go | Usar *development build* do Expo desde o início do projeto |
 | Os mapas de calor dependerem de cálculo de gradiente, que o runtime do celular pode não suportar | Exportar o modelo já devolvendo os mapas como saída, e testar isso cedo |
 | O aplicativo e o modelo usarem pré-processamentos diferentes | Manter o contrato da [seção 6.3](#63-contrato-entre-aplicativo-e-modelo) versionado junto com o modelo |
-| Perda de dados se o tablet quebrar ou for perdido | Orientar a exportação periódica do XML e proteger o banco do aplicativo |
+| Perda de dados se o tablet quebrar ou for perdido | Orientar a exportação periódica do XML e proteger o banco do aplicativo. Como o backup do Android fica desligado, o XML exportado é a única cópia fora do tablet |
 | O paciente acessar dados de outros pacientes | Bloquear a área do profissional durante o teste e exigir autenticação para voltar |
 | A caneta não fornecer pressão ou inclinação | Tratar esses campos como opcionais no banco e no XML |
 
