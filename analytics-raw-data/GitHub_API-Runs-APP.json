@@ -1,7 +1,43 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-10-07T09:20:10Z",
+  "coletado_em": "2026-10-08T09:20:47Z",
   "workflow_runs": [
+    {
+      "id": 37717801761,
+      "name": "Build",
+      "head_branch": "fix/feedback-cadastro-login",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-08T02:25:34Z",
+      "updated_at": "2026-10-08T02:26:50Z",
+      "run_number": 46,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/37717801761"
+    },
+    {
+      "id": 37717575954,
+      "name": "Build",
+      "head_branch": "fix/feedback-cadastro-login",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-08T02:22:49Z",
+      "updated_at": "2026-10-08T02:24:28Z",
+      "run_number": 45,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/37717575954"
+    },
+    {
+      "id": 37642137957,
+      "name": "Build",
+      "head_branch": "feat/5-crud-conta",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-07T15:05:28Z",
+      "updated_at": "2026-10-07T15:07:33Z",
+      "run_number": 44,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/37642137957"
+    },
     {
       "id": 37418319307,
       "name": "Build",
