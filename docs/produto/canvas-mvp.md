@@ -70,11 +70,19 @@ Estas métricas estavam no quadro original. Elas só podem ser medidas com o apl
 
 ## 7. Custo e cronograma
 
-- 34 dias de dupla, equivalentes a 11 ou 12 semanas.
-- Tablet Android, com custo zero caso o hospital já disponha do equipamento.
-- Sem servidor, sem licença e sem hospedagem, consequência direta da decisão de operar 100% offline.
+### 7.1 Custo
 
-O detalhamento e a validação desses números são tratados no Plano de Custos, pacote 1.1.5 da EAP.
+O custo vem do [Plano de Custos](../processo/plano_de_custos.md), que soma pessoas, computadores, energia e internet. O produto não tem custo de servidor, licença ou hospedagem, porque roda 100% offline, e usa um tablet Android comum, sem custo se a instituição já tiver o aparelho.
+
+| Período | Semanas | Custo planejado | Acumulado |
+|---|---:|---:|---:|
+| R1 — 10/08 a 28/09 | 7 | R$ 25.294,46 | R$ 25.294,46 |
+| R2 — 29/09 a 26/10 | 4 | R$ 13.139,98 | R$ 38.434,44 |
+| R3 — 27/10 a 30/11 | 5 | R$ 16.424,97 | R$ 54.859,41 |
+| Release final — 01/12 a 07/12 | 1 | R$ 3.285,00 | R$ 58.144,41 |
+| **Total** | **17** | **R$ 58.144,41** | |
+
+O Plano de Custos está sendo recalculado pelo valor da hora, com o orçamento por release ([DOCS #75](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/issues/75)). Quando ele mudar, esta tabela acompanha.
 
 ## Histórico de Versões
 
