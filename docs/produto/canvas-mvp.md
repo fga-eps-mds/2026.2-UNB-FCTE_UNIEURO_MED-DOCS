@@ -43,15 +43,18 @@ Esta numeração vem do próprio quadro e não corresponde à lista consolidada 
 
 ## 6. Métricas para validar as hipóteses
 
-- Concordância do modelo com dois especialistas
-- Concordância entre os próprios especialistas
-- Desempenho em desenhos nunca vistos
-- Percentual de aplicações concluídas sem ajuda
-- Número de desistências
-- Número de instruções reformuladas
-- Tempo por aplicação
-- Percentual de aplicações em que o profissional olhou o desenho
-- Acerto por faixa de escolaridade
+Cada hipótese tem pelo menos uma métrica que a equipe consegue medir até o fim do semestre, com o próprio aplicativo, com o repositório de IA ou nos testes com o *Product Owner* e o cliente. As metas marcadas como proposta ainda precisam do aceite do *Product Owner*.
+
+| Hipótese | Métrica | Como medir | Quando | Meta |
+|---|---|---|---|---|
+| H1 — O resultado concorda com o especialista | AUC e F1-score do modelo no conjunto de teste, com o MoCA como referência | Avaliação do modelo no repositório de IA ([IA #4](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/4)) | R2 e R3 | Linha de base: AUC de 0,765 no [modelo base](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/blob/docs/resultados-modelo-base/docs/resultados-modelo-base.md). Proposta: AUC de pelo menos 0,80, perto do 0,838 do artigo |
+| H1 — O resultado concorda com o especialista | Mesma classe entre o modelo original e o modelo exportado no tablet | Conjunto de conferência rodado nos dois ([IA #6](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/6)) | R3 | Todos os casos com a mesma classe |
+| H2 — O idoso desenha sozinho | Percentual de tarefas concluídas sem ajuda | Sessões de teste de usabilidade com voluntários de 60 anos ou mais, sem dado de saúde | R3 | Proposta: pelo menos 80% das tarefas |
+| H2 — O idoso desenha sozinho | Apagamentos e desistências por sessão | Registro automático do aplicativo ([Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md)) nas mesmas sessões | R3 | Valor registrado por sessão, para comparar entre as releases |
+| H3 — Cabe no tempo da consulta | Tempo do fluxo completo, do início da avaliação ao resultado | Tempo registrado pelo aplicativo, sem exibir ao paciente ([Ata 07](../atas-reunioes/Ata-07-EPS-2026-09-23-PO.md)), nas sessões de usabilidade e no teste de aceitação | R3 e RF | Proposta: até 10 minutos |
+| H3 — Cabe no tempo da consulta | Tempo da inferência no tablet do parceiro | Medição no aparelho com o modelo exportado ([IA #6](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/6), [APP #12](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/12)) | R3 | Limite combinado com o parceiro na IA #6 |
+| H4 — O modelo tem significado clínico | AUC por faixa de escolaridade no conjunto de teste | Relatório por faixa no repositório de IA ([IA #5](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/5)) | R3 | Relatório publicado e limites de uso revisados pelo parceiro |
+| H5 — O profissional confia no que vê | Aceite das histórias do resultado e nota de confiança de 1 a 5 | Instrumento de teste de aceitação do *Product Owner* e do cliente ([APP #13](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/13), [APP #14](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/14)) | R3 e RF | Proposta: histórias aceitas e nota de pelo menos 4 |
 
 ## 7. Custo e cronograma
 
