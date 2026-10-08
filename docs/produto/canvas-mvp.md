@@ -84,6 +84,20 @@ O custo vem do [Plano de Custos](../processo/plano_de_custos.md), que soma pesso
 
 O Plano de Custos está sendo recalculado pelo valor da hora, com o orçamento por release ([DOCS #75](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/issues/75)). Quando ele mudar, esta tabela acompanha.
 
+### 7.2 Cronograma
+
+As datas vêm do [Cronograma](../processo/cronograma.md), e o recorte de cada release, do [Roadmap](../processo/roadmap.md). As métricas da seção 6 são medidas nas releases indicadas na tabela delas.
+
+| Data | Release | Objetivo |
+|---|---|---|
+| 28/09 | R1 | Telas de cadastro e login |
+| 13/10 | Release minor 1 | Conta do profissional completa e tela inicial |
+| 26/10 | R2 | Cadastro e login offline, atendimento e TCLE registrados e primeiro desenho no tablet |
+| 09/11 | Release minor 2 | Incremento das três tarefas e da captura |
+| 30/11 | R3 — MVP | Três tarefas, captura, inferência e resultado no tablet, e exportação do XML |
+| 07/12 | Release final | Correções, acessibilidade e teste de aceitação final com o cliente |
+| 14/12 | Encerramento | APK, documentação e resultados das métricas |
+
 ## Histórico de Versões
 
 | Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de Revisão |
