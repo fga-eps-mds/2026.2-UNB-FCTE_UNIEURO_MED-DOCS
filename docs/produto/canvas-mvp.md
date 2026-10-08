@@ -56,6 +56,18 @@ Cada hipótese tem pelo menos uma métrica que a equipe consegue medir até o fi
 | H4 — O modelo tem significado clínico | AUC por faixa de escolaridade no conjunto de teste | Relatório por faixa no repositório de IA ([IA #5](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/5)) | R3 | Relatório publicado e limites de uso revisados pelo parceiro |
 | H5 — O profissional confia no que vê | Aceite das histórias do resultado e nota de confiança de 1 a 5 | Instrumento de teste de aceitação do *Product Owner* e do cliente ([APP #13](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/13), [APP #14](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/14)) | R3 e RF | Proposta: histórias aceitas e nota de pelo menos 4 |
 
+### 6.1 Métricas que dependem do uso real
+
+Estas métricas estavam no quadro original. Elas só podem ser medidas com o aplicativo em uso no ambulatório, depois do semestre, e ficam registradas para a continuidade do projeto.
+
+| Métrica | Por que fica para depois |
+|---|---|
+| Concordância do modelo com dois especialistas | Precisa de pacientes reais avaliados pelo aplicativo e por dois especialistas |
+| Concordância entre os próprios especialistas | Precisa da mesma coleta com dois especialistas |
+| Desempenho em desenhos nunca vistos, coletados no ambulatório | O conjunto de dados atual é público e já foi usado no treino e no teste |
+| Percentual de aplicações em que o profissional olhou o desenho | Só tem sentido em consultas reais, não em teste de aceitação |
+| Número de instruções reformuladas | Depende do protocolo aplicado por profissionais no dia a dia |
+
 ## 7. Custo e cronograma
 
 - 34 dias de dupla, equivalentes a 11 ou 12 semanas.
