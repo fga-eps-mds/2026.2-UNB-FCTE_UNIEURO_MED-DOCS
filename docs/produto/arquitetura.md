@@ -262,6 +262,8 @@ Em produção existe um único nó de execução, o tablet. A máquina de desenv
 - O banco SQLite, as imagens e os traçados ficam no armazenamento privado do aplicativo, que outros aplicativos não conseguem ler.
 - O XML precisa ser gravado em uma pasta escolhida pelo profissional. Se ficasse no armazenamento privado, não seria possível copiá-lo para o REDCap.
 - A inferência roda no tablet, sem chamadas de rede.
+- O APK de entrega não declara a permissão de internet nem as permissões sem uso que o modelo do Expo acrescenta. Só o build de desenvolvimento mantém a rede, para falar com o servidor do Expo ([APP #63](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/63)).
+- O backup automático do Android e a transferência de dados para outro aparelho ficam desligados em todos os builds, para que o banco não seja copiado para a conta Google do tablet nem para outro tablet ([APP #62](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/62)).
 
 ## 8. Modelagem de dados
 
