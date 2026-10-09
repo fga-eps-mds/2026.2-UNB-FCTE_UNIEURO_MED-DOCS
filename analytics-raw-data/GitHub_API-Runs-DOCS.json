@@ -1,16 +1,52 @@
 {
   "repositorio": "DOCS",
-  "coletado_em": "2026-10-08T09:20:45Z",
+  "coletado_em": "2026-10-09T09:21:28Z",
   "workflow_runs": [
     {
-      "id": 37755975068,
+      "id": 37910703216,
       "name": "Coleta de métricas",
       "head_branch": "main",
       "event": "schedule",
       "status": "in_progress",
       "conclusion": null,
+      "created_at": "2026-10-09T09:21:05Z",
+      "updated_at": "2026-10-09T09:21:20Z",
+      "run_number": 14,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/37910703216"
+    },
+    {
+      "id": 37793201719,
+      "name": "Deploy to GitHub Pages",
+      "head_branch": "docs/74-canvas-mvp",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-08T14:31:44Z",
+      "updated_at": "2026-10-08T14:32:12Z",
+      "run_number": 137,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/37793201719"
+    },
+    {
+      "id": 37791219201,
+      "name": "Deploy to GitHub Pages",
+      "head_branch": "docs/backup-e-permissoes-do-apk",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-08T14:17:18Z",
+      "updated_at": "2026-10-08T14:17:41Z",
+      "run_number": 136,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/37791219201"
+    },
+    {
+      "id": 37755975068,
+      "name": "Coleta de métricas",
+      "head_branch": "main",
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-10-08T09:20:34Z",
-      "updated_at": "2026-10-08T09:20:38Z",
+      "updated_at": "2026-10-08T09:21:01Z",
       "run_number": 13,
       "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/37755975068"
     },

@@ -1,7 +1,31 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-10-08T09:20:47Z",
+  "coletado_em": "2026-10-09T09:21:31Z",
   "workflow_runs": [
+    {
+      "id": 37837685760,
+      "name": "Build",
+      "head_branch": "fix/42-cifrar-cpf",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-08T20:12:20Z",
+      "updated_at": "2026-10-08T20:14:11Z",
+      "run_number": 48,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/37837685760"
+    },
+    {
+      "id": 37793843698,
+      "name": "Build",
+      "head_branch": "chore/permissoes-e-backup-do-apk",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-08T14:36:23Z",
+      "updated_at": "2026-10-08T14:38:04Z",
+      "run_number": 47,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/37793843698"
+    },
     {
       "id": 37717801761,
       "name": "Build",
