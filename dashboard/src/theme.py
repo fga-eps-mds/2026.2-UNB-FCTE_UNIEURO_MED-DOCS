@@ -1,3 +1,4 @@
+import html
 import streamlit as st
 import plotly.graph_objects as go
 from .config import THEME_COLORS
@@ -95,6 +96,14 @@ def apply_custom_theme():
         color: var(--text-color, #CBD5E1);
         opacity: 0.9;
     }
+    .kpi-container[title] {
+        cursor: help;
+    }
+    .kpi-info-icon {
+        font-size: 0.78rem;
+        opacity: 0.55;
+        margin-left: 5px;
+    }
 
     /* Caixas de Fórmulas e Informações */
     .formula-card {
@@ -117,13 +126,20 @@ def apply_custom_theme():
     """, unsafe_allow_html=True)
 
 
-def render_kpi(label: str, value: str, subtext: str = "", color: str = None):
-    """Renderiza card visual de KPI com contraste adaptativo."""
+def render_kpi(label: str, value: str, subtext: str = "", color: str = None, help_text: str = None):
+    """Renderiza card visual de KPI com contraste adaptativo.
+
+    `help_text`, quando informado, vira tooltip nativo do navegador (atributo
+    `title`) com o significado geral do indicador. Não é o veredito sobre o
+    valor atual, que já está no `subtext`/cor do card.
+    """
     color_style = f"style='color: {color};'" if color else ""
+    title_attr = f' title="{html.escape(help_text)}"' if help_text else ""
+    icon = ' <span class="kpi-info-icon">ⓘ</span>' if help_text else ""
     st.markdown(f"""
-    <div class="kpi-container">
+    <div class="kpi-container"{title_attr}>
         <div class="kpi-header">
-            <span class="kpi-tag">{label}</span>
+            <span class="kpi-tag">{label}{icon}</span>
         </div>
         <div class="kpi-num" {color_style}>{value}</div>
         <div class="kpi-desc">{subtext}</div>
@@ -134,7 +150,7 @@ def render_kpi(label: str, value: str, subtext: str = "", color: str = None):
 def get_plotly_layout(title: str, height: int = 420, y_title: str = None, y2_title: str = None) -> dict:
     """Retorna layout Plotly com título em destaque nítido e sem sobreposição.
 
-    `y_title`/`y2_title` rotulam os eixos (esquerdo/direito) — sem isso, um
+    `y_title`/`y2_title` rotulam os eixos (esquerdo/direito). Sem isso, um
     gráfico com valores em R$ e outro com índices ficam ambíguos lado a lado.
     """
     layout = dict(
