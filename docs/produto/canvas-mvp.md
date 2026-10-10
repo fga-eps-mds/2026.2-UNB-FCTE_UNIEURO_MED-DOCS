@@ -43,26 +43,64 @@ Esta numeração vem do próprio quadro e não corresponde à lista consolidada 
 
 ## 6. Métricas para validar as hipóteses
 
-- Concordância do modelo com dois especialistas
-- Concordância entre os próprios especialistas
-- Desempenho em desenhos nunca vistos
-- Percentual de aplicações concluídas sem ajuda
-- Número de desistências
-- Número de instruções reformuladas
-- Tempo por aplicação
-- Percentual de aplicações em que o profissional olhou o desenho
-- Acerto por faixa de escolaridade
+Cada hipótese tem pelo menos uma métrica que a equipe consegue medir até o fim do semestre, com o próprio aplicativo, com o repositório de IA ou nos testes com o *Product Owner* e o cliente. As metas marcadas como proposta ainda precisam do aceite do *Product Owner*.
+
+| Hipótese | Métrica | Como medir | Quando | Meta |
+|---|---|---|---|---|
+| H1 — O resultado concorda com o especialista | AUC e F1-score do modelo no conjunto de teste, com o MoCA como referência | Avaliação do modelo no repositório de IA ([IA #4](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/4)) | R2 e R3 | Linha de base: AUC de 0,765 no [modelo base](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/blob/docs/resultados-modelo-base/docs/resultados-modelo-base.md). Proposta: AUC de pelo menos 0,80, perto do 0,838 do artigo |
+| H1 — O resultado concorda com o especialista | Mesma classe entre o modelo original e o modelo exportado no tablet | Conjunto de conferência rodado nos dois ([IA #6](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/6)) | R3 | Todos os casos com a mesma classe |
+| H2 — O idoso desenha sozinho | Percentual de tarefas concluídas sem ajuda | Sessões de teste de usabilidade com voluntários de 60 anos ou mais, sem dado de saúde | R3 | Proposta: pelo menos 80% das tarefas |
+| H2 — O idoso desenha sozinho | Apagamentos e desistências por sessão | Registro automático do aplicativo ([Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md)) nas mesmas sessões | R3 | Valor registrado por sessão, para comparar entre as releases |
+| H3 — Cabe no tempo da consulta | Tempo do fluxo completo, do início da avaliação ao resultado | Tempo registrado pelo aplicativo, sem exibir ao paciente ([Ata 07](../atas-reunioes/Ata-07-EPS-2026-09-23-PO.md)), nas sessões de usabilidade e no teste de aceitação | R3 e RF | Proposta: até 10 minutos |
+| H3 — Cabe no tempo da consulta | Tempo da inferência no tablet do parceiro | Medição no aparelho com o modelo exportado ([IA #6](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/6), [APP #12](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/12)) | R3 | Limite combinado com o parceiro na IA #6 |
+| H4 — O modelo tem significado clínico | AUC por faixa de escolaridade no conjunto de teste | Relatório por faixa no repositório de IA ([IA #5](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/5)) | R3 | Relatório publicado e limites de uso revisados pelo parceiro |
+| H5 — O profissional confia no que vê | Aceite das histórias do resultado e nota de confiança de 1 a 5 | Instrumento de teste de aceitação do *Product Owner* e do cliente ([APP #13](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/13), [APP #14](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/14)) | R3 e RF | Proposta: histórias aceitas e nota de pelo menos 4 |
+
+### 6.1 Métricas que dependem do uso real
+
+Estas métricas estavam no quadro original. Elas só podem ser medidas com o aplicativo em uso no ambulatório, depois do semestre, e ficam registradas para a continuidade do projeto.
+
+| Métrica | Por que fica para depois |
+|---|---|
+| Concordância do modelo com dois especialistas | Precisa de pacientes reais avaliados pelo aplicativo e por dois especialistas |
+| Concordância entre os próprios especialistas | Precisa da mesma coleta com dois especialistas |
+| Desempenho em desenhos nunca vistos, coletados no ambulatório | O conjunto de dados atual é público e já foi usado no treino e no teste |
+| Percentual de aplicações em que o profissional olhou o desenho | Só tem sentido em consultas reais, não em teste de aceitação |
+| Número de instruções reformuladas | Depende do protocolo aplicado por profissionais no dia a dia |
 
 ## 7. Custo e cronograma
 
-- 34 dias de dupla, equivalentes a 11 ou 12 semanas.
-- Tablet Android, com custo zero caso o hospital já disponha do equipamento.
-- Sem servidor, sem licença e sem hospedagem, consequência direta da decisão de operar 100% offline.
+### 7.1 Custo
 
-O detalhamento e a validação desses números são tratados no Plano de Custos, pacote 1.1.5 da EAP.
+O custo vem do [Plano de Custos](../processo/plano_de_custos.md), que soma pessoas, computadores, energia e internet. O produto não tem custo de servidor, licença ou hospedagem, porque roda 100% offline, e usa um tablet Android comum, sem custo se a instituição já tiver o aparelho.
+
+| Período | Semanas | Custo planejado | Acumulado |
+|---|---:|---:|---:|
+| R1 — 10/08 a 28/09 | 7 | R$ 25.294,46 | R$ 25.294,46 |
+| R2 — 29/09 a 26/10 | 4 | R$ 13.139,98 | R$ 38.434,44 |
+| R3 — 27/10 a 30/11 | 5 | R$ 16.424,97 | R$ 54.859,41 |
+| Release final — 01/12 a 07/12 | 1 | R$ 3.285,00 | R$ 58.144,41 |
+| **Total** | **17** | **R$ 58.144,41** | |
+
+O Plano de Custos está sendo recalculado pelo valor da hora, com o orçamento por release ([DOCS #75](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/issues/75)). Quando ele mudar, esta tabela acompanha.
+
+### 7.2 Cronograma
+
+As datas vêm do [Cronograma](../processo/cronograma.md), e o recorte de cada release, do [Roadmap](../processo/roadmap.md). As métricas da seção 6 são medidas nas releases indicadas na tabela delas.
+
+| Data | Release | Objetivo |
+|---|---|---|
+| 28/09 | R1 | Telas de cadastro e login |
+| 13/10 | Release minor 1 | Conta do profissional completa e tela inicial |
+| 26/10 | R2 | Cadastro e login offline, atendimento e TCLE registrados e primeiro desenho no tablet |
+| 09/11 | Release minor 2 | Incremento das três tarefas e da captura |
+| 30/11 | R3 — MVP | Três tarefas, captura, inferência e resultado no tablet, e exportação do XML |
+| 07/12 | Release final | Correções, acessibilidade e teste de aceitação final com o cliente |
+| 14/12 | Encerramento | APK, documentação e resultados das métricas |
 
 ## Histórico de Versões
 
 | Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de Revisão |
 |---|---|---|---|---|---|
 | 1.0 | Criação da página com o registro da Atividade 10 da Lean Inception, transcrita do quadro de Visão do Produto | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 18/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 19/09/2026 |
+| 1.1 | Métricas das hipóteses mensuráveis no semestre, separação das métricas que dependem do uso real e inclusão do custo por release e do cronograma, conforme a avaliação da R1 | [Gustavo Henrique](https://github.com/GustavoHenriqueRS) | 08/10/2026 | A definir | — |
