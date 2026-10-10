@@ -262,6 +262,8 @@ Em produção existe um único nó de execução, o tablet. A máquina de desenv
 - O banco SQLite, as imagens e os traçados ficam no armazenamento privado do aplicativo, que outros aplicativos não conseguem ler.
 - O XML precisa ser gravado em uma pasta escolhida pelo profissional. Se ficasse no armazenamento privado, não seria possível copiá-lo para o REDCap.
 - A inferência roda no tablet, sem chamadas de rede.
+- O APK de entrega não declara a permissão de internet nem as permissões sem uso que o modelo do Expo acrescenta. Só o build de desenvolvimento mantém a rede, para falar com o servidor do Expo ([APP #63](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/63)).
+- O backup automático do Android e a transferência de dados para outro aparelho ficam desligados em todos os builds, para que o banco não seja copiado para a conta Google do tablet nem para outro tablet ([APP #62](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/62)).
 
 ## 8. Modelagem de dados
 
@@ -326,6 +328,8 @@ Duas regras não aparecem no diagrama, porque a notação só permite cardinalid
 | Exportação em XML por ação do profissional | Importação no REDCap pela equipe de pesquisa | [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md) |
 | Salvar todas as métricas de caneta disponíveis | Os dados alimentam a pesquisa mesmo sem entrar no modelo | [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md) |
 | Registro automático de apagamentos e desistências | Métricas do Canvas MVP sem anotação manual | [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md) |
+| APK de entrega sem permissão de internet | Sem a permissão, nenhuma biblioteca consegue tirar dado do tablet, mesmo por engano | [APP #63](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/63) |
+| Backup do Android e transferência entre aparelhos desligados | O backup e a transferência copiariam o banco, com dados do profissional e dos pacientes, para fora do tablet sem ação de ninguém | [APP #62](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/62) |
 
 ## 10. Pendências
 
@@ -349,7 +353,7 @@ Duas regras não aparecem no diagrama, porque a notação só permite cardinalid
 | O runtime do modelo exigir módulo nativo, que não funciona no Expo Go | Usar *development build* do Expo desde o início do projeto |
 | Os mapas de calor dependerem de cálculo de gradiente, que o runtime do celular pode não suportar | Exportar o modelo já devolvendo os mapas como saída, e testar isso cedo |
 | O aplicativo e o modelo usarem pré-processamentos diferentes | Manter o contrato da [seção 6.3](#63-contrato-entre-aplicativo-e-modelo) versionado junto com o modelo |
-| Perda de dados se o tablet quebrar ou for perdido | Orientar a exportação periódica do XML e proteger o banco do aplicativo |
+| Perda de dados se o tablet quebrar ou for perdido | Orientar a exportação periódica do XML e proteger o banco do aplicativo. Como o backup do Android fica desligado, o XML exportado é a única cópia fora do tablet |
 | O paciente acessar dados de outros pacientes | Bloquear a área do profissional durante o teste e exigir autenticação para voltar |
 | A caneta não fornecer pressão ou inclinação | Tratar esses campos como opcionais no banco e no XML |
 
@@ -365,3 +369,4 @@ Duas regras não aparecem no diagrama, porque a notação só permite cardinalid
 | 1.5 | Registro da tecnologia (Expo, SQLite e PyTorch, sem backend) e da saída do modelo (classe, probabilidades e mapas de calor) | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 23/09/2026 | A definir | — |
 | 1.6 | Alinhamento da seção de repositórios e pacotes à estrutura real do projeto Expo | [Thales Germano](https://github.com/thalesgvl) | 25/09/2026 | A definir | — |
 | 1.7 | Inclusão da modelagem de dados (MER e DER) e ajuste das fontes das figuras | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 26/09/2026 | A definir | — |
+| 1.8 | Registro das decisões sobre permissões, backup e transferência de dados do APK | [Gustavo Henrique](https://github.com/GustavoHenriqueRS) | 08/10/2026 | A definir | — |
