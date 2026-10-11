@@ -282,7 +282,7 @@ Em produção existe um único nó de execução, o tablet. A máquina de desenv
 
 ## 8. Modelagem de dados
 
-Esta seção descreve os dados que o aplicativo guarda no banco SQLite do tablet. Os campos de cadastro são os definidos pelo cliente na [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md). Os dados de traçado, inferência, horário, profissional e paciente são os pedidos para o XML na [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md).
+Esta seção descreve os dados que o aplicativo guarda no banco SQLite do tablet, em três níveis: o modelo conceitual (MER), o diagrama entidade-relacionamento (DER) e o esquema lógico, com as tabelas, as colunas e as chaves. Os campos de cadastro são os definidos pelo cliente na [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md), com o CPF do paciente pedido pelo *Product Owner* na [Ata 09](../atas-reunioes/Ata-09-EPS-2026-10-05-PO.md). Os dados de traçado, inferência, horário, profissional e paciente são os pedidos para o XML na [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md).
 
 ### 8.1 Modelo Entidade-Relacionamento (MER)
 
@@ -293,12 +293,12 @@ Os identificadores estão sublinhados, e os atributos opcionais estão marcados 
 | Entidade | Atributos |
 |---|---|
 | PROFISSIONAL | <u>id_profissional</u>, nome_completo, email, crm, cpf, senha_hash |
-| PACIENTE | <u>id_paciente</u>, nome, numero_ficha, data_nascimento |
+| PACIENTE | <u>id_paciente</u>, nome, cpf, numero_ficha, data_nascimento, escolaridade_anos, sexo (opcional) |
 | AVALIACAO | <u>id_avaliacao</u>, data_hora_inicio, data_hora_termino (opcional), estado, instrucoes_dadas (opcional), tarefa_interrompida (opcional) |
 | CONSENTIMENTO | <u>id_consentimento</u>, versao_tcle, aceito, assinado_por, data_hora |
 | TAREFA | <u>id_tarefa</u>, tipo, ordem, data_hora_inicio, data_hora_termino (opcional) |
 | DESENHO | <u>id_desenho</u>, imagem_final, data_hora_confirmacao |
-| EVENTO_TRACADO | <u>id_evento</u>, tipo, ordem, coord_x, coord_y, instante, pressao (opcional), inclinacao (opcional) |
+| EVENTO_TRACADO | <u>id_evento</u>, tipo, ordem, ponteiro (opcional), coord_x (opcional), coord_y (opcional), instante, pressao (opcional), inclinacao_x (opcional), inclinacao_y (opcional) |
 | INFERENCIA | <u>id_inferencia</u>, classe_prevista, prob_normal, prob_ccl, prob_demencia, versao_modelo, data_hora |
 | MAPA_CALOR | <u>id_mapa</u>, imagem |
 | EXPORTACAO | <u>id_exportacao</u>, data_hora, versao_esquema_xml, nome_arquivo |
@@ -312,12 +312,12 @@ Os identificadores estão sublinhados, e os atributos opcionais estão marcados 
 | REGISTRA | AVALIACAO e CONSENTIMENTO | 1:1 | Cada avaliação tem no máximo um registro de consentimento. Ele não existe enquanto o TCLE está na tela |
 | POSSUI | AVALIACAO e TAREFA | 1:N | Uma avaliação tem até três tarefas. Uma avaliação interrompida pode ter menos |
 | RESULTA_EM | TAREFA e DESENHO | 1:1 | Cada tarefa tem no máximo um desenho confirmado |
-| CAPTURA | TAREFA e EVENTO_TRACADO | 1:N | Cada tarefa registra vários eventos de traçado (traço, desfazer ou limpar), mesmo que o desenho não seja confirmado |
+| CAPTURA | TAREFA e EVENTO_TRACADO | 1:N | Cada tarefa registra vários eventos de traçado (início de traço, ponto, desfazer ou limpar), mesmo que o desenho não seja confirmado |
 | GERA | AVALIACAO e INFERENCIA | 1:1 | Uma avaliação tem no máximo uma inferência, que só existe quando os três desenhos foram confirmados |
 | PRODUZ | INFERENCIA e MAPA_CALOR | 1:N | Cada inferência produz três mapas de calor |
 | REFERE_SE | DESENHO e MAPA_CALOR | 1:1 | Cada mapa de calor se refere a um desenho |
 | SOLICITA | PROFISSIONAL e EXPORTACAO | 1:N | Um profissional pode solicitar várias exportações |
-| EXPORTA | AVALIACAO e EXPORTACAO | 1:N | Uma avaliação pode ser exportada mais de uma vez |
+| EXPORTA | AVALIACAO e EXPORTACAO | N:N | Uma avaliação pode ser exportada mais de uma vez, e uma exportação reúne uma ou mais avaliações, como no botão "Exportar todos" da tela inicial |
 
 Duas regras não aparecem no diagrama, porque a notação só permite cardinalidade máxima 1 ou N: uma avaliação tem no máximo **três** tarefas, e cada inferência tem exatamente **três** mapas de calor. O aplicativo precisa garantir essas regras.
 
