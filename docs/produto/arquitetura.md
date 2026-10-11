@@ -329,6 +329,59 @@ Duas regras não aparecem no diagrama, porque a notação só permite cardinalid
 
 **Fonte:** [Gabriel Lopes de Amorim](https://github.com/BrzGab), 2026.
 
+### 8.3 Esquema lógico do banco
+
+O esquema lógico traduz o DER nas tabelas do SQLite. Cada entidade vira uma tabela com chave primária `id`, cada relacionamento 1:N vira uma chave estrangeira na tabela do lado N, cada relacionamento 1:1 vira uma chave estrangeira com valor único, e o relacionamento N:N entre avaliação e exportação vira a tabela `exportacao_avaliacao`. Na figura, cada ligação vai da tabela referenciada para a tabela com a chave estrangeira, com a cardinalidade de cada lado. A tabela logo abaixo da figura indica quais tabelas já existem no código. As demais estão previstas.
+
+**Figura 9:** Esquema lógico do banco SQLite
+
+![Modelo lógico com as tabelas profissional, avaliacao, paciente, consentimento, exportacao, tarefa, inferencia, mapa_calor, exportacao_avaliacao, evento_tracado e desenho, com colunas, tipos, chaves primárias, chaves estrangeiras, valores únicos e a cardinalidade de cada ligação](../assets/imagens/arquitetura/esquema-logico-banco.png)
+
+**Fonte:** [Gabriel Lopes de Amorim](https://github.com/BrzGab), 2026.
+
+**Tabelas que já existem no código**
+
+| Tabela | Migração | Origem | O que guarda |
+|---|---|---|---|
+| `profissional` | Versões 1 e 2 | APP #5, #6 e #42 | Cadastro do profissional. O CPF é guardado como `cpf_cifrado` (AES-GCM) e `cpf_indice` (HMAC-SHA256, único), com a chave no Keystore do Android |
+| `paciente` | Versão 3 | APP #7 | Os seis dados do paciente. O CPF segue o mesmo formato do profissional, e o índice único permite reconhecer o paciente que volta. O sexo pode ficar vazio |
+| `avaliacao` | Versão 3 | APP #7 | O atendimento: médico, paciente, data e hora de início e estado. Nasce em `aguardando_consentimento`, e o `CHECK` já aceita os sete estados da [seção 5.2](#52-estados-da-avaliacao) |
+
+**Convenções**
+
+- As versões do esquema ficam na lista `MIGRATIONS` de `src/db/schema.ts`, e a versão atual do banco fica no `PRAGMA user_version`. Uma migração publicada nunca é editada: cada mudança é um passo novo no fim da lista, porque os tablets que já criaram o banco não executam os passos anteriores de novo.
+- Datas e horários são `TEXT` no formato ISO 8601. Valores lógicos são `INTEGER`, com 0 ou 1. Imagens são `BLOB`.
+- As chaves estrangeiras são ligadas por `PRAGMA foreign_keys = ON`, e as restrições de cada coluna (formato do índice do CPF, data de nascimento, escolaridade não negativa, valores aceitos do sexo e do estado) ficam em `CHECK` no próprio banco.
+- Nenhum identificador pessoal é gravado em texto: o CPF do profissional e o do paciente passam pelo mesmo protetor (`cpfProtector`). A cifra e o índice só valem no tablet que os gerou, o que precisa ser considerado na sincronização entre tablets.
+- O `dados/schema.sql` do MED-IA reproduzia a versão 1. As versões 2 e 3 existem só no aplicativo, que passa a ser a fonte do esquema.
+
+### 8.4 Evento de traçado
+
+A entidade EVENTO_TRACADO segue o formato usado na prova de conceito da captura ([APP #60](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/60)), ajustado na [DOCS #89](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/issues/89):
+
+| Tipo | Quando é registrado | Campos preenchidos |
+|---|---|---|
+| `inicio` | Primeiro ponto de cada traço | ponteiro, coordenadas, instante e, se a caneta informar, pressão e inclinação |
+| `ponto` | Cada ponto seguinte do mesmo traço | Os mesmos do `inicio` |
+| `desfazer` | O paciente desfaz o último traço | Só ordem e instante |
+| `limpar` | O paciente apaga tudo | Só ordem e instante |
+
+- O instante é contado em milissegundos desde o início da tarefa, e a ordem é única dentro da tarefa.
+- A caneta informa a inclinação em dois eixos, por isso o modelo guarda `inclinacao_x` e `inclinacao_y`. O ponteiro diz se o traço veio da caneta, do dedo ou do mouse.
+- Todos os eventos ficam gravados, inclusive os desfeitos, e o desenho que vale é reconstruído a partir deles. A história APP #23 diz que o traço desfeito sai "da tela e dos dados capturados", e o cliente pediu que o recomeço fique registrado ([Ata 07](../atas-reunioes/Ata-07-EPS-2026-09-23-PO.md)). Essa diferença está nas [pendências](#10-pendencias), para decisão do *Product Owner*.
+
+### 8.5 Integração entre o modelo de IA e o banco
+
+O modelo de IA não acessa o banco por conta própria e o banco nunca sai do tablet. O repositório MED-IA só trata o conjunto de dados, treina e exporta o arquivo do modelo, que entra no APK em `assets/modelo`. No tablet, quem lê e grava o banco é o aplicativo:
+
+1. Ao confirmar cada desenho, a captura grava em `desenho` a imagem final e, em `evento_tracado`, todos os eventos daquela tarefa.
+2. Quando os três desenhos estão confirmados, o orquestrador muda a avaliação para `processando_resultado`.
+3. O pacote de inferência lê as três imagens da avaliação, na ordem do contrato da [seção 6.3](#63-contrato-entre-aplicativo-e-modelo), prepara a entrada e executa o modelo embarcado.
+4. O resultado é gravado em `inferencia`, com a versão do modelo, e os mapas de calor em `mapa_calor`, um por desenho. A avaliação passa a `concluida`. Se o modelo falhar, ela passa a `erro_inferencia` e pode ser processada de novo, porque os desenhos continuam gravados.
+5. O resultado só é lido pelas telas do profissional e pelo exportador XML.
+
+Os dados de caneta ficam em `evento_tracado` para o XML e para a pesquisa, mas não entram no modelo, porque o conjunto de dados de treino não tem dados de caneta ([Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md)).
+
 ## 9. Decisões arquiteturais
 
 | Decisão | Justificativa | Origem |
@@ -337,6 +390,9 @@ Duas regras não aparecem no diagrama, porque a notação só permite cardinalid
 | Execução 100% local no tablet, sem backend | Custo de infraestrutura que ninguém assumiria e proteção dos dados do paciente | [Ata 02](../atas-reunioes/Ata-02-EPS-2026-08-24-PO.md), [Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md) |
 | Aplicativo em Expo (React Native), distribuído como APK | Tablets da UniEuro e escopo sem Web, iOS ou loja | Definição da equipe, [Lean Inception](lean-inception.md) |
 | Banco SQLite no tablet | Banco relacional em arquivo, sem servidor, proposto na Ata 02 | [Ata 02](../atas-reunioes/Ata-02-EPS-2026-08-24-PO.md) |
+| CPF cifrado no campo, com índice de busca | Mantém a recusa de CPF repetido e a recuperação do CPF para a sincronização, sem deixá-lo legível no arquivo do banco | [APP #42](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/42) |
+| Paciente reconhecido pelo CPF | O *Product Owner* pediu o CPF para diferenciar homônimos, e o paciente que volta é reaproveitado em vez de cadastrado de novo | [Ata 09](../atas-reunioes/Ata-09-EPS-2026-10-05-PO.md), [APP #7](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/7) |
+| Esquema do banco mantido no aplicativo | O Expo não executa o script Python do MED-IA, e o modelo de IA não acessa o banco | [Seção 8.3](#83-esquema-logico-do-banco) |
 | Modelo treinado em PyTorch e executado no aparelho | Dispensa rede e mantém os dados no tablet | [Visão do Produto](visao.md) |
 | Saída do modelo com classe, probabilidades e mapas de calor | O profissional precisa ver o desenho, o motivo da decisão e a margem de erro para confiar no resultado | [Lean Inception](lean-inception.md#4-personas) |
 | Resultado visível somente para o profissional | Não constranger o paciente | [Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md) |
@@ -349,14 +405,17 @@ Duas regras não aparecem no diagrama, porque a notação só permite cardinalid
 | Item | Situação |
 |---|---|
 | Runtime do modelo no aplicativo | Definir como o Expo vai executar o modelo exportado do PyTorch (por exemplo, ExecuTorch ou ONNX Runtime) |
-| Proteção do banco no tablet | Definir se o SQLite será criptografado e como a senha do profissional será armazenada |
-| Segunda figura das tarefas | As Atas 01 e 03 falam em hexágono, e a página de [Funcionalidades](funcionalidades.md) fala em pentágono. Confirmar com o cliente |
+| Proteção dos demais dados do paciente | A senha usa hash e o CPF é cifrado ([APP #42](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/42)). Nome, data de nascimento, desenhos e resultados continuam em texto no arquivo do banco. Decidir se eles também serão cifrados |
+| Páginas com a figura antiga das tarefas | A [Ata 09](../atas-reunioes/Ata-09-EPS-2026-10-05-PO.md) confirmou relógio, cubo e trilhas. A página de [Funcionalidades](funcionalidades.md) ainda fala em pentágono e precisa ser alinhada |
 | Termo "escore" nas outras páginas | A [Visão do Produto](visao.md), a [Lean Inception](lean-inception.md) e as [Funcionalidades](funcionalidades.md) falam em escore por tarefa e escore geral. O modelo devolve classe, probabilidades e mapas de calor, então essas páginas precisam ser alinhadas |
 | Faixa de incerteza | A probabilidade de cada classe pode cumprir esse papel, como o *Product Owner* sugeriu na [Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md). Confirmar |
 | Mapas de calor no MVP | Na [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md) o mapa de calor foi tratado como adicional pós-MVP. Com a saída atual do modelo, ele passa a fazer parte do resultado. Registrar essa mudança no sequenciador |
 | Esquema do XML | Definir campos, versionamento e o que precisa ser anonimizado antes de ir para o REDCap |
 | Recuperação de senha | Prevista nas histórias de usuário ([Ata 05](../atas-reunioes/Ata-05-EPS-2026-09-14-PO.md)), mas precisa funcionar sem e-mail ou rede |
 | Registro de apagamentos | O cliente ainda vai confirmar se o apagamento deve ser registrado ([Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md)) |
+| Traço desfeito | O modelo de dados guarda todos os eventos, e a APP #23 diz que o traço desfeito sai dos dados capturados. Levar ao *Product Owner* ([DOCS #89](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/issues/89)) |
+| Identificador entre tablets | O `id` é gerado por cada tablet e se repetiria entre eles. Se a sincronização ([DOCS #81](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/issues/81)) for aprovada, as tabelas precisam de um identificador único global e o `last_update` passa a resolver conflitos |
+| Número da ficha | O cliente disse que ele pode ser gerado pelo aplicativo. Se for gerado, não pode ser um contador por tablet, senão dois tablets geram o mesmo número |
 
 ## 11. Riscos e mitigações
 
@@ -382,3 +441,4 @@ Duas regras não aparecem no diagrama, porque a notação só permite cardinalid
 | 1.5 | Registro da tecnologia (Expo, SQLite e PyTorch, sem backend) e da saída do modelo (classe, probabilidades e mapas de calor) | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 23/09/2026 | A definir | — |
 | 1.6 | Alinhamento da seção de repositórios e pacotes à estrutura real do projeto Expo | [Thales Germano](https://github.com/thalesgvl) | 25/09/2026 | A definir | — |
 | 1.7 | Inclusão da modelagem de dados (MER e DER) e ajuste das fontes das figuras | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 26/09/2026 | A definir | — |
+| 1.9 | Diagrama de pacotes na visão lógica, com as funcionalidades de cada pacote; esquema lógico do banco; evento de traçado; integração entre o modelo de IA e o banco; DER com o CPF, a escolaridade e o sexo do paciente | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 10/10/2026 | A definir | — |
