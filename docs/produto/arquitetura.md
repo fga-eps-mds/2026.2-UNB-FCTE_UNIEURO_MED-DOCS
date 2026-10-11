@@ -14,11 +14,11 @@ O documento cobre:
 
 1. visão geral e contexto de uso;
 2. estilo arquitetural adotado;
-3. visão lógica, com os componentes do aplicativo;
+3. visão lógica, com os componentes, os pacotes do aplicativo e as funcionalidades de cada pacote;
 4. visão de processos, com o fluxo da avaliação, os estados da avaliação e a sequência da inferência;
-5. visão de implementação, com os repositórios e os pacotes;
+5. visão de implementação, com as tecnologias, os repositórios e o contrato com o modelo;
 6. visão de implantação, com os dispositivos e artefatos;
-7. modelagem de dados, com o MER e o DER do banco SQLite.
+7. modelagem de dados, com o MER, o DER e o esquema lógico do banco SQLite, e a integração entre o banco e o modelo de IA.
 
 ### 1.3 Fontes
 
@@ -105,7 +105,32 @@ A visão lógica mostra como o aplicativo está dividido em componentes e quais 
 | Infraestrutura local | Artefato do modelo | Arquivo do modelo exportado do PyTorch, empacotado no aplicativo |
 | Infraestrutura local | Exportador XML | Monta o arquivo XML quando o profissional pede |
 
-### 4.1 Requisitos e restrições de arquitetura
+### 4.1 Pacotes e funcionalidades
+
+O diagrama de pacotes mostra como os componentes da Figura 2 estão organizados no código, camada por camada, e de quais pacotes cada um depende. As setas descem: cada camada só usa as camadas abaixo dela, e as telas chegam ao banco só pela composição de cada funcionalidade.
+
+**Figura 3:** Diagrama de pacotes
+
+![Diagrama de pacotes do MED-APP, organizado nas camadas de apresentação, aplicação, domínio e processamento e infraestrutura local, e do MED-IA, que gera o arquivo do modelo](../assets/imagens/arquitetura/diagrama-pacotes-v2.png)
+
+**Fonte:** [Gabriel Lopes de Amorim](https://github.com/BrzGab), 2026.
+
+| Camada | Pacote | Funcionalidade | Histórias | Situação |
+|---|---|---|---|---|
+| Apresentação | `app` | Rotas das telas: login, cadastro, início e novo exame | — | Em uso |
+| Aplicação | `features/auth` | Cadastro, login e sessão do médico autenticado | APP #5, #6 | Em uso |
+| Aplicação | `features/home` | Tela inicial com os pacientes atendidos e os atalhos | APP #46, #59 | Em Pull Request |
+| Aplicação | `features/avaliacao` | Registro do atendimento e, depois, o fluxo da avaliação | APP #7, #21 | Em Pull Request |
+| Aplicação | `features/settings` | Consulta, edição e desativação da conta | APP #5 | Em Pull Request |
+| Domínio e processamento | `features/captura` | Registro do traçado e geração da imagem de cada desenho | APP #10, #23 | Prova de conceito (APP #60) |
+| Domínio e processamento | `features/inferencia` | Execução do modelo embarcado | APP #12, #13 | Previsto |
+| Infraestrutura local | `db` | Migrações, repositórios e proteção do CPF | — | Em uso |
+| Infraestrutura local | `features/exportacao` | Montagem do XML para o REDCap | APP #22 | Previsto |
+| Infraestrutura local | `assets/modelo` e `assets/tarefas` | Arquivo do modelo e figuras de referência das tarefas | — | Previsto |
+
+As funcionalidades que dependem do banco seguem o mesmo padrão: a regra de negócio define o tipo do repositório de que precisa, o pacote `db` implementa esse tipo e o arquivo `composition.ts` da funcionalidade liga os dois. As telas importam só a composição, e o lint do aplicativo recusa o import direto de `@/db` nas rotas e nas telas.
+
+### 4.2 Requisitos e restrições de arquitetura
 
 1. Todo o processamento acontece no tablet, sem servidor, API externa, Wi-Fi ou dados móveis ([Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md)).
 2. A LGPD é tratada como requisito não funcional, mesmo com o sistema offline ([Ata 02](../atas-reunioes/Ata-02-EPS-2026-08-24-PO.md)).
@@ -121,7 +146,7 @@ A visão lógica mostra como o aplicativo está dividido em componentes e quais 
 
 O diagrama de atividades segue o fluxo descrito pelo *Product Owner* na [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md) e inclui o botão de desistência e o registro das instruções definidos na [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md).
 
-**Figura 3:** Diagrama de atividades da avaliação
+**Figura 4:** Diagrama de atividades da avaliação
 
 ![Diagrama de atividades com raias para profissional de saúde, aplicativo e paciente](../assets/imagens/arquitetura/diagrama-atividades-med.svg)
 
@@ -141,7 +166,7 @@ O diagrama de atividades segue o fluxo descrito pelo *Product Owner* na [Ata 04]
 
 A avaliação passa por estados bem definidos. Guardar o estado no banco permite retomar uma avaliação quando o aplicativo é fechado no meio do teste e contar desistências por tarefa, que é uma das métricas do [Canvas MVP](canvas-mvp.md).
 
-**Figura 4:** Diagrama de estados da avaliação
+**Figura 5:** Diagrama de estados da avaliação
 
 ![Diagrama de estados da avaliação, de aguardando consentimento até concluída, cancelada ou interrompida](../assets/imagens/arquitetura/diagrama-estados-avaliacao.svg)
 
@@ -161,7 +186,7 @@ A avaliação passa por estados bem definidos. Guardar o estado no banco permite
 
 O diagrama de sequência detalha o trecho entre a confirmação do último desenho e o registro do resultado. A tela de encerramento aparece antes da inferência terminar, para que o paciente não espere pelo processamento.
 
-**Figura 5:** Diagrama de sequência da inferência
+**Figura 6:** Diagrama de sequência da inferência
 
 ![Diagrama de sequência entre a interface do paciente, a captura, o orquestrador da avaliação, o preparo da imagem, o motor de inferência e a persistência](../assets/imagens/arquitetura/diagrama-sequencia-inferencia.svg)
 
@@ -190,33 +215,25 @@ Não existe backend separado. O Python é usado apenas no repositório de IA, pa
 | `2026.2-UNB-FCTE_UNIEURO_MED-IA` | Tratamento do dataset, treino, avaliação e exportação do modelo com Python e PyTorch |
 | `2026.2-UNB-FCTE_UNIEURO_MED-DOCS` | Documentação do produto e do processo, site MkDocs e dashboard |
 
-O projeto Expo do aplicativo já foi criado e está em `aplicativo/projeto-unieuro/`, dentro do `MED-APP`. A árvore abaixo mostra a estrutura realizada e marca como previstos os módulos que ainda serão implementados. O `MED-IA` ainda não tem implementação, e seus pacotes seguem como proposta de organização.
-
-**Figura 6:** Diagrama de pacotes
-
-![Diagrama de pacotes dos repositórios MED-APP e MED-IA e suas dependências](../assets/imagens/arquitetura/diagrama-pacotes.svg)
-
-**Fonte:** [Gabriel Lopes de Amorim](https://github.com/BrzGab), 2026.
-
-A Figura 6 mostra a organização conceitual dos pacotes e as dependências entre eles. A árvore a seguir mostra os caminhos como estão hoje no repositório. A figura ainda será regenerada para refletir esses caminhos.
+O projeto Expo do aplicativo está em `aplicativo/projeto-unieuro/`, dentro do `MED-APP`. A organização em pacotes e camadas está na [seção 4.1](#41-pacotes-e-funcionalidades). A árvore abaixo mostra os caminhos como estão no repositório em 10/10/2026: o que já está na branch `develop`, o que está em Pull Request e o que ainda está previsto. O `MED-IA` ainda não tem código de treino versionado, e seus pacotes seguem como proposta de organização.
 
 ```text
 MED-APP
 └── aplicativo/projeto-unieuro          # projeto Expo, SDK 57
     ├── src
-    │   ├── app                         # telas e rotas (Expo Router)
-    │   │   ├── _layout.tsx
-    │   │   ├── index.tsx               # entrada, hoje a tela de acesso
-    │   │   └── register.tsx
-    │   ├── features                    # módulos por responsabilidade
-    │   │   ├── auth                    # acesso e sessão
-    │   │   ├── avaliacao               # previsto
-    │   │   ├── captura                 # previsto
+    │   ├── app                         # rotas (Expo Router): login, cadastro e tela inicial
+    │   ├── features                    # um pacote por funcionalidade
+    │   │   ├── auth                    # cadastro, login e sessão
+    │   │   ├── avaliacao               # em PR: registro do atendimento (APP #7)
+    │   │   ├── home                    # em PR: tela inicial (APP #46)
+    │   │   ├── settings                # em PR: conta do profissional (APP #5)
+    │   │   ├── captura                 # prova de conceito (APP #60)
     │   │   ├── inferencia              # previsto
     │   │   └── exportacao              # previsto
-    │   ├── db                          # previsto, expo-sqlite
+    │   ├── db                          # migrações, repositórios e proteção do CPF
     │   ├── hooks                       # hooks compartilhados
     │   └── constants                   # tema e constantes
+    ├── test-support                    # SQLite real e cifra usados pelos testes
     └── assets
         ├── images
         ├── modelo                      # previsto, arquivo gerado pelo MED-IA
@@ -229,11 +246,11 @@ MED-IA
 └── exportacao
 ```
 
-As rotas em `src/app` correspondem às interfaces do profissional e do paciente e formam a camada de apresentação. Elas só dependem dos módulos de `src` e não acessam o banco diretamente. Os módulos de negócio ficam em `src/features`, um por responsabilidade, e a persistência fica em `src/db`. O `tsconfig.json` declara o alias `@/` apontando para `src`, então os imports entre módulos usam esse prefixo. O pacote `assets/modelo` recebe o arquivo gerado por `exportacao` no MED-IA. Essa é a única ligação entre os dois repositórios.
+As rotas em `src/app` formam a camada de apresentação e só dependem dos pacotes de `src/features`. Os pacotes de negócio ficam em `src/features`, um por funcionalidade, e a persistência fica em `src/db`. O `tsconfig.json` declara o alias `@/` apontando para `src`, então os imports entre pacotes usam esse prefixo. O pacote `assets/modelo` recebe o arquivo gerado por `exportacao` no MED-IA. Essa é a única ligação entre os dois repositórios.
 
 ### 6.3 Contrato entre aplicativo e modelo
 
-O modelo recebe as três imagens (relógio, cubo e a figura geométrica) e devolve:
+O modelo recebe as três imagens (relógio, cópia do cubo e teste de trilhas, as tarefas confirmadas na [Ata 09](../atas-reunioes/Ata-09-EPS-2026-10-05-PO.md)) e devolve:
 
 - a probabilidade de cada classe (normal, CCL e demência);
 - a classe prevista, por exemplo "0,91 → CCL";
