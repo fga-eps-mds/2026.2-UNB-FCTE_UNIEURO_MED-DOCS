@@ -177,7 +177,7 @@ histórias previstas para ela. A Tabela 2 soma os valores de consenso da Tabela 
 
 **Fonte:** Tabela 1 e [roadmap](roadmap.md).
 
-O consenso de cada história é registrado no campo de estimativa da issue no ZenHub,
+O consenso de cada história foi registrado no campo de estimativa da issue no ZenHub,
 só nas histórias de usuário. É desse campo que o EVM lê os pontos: o script
 [`scripts/coleta_zenhub.py`](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/blob/main/scripts/coleta_zenhub.py)
 grava os pontos por sprint em `zenhub_analytics.json`, e o dashboard consome esse
@@ -185,8 +185,6 @@ arquivo, como descrito em [Coleta de métricas](../metricas/coleta-de-metricas.m
 
 ## 6. Pendências
 
-- Registrar no ZenHub os valores de consenso e retirar pontos de tarefas, se ainda
-  houver.
 - Definir a release das seis histórias sem release, para que entrem no PRP.
 - Rever as estimativas das histórias #7 e #21 se a revisão dos critérios mudar o
   escopo delas.
