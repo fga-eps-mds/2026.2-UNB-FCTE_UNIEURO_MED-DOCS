@@ -137,7 +137,7 @@ As funcionalidades que dependem do banco seguem o mesmo padrão: a regra de neg�
 3. O resultado nunca aparece nas telas do paciente.
 4. Depois que o teste começa, o paciente não pode voltar para a área do profissional ([Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md)).
 5. O aplicativo salva todas as métricas de traçado que o conjunto de tablet e caneta fornecer: coordenadas, tempo, velocidade (calculada a partir das coordenadas e do tempo) e, quando houver, pressão e inclinação ([Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md)). Esses dados vão para o XML. O modelo usa somente as imagens finais, porque o dataset não tem dados de caneta ([Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md)).
-6. Apagamentos e desistências são registrados pelo próprio aplicativo, sem anotação manual ([Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md)).
+6. Apagamentos e desistências são registrados pelo próprio aplicativo, sem anotação manual ([Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md), [Ata 07](../atas-reunioes/Ata-07-EPS-2026-09-23-PO.md)).
 7. O progresso da avaliação é salvo no tablet, conforme a onda 2 do [Sequenciador](sequenciador.md).
 
 ## 5. Visão de processos
@@ -152,7 +152,7 @@ O diagrama de atividades segue o fluxo descrito pelo *Product Owner* na [Ata 04]
 
 **Fonte:** [Daniel Ferreira Nunes](https://github.com/Mach1r0), 2026. [Consultar a fonte PlantUML](../assets/imagens/arquitetura/diagrama-atividades-med.puml).
 
-1. O profissional faz login, inicia a avaliação e informa nome, número da ficha e data de nascimento do paciente.
+1. O profissional faz login, inicia a avaliação e informa nome, CPF, número da ficha, data de nascimento, escolaridade e, se quiser, sexo do paciente.
 2. O aplicativo bloqueia a área do profissional e exibe o TCLE.
 3. Se o termo for recusado, a recusa é registrada e a avaliação é cancelada.
 4. Para cada uma das três tarefas, o aplicativo mostra a instrução e o paciente desenha. O paciente pode desfazer o último traço ou limpar a área, e cada apagamento fica registrado.
@@ -368,7 +368,7 @@ A entidade EVENTO_TRACADO segue o formato usado na prova de conceito da captura 
 
 - O instante é contado em milissegundos desde o início da tarefa, e a ordem é única dentro da tarefa.
 - A caneta informa a inclinação em dois eixos, por isso o modelo guarda `inclinacao_x` e `inclinacao_y`. O ponteiro diz se o traço veio da caneta, do dedo ou do mouse.
-- Todos os eventos ficam gravados, inclusive os desfeitos, e o desenho que vale é reconstruído a partir deles. A história APP #23 diz que o traço desfeito sai "da tela e dos dados capturados", e o cliente pediu que o recomeço fique registrado ([Ata 07](../atas-reunioes/Ata-07-EPS-2026-09-23-PO.md)). Essa diferença está nas [pendências](#10-pendencias), para decisão do *Product Owner*.
+- Todos os eventos ficam gravados, inclusive os traços desfeitos e as áreas limpas, e o desenho que vale é reconstruído a partir deles. Essa é a decisão do cliente nas [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md) e [Ata 07](../atas-reunioes/Ata-07-EPS-2026-09-23-PO.md): o paciente pode apagar, mas a tentativa de apagar ou recomeçar fica registrada como dado da coleta. O critério da APP #23 que fala em remover o traço "dos dados capturados" precisa ser alinhado a essa decisão.
 
 ### 8.5 Integração entre o modelo de IA e o banco
 
@@ -398,7 +398,7 @@ Os dados de caneta ficam em `evento_tracado` para o XML e para a pesquisa, mas n
 | Resultado visível somente para o profissional | Não constranger o paciente | [Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md) |
 | Exportação em XML por ação do profissional | Importação no REDCap pela equipe de pesquisa | [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md) |
 | Salvar todas as métricas de caneta disponíveis | Os dados alimentam a pesquisa mesmo sem entrar no modelo | [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md) |
-| Registro automático de apagamentos e desistências | Métricas do Canvas MVP sem anotação manual | [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md) |
+| Registro automático de apagamentos e desistências | Métricas do Canvas MVP sem anotação manual. O cliente pediu que a tentativa de apagar ou recomeçar fique registrada como dado da coleta | [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md), [Ata 07](../atas-reunioes/Ata-07-EPS-2026-09-23-PO.md) |
 
 ## 10. Pendências
 
@@ -412,8 +412,7 @@ Os dados de caneta ficam em `evento_tracado` para o XML e para a pesquisa, mas n
 | Mapas de calor no MVP | Na [Ata 04](../atas-reunioes/Ata-04-EPS-2026-09-11-PO.md) o mapa de calor foi tratado como adicional pós-MVP. Com a saída atual do modelo, ele passa a fazer parte do resultado. Registrar essa mudança no sequenciador |
 | Esquema do XML | Definir campos, versionamento e o que precisa ser anonimizado antes de ir para o REDCap |
 | Recuperação de senha | Prevista nas histórias de usuário ([Ata 05](../atas-reunioes/Ata-05-EPS-2026-09-14-PO.md)), mas precisa funcionar sem e-mail ou rede |
-| Registro de apagamentos | O cliente ainda vai confirmar se o apagamento deve ser registrado ([Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md)) |
-| Traço desfeito | O modelo de dados guarda todos os eventos, e a APP #23 diz que o traço desfeito sai dos dados capturados. Levar ao *Product Owner* ([DOCS #89](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/issues/89)) |
+| Critério da APP #23 | A história diz que o traço desfeito sai "da tela e dos dados capturados". Alinhar à decisão das [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md) e [Ata 07](../atas-reunioes/Ata-07-EPS-2026-09-23-PO.md): o traço sai da tela, e o desfazer fica registrado |
 | Identificador entre tablets | O `id` é gerado por cada tablet e se repetiria entre eles. Se a sincronização ([DOCS #81](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/issues/81)) for aprovada, as tabelas precisam de um identificador único global e o `last_update` passa a resolver conflitos |
 | Número da ficha | O cliente disse que ele pode ser gerado pelo aplicativo. Se for gerado, não pode ser um contador por tablet, senão dois tablets geram o mesmo número |
 
@@ -441,4 +440,4 @@ Os dados de caneta ficam em `evento_tracado` para o XML e para a pesquisa, mas n
 | 1.5 | Registro da tecnologia (Expo, SQLite e PyTorch, sem backend) e da saída do modelo (classe, probabilidades e mapas de calor) | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 23/09/2026 | A definir | — |
 | 1.6 | Alinhamento da seção de repositórios e pacotes à estrutura real do projeto Expo | [Thales Germano](https://github.com/thalesgvl) | 25/09/2026 | A definir | — |
 | 1.7 | Inclusão da modelagem de dados (MER e DER) e ajuste das fontes das figuras | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 26/09/2026 | A definir | — |
-| 1.9 | Diagrama de pacotes na visão lógica, com as funcionalidades de cada pacote; esquema lógico do banco; evento de traçado; integração entre o modelo de IA e o banco; DER com o CPF, a escolaridade e o sexo do paciente | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 10/10/2026 | A definir | — |
+| 1.9 | Diagrama de pacotes na visão lógica, com as funcionalidades de cada pacote; esquema lógico do banco; evento de traçado, com a decisão de registrar os traços apagados (Atas 06 e 07); integração entre o modelo de IA e o banco; DER com o CPF, a escolaridade e o sexo do paciente | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 10/10/2026 | A definir | — |
