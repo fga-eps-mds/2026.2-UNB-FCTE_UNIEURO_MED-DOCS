@@ -8,10 +8,10 @@ Este documento apresenta o cronograma de desenvolvimento do projeto, seguindo os
 | Data | Marco | Resultado demonstrável |
 |---|---|---|
 | **10/08** | Início do projeto | Início da Lean Inception e da preparação técnica. |
-| **28/09** | **Release 1 — primeiro fluxo funcional** | O profissional entra no aplicativo, inicia uma avaliação, aplica a tarefa do relógio e salva o resultado localmente. |
-| **26/10** | **Release 2 — captura e inferência integradas** | Os três testes são executados, os dados necessários são capturados e uma primeira inferência é realizada localmente. |
-| **30/11** | **Release 3 — Entrega do MVP** | O fluxo completo roda localmente no tablet, do login do profissional à apresentação do resultado da triagem. |
-| **07/12** | **Release final** | MVP revisado com incrementos prioritários de acessibilidade e documentação final. |
+| **28/09** | **R1 — interfaces de acesso** | Telas de cadastro e login navegáveis, com validações básicas. Cadastro persistente e autenticação não integram a entrega confirmada. |
+| **26/10** | **R2 — acesso local e primeira avaliação** | Objetivo: cadastro e login offline, área inicial do profissional, atendimento e TCLE registrados, dados protegidos e primeiro desenho demonstrado localmente. |
+| **30/11** | **R3 — marco do MVP** | Objetivo: três tarefas, captura e retomada, inferência e resultados locais, proteção dos dados e exportação XML sob solicitação. |
+| **07/12** | **Release final** | Correções e estabilização do incremento validado, com acessibilidade priorizada conforme a capacidade restante. |
 | **14/12** | Encerramento do projeto | APK e artefatos da disciplina entregues; resultados e limitações registrados. |
 
 ## Releases do Projeto
@@ -91,4 +91,5 @@ Haverão 3 Releases Minor, com entregas incrementais de funcionalidades, para va
 |---|---|---|---|---|---|
 | 1.0 | Criação do documento: Cronograma | [Henrique Galdino Couto](https://github.com/hgaldino05) | 12/09/2026 | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | |
 | 1.1 | Inclusão das releases minor no cronograma | [Henrique Galdino Couto](https://github.com/hgaldino05) | 19/09/2026 | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | |
+| 1.2 | Alinhamento dos resultados demonstráveis de R1, R2, R3 e Release final com a EAP e o roadmap. | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | 12/10/2026 | — | — |
 
