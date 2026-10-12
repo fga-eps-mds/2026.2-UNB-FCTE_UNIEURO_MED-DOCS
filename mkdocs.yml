@@ -87,6 +87,7 @@ nav:
   - Processo:
       - Metodologia: processo/metodologia.md
       - Roadmap do Produto: processo/roadmap.md
+      - Estimativa do Backlog: processo/estimativa-do-backlog.md
       - Cronograma: processo/cronograma.md
       - Plano de Custos: processo/plano_de_custos.md
       - Plano de Qualidade: processo/plano_de_qualidade.md
