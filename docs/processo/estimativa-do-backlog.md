@@ -82,8 +82,8 @@ por [Artur Mendonça Arruda](https://github.com/ArtyMend07).
 3. As histórias #5 e #6, que já tinham 8 pontos no ZenHub, serviram de referência
    para as demais.
 4. Depois do preenchimento, o condutor propôs como consenso o valor mais votado de
-   cada história. No único empate, da história #11, a proposta ficou com o valor do
-   lado da mediana.
+   cada história. Nos dois empates, a história #5 ficou com 8, valor de referência
+   do ZenHub, e a história #11 com o valor do lado da mediana.
 5. A proposta foi apresentada à equipe, com destaque para as histórias mais
    divididas. A equipe concordou com os valores, e o condutor os registrou na
    coluna de consenso.
@@ -120,10 +120,10 @@ depois de todos responderem elimina a primeira limitação.
 
 ## 4. Resultado
 
-A planilha com as estimativas está em
+As estimativas individuais e o consenso da planilha estão em
 [`planning-poker-historias.csv`](../assets/dados/planning-poker-historias.csv). A
-release de cada história é a release-alvo do [roadmap](roadmap.md). A coluna de release
-da planilha traz o marco que a issue tinha no GitHub quando a planilha foi montada.
+release de cada história é a release-alvo do [roadmap](roadmap.md). A história #46 foi
+criada depois do roadmap e segue o marco da issue no GitHub, que é a R2.
 
 **Tabela 1:** Estimativas individuais e consenso por história, em pontos de história
 
@@ -147,7 +147,7 @@ da planilha traz o marco que a issue tinha no GitHub quando a planilha foi monta
 | [#23](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/23) Confirmar ou refazer desenho antes de avançar | R3 | 5 | 8 | 8 | 8 | 8 | 8 | 8 | 8 | 8 | 5 | 5 a 8 | 8 | 8 |
 | [#24](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/24) Configurar alto contraste e tamanho da fonte | Após o MVP | 5 | 8 | 5 | 5 | 8 |  | 5 | 5 | 8 | 8 | 5 a 8 | 5 | 5 |
 | [#25](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/25) Salvar e retomar avaliações no tablet | R3 | 8 | 5 | 8 | 5 | 5 |  | 8 | 5 | 8 | 8 | 5 a 8 | 8 | 8 |
-| [#46](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/46) Tela inicial do profissional com os atalhos | Sem release | 3 | 8 | 8 | 8 | 5 |  | 5 | 3 | 8 | 8 | 3 a 8 | 8 | 8 |
+| [#46](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/46) Tela inicial do profissional com os atalhos | R2 | 3 | 8 | 8 | 8 | 5 |  | 5 | 3 | 8 | 8 | 3 a 8 | 8 | 8 |
 | [#47](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/47) Excluir um paciente com confirmação | Sem release | 5 | 8 | 5 | 8 | 8 |  | 8 | 5 | 8 | 8 | 5 a 8 | 8 | 8 |
 | [#48](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/48) Recuperar a senha sem internet | Sem release | 5 | 13 | 8 | 8 | 13 |  | 13 | 5 | 13 | 13 | 5 a 13 | 13 | 13 |
 | [#49](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/49) Acesso do responsável pela pesquisa a todos os atendimentos | Sem release | 5 | 13 | 8 | 8 | 8 |  | 8 | 13 | 8 | 8 | 5 a 13 | 8 | 8 |
@@ -169,10 +169,10 @@ histórias previstas para ela. A Tabela 2 soma os valores de consenso da Tabela 
 
 | Release | Histórias | Pontos planejados |
 |---|:-:|:-:|
-| R2 | 4 | 24 |
+| R2 | 5 | 32 |
 | R3 | 13 | 110 |
 | Após o MVP | 1 | 5 |
-| Sem release definida | 6 | 47 |
+| Sem release definida | 5 | 39 |
 | **Backlog** | **24** | **186** |
 
 **Fonte:** Tabela 1 e [roadmap](roadmap.md).
@@ -185,9 +185,10 @@ arquivo, como descrito em [Coleta de métricas](../metricas/coleta-de-metricas.m
 
 ## 6. Pendências
 
-- Definir a release das seis histórias sem release, para que entrem no PRP.
-- Rever as estimativas das histórias #7 e #21 se a revisão dos critérios mudar o
-  escopo delas.
+- Definir a release das cinco histórias sem release, para que entrem no PRP.
+- Conferir se as estimativas das histórias #7 e #21 continuam válidas depois da
+  revisão dos critérios, concluída na
+  [#82](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/issues/82).
 
 ## 7. Referências
 
