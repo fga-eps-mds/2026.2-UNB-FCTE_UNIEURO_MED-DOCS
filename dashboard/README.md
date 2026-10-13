@@ -37,7 +37,7 @@ Origem: Sulaiman, Barton e Blackburn (2006), *AgileEVM - Earned Value Management
 
 Hipóteses e limites:
 
-- **BAC provisório:** os valores de `RELEASES` vêm da seção 5 do Plano de Custos v1.3 e serão atualizados quando o plano for revisado. É o único lugar a alterar.
+- **BAC por release:** os valores de `RELEASES` vêm da seção 5 do Plano de Custos v2.0 (R$ 62.746,77, R$ 12.595,73, R$ 15.744,66 e R$ 3.148,93, somando R$ 94.236,09). Devem ser atualizados junto com o plano, e este é o único lugar a alterar.
 - **Sprint e release:** cada sprint é atribuída à release em que termina (data de término em horário de Brasília). Sprints depois da release final ficam de fora.
 - **PRP depende da estimativa:** só é confiável se todas as histórias estiverem estimadas no ZenHub. Se o ZenHub pontuar tarefas em vez de histórias, o PRP sai inflado. O painel não conta issues sem estimativa, porque nem toda issue é uma história de usuário.
 - **Possível dupla contagem:** issues que passam de uma sprint para a seguinte podem ser contadas nas duas.
