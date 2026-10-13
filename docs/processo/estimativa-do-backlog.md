@@ -177,6 +177,8 @@ histórias previstas para ela. A Tabela 2 soma os valores de consenso da Tabela 
 
 **Fonte:** Tabela 1 e [roadmap](roadmap.md).
 
+A R3 concentra 110 dos 186 pontos do backlog, contra 32 da R2.
+
 O consenso de cada história foi registrado no campo de estimativa da issue no ZenHub,
 só nas histórias de usuário. É desse campo que o EVM lê os pontos: o script
 [`scripts/coleta_zenhub.py`](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/blob/main/scripts/coleta_zenhub.py)
@@ -220,4 +222,4 @@ Management in Scrum Projects. In: *Agile Conference*, 2006. IEEE, 2006.
 
 | Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de Revisão |
 |---|---|---|---|---|---|
-| 1.0 | Registro da dinâmica de estimativa, das estimativas e do consenso por história e dos pontos planejados por release | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 12/10/2026 | | |
+| 1.0 | Registro da dinâmica de estimativa, das estimativas e do consenso por história e dos pontos planejados por release | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 12/10/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 12/10/2026 |
