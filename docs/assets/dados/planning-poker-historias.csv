@@ -1,0 +1,25 @@
+Repositorio,Issue,Titulo,Link,Artur,Claudio,Daniel,Eduardo,Gabriel,Gustavo,Henrique,Lucas,Thales,Vitor,Consenso
+APP,#5,[USER STORY] Cadastro do médico no tablet,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/5,8,8,8,8,5,5,5,5,5,8,8
+APP,#6,[USER STORY] Login do médico antes de aplicar o teste,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/6,5,8,8,8,8,8,5,8,5,5,8
+APP,#7,[USER STORY] Registro do atendimento antes do teste,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/7,5,5,5,5,5,5,5,5,5,5,5
+APP,#8,[USER STORY] Instrução simples antes de cada desenho,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/8,2,8,13,8,5,3,3,2,8,8,8
+APP,#9,[USER STORY] Três tarefas de desenho em sequência,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/9,8,8,13,8,8,5,8,8,8,8,8
+APP,#10,[USER STORY] Captura do traçado e da imagem final,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/10,8,5,8,13,13,8,13,13,13,8,13
+APP,#11,[USER STORY] Tela final do paciente sem escore,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/11,2,8,13,5,5,8,3,3,5,8,5
+APP,#12,[USER STORY] Escore por desenho calculado no tablet,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/12,13,8,13,8,8,5,5,8,8,5,8
+APP,#13,[USER STORY] Escore geral com faixa de incerteza,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/13,5,8,13,8,8,5,8,8,8,5,8
+APP,#14,"[USER STORY] Desenho, escore e o que influenciou o resultado",https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/14,8,13,13,13,13,5,8,13,8,13,13
+APP,#15,[USER STORY] Uso completo sem internet,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/15,2,5,8,8,3,,5,3,5,5,5
+APP,#16,[USER STORY] Nenhum dado enviado para fora do tablet,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/16,2,5,13,5,8,,5,5,8,8,5
+APP,#17,[USER STORY] Dados cifrados no tablet,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/17,8,13,8,13,13,,8,13,8,13,13
+APP,#21,[USER STORY] Aceite do TCLE antes do teste,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/21,3,5,5,3,3,,3,3,3,3,3
+APP,#22,[USER STORY] Exportar dados da avaliação em XML,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/22,8,13,8,8,13,,8,8,5,5,8
+APP,#23,[USER STORY] Confirmar ou refazer desenho antes de avançar,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/23,5,8,8,8,8,8,8,8,8,5,8
+APP,#24,[USER STORY] Configurar alto contraste e tamanho da fonte,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/24,5,8,5,5,8,,5,5,8,8,5
+APP,#25,[USER STORY] Salvar e retomar avaliações no tablet,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/25,8,5,8,5,5,,8,5,8,8,8
+APP,#46,[USER STORY] Tela inicial do profissional com os atalhos,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/46,3,8,8,8,5,,5,3,8,8,8
+APP,#47,[USER STORY] Excluir um paciente com confirmação,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/47,5,8,5,8,8,,8,5,8,8,8
+APP,#48,[USER STORY] Recuperar a senha sem internet,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/48,5,13,8,8,13,,13,5,13,13,13
+APP,#49,[USER STORY] Acesso do responsável pela pesquisa a todos os atendimentos,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/49,5,13,8,8,8,,8,13,8,8,8
+APP,#58,[USER STORY] Excluir um exame aberto por engano,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/58,3,8,5,5,5,,8,3,5,8,5
+APP,#59,[USER STORY] Lista dos pacientes atendidos na tela inicial,https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/59,5,5,5,5,5,,5,2,8,5,5
