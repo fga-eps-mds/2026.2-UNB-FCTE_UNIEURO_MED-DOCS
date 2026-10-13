@@ -25,6 +25,12 @@ O objetivo dessa combinação é manter o produto alinhado à necessidade do cli
 permitir mudanças de forma rastreável e produzir evidências de que cada entrega foi
 construída, verificada e validada.
 
+As práticas não foram criadas pela equipe. Elas vêm do Scrum, do XP, do Kanban, do
+PMBOK e da *Lean Inception*, com adaptações ao contexto acima. A
+[seção 10](#10-origem-das-praticas-e-adaptacoes) mostra a origem de cada prática e
+como o time a aplica, e a [seção 5.1](#51-fases-do-semestre-o-planejado-e-o-praticado)
+compara o processo planejado com o que foi de fato praticado no semestre.
+
 ## 2. Ciclo de trabalho
 
 O projeto percorre continuamente seis etapas. Embora a descoberta tenha maior
@@ -97,9 +103,13 @@ O detalhamento está na [EAP](../EAP.md), no
 ### 4.2 Histórias, tarefas e defeitos
 
 Necessidades funcionais são registradas como histórias de usuário, no formato
-"Como *perfil*, quero *ação*, para que *benefício*". Trabalho técnico, gerencial ou
-documental é registrado como tarefa. Defeitos encontrados durante verificação ou
-uso são registrados como relatos de bug.
+"Como *perfil*, quero *ação*, para que *benefício*", com critérios de aceitação
+escritos como cenários BDD ("Dado que…, quando…, então…"). Trabalho técnico,
+gerencial ou documental é registrado como tarefa. Defeitos encontrados durante
+verificação ou uso são registrados como relatos de bug.
+
+Só as histórias de usuário recebem pontos de estimativa. Tarefas e defeitos não são
+pontuados, para que a *velocity* meça apenas o valor entregue ao usuário.
 
 Os itens são mantidos como issues para preservar autoria, discussão, dependências,
 responsabilidade e ligação com Pull Requests. O backlog é repriorizado quando o
@@ -115,7 +125,9 @@ Um item está **pronto para entrar em uma sprint** quando possui:
 - repositório e responsáveis identificados;
 - prioridade, dependências e impedimentos conhecidos;
 - referências de produto, arquitetura ou protótipo quando necessárias;
-- tamanho suficientemente pequeno para ser verificado dentro da sprint.
+- tamanho suficientemente pequeno para ser verificado dentro da sprint;
+- no caso de história de usuário, o rótulo `validada pelo PO`, com o aval do PO e do
+  cliente registrado no Discord (ver [seção 5.1](#51-fases-do-semestre-o-planejado-e-o-praticado)).
 
 Um item só é considerado **concluído** quando:
 
@@ -126,18 +138,53 @@ Um item só é considerado **concluído** quando:
 - pelo menos outra pessoa revisou a mudança;
 - a alteração foi integrada à branch de integração correta;
 - documentação e quadro refletem a situação real;
-- quando aplicável, o PO ou cliente validou o comportamento entregue.
+- no caso de história de usuário, o PO aceitou a entrega no teste de aceitação. Até
+  esse aceite, a história fica na coluna **Aceitação PO** do Zenhub, mesmo com o PR
+  já integrado.
 
 Trabalho iniciado, código existente apenas em branch ou PR ainda não integrado não
 é contabilizado como valor concluído.
 
 ## 5. Execução em sprints
 
-### 5.1 Cadência
+### 5.1 Fases do semestre: o planejado e o praticado
+
+O [Roadmap do Produto](roadmap.md) previa desenvolvimento desde a Sprint 1, iniciada
+em 31/08. Na prática, o semestre teve duas fases, e a avaliação da R1
+([Ata 08](../atas-reunioes/Ata-08-EPS-2026-10-02-PO.md)) apontou essa distância entre
+o documentado e o praticado.
+
+| Fase | Período | O que aconteceu |
+|---|---|---|
+| **Preparação** | 31/08 a 24/09 (Sprints 1 e 2) | Descoberta com a *Lean Inception*, visão do produto, identidade visual, protótipo de alta fidelidade no Figma e histórias da primeira release com critérios em BDD. A validação com o PO e o cliente aconteceu em 23/09 ([Ata 07](../atas-reunioes/Ata-07-EPS-2026-09-23-PO.md)), com as últimas respostas no Discord até 24/09. |
+| **Desenvolvimento** | A partir de 23/09 | O código das histórias começou depois da validação, em sprints de duas semanas. A R1 foi apresentada em 02/10, e a Release Minor 1 sai em 13/10. |
+
+Na mesma avaliação, o professor observou que requisitos e protótipos foram
+detalhados em cascata, todos antes do desenvolvimento, que histórias foram fechadas
+sem o aceite do PO e que o quadro do Zenhub não aparecia nas reuniões. Desde então, o
+processo praticado é este:
+
+- **Validação semanal das histórias.** A cada semana, a equipe envia ao PO e ao
+  cliente, pelo Discord, o link das histórias da próxima leva, com o protótipo
+  anexado. A implementação só começa depois do aval, marcado na issue pelo rótulo
+  `validada pelo PO`. O ideal é enviar com uma semana de antecedência (Ata 07). Assim,
+  cada história é detalhada pouco antes de ser implementada, e não todas no início.
+- **Entrega contínua ao PO.** O APK vai para o PO sempre que uma funcionalidade fica
+  pronta, sem esperar o fim da sprint, junto com o instrumento de teste de aceitação
+  ([Ata 09](../atas-reunioes/Ata-09-EPS-2026-10-05-PO.md)).
+- **Aceite antes de fechar.** Uma história integrada fica na coluna Aceitação PO até o
+  PO aceitá-la no teste de aceitação. Só então ela vai para Done.
+- **Quadro nas reuniões.** O quadro do Zenhub é mostrado na reunião semanal com o PO.
+
+### 5.2 Cadência
 
 O semestre está organizado em oito sprints, em geral com duas semanas, agrupadas
 nas releases R1, R2, R3 e release final. Datas, objetivos, dependências e resultados
 demonstráveis estão definidos no [Roadmap do Produto](roadmap.md).
+
+Cada sprint é conduzida por uma dupla de liderança, que se alterna a cada duas
+semanas, conforme a escala da [Visão Operacional](../equipe/operacional.md). A equipe
+se reúne com o PO e o cliente toda segunda-feira, pelo Microsoft Teams.
 
 Cada sprint percorre o seguinte ciclo:
 
@@ -151,14 +198,16 @@ Cada sprint percorre o seguinte ciclo:
 5. **Inspecionar e adaptar:** analisar métricas, riscos, acertos, falhas e
    impedimentos; registrar ações para a sprint seguinte.
 
-### 5.2 Eventos e evidências
+### 5.3 Eventos e evidências
 
 | Evento | Participantes principais | Objetivo | Evidência esperada |
 |---|---|---|---|
-| Planejamento da sprint | Equipe e liderança do período | Definir objetivo e selecionar trabalho pronto | Sprint e issues atualizadas no Zenhub |
+| Planejamento da sprint | Equipe e dupla de liderança | Definir objetivo e selecionar trabalho pronto | Sprint e issues atualizadas no Zenhub |
+| Validação das histórias | Equipe, PO e cliente | Conferir critérios de aceitação e protótipo antes da implementação | Aval no Discord e rótulo `validada pelo PO` na issue |
 | Alinhamento recorrente | Equipe | Comunicar progresso e impedimentos | Quadro atualizado e responsáveis acionados |
 | Revisão técnica | Autor e revisor do PR | Verificar correção, clareza, testes e arquitetura | Comentários, aprovação e checks do PR |
-| Review | Equipe, PO e/ou cliente | Demonstrar valor e obter aceite ou ajustes | Feedback, decisão e pendências registrados |
+| Reunião semanal com o PO | Equipe, PO e cliente | Demonstrar o incremento com o quadro do Zenhub aberto e decidir os próximos passos | Ata da reunião |
+| Teste de aceitação | PO e cliente | Conferir no APK os cenários BDD das histórias entregues | Formulário de aceitação respondido e comentário na issue |
 | Retrospectiva | Equipe | Melhorar a forma de trabalho | Ação de melhoria com responsável |
 
 Os encontros com PO e cliente que geram decisões de produto são registrados nas
@@ -166,12 +215,12 @@ Os encontros com PO e cliente que geram decisões de produto são registrados na
 prioridade, prazo ou responsabilidade devem ser refletidas na issue ou no artefato
 correspondente; a mensagem no canal, isoladamente, não registra a decisão.
 
-### 5.3 Papéis e responsabilidades
+### 5.4 Papéis e responsabilidades
 
 | Papel ou grupo | Responsabilidade na metodologia |
 |---|---|
-| PO e cliente | Esclarecer necessidades, priorizar valor e validar incrementos |
-| Liderança do período | Facilitar a sprint, acompanhar impedimentos e manter comunicação com o PO |
+| PO (Vinícius de Carvalho Rispoli) e cliente (Arthur Dutra do Bomfim) | Esclarecer necessidades, priorizar valor, validar as histórias antes da implementação e aceitar os incrementos no teste de aceitação |
+| Dupla de liderança | Faz o papel que o Scrum atribui ao *Scrum Master*: facilitar a sprint, conduzir as reuniões, acompanhar impedimentos e manter a comunicação com o PO. A dupla se alterna a cada duas semanas |
 | Responsáveis pelo item | Implementar, manter a issue atualizada, produzir evidências e responder à revisão |
 | Revisor | Conferir mudança, riscos e verificações, solicitando correções quando necessário |
 | Produto/UX | Manter coerência entre necessidade, fluxo, protótipo, acessibilidade e backlog |
@@ -186,10 +235,17 @@ autor e revisor continuam responsáveis pela entrega que integram.
 
 ### 6.1 Fluxo de trabalho
 
-O Zenhub, integrado ao GitHub, representa o estado real do trabalho. Itens futuros
-permanecem no backlog; itens selecionados formam o backlog da sprint; itens em
-execução possuem responsável; mudanças submetidas aguardam revisão; somente itens
-que satisfazem os critérios de conclusão chegam ao estado final.
+O Zenhub, integrado ao GitHub, representa o estado real do trabalho. O quadro segue o
+Kanban: cada coluna é uma etapa do fluxo, e quem termina uma etapa puxa o próximo
+item. As colunas são:
+
+> Product Backlog → Sprint Backlog → In Progress → Review/QA → Aceitação PO → Done
+
+Itens futuros permanecem no Product Backlog; itens selecionados formam o Sprint
+Backlog; itens em execução possuem responsável; mudanças submetidas aguardam revisão
+em Review/QA; histórias integradas esperam o aceite do PO em Aceitação PO; somente
+itens que satisfazem os critérios de conclusão chegam a Done. A equipe ainda não
+definiu limites de WIP para as colunas.
 
 O quadro é usado para tornar prioridade e responsabilidade visíveis, identificar
 bloqueios e PRs parados, planejar conforme a capacidade e manter rastreabilidade
@@ -236,7 +292,7 @@ regras específicas de cada repositório prevalecem.
 | Tipo de entrega | Verificação mínima esperada |
 |---|---|
 | Documentação | Build do MkDocs, links e navegação conferidos, histórico atualizado quando aplicável |
-| Aplicativo | Lint/build, testes automatizados relacionados e verificação do fluxo alterado |
+| Aplicativo | Lint e formatação, testes automatizados escritos por quem implementa, cobertura acima do piso do `jest.config.js` e verificação do fluxo alterado no emulador ou no tablet |
 | Modelo de IA | Script reexecutável, versão dos dados, parâmetros, semente, divisão e métricas registradas |
 | Pipeline | Execução bem-sucedida e evidência do artefato ou métrica produzido |
 | Integração APP–IA | Contrato versionado, execução offline e teste no dispositivo-alvo |
@@ -251,6 +307,12 @@ Documentação, aplicativo e projeto de IA são versionados. Os pipelines fornec
 feedback antes da integração e geram evidências compatíveis com cada repositório.
 Falha de build, teste ou análise obrigatória impede que o item seja considerado
 concluído.
+
+No MED-APP, o pipeline de build roda em todo PR o lint, a verificação de formatação,
+os testes com cobertura e a análise do SonarCloud. Cada merge na `develop` ou na
+`main` gera uma release com as métricas do SonarCloud anexadas, e o rótulo do PR
+define a versão: `MAJOR RELEASE` para as releases R1, R2 e R3, `MINOR RELEASE` para
+as releases intermediárias e nenhum rótulo para correções.
 
 Branches, commits, issues, PRs, checks e releases compõem a trilha de auditoria.
 Credenciais e dados de pacientes não fazem parte dela e nunca são versionados.
@@ -296,38 +358,69 @@ Quando a adaptação modificar uma regra permanente, este documento ou o guia do
 repositório é atualizado. Quando afetar produto, prazo, custo ou arquitetura, os
 respectivos artefatos também são revisados.
 
-## 10. Métodos e técnicas de apoio
+## 10. Origem das práticas e adaptações
 
-Esta tabela mostra onde cada elemento contribui para o ciclo, em vez de apresentar
-definições isoladas.
+Nenhuma prática foi criada pela equipe. A tabela abaixo indica, para cada uma, o método
+de onde ela vem, como o MED a adapta e onde fica a evidência. As referências completas
+estão na [seção 11](#11-referencias).
 
-| Método ou técnica | Papel no ciclo | Evidência |
-|---|---|---|
-| Lean Inception | Alinhar problema, pessoas, funcionalidades, hipóteses e MVP | Visão do Produto e Canvas MVP |
-| EAP | Delimitar e decompor o escopo | Estrutura Analítica do Projeto |
-| Histórias de usuário | Transformar necessidades em valor verificável | Product Backlog e issues |
-| Scrum adaptado | Organizar planejamento, entrega, validação e melhoria | Sprints, incrementos, reviews e retrospectivas |
-| Gestão visual | Tornar fluxo, prioridade e bloqueios visíveis | Zenhub e histórico das issues |
-| Prototipação | Antecipar validação de telas e acessibilidade | Figma e referências nas histórias |
-| Revisão por pares e CI | Fornecer feedback antes da integração | PR, aprovação e checks |
-| EVM-Ágil | Integrar escopo, prazo e custo | Indicadores e auditoria do dashboard |
-| Velocity e burnup | Analisar ritmo e mudança de escopo | Zenhub e dashboard |
-| Gestão de riscos | Antecipar eventos incertos e acompanhar respostas | Registro e matriz de riscos |
-| SonarCloud e testes | Acompanhar qualidade e regressões | Métricas e resultados dos testes |
-| Atas e decisões | Preservar contexto, autoria e justificativa | Atas, issues e histórico documental |
+| Prática | Origem | Como o MED adapta | Evidência |
+|---|---|---|---|
+| Visão do produto, personas, jornadas, sequenciador e Canvas MVP | *Lean Inception* (Caroli, 2018) | A oficina, que a *Lean Inception* propõe em uma semana, foi distribuída em reuniões com o PO e o cliente entre agosto e setembro | [Lean Inception](../produto/lean-inception.md) e [Canvas MVP](../produto/canvas-mvp.md) |
+| Sprints, Product Backlog, Sprint Backlog e incremento | Scrum (Schwaber; Sutherland, 2020) | Sprints de duas semanas, agrupadas nas releases da disciplina | [Roadmap do Produto](roadmap.md) e Zenhub |
+| Papéis do Scrum | Scrum (Schwaber; Sutherland, 2020) | O PO é um professor de fora da equipe, disponível na reunião semanal. O papel de *Scrum Master* fica com a dupla de liderança, que se alterna a cada duas semanas | [Visão Operacional](../equipe/operacional.md) |
+| Eventos do Scrum | Scrum (Schwaber; Sutherland, 2020) | A *review* acontece na reunião semanal com o PO, e não só no fim da sprint. Entre as reuniões, o acompanhamento é feito pelo quadro e pelos canais da equipe | [Atas de reunião](../atas-reunioes/index.md) |
+| Histórias de usuário | XP (Beck; Andres, 2004) e Cohn (2004) | Formato "Como…, quero…, para que…", com pontos de estimativa só nas histórias | Issues do MED-APP |
+| Critérios de aceitação em cenários | BDD (North, 2006) | Cenários "Dado que…, quando…, então…" em cada história, conferidos pelo PO e pelo cliente antes da implementação | Issues com o rótulo `validada pelo PO` |
+| Testes de aceitação | XP (Beck; Andres, 2004) | O PO e o cliente testam o APK com um formulário que tem uma pergunta por cenário BDD. A história só fecha depois do aceite | Formulário de aceitação e coluna Aceitação PO |
+| Pequenas releases | XP (Beck; Andres, 2004) | Além das releases da disciplina (R1, R2, R3 e final), há releases intermediárias, e o APK vai ao PO a cada funcionalidade concluída | Releases do MED-APP |
+| Integração contínua | XP (Beck; Andres, 2004) e Fowler (2006) | Pipeline com lint, formatação, testes e SonarCloud em todo PR, que bloqueia a integração quando falha | Checks dos PRs ([seção 7.3](#73-integracao-continua-e-documentacao-como-codigo)) |
+| Testes automatizados | XP (Beck; Andres, 2004) | Quem implementa escreve os testes do próprio código, com piso de cobertura definido no repositório | Relatórios de teste e cobertura no SonarCloud |
+| Padrões de código | XP (Beck; Andres, 2004) | ESLint e Prettier no pipeline e *Conventional Commits* em português | `CONTRIBUTING.md` de cada repositório |
+| Programação em par | XP (Beck; Andres, 2004) | Adaptada como estratégia de pareamento: quem tem menos experiência numa tecnologia trabalha com quem tem mais, para reduzir lacunas e a dependência de uma só pessoa | [Visão Operacional](../equipe/operacional.md) |
+| Revisão por pares | Prática de engenharia de software, feita por *pull request* | Todo PR tem pelo menos um revisor antes da integração | Comentários e aprovações dos PRs |
+| Quadro visual e fluxo puxado | Kanban (Anderson, 2010; Valente, 2020) | Colunas do Zenhub descritas na [seção 6.1](#61-fluxo-de-trabalho), com a coluna Aceitação PO. Os limites de WIP ainda não foram definidos | Zenhub |
+| Fluxo contínuo de entregas | Kanban (Anderson, 2010) | O APK vai ao PO quando a funcionalidade fica pronta, sem esperar o fim da sprint | [Ata 09](../atas-reunioes/Ata-09-EPS-2026-10-05-PO.md) |
+| EAP, cronograma, custos, riscos, qualidade e comunicações | PMBOK (PMI, 2017) | Um artefato para cada área de conhecimento, mantido no repositório de documentação | [EAP](../EAP.md), [Cronograma](cronograma.md), [Plano de Custos](plano_de_custos.md), [Riscos](riscos.md), [Plano de Qualidade](plano_de_qualidade.md) e atas |
+| EVM-Ágil | Sulaiman, Barton e Blackburn (2006) | Integra escopo, prazo e custo no dashboard | Indicadores e auditoria do dashboard |
+| *Velocity* e *burnup* | Planejamento ágil (Cohn, 2005) | Acompanham o ritmo e a mudança de escopo | Zenhub e dashboard |
+| Prototipação | Design de interação | Telas de alta fidelidade no Figma, anexadas às histórias para a validação | Figma e páginas de protótipo |
+| Desenvolvimento assistido por IA | Diretrizes de uso de IA da disciplina | O Claude Code segue o arquivo `CLAUDE.md` do MED-APP: prepara o trabalho, mas não faz push, não abre nem aprova PR e não mescla sem a confirmação de uma pessoa | `CLAUDE.md` do MED-APP |
 
 ## 11. Referências
 
+ANDERSON, David J. *Kanban: Successful Evolutionary Change for Your Technology
+Business*. Sequim: Blue Hole Press, 2010.
+
+BECK, Kent; ANDRES, Cynthia. *Extreme Programming Explained: Embrace Change*. 2. ed.
+Boston: Addison-Wesley, 2004.
+
 CAROLI, Paulo. *Lean Inception: como alinhar pessoas e construir o produto certo*.
+São Paulo: Editora Caroli, 2018.
+
+COHN, Mike. *Agile Estimating and Planning*. Upper Saddle River: Prentice Hall, 2005.
 
 COHN, Mike. *User Stories Applied: For Agile Software Development*. Boston:
 Addison-Wesley, 2004.
+
+FOWLER, Martin. *Continuous Integration*. 2006. Disponível em:
+<https://martinfowler.com/articles/continuousIntegration.html>.
+
+NORTH, Dan. Introducing BDD. *Better Software*, mar. 2006. Disponível em:
+<https://dannorth.net/introducing-bdd/>.
+
+PROJECT MANAGEMENT INSTITUTE. *Um guia do conhecimento em gerenciamento de projetos
+(Guia PMBOK)*. 6. ed. Newtown Square: PMI, 2017.
 
 SCHWABER, Ken; SUTHERLAND, Jeff. *O Guia do Scrum*. 2020. Disponível em:
 <https://scrumguides.org/>.
 
 SULAIMAN, Tamara; BARTON, Brent; BLACKBURN, Thomas. AgileEVM: Earned Value
 Management in Scrum Projects. In: *Agile Conference*, 2006. IEEE, 2006.
+
+VALENTE, Marco Tulio. *Engenharia de Software Moderna: princípios e práticas para
+desenvolvimento de software com produtividade*. 2020. Cap. 2. Disponível em:
+<https://engsoftmoderna.info/cap2.html>.
 
 ## Histórico de Versões
 
@@ -336,3 +429,4 @@ Management in Scrum Projects. In: *Agile Conference*, 2006. IEEE, 2006.
 | 1.0 | Criação do documento de metodologias e técnicas | [Thales Germano](https://github.com/thalesgvl) | 21/09/2026 | | |
 | 1.1 | Reestruturação como metodologia integrada, com ciclo, papéis, critérios, qualidade, medição e adaptação | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | 25/09/2026 | | |
 | 1.2 | Inclusão do Plano de Qualidade entre os planos integrados | Equipe MED (proposta para revisão) | 26/09/2026 | Pendente | — |
+| 2.0 | Origem das práticas (Scrum, XP, Kanban, PMBOK e *Lean Inception*) e adaptações, fases planejada e praticada do semestre, validação semanal das histórias, aceitação pelo PO e colunas reais do Zenhub, conforme a avaliação da R1 | [Thales Germano](https://github.com/thalesgvl) | 12/10/2026 | | |
