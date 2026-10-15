@@ -185,11 +185,30 @@ só nas histórias de usuário. É desse campo que o EVM lê os pontos: o script
 grava os pontos por sprint em `zenhub_analytics.json`, e o dashboard consome esse
 arquivo, como descrito em [Coleta de métricas](../metricas/coleta-de-metricas.md).
 
+### 5.1 Reestimativas depois da rodada
+
+Depois da rodada, duas histórias da R2 tiveram a estimativa alterada no ZenHub por
+quem as implementa. As Tabelas 1 e 2 mantêm o resultado da rodada, e a Tabela 3
+registra as alterações, com a data e o autor do histórico da issue no ZenHub.
+
+**Tabela 3:** Reestimativas registradas no ZenHub
+
+| História | Data | Autor | Consenso da rodada | Valor atual | Motivo |
+|---|---|---|:-:|:-:|---|
+| [#5](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/5) | 07/10/2026 | [Gustavo Henrique](https://github.com/GustavoHenriqueRS) | 8 | 13 | A história incorporou a consulta, a edição, a troca de senha e a desativação da conta, que estavam nas histórias #54 e #55 |
+| [#7](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/7) | 12/10/2026 | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 5 | 8 | Não registrado na issue |
+
+**Fonte:** histórico das issues no ZenHub, consultado em 15/10/2026.
+
+Com esses valores, a R2 soma 40 pontos e o backlog, 194. É esse o total que o
+ZenHub mostra hoje para a R2.
+
 ## 6. Pendências
 
 - Definir a release das cinco histórias sem release, para que entrem no PRP.
-- Conferir se as estimativas das histórias #7 e #21 continuam válidas depois da
-  revisão dos critérios, concluída na
+- Confirmar com a equipe as reestimativas da Tabela 3 e registrar o motivo da
+  alteração da história #7. A estimativa da história #21 não mudou depois da
+  revisão dos critérios na
   [#82](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/issues/82).
 
 ## 7. Referências
@@ -223,3 +242,4 @@ Management in Scrum Projects. In: *Agile Conference*, 2006. IEEE, 2006.
 | Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de Revisão |
 |---|---|---|---|---|---|
 | 1.0 | Registro da dinâmica de estimativa, das estimativas e do consenso por história e dos pontos planejados por release | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 12/10/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 12/10/2026 |
+| 1.1 | Registro das reestimativas das histórias #5 e #7 feitas no ZenHub depois da rodada | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 15/10/2026 | | |
