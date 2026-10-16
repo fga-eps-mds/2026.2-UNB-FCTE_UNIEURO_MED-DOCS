@@ -90,12 +90,12 @@ As datas vêm do [Cronograma](../processo/cronograma.md), e o recorte de cada re
 
 | Data | Release | Objetivo |
 |---|---|---|
-| 28/09 | R1 | Telas de cadastro e login |
+| 28/09 | R1 | Telas de cadastro e login navegáveis, com validações básicas |
 | 13/10 | Release minor 1 | Conta do profissional completa e tela inicial |
-| 26/10 | R2 | Cadastro e login offline, atendimento e TCLE registrados e primeiro desenho no tablet |
+| 26/10 | R2 | Cadastro e login offline, área inicial do profissional, atendimento e TCLE registrados, dados protegidos e primeiro desenho no tablet |
 | 09/11 | Release minor 2 | Incremento das três tarefas e da captura |
-| 30/11 | R3 — MVP | Três tarefas, captura, inferência e resultado no tablet, e exportação do XML |
-| 07/12 | Release final | Correções, acessibilidade e teste de aceitação final com o cliente |
+| 30/11 | R3 — MVP | Três tarefas, captura e retomada, inferência e resultado no tablet, proteção dos dados e exportação do XML |
+| 07/12 | Release final | Correções e estabilização, acessibilidade conforme a capacidade e teste de aceitação final com o cliente |
 | 14/12 | Encerramento | APK, documentação e resultados das métricas |
 
 ## Histórico de Versões
