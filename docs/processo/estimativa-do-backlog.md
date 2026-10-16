@@ -195,21 +195,18 @@ registra as alterações, com a data e o autor do histórico da issue no ZenHub.
 
 | História | Data | Autor | Consenso da rodada | Valor atual | Motivo |
 |---|---|---|:-:|:-:|---|
-| [#5](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/5) | 07/10/2026 | [Gustavo Henrique](https://github.com/GustavoHenriqueRS) | 8 | 13 | A história incorporou a consulta, a edição, a troca de senha e a desativação da conta, que estavam nas histórias #54 e #55 |
-| [#7](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/7) | 12/10/2026 | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 5 | 8 | Não registrado na issue |
+| [#5](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/5) | 07/10/2026 | [Gustavo Henrique Rodrigues de Sousa](https://github.com/GustavoHenriqueRS) | 8 | 13 | A pedido do professor na [Ata 09](../atas-reunioes/Ata-09-EPS-2026-10-05-PO.md), a história incorporou a consulta da conta, além da edição, da troca de senha e da desativação, que estavam nas histórias #54 e #55 |
+| [#7](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/7) | 12/10/2026 | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 5 | 8 | Depois da rodada, o PO pediu o CPF do paciente na reunião de 05/10 ([Ata 09](../atas-reunioes/Ata-09-EPS-2026-10-05-PO.md)). A história passou a gravá-lo cifrado com índice de busca, como o do profissional ([#42](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/42)), a reconhecer o paciente que volta e a exigir a migration das tabelas paciente e avaliacao, com teste de integração da tela ao banco em SQLite real. A implementação foi dividida entre três pessoas (regras, banco e tela) |
 
 **Fonte:** histórico das issues no ZenHub, consultado em 15/10/2026.
 
-Com esses valores, a R2 soma 40 pontos e o backlog, 194. É esse o total que o
-ZenHub mostra hoje para a R2.
+Com esses valores, as cinco histórias da R2 na Tabela 2 somam 40 pontos, e o
+backlog, 194. A estimativa da história #21 não mudou depois da revisão dos critérios
+na [#82](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/issues/82).
 
 ## 6. Pendências
 
 - Definir a release das cinco histórias sem release, para que entrem no PRP.
-- Confirmar com a equipe as reestimativas da Tabela 3 e registrar o motivo da
-  alteração da história #7. A estimativa da história #21 não mudou depois da
-  revisão dos critérios na
-  [#82](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/issues/82).
 
 ## 7. Referências
 
@@ -242,4 +239,4 @@ Management in Scrum Projects. In: *Agile Conference*, 2006. IEEE, 2006.
 | Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de Revisão |
 |---|---|---|---|---|---|
 | 1.0 | Registro da dinâmica de estimativa, das estimativas e do consenso por história e dos pontos planejados por release | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 12/10/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 12/10/2026 |
-| 1.1 | Registro das reestimativas das histórias #5 e #7 feitas no ZenHub depois da rodada | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 15/10/2026 | | |
+| 1.1 | Registro das reestimativas das histórias #5 e #7 feitas no ZenHub depois da rodada | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 15/10/2026 | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 16/10/2026 |
