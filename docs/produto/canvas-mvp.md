@@ -72,7 +72,7 @@ Estas métricas estavam no quadro original. Elas só podem ser medidas com o apl
 
 ### 7.1 Custo
 
-O custo vem do [Plano de Custos](../processo/plano_de_custos.md), que soma pessoas, computadores, energia e internet. O produto não tem custo de servidor, licença ou hospedagem, porque roda 100% offline, e usa um tablet Android comum, sem custo se a instituição já tiver o aparelho.
+O custo vem do [Plano de Custos](../processo/plano_de_custos.md), que soma pessoas, computadores, energia e internet. O produto não tem custo de servidor, licença ou hospedagem, porque roda 100% offline. Os tablets do projeto já foram comprados ([Ata 08](../atas-reunioes/Ata-08-EPS-2026-10-02-PO.md)) e ficam fora do custo da equipe.
 
 | Período | Semanas | Custo planejado | Acumulado |
 |---|---:|---:|---:|
