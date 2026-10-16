@@ -1,75 +1,148 @@
-# Estrutura Analítica do projeto
+# Estrutura Analítica do Projeto
 
 ## Introdução
 
-A EAP (Estrutura Analítica do Projeto) é a decomposição do escopo total de um projeto em partes menores, organizadas em uma estrutura hierárquica. O objetivo é dividir o trabalho em componentes gerenciáveis para facilitar o planejamento e o controle.
+A Estrutura Analítica do Projeto (EAP) decompõe o escopo total do MED em
+entregas verificáveis. A estrutura parte do projeto completo, destaca a Visão
+do Produto como entrega principal e separa gestão, engenharia e qualidade e
+produto de software. O produto é detalhado por release e por épico funcional.
 
-As características de uma EAP são:
+A EAP segue a regra dos 100%: os componentes apresentados representam o
+escopo planejado do projeto, sem incluir trabalho que não contribua para uma
+entrega. As histórias de usuário não são um nível da decomposição; elas são
+referenciadas apenas para permitir a rastreabilidade entre os épicos e o
+backlog do aplicativo.
 
-* Foco nos produtos e resultados finais do projeto
-* Divisão do escopo geral em partes menores até chegar aos pacotes de trabalho.
-* A soma de todas as partes representa a totalidade do escopo do projeto.
-* Delimita cada pacote de trabalho para facilitar o controle e a atribuição de responsabilidades.
+## Relação com o processo de desenvolvimento
 
+- **EAP:** delimita o escopo total e organiza as entregas.
+- **Sequenciador:** registra a prioridade funcional e o corte do MVP.
+- **Backlog:** detalha os épicos em histórias de usuário e critérios de
+  aceitação.
+- **Roadmap:** distribui as entregas da EAP ao longo das releases.
+- **Quadro de trabalho:** acompanha a execução e o aceite de cada história.
 
-
-## EAP no Modelo Scrum
-
-A EAP servirá como o norte estratégico para garantir o cumprimento do escopo macro.
-
-Essa estrutura será integrada ao framework Scrum da seguinte forma:
-
-* **Mapeamento:** Os pacotes de trabalho da EAP serão desdobrados no Product Backlog em formato de Épicos e Histórias de Usuário.
-* **Execução:** O desenvolvimento ocorrerá por meio de Sprints, onde cada ciclo entregará um incremento funcional baseado nas fatias da EAP.
-* **Validação:** O progresso do escopo global será atualizado na EAP à medida que as Histórias de Usuário forem validadas.
-
-
-## Macros
-
-### 1.1 Documentação e Design
-
-| Nível | Nome | Explicação |
-| :--- | :--- | :--- |
-| **1.1.1** | Estrutura Analítica do Projeto (EAP) | Diagrama hierárquico que mapeia visualmente todo o escopo do projeto. |
-| **1.1.2** | Roadmap | Linha do tempo visual com os grandes marcos e prazos de entrega do semestre. |
-| **1.1.3** | Backlog do produto | Lista prioritária de requisitos e funcionalidades do software. |
-| **1.1.4** | Cronograma | Detalhamento de datas, prazos de entregas e responsáveis. |
-| **1.1.5** | Plano de Custos | Estimativa e controle financeiro de ferramentas ou serviços |
-| **1.1.6** | Plano de Riscos | Mapeamento de possíveis problemas do projeto e suas soluções. |
-| **1.1.7** | Visão do Produto | Lean Inception: alinhamento de escopo, objetivos, personas e definição do MVP. |
-| **1.1.8** | Governança do Repositório | Definição de padrões de código, documentação, branch e etc. |
-| **1.1.9** | Arquitetura e Modelagem | Criação de diagramas técnicos, modelos de banco de dados e desenho de infraestrutura. |
-| **1.1.10** | Protótipo e Identidade Visual | Definição do guia de estilos e construção de telas interativas do sistema. |
-
-### 1.2 Produto de Software
-
-| Nível | Nome | Explicação |
-| :--- | :--- | :--- |
-| **1.2.1** | R1 (Release 1) | Interfaces navegáveis de cadastro e login, com avisos básicos no cadastro. São avanços parciais das USs [#5](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/5) e [#6](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/6), ainda sem cadastro persistente ou autenticação funcional comprovados. |
-| **1.2.2** | R2 (Release 2) | **Meta:** acesso local e primeira avaliação. Concluir USs #5 e #6 (cadastro e login), [#7](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/7) (atendimento) e [#21](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/21) (TCLE); demonstrar o primeiro desenho com armazenamento protegido. Esse desenho representa avanço parcial, não aceite das USs das três tarefas. |
-| **1.2.3** | R3 (Release 3) | **Meta do MVP:** concluir as USs [#8–#17](processo/roadmap.md) e [#22, #23 e #25](processo/roadmap.md): três tarefas, captura e retomada, inferência e resultados no tablet, proteção dos dados e XML local sob solicitação. Aceite condicionado à integração, aos testes offline no tablet e às decisões pendentes com o parceiro. |
-
-O [roadmap](processo/roadmap.md) contém a relação individual **Release × US** e seus critérios de aceite. Nenhuma US é considerada concluída apenas pela existência de telas ou de um desenho parcial. A US [#24 — configurações de contraste e fonte](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/24) pertence ao incremento pós-MVP, não à R3. As USs #14 e #25 exigem alinhamento com o PO porque seus critérios ultrapassam o corte do sequenciador.
-
-### 1.3 Qualidade e Devops
-
-| Nível | Nome | Explicação |
-| :--- | :--- | :--- |
-| **1.3.1** | Pipeline de CI/CD e Testes | Configuração de pipelines de integração contínua e testes automatizados. |
-| **1.3.2** | App Streamlit e Métricas | Construção e evolução do Dashboard Gerencial e Analítico utilizando a ferramenta Streamlit. |
-
+Esses artefatos devem ser atualizados em conjunto quando uma mudança de
+escopo for aprovada. O detalhamento dos requisitos ocorre de forma evolutiva,
+próximo da implementação, para reduzir retrabalho.
 
 ## Diagrama da EAP
 
-O painel abaixo registra a estrutura visual original. Para o **escopo atualizado das releases**, prevalecem a tabela 1.2 acima e a rastreabilidade do [roadmap](processo/roadmap.md); o diagrama ainda não incorpora esse replanejamento.
+![Diagrama hierárquico da EAP do projeto MED, com as releases decompostas em épicos funcionais](assets/imagens/eap/estrutura-analitica-projeto.svg)
 
-<iframe frameborder="0" style="width:100%;height:723px;" src="https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=EAP.drawio&dark=auto#R%3Cmxfile%3E%3Cdiagram%20name%3D%22P%C3%A1gina-1%22%20id%3D%22TenOnNTXbpsn9Widjvpb%22%3E7Vzfc5s4EP5rPHP3kIyR%2BPmY2L62c71rGvd6bV86CshYF4w4WcRO%2FvoKg4zBxnVsJOoZvziwSIvYT9%2FuSizpwcFs%2BYahZPoXDXDUA%2F1g2YPDHgDABa74k0mec4lheXYuCRkJClkpGJMXXAj7hTQlAZ5XGnJKI06SqtCncYx9XpEhxuii2mxCo%2BpdExTiLcHYR9G29F8S8GkudYFTyt9iEk7lnQ3by6%2FMkGxcPMl8igK62BDBUQ8OGKU8P5otBzjKrCftkvf7o%2BHqemAMx%2FyQDuD9py%2FWP%2BPPL85i8ffIGf4JXtIraOZqcLBlhlJvIZrTlPl4jzLZjj9L62Vqx8UpZXxKQxqjaFRKbxlN4wBnQ%2ByLs7LNe0oTITSE8D%2FM%2BXMxM1DKqRBN%2BSwqropRsucvWf9rS55%2BLdStTobLytmzPFsSvtFNnH2VGsVx2Sk7kX2K%2BYdYiPk%2Bo67RFbzAdIbFfUU%2FhiPEyVPVzqiYn%2BG6XQmhOChQfAWiVv%2BCaOuIWl0iahsXRFtH1OwS0T34lbiUVs8eeDElHI8TtAJ3IYJt1cITEkUDGlG26gsDC7uBKeRzzugj3rjiggdo22s7PaEoLe7XA3YkBnMbkCdxGGaHYzrhCzFIeUk87MZV47rQgRnHy43H2DbrdCNE2oWDWpTh1JAxUmrxYCGQaYNMB1qHArotkgueRC7j1yeXn7KntSM4NBo6XVINqqaa72NrMtlFNWhDDwYHUm1I%2FXQmhoh6A9i7cVa%2FkGYTM8ue8ZyEsWiKZtlg4od5slK7m5WGKlo6oMpK6Khipee0yEqzk5CnLnTZdpeEMs%2BEUB9TFJEABbjg0BA%2FfRBrxp2c2dHduIZNbdWQC1ja2GVZLbLLuiSUuR1Al6y07LOH9Ahojp0Gh0La7UK%2Bzcz0Amlhh07XfdaZxM47RoMMzSzzFD8%2FWwYCVTFxax2oLiYabW6EdrIOrKzNFAY6uRSvTKGTOFV0vaNEGHoN%2FpXhVcG3ZN4ideRDLbrV8F%2BP44Qp0W%2BdroeQbyS4m%2FKUIdHyRkyA1VJwyImfCYKMlIKeYipkR7%2BNbu5%2Bb1wHqlsJ2jVkXKsZ3dNo6XSCwT1FwUx0bLSsMpcHgDbTnv3OlzaP52jyeMCpgV8PdzkOWx7v55psR7Pv9Drh7S3yHyMaSkeZyDymicZQFY2hq4vG8sbnS%2BNjU35t9Pd00d%2BqkdY6mv41Ta5m%2Bu%2BbgwrpP2A0piFDM9RMeVMV5S0zm3uaSA%2FOnfS6yCutoJq8tbTN6x9J3ZoeA5iamWt3wty7CMXr%2FYZBOue0Yas%2Bo7ClisJOXyOFu1nZVAx9T%2Bb%2BPkPbqgzt2hoNfVnnHOor7R0zSEmiU%2FNyrnd0orPlL23N%2FtK7zK4DZ5e2VXS%2FpVi8pckAmvNo2E2Q%2BEzmZQGK3HLcv5KW4Lb%2FDqAPdEUK2M2mxRsqrBajOK%2F8We%2Fy3uOEzgnPpLeQkQbb7yxdMK5dvcULhuHqAslsv6LrEJBEgxv2fyr0FFvzWf60%2Bt4BhXj2Kmw8zdhAUxs2l5doBwbD3NW0HvuM%2Br6veewW0pYmy61pUhz6zDZLALvZ19RUYGueWqbSMANg7f2reWyWvqXJrZdzq55LbicxQyRNRfjmJJG1vO8CMQRZmCgSrRRFr4oemem0hg%2Brry18nP1a6levxc%2BJoMBV1N43mPbRrqKmyatrUuwq8jJOlTVaD0YQTDLMtmq0jL4DPXygc7k3Gsux1NV9GI5ZywrqMaG9WjnlX260BQRoBgIoA6JeGacQCOUV%2F20B0VCxnwGh7EW%2F8FgKgIjepskiHLzg5Tfrw0f%2F0RvG369Ai9Gxm29iOq3a32nThklw6stAD4BqPDQPi4dtRTG7o7d4JMERifNP1sTP4J0Y%2FWBYZL6f8JzjV32Bc90Q45SRGdYLG5WRuZsCiZskEW3GnGE0iwiX21irnUePM%2BKj1%2BHTEPqU4WPXy6qOwEeclv90Iydc%2Bb9L4OgH%3C%2Fdiagram%3E%3C%2Fmxfile%3E"></iframe>
+O diagrama apresenta épicos, e não histórias individuais. Os números das
+issues indicados nos épicos servem somente como ligação com o backlog. As
+metas futuras não representam funcionalidades concluídas.
 
-## Histórico de versão
+## Dicionário da EAP
 
-| Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de Revisão |
+### 1.1 Visão do Produto — Lean Inception
+
+| Código | Entrega | Resultado esperado |
+|---|---|---|
+| **1.1.1** | Visão e É / Não é — Faz / Não faz | Declaração do problema, do produto, dos benefícios, dos diferenciais e dos limites da solução. |
+| **1.1.2** | Objetivos de negócio | Resultados esperados para IA e escore, experiência do paciente, experiência do profissional e dados. |
+| **1.1.3** | Personas | Perfis, comportamentos e necessidades do paciente e do profissional de saúde. |
+| **1.1.4** | Jornadas de usuário | Etapas de aplicação da triagem para o paciente e para o profissional de saúde. |
+| **1.1.5** | Funcionalidades e revisão | Funcionalidades organizadas em clusters e revisadas nas perspectivas técnica, de negócio e de experiência. |
+| **1.1.6** | Sequenciador | Funcionalidades priorizadas em ondas, com dependências e separação entre MVP e incrementos subsequentes. |
+| **1.1.7** | Canvas MVP | Proposta do MVP, hipóteses, métricas de validação e estimativa de custo. |
+
+### 1.2 Gestão do projeto
+
+| Código | Entrega | Resultado esperado |
+|---|---|---|
+| **1.2.1** | EAP e backlog | Escopo total decomposto em entregas e backlog estimado e rastreável. |
+| **1.2.2** | Roadmap | Escopo funcional distribuído entre releases, épicos e objetivos demonstráveis. |
+| **1.2.3** | Cronograma | Marcos oficiais, datas das releases e entregas acadêmicas da disciplina. |
+| **1.2.4** | Custos | Linha de base de custos e acompanhamento do valor realizado por release. |
+| **1.2.5** | Riscos | Riscos identificados, analisados, respondidos e monitorados durante o projeto. |
+| **1.2.6** | Governança | Fluxo de branches, revisões, releases, contribuições e aceite mantido nos repositórios. |
+
+### 1.3 Engenharia e qualidade
+
+| Código | Entrega | Resultado esperado |
+|---|---|---|
+| **1.3.1** | Requisitos e protótipos | Requisitos e protótipos detalhados de forma evolutiva e validados com os POs antes da implementação. |
+| **1.3.2** | Identidade visual | Padrões de cores, mensagens, tipografia, ícones, botões e demais componentes visuais. |
+| **1.3.3** | Arquitetura e modelagem | Visões arquiteturais, componentes, integração com a IA e modelos conceitual e lógico do banco de dados. |
+| **1.3.4** | Qualidade e testes | Modelo de qualidade, métricas, testes unitários, de integração, funcionais, de sistema e de aceitação. |
+| **1.3.5** | Integração e entrega contínuas | Pipelines de verificação, coleta de métricas e geração de releases. |
+| **1.3.6** | Dashboard e métricas | Indicadores gerenciais, de processo e de produto apresentados de forma rastreável. |
+
+### 1.4 Produto de software
+
+#### 1.4.1 R1 — Interfaces de acesso
+
+A R1 registrou o incremento demonstrado em 28/09. A existência das telas não
+representa o aceite integral das histórias de cadastro e login.
+
+| Código | Épico | Escopo | Rastreabilidade |
+|---|---|---|---|
+| **1.4.1.1** | Acesso do profissional | Interfaces navegáveis de cadastro e login, com validações básicas do formulário. | Avanço parcial das USs [#5](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/5) e [#6](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/6). |
+
+#### 1.4.2 R2 — Acesso local e primeira avaliação
+
+A R2 tem como objetivo estabelecer o acesso funcional e demonstrar o início de
+uma avaliação no tablet. O primeiro desenho é um avanço parcial das histórias
+que abrangem as três tarefas e somente serão aceitas na R3.
+
+| Código | Épico | Escopo | Rastreabilidade |
+|---|---|---|---|
+| **1.4.2.1** | Acesso local | Cadastro persistente e autenticação do profissional sem internet. | USs [#5](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/5) e [#6](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/6). |
+| **1.4.2.2** | Área do profissional | Tela inicial após o login, com identificação do profissional e atalhos para novo exame, exportação, sincronização e configurações. | US [#46](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/46). |
+| **1.4.2.3** | Atendimento e consentimento | Registro do atendimento vinculado ao profissional e apresentação e registro do TCLE antes de qualquer desenho. | USs [#7](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/7) e [#21](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/21). |
+| **1.4.2.4** | Fundação da avaliação | Primeiro desenho demonstrado localmente e início da persistência protegida. | Avanço parcial das USs [#8](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/8), [#9](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/9), [#10](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/10), [#17](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/17), [#23](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/23) e [#25](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/25). |
+
+#### 1.4.3 R3 — MVP integrado
+
+A R3 é o marco planejado para o MVP completo. Cada épico depende de
+integração, testes no tablet em modo avião e aceite dos critérios pelo PO.
+
+| Código | Épico | Escopo | Rastreabilidade |
+|---|---|---|---|
+| **1.4.3.1** | Tarefas e interação | Instruções e execução das três tarefas, com confirmação, correção e avanço entre desenhos. | USs [#8](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/8), [#9](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/9) e [#23](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/23). |
+| **1.4.3.2** | Captura e continuidade | Captura do traçado e da imagem confirmada, salvamento do progresso e retomada após interrupção. | USs [#10](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/10) e [#25](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/25). |
+| **1.4.3.3** | Inferência e resultados | Encerramento sem escore para o paciente, inferência embarcada e resultados explicáveis acessíveis somente ao profissional. | USs [#11](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/11), [#12](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/12), [#13](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/13) e [#14](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/14). |
+| **1.4.3.4** | Operação protegida | Fluxo integral sem internet, sem envio de dados clínicos e com dados locais cifrados. | USs [#15](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/15), [#16](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/16) e [#17](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/17). |
+| **1.4.3.5** | Exportação local | Geração de XML sob solicitação do profissional, sem transmissão automática. | US [#22](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/22). |
+
+#### 1.4.4 Release final — Estabilização
+
+| Código | Épico | Escopo | Rastreabilidade |
+|---|---|---|---|
+| **1.4.4.1** | Correções e testes finais | Estabilização do incremento validado, correção de defeitos e verificação final no tablet. | Defeitos e pendências registrados durante as releases. |
+| **1.4.4.2** | Acessibilidade | Configuração de contraste e tamanho da fonte, conforme a capacidade restante e sem regressão do MVP. | US [#24](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/24). |
+
+## Rastreabilidade com o sequenciador
+
+| Elemento do sequenciador | Épico da EAP |
+|---|---|
+| Cadastrar e logar o profissional de saúde | 1.4.2.1 — Acesso local |
+| Aceitar o TCLE | 1.4.2.3 — Atendimento e consentimento |
+| Desenhar, confirmar, apagar e refazer | 1.4.3.1 — Tarefas e interação |
+| Capturar coordenadas, ordem, tempo e imagem | 1.4.3.2 — Captura e continuidade |
+| Salvar dados de progresso offline | 1.4.3.2 — Captura e continuidade |
+| Rodar inferência do modelo embarcado | 1.4.3.3 — Inferência e resultados |
+| Visualizar instrução e encerramento sem escore | 1.4.3.1 e 1.4.3.3 |
+| Exportar XML com os dados pertinentes | 1.4.3.5 — Exportação local |
+| Vincular avaliação ao profissional e ao paciente | 1.4.2.3 — Atendimento e consentimento |
+| Configurar contraste e tamanho da fonte | 1.4.4.2 — Acessibilidade |
+| Extrair características de cada figura | 1.4.3.3 — Inferência e resultados |
+
+O sequenciador define a ordem de valor e as dependências funcionais. O
+[roadmap](processo/roadmap.md) define em qual release cada épico será
+demonstrado e aceito. A área inicial do profissional, representada pelo épico
+1.4.2.2 e pela US #46, foi incorporada ao escopo depois da avaliação da R1 e,
+por isso, não aparece no sequenciador original da Lean Inception.
+
+## Histórico de versões
+
+| Versão | Descrição | Autor(es) | Data | Revisor(es) | Data de revisão |
 |---|---|---|---|---|---|
-| 1.0 | Criação do documento de EAP | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 13/09/2026 | [Artur Mendonça Arruda](https://github.com/Artymend07)| 17/09/2026 |
-| 1.1 | Remoção do Macro "Gerenciamento do projeto" e ajuste dos respectivos pacotes de trabalho para o Macro "Documentação e Design". Remoção dos pacotes "Atas" e "Site de documentação".  | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 17/09/2026 | [Artur Mendonça Arruda](https://github.com/Artymend07)| 19/09/2026 |
-| 1.2 | Ajuste das seções do documento conforme EAP, removendo 1.4 Dashboard e adicionando métricas na seção 1.3  | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 22/09/2026 | [Artur Mendonça Arruda](https://github.com/Artymend07)|  |
-| 1.3 | Definição dos pacotes de R1, R2 e R3 com vínculo às USs do APP e ao roadmap, distinguindo metas de entregas confirmadas. | [Daniel Ferreira](https://github.com/Mach1r0) | 26/09/2026 | — | — |
+| 1.0 | Criação do documento de EAP. | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 13/09/2026 | [Artur Mendonça Arruda](https://github.com/Artymend07) | 17/09/2026 |
+| 1.1 | Remoção do macro "Gerenciamento do projeto" e reorganização dos pacotes de trabalho. | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 17/09/2026 | [Artur Mendonça Arruda](https://github.com/Artymend07) | 19/09/2026 |
+| 1.2 | Ajuste das seções e incorporação das métricas e do dashboard ao macro de qualidade. | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 22/09/2026 | [Artur Mendonça Arruda](https://github.com/Artymend07) | — |
+| 1.3 | Definição dos pacotes de R1, R2 e R3 com vínculo às USs do APP e ao roadmap. | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | 26/09/2026 | — | — |
+| 1.4 | Reestruturação da EAP por entregas, releases e épicos funcionais, com alinhamento ao sequenciador, backlog e roadmap após a R1. | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | 10/10/2026 | — | — |
+| 1.5 | Ajustes após revisão: elevação da Visão do Produto, separação entre roadmap e cronograma, inclusão da US #46 e correção da rastreabilidade. | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | 12/10/2026 | — | — |
