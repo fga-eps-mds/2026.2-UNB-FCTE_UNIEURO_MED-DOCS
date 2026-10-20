@@ -1,7 +1,43 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-10-19T09:24:10Z",
+  "coletado_em": "2026-10-20T09:17:31Z",
   "workflow_runs": [
+    {
+      "id": 39326811789,
+      "name": "Build",
+      "head_branch": "fix/80-ajustes-lista-de-pacientes",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-19T21:21:20Z",
+      "updated_at": "2026-10-19T21:23:11Z",
+      "run_number": 83,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/39326811789"
+    },
+    {
+      "id": 39325367069,
+      "name": "Build",
+      "head_branch": "feat/5-crud-conta",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-19T21:10:19Z",
+      "updated_at": "2026-10-19T21:12:39Z",
+      "run_number": 82,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/39325367069"
+    },
+    {
+      "id": 39272697153,
+      "name": "Build",
+      "head_branch": "feat/9-quadro-de-desenho",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-19T14:51:17Z",
+      "updated_at": "2026-10-19T14:53:25Z",
+      "run_number": 81,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/39272697153"
+    },
     {
       "id": 39043862158,
       "name": "Export de métricas",
