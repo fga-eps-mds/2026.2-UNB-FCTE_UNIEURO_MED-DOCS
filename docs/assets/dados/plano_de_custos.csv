@@ -1,9 +1,8 @@
-categoria,custo_semanal_brl,semanas,custo_total_brl,observacao
-Pessoas,3253.57,17,55310.64,"11 integrantes na R1 e 10 a partir da R2 (177 semanas-integrante); orçamento médio aproximado pelo total oficial de estudantes da UnB"
-Depreciacao_dos_computadores,141.70,17,2408.97,"11 computadores na R1 e 10 a partir da R2"
-Energia_eletrica,4.79,17,81.42,"Uso extraclasse estimado"
-Internet,20.20,17,343.38,"Rateio do plano residencial de referência"
-Servicos_licencas_hospedagem,0.00,17,0.00,"Planos educacionais/gratuitos e produto offline"
-Linha_de_base_BAC,3420.26,17,58144.41,"Custo semanal médio do semestre; totais calculados com premissas nao arredondadas"
-Reserva_gerencial,171.01,17,2907.22,"5% da linha de base; nao integra o BAC antes de aprovacao"
-Orcamento_total_autorizado,3591.27,17,61051.63,"BAC mais reserva gerencial"
+release,periodo,semanas,integrantes,horas_projeto,horas_extraclasse,pessoas_brl,computadores_brl,energia_brl,internet_brl,bac_brl
+R1,10/08 a 28/09,7,11,1386,1078,24061.69,38500.00,35.36,149.72,62746.77
+R2,29/09 a 26/10,4,10,720,560,12499.58,0.00,18.37,77.78,12595.73
+R3,27/10 a 30/11,5,10,900,700,15624.47,0.00,22.96,97.22,15744.66
+Release_final,01/12 a 07/12,1,10,180,140,3124.89,0.00,4.59,19.44,3148.93
+Custo_do_projeto,10/08 a 07/12,17,,3186,2478,55310.64,38500.00,81.28,344.17,94236.09
+Reserva_gerencial_5pct,,,,,,,,,,4711.80
+Orcamento_total_autorizado,,,,,,,,,,98947.89
