@@ -14,6 +14,7 @@ O painel consolida os indicadores gerenciais e de processo exigidos para a prime
 - **Matriz de Riscos**: Mapa de calor 5x5 (Probabilidade x Impacto) e planos de mitigação.
 - **Processo e CI/CD**: Taxa de sucesso de pipelines e tempo médio de feedback.
 - **Qualidade de Produto**: Métricas do SonarCloud (cobertura, bugs, vulnerabilidades, code smells, security hotspots, ratings) por repositório de código (APP/IA).
+- **Q-Rapids e R1 × R2 (DA-R2)**: índice de qualidade do produto (Q) com métricas, fatores e características por release, indicadores de processo (P1 a P3 e P) e a comparação de velocidade, cobertura e defeitos entre as releases.
 
 ---
 
@@ -69,10 +70,12 @@ dashboard/
     ├── metrics.py                # Modelagem matemática de EVM e Riscos
     ├── qualidade.py              # Q-Rapids: métricas m1 a m8, fatores, características e índice Q
     ├── processo.py               # Indicadores de processo e comparação R1 × R2
-    └── templates.py              # Utilitários de apresentação
+    └── templates.py              # Utilitários de apresentação, incluindo as tabelas da aba Q-Rapids
 └── tests/
     ├── test_qualidade.py         # Testes das fórmulas do Plano de Qualidade
-    └── test_processo.py          # Testes dos indicadores de processo
+    ├── test_processo.py          # Testes dos indicadores de processo
+    ├── test_data_layer_qrapids.py  # Testes da leitura resiliente dos dados da aba Q-Rapids
+    └── test_templates_qrapids.py   # Testes das tabelas e dos formatos da aba Q-Rapids
 ```
 
 Os módulos `qualidade.py` e `processo.py` não dependem do Streamlit:
@@ -84,6 +87,22 @@ Os módulos `qualidade.py` e `processo.py` não dependem do Streamlit:
   índice P de cada release, e `processo.comparativo()` devolve a velocidade, a
   cobertura e os defeitos de cada release, a comparação R1 × R2 que o cronograma pede
   para o DA-R2.
+
+### Aba "Q-Rapids e R1 × R2"
+
+A aba tem três seções: **Qualidade do Produto**, **Processo** e **Comparação entre Releases**. O fluxo respeita a separação entre camadas:
+
+1. `data_layer.get_qrapids_data()` lê `analytics-raw-data/` e chama `qualidade.py` e `processo.py`. Cada cálculo é protegido: se um `.json` estiver malformado, só aquela parte volta vazia e o restante da aba continua.
+2. `templates.py` monta as tabelas, formata os índices e escolhe a cor pela faixa do Plano de Qualidade.
+3. `dashboard.py` (`render_qrapids_tab`) só apresenta.
+
+Decisões de leitura:
+
+- **Sem dados de exemplo.** Diferente das outras abas, esta não usa dado simulado, porque um índice inventado seria lido como resultado real. Sem os arquivos, a aba avisa que ainda não há coleta.
+- **Não medido não é zero.** Métrica sem dado aparece como `n/m`, e o gráfico por versão interrompe a linha em vez de cair a zero. Valor parcial leva um asterisco.
+- **Marcos sem versão.** Se um repositório não tem versão nova medida para uma release que já passou ou está em curso (hoje, a IA na RM1 e na R2), a aba avisa quais marcos ficaram sem medição.
+- **Causa de cada nota.** A seção "De onde vem cada nota" lista os arquivos fora do limiar de cada métrica, para a análise de causa que o plano pede.
+- **Validação pendente.** Os limiares, os pesos e os indicadores de processo são proposta do time e aguardam o professor. Para mudar um limiar, altere a constante em `qualidade.py` e a aba acompanha.
 
 Para conferir os valores e rodar os testes, a partir desta pasta:
 
