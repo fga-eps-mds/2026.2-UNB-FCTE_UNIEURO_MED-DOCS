@@ -49,6 +49,32 @@ def _ppc(release: Dict[str, Any], dia: date) -> float:
     return decorridos / duracao
 
 
+def pontos_distintos(sprints: List[Dict[str, Any]]) -> tuple:
+    """PRP de uma release contando cada história uma só vez: (pontos, aproximado).
+
+    Uma história que não termina na sprint passa para a seguinte, e o Zenhub a
+    lista nas duas. Somar o `total_points` das sprints contaria seus pontos duas
+    vezes. Com o detalhe por issue, cada história entra uma vez, com a estimativa
+    da última sprint em que aparece (issue sem estimativa vale 0). Sem o detalhe,
+    ou com a lista incompleta, volta à soma dos `total_points` e marca como
+    aproximado. Com uma sprint só não há repetição possível, e o valor é exato.
+    """
+    soma = sum(float(s.get("total_points", 0.0)) for s in sprints)
+    if len(sprints) <= 1:
+        return soma, False
+
+    por_id: Dict[Any, float] = {}
+    for s in sprints:
+        issues = s.get("issues")
+        total = s.get("issues_total")
+        completa = isinstance(issues, list) and (total is None or len(issues) >= total)
+        if not completa or any(i.get("id") is None for i in issues):
+            return soma, True
+        for i in issues:
+            por_id[i["id"]] = float(i.get("estimativa") or 0.0)
+    return sum(por_id.values()), False
+
+
 def compute_release_evm(
     sprints: List[Dict[str, Any]],
     releases: List[Dict[str, Any]],
@@ -58,7 +84,8 @@ def compute_release_evm(
 
     Entradas reais: BAC de cada release (config.RELEASES, vindo do Plano de Custos)
     e, por sprint, os pontos planejados (`total_points`) e entregues (`delivered_sp`).
-    Hipóteses: PRP = soma dos pontos das sprints que terminam na release; PPC = fração
+    Hipóteses: PRP = pontos das histórias distintas das sprints que terminam na release
+    (ver `pontos_distintos`); RPC = soma dos pontos entregues nessas sprints; PPC = fração
     dos dias da release já decorrida; AC é estimado pela linha de base de custo
     (PPC x BAC), pois não há custo real apurado, então CPI coincide com SPI.
     """
@@ -76,7 +103,7 @@ def compute_release_evm(
         lista = sorted(por_release[release["id"]], key=lambda s: s.get("end_at") or "")
         bac = float(release["bac_brl"])
 
-        prp = sum(float(s.get("total_points", 0.0)) for s in lista)
+        prp, prp_aproximado = pontos_distintos(lista)
         rpc = sum(float(s.get("delivered_sp", 0.0)) for s in lista)
 
         if hoje < inicio:
@@ -120,6 +147,7 @@ def compute_release_evm(
             "status": status,
             "bac": bac,
             "prp": prp,
+            "prp_aproximado": prp_aproximado,
             "rpc": rpc,
             "n_sprints": len(lista),
             "ppc": ppc,
@@ -164,7 +192,7 @@ def _tabela_auditoria(releases: List[Dict[str, Any]]) -> pd.DataFrame:
             "Período": f"{r['inicio']:%d/%m} a {r['fim']:%d/%m}",
             "Status": r["status"],
             "BAC (R$)": _brl(r["bac"]),
-            "PRP (SP)": _num(r["prp"], 1),
+            "PRP (SP)": _num(r["prp"], 1) + (" (aprox.)" if r["prp_aproximado"] else ""),
             "RPC (SP)": _num(r["rpc"], 1),
             "PPC": f"{r['ppc'] * 100:.1f}%",
             "APC": "-" if r["apc"] is None else f"{r['apc'] * 100:.1f}%",
