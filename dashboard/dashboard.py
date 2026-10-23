@@ -144,9 +144,10 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
             "O Agile EVM compara, em reais, o que estava planejado com o que foi entregue e gasto. "
             "Ele é calculado por release porque é a release que tem orçamento e escopo próprios.\n\n"
             "- **BAC:** orçamento da release, vindo do Plano de Custos.\n"
-            "- **PRP:** pontos de história planejados para a release (soma dos pontos das sprints "
-            "que terminam dentro dela).\n"
-            "- **RPC:** pontos de história já entregues.\n"
+            "- **PRP:** pontos de história planejados para a release, contando cada história uma "
+            "só vez mesmo que ela passe de uma sprint para a seguinte.\n"
+            "- **RPC:** pontos de história já entregues. Uma história só conta como entregue depois "
+            "do aceite do PO.\n"
             "- **PPC:** fração dos dias da release já decorrida. **APC:** RPC dividido pelo PRP.\n"
             "- **PV** = PPC × BAC, o valor que deveria estar entregue. **EV** = APC × BAC, o valor "
             "realmente entregue. **AC:** custo incorrido.\n"
@@ -154,6 +155,8 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
             "custo acima do valor entregue; acima de 1,0, o contrário.\n\n"
             "**Limitações a considerar na leitura:**\n\n"
             "- O PRP só é confiável se todas as histórias da release estiverem estimadas.\n"
+            "- Enquanto o PO não aceita as histórias, o RPC fica em zero: EV, SPI e CPI saem zerados, "
+            "o que indica espera de aceite e não, necessariamente, atraso do time.\n"
             "- Ainda não há custo real apurado, então o AC é estimado pela linha de base de custo "
             "(PPC × BAC). Por isso o CPI coincide com o SPI até que o custo real seja registrado.\n"
             "- Uma sprint nem sempre coincide com os limites da release. Cada sprint é atribuída à "
@@ -172,6 +175,21 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
         key="evm_release_selector"
     )
     r = next(x for x in releases if x["id"] == escolhido)
+
+    aguardando_aceite = r["prp"] > 0 and r["rpc"] <= 0
+    if aguardando_aceite:
+        st.info(
+            "Nenhuma história desta release foi entregue até agora. Uma história só conta como "
+            "entregue depois do aceite do PO, então enquanto o aceite não acontece o RPC e o EV "
+            "ficam em zero e o SPI e o CPI saem zerados. Isso indica espera de aceite, e não "
+            "necessariamente atraso do time."
+        )
+    if r["prp_aproximado"]:
+        st.caption(
+            "PRP aproximado: o detalhe por história ainda não foi coletado, então os pontos de uma "
+            "história que passou de uma sprint para a seguinte podem estar contados mais de uma vez. "
+            "O valor se corrige na próxima coleta de métricas."
+        )
 
     if r["prp"] <= 0:
         st.warning(
@@ -207,7 +225,7 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
     row2_c1, row2_c2, row2_c3 = st.columns(3)
     with row2_c1:
         spi = r["spi"]
-        spi_color = THEME_COLORS["accent"] if spi is None else (THEME_COLORS["secondary"] if spi >= 1.0 else THEME_COLORS["danger"])
+        spi_color = THEME_COLORS["accent"] if spi is None or aguardando_aceite else (THEME_COLORS["secondary"] if spi >= 1.0 else THEME_COLORS["danger"])
         render_kpi(
             "SPI (Cronograma)", "N/A" if spi is None else f"{spi:.2f}", "EV ÷ PV, referência 1.0", spi_color,
             help_text="SPI = EV ÷ PV. Compara o valor entregue com o que deveria ter sido entregue "
@@ -216,7 +234,7 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
         )
     with row2_c2:
         cpi = r["cpi"]
-        cpi_color = THEME_COLORS["accent"] if cpi is None else (THEME_COLORS["secondary"] if cpi >= 1.0 else THEME_COLORS["danger"])
+        cpi_color = THEME_COLORS["accent"] if cpi is None or aguardando_aceite else (THEME_COLORS["secondary"] if cpi >= 1.0 else THEME_COLORS["danger"])
         render_kpi(
             "CPI (Custo)", "N/A" if cpi is None else f"{cpi:.2f}", "EV ÷ AC, AC estimado", cpi_color,
             help_text="CPI = EV ÷ AC. Compara o valor entregue com o quanto foi gasto para "
@@ -743,7 +761,7 @@ def render_theory_tab():
     A formulação do **Agile EVM** segue o modelo de **Sulaiman, Barton e Blackburn (2006)** (*"AgileEVM - Earned Value Management in Scrum Projects"*), aplicado **por release**:
 
     1. **BAC (Budget at Completion)**: orçamento da release, do Plano de Custos.
-    2. **PRP (Planned Release Points)**: pontos de história planejados para a release, somados nas sprints que terminam nela.
+    2. **PRP (Planned Release Points)**: pontos de história planejados para a release, contando cada história uma só vez entre as sprints que terminam nela.
     3. **PPC (Planned Percent Complete)**: fração dos dias da release já decorrida:
        $$PPC = \frac{\text{dias decorridos}}{\text{dias da release}}$$
     4. **APC (Actual Percent Complete)**: fração do escopo concluído, com $RPC$ os pontos entregues:
@@ -756,7 +774,7 @@ def render_theory_tab():
     10. **SV e CV**: $SV = EV - PV$ e $CV = EV - AC$
     11. **ETC e EAC**: $ETC = \frac{BAC - EV}{CPI}$ e $EAC = AC + ETC$
 
-    **Hipóteses e limites:** o BAC de cada release é provisório e segue o Plano de Custos. O PRP depende de todas as histórias estarem estimadas no ZenHub. Cada sprint é atribuída à release em que termina. Como o AC é estimado, o CPI coincide com o SPI até que o custo real seja registrado.
+    **Hipóteses e limites:** o BAC de cada release é provisório e segue o Plano de Custos. O PRP depende de todas as histórias estarem estimadas no ZenHub. Cada sprint é atribuída à release em que termina. Uma história só conta como entregue depois do aceite do PO. Como o AC é estimado, o CPI coincide com o SPI até que o custo real seja registrado.
     """)
 
 
