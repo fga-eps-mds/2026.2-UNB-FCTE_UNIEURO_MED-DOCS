@@ -24,8 +24,8 @@ Origem: Sulaiman, Barton e Blackburn (2006), *AgileEVM - Earned Value Management
 | Indicador | Fórmula | Unidade |
 |---|---|---|
 | BAC | orçamento da release (`RELEASES` em `src/config.py`) | R$ |
-| PRP | soma dos pontos (`total_points`) das sprints que terminam na release | pontos de história |
-| RPC | soma dos pontos entregues (`delivered_sp`) nessas sprints | pontos de história |
+| PRP | pontos das histórias distintas das sprints que terminam na release | pontos de história |
+| RPC | soma dos pontos entregues (`delivered_sp`) nessas sprints, após o aceite do PO | pontos de história |
 | PPC | dias decorridos da release ÷ dias da release | 0 a 1 |
 | APC | RPC ÷ PRP | 0 a 1 |
 | PV | PPC × BAC | R$ |
@@ -40,7 +40,8 @@ Hipóteses e limites:
 - **BAC por release:** os valores de `RELEASES` vêm da seção 5 do Plano de Custos v2.0 (R$ 62.746,77, R$ 12.595,73, R$ 15.744,66 e R$ 3.148,93, somando R$ 94.236,09). Devem ser atualizados junto com o plano, e este é o único lugar a alterar.
 - **Sprint e release:** cada sprint é atribuída à release em que termina (data de término em horário de Brasília). Sprints depois da release final ficam de fora.
 - **PRP depende da estimativa:** só é confiável se todas as histórias estiverem estimadas no ZenHub. Se o ZenHub pontuar tarefas em vez de histórias, o PRP sai inflado. O painel não conta issues sem estimativa, porque nem toda issue é uma história de usuário.
-- **Possível dupla contagem:** issues que passam de uma sprint para a seguinte podem ser contadas nas duas.
+- **Histórias contadas uma vez:** uma história que passa de uma sprint para a seguinte aparece nas duas no ZenHub. O PRP conta cada uma só uma vez, com a estimativa da última sprint em que aparece. Para isso a coleta (`scripts/coleta_zenhub.py`) guarda, por sprint, o id, o número e a estimativa de cada issue (`issues` em `zenhub_analytics.json`). Se o ZenHub recusar esses campos ou o detalhe estiver incompleto, o painel soma o `total_points` das sprints e avisa que o PRP é aproximado.
+- **Aceite do PO:** uma história só entra no RPC depois do aceite do PO. Enquanto isso o RPC, o EV, o SPI e o CPI ficam em zero, o que indica espera de aceite e não necessariamente atraso do time. O painel exibe esse aviso na aba.
 - **AC estimado:** não há custo real apurado. Por isso o CPI coincide com o SPI até que o custo real seja registrado.
 
 ---
