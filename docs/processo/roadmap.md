@@ -4,21 +4,22 @@
 
 O roadmap relaciona os marcos da disciplina ao incremento que a equipe consegue demonstrar. As ondas do [sequenciador](../produto/sequenciador.md) indicam prioridade, não equivalem às sprints. As entregas abaixo distinguem o que já existe na branch de integração do APP dos objetivos das próximas releases, que dependem de implementação, testes e validação.
 
-O quadro do Miro registra o planejamento visual original; **a tabela de desta página é a referência atual para o escopo das releases**.
+## Roadmap no ZenHub
 
-<div class="roadmap-visual" markdown>
+O roadmap visual do projeto é o do [ZenHub](https://app.zenhub.com/workspaces/unbfcte-unieuromed-6a8c447d652b15002979b829/roadmap). Ele mostra os épicos do produto numa linha do tempo, com as histórias e tarefas de cada épico e as datas das releases. O quadro do Miro, usado no planejamento inicial, foi retirado para que exista um único roadmap, como pediu o professor na avaliação da R1 ([Ata 08](../atas-reunioes/Ata-08-EPS-2026-10-02-PO.md)).
 
-<iframe
-  src="https://miro.com/app/live-embed/uXjVHn_328k=/?embedMode=view_only_without_ui&moveToViewport=-1511%2C5577%2C9007%2C3675&embedId=567016492009"
-  title="Roadmap do produto MED no Miro"
-  loading="lazy"
-  frameborder="0"
-  scrolling="no"
-  allow="fullscreen; clipboard-read; clipboard-write"
-  allowfullscreen>
-</iframe>
+**Tabela 1** – Épicos do roadmap no ZenHub
 
-</div>
+| Épico | Início | Fim |
+|---|---|---|
+| Acesso e cadastro do médico | 14/09 | 13/10 |
+| Modelo de IA de pontuação | 14/09 | 30/11 |
+| Motor de desenho e interação | 28/09 | 30/11 |
+| Área do profissional | 05/10 | 30/11 |
+| Dados somente no tablet | 05/10 | 30/11 |
+| Escore e resultado para o médico | 20/10 | 30/11 |
+
+As datas dos épicos são ajustadas no próprio ZenHub. As tabelas desta página detalham o escopo de cada release.
 
 ## Marcos oficiais
 
@@ -106,4 +107,5 @@ metas, não funcionalidades já entregues.
 | 26/09/2026 | 1.2 | Ajuste da R1 ao que está integrado no APP e explicitação das dependências dos objetivos de R2 e R3. | Equipe MED (proposta para revisão) |
 | 26/09/2026 | 1.3 | Mapeamento das 18 USs do backlog para R2, R3 e pós-MVP, com critérios e divergências de escopo explicitados. | Equipe MED (proposta para revisão) |
 | 12/10/2026 | 1.4 | Inclusão da tela inicial do profissional (US #46) na R2 e alinhamento com a EAP revisada. | Daniel Ferreira Nunes |
+| 19/10/2026 | 1.5 | Troca do quadro do Miro pelo roadmap do ZenHub, com os épicos e suas datas. | Vitor Carvalho Pereira |
 
