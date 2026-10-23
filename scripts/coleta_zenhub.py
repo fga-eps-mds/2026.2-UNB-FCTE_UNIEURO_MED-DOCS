@@ -23,6 +23,12 @@ WORKSPACE_ID = "6a8c447d652b15002979b829"
 
 DESTINO = Path(__file__).resolve().parent.parent / "analytics-raw-data" / "zenhub_analytics.json"
 
+# Campos pedidos de cada issue, além da estimativa, do mais completo ao mais simples.
+# O identificador permite ao dashboard contar uma história uma só vez quando ela passa
+# de uma sprint para a seguinte. Como a API não pôde ser conferida aqui, se o Zenhub
+# recusar um campo a coleta tenta a variante seguinte, e a última é a consulta original.
+VARIANTES_ISSUE = ("id number", "id", "")
+
 CONSULTA = """
 query($id: ID!) {
   workspace(id: $id) {
@@ -37,7 +43,7 @@ query($id: ID!) {
         completedPoints
         closedIssuesCount
         id
-        issues(first: 100) { totalCount nodes { estimate { value } } }
+        issues(first: 100) { totalCount nodes { estimate { value }__CAMPOS_ISSUE__ } }
       }
     }
   }
@@ -73,8 +79,23 @@ def executar(token, consulta, variaveis):
     return dados["data"]
 
 
+def construir_consulta(campos_issue):
+    return CONSULTA.replace("__CAMPOS_ISSUE__", f" {campos_issue}" if campos_issue else "")
+
+
 def consultar(token):
-    workspace = executar(token, CONSULTA, {"id": WORKSPACE_ID})["workspace"]
+    erro = None
+    for campos in VARIANTES_ISSUE:
+        try:
+            workspace = executar(token, construir_consulta(campos), {"id": WORKSPACE_ID})["workspace"]
+        except RuntimeError as e:
+            erro = e
+            print(f"Consulta com os campos '{campos or 'somente estimativa'}' recusada: {e}", file=sys.stderr)
+            continue
+        workspace["issues_detalhadas"] = bool(campos)
+        break
+    else:
+        raise erro
 
     for sprint in workspace["sprints"]["nodes"]:
         try:
@@ -106,6 +127,18 @@ def montar(workspace):
         nodes = issues.get("nodes", [])
         sem_estimativa = sum(1 for i in nodes if not i.get("estimate"))
 
+        detalhe = {}
+        if workspace.get("issues_detalhadas"):
+            # Uma entrada por issue, para contar cada história uma só vez entre sprints.
+            detalhe["issues"] = [
+                {
+                    "id": i.get("id"),
+                    "numero": i.get("number"),
+                    "estimativa": (i.get("estimate") or {}).get("value"),
+                }
+                for i in nodes
+            ]
+
         sprints[s["name"]] = {
             # Campos consumidos pelo data_layer do dashboard
             "delivered_story_points": s.get("completedPoints") or 0.0,
@@ -118,6 +151,7 @@ def montar(workspace):
             "issues_total": issues.get("totalCount", 0),
             "issues_closed": s.get("closedIssuesCount", 0),
             "issues_sem_estimativa": sem_estimativa,
+            **detalhe,
         }
 
     return {
