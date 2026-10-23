@@ -95,6 +95,7 @@ nav:
       - Plano de Gestão de Riscos: processo/riscos.md
   - Métricas:
       - Coleta de métricas: metricas/coleta-de-metricas.md
+      - Qualidade do produto: metricas/qualidade-do-produto.md
   - Atas de Reunião:
       - atas-reunioes/index.md
       - Modelo de ata: atas-reunioes/modelo-ata.md
