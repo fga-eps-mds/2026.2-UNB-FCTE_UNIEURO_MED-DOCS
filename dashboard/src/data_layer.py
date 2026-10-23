@@ -32,15 +32,20 @@ def get_zenhub_sprints_data() -> Tuple[List[Dict[str, Any]], bool]:
         if sprints:
             result = []
             for name, info in sprints.items():
-                result.append({
+                sprint = {
                     "name": name,
                     "delivered_sp": float(info.get("delivered_story_points", info.get("delivered_sp", 0.0))),
                     "points_added": float(info.get("points_added", 0.0)),
                     "total_points": float(info.get("total_points", 0.0)),
                     "status": info.get("state", "CLOSED").upper(),
                     "start_at": info.get("start_at"),
-                    "end_at": info.get("end_at")
-                })
+                    "end_at": info.get("end_at"),
+                }
+                # Detalhe por issue (id e estimativa), presente só quando a coleta o obteve.
+                if isinstance(info.get("issues"), list):
+                    sprint["issues"] = info["issues"]
+                    sprint["issues_total"] = info.get("issues_total")
+                result.append(sprint)
             return result, False
 
     # Dados mock de exemplo: sprints de 14 dias com datas, para que o EVM por release
