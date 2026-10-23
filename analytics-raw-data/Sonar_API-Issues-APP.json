@@ -1,7 +1,7 @@
 {
   "repositorio": "APP",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-APP",
-  "coletado_em": "2026-10-23T00:44:57Z",
+  "coletado_em": "2026-10-23T01:43:49Z",
   "branches": {
     "main": [
       {
@@ -461,6 +461,21 @@
     ],
     "develop": [
       {
+        "chave": "AaFmQiyRESiijjIYy0J6",
+        "arquivo": "src/features/captura/quadro-desenho.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-20T14:53:37+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
         "chave": "AaFmEwodDMzkYK3Q1mXJ",
         "arquivo": "src/features/home/home-screen.tsx",
         "regra": "typescript:S6759",
@@ -502,6 +517,51 @@
           {
             "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaFmQizLESiijjIYy0J8",
+        "arquivo": "src/features/captura/eventos-tracado.ts",
+        "regra": "typescript:S7755",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-19T14:10:37+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaFmQizLESiijjIYy0J9",
+        "arquivo": "src/features/captura/eventos-tracado.ts",
+        "regra": "typescript:S6582",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-19T14:10:37+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaFmQiyRESiijjIYy0J7",
+        "arquivo": "src/features/captura/quadro-desenho.tsx",
+        "regra": "typescript:S6479",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-19T14:10:37+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
           }
         ]
       },
@@ -635,11 +695,11 @@
         "fechado_em": null,
         "impactos": [
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           }
         ]

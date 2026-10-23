@@ -6,11 +6,13 @@ Coleta os dados que o cálculo do Q-Rapids precisa além do .json de cada releas
   para as métricas m7 e m8 do Plano de Qualidade (problemas graves de
   manutenibilidade e problemas de confiabilidade por arquivo);
 - a branch de destino de cada release, porque o .json da release mede essa branch
-  e os problemas precisam ser lidos da mesma.
+  e os problemas precisam ser lidos da mesma;
+- as issues com o rótulo bug, para a comparação de defeitos entre as releases.
 
 Grava, por repositório:
     analytics-raw-data/Sonar_API-Issues-<repositório>.json
     analytics-raw-data/GitHub_API-Releases-<repositório>.json
+    analytics-raw-data/GitHub_API-Bugs-<repositório>.json
 
 A API do SonarCloud é aberta para projetos públicos. A do GitHub usa GH_TOKEN
 quando ele existe; sem token, o limite é de 60 consultas por hora, o que basta
@@ -131,6 +133,20 @@ def coletar_releases(repo, token):
     }
 
 
+def coletar_bugs(repo, token):
+    repo_completo = f"{ORGANIZACAO}/{PREFIXO}-{repo}"
+    issues = obter_json(f"{GITHUB}/repos/{repo_completo}/issues?labels=bug&state=all&per_page=100", token)
+    return {
+        "repositorio": repo,
+        "coletado_em": agora(),
+        "bugs": [
+            {"numero": i["number"], "titulo": i["title"], "aberta_em": i["created_at"], "fechada_em": i["closed_at"]}
+            # A API de issues também devolve pull requests.
+            for i in issues if "pull_request" not in i
+        ],
+    }
+
+
 def main():
     PASTA.mkdir(exist_ok=True)
     token = os.environ.get("GH_TOKEN")
@@ -139,6 +155,7 @@ def main():
         for nome, coletar in (
             (f"Sonar_API-Issues-{repo}.json", lambda: coletar_problemas(repo)),
             (f"GitHub_API-Releases-{repo}.json", lambda: coletar_releases(repo, token)),
+            (f"GitHub_API-Bugs-{repo}.json", lambda: coletar_bugs(repo, token)),
         ):
             try:
                 print(f"{repo}: {gravar(nome, coletar()).name} gravado")
