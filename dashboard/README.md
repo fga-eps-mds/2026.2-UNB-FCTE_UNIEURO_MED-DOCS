@@ -67,7 +67,20 @@ dashboard/
     ├── theme.py                  # Componentes visuais e injeção de CSS
     ├── data_layer.py             # Leitura resiliente de JSONs
     ├── metrics.py                # Modelagem matemática de EVM e Riscos
+    ├── qualidade.py              # Q-Rapids: métricas m1 a m8, fatores, características e índice Q
     └── templates.py              # Utilitários de apresentação
+└── tests/
+    └── test_qualidade.py         # Testes das fórmulas do Plano de Qualidade
+```
+
+O módulo `qualidade.py` não depende do Streamlit. `avaliar_repositorio("APP")` devolve,
+para cada versão, as métricas com os arquivos fora do limiar e a agregação, e
+`por_marco()` escolhe a versão de cada release. Para conferir os valores e rodar os
+testes, a partir desta pasta:
+
+```bash
+python3 -m src.qualidade
+python3 -m unittest discover tests
 ```
 
 ---
