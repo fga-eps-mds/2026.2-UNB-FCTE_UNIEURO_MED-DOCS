@@ -26,7 +26,7 @@ O quadro do Miro registra o planejamento visual original; **a tabela de desta p�
 |---|---|---|
 | **10/08** | Início do projeto | Lean Inception e preparação técnica. |
 | **28/09** | **R1 — interfaces de acesso** | Telas de cadastro e login navegáveis; o cadastro avisa sobre campos vazios e senhas divergentes. **Cadastro persistente e autenticação não integram a entrega confirmada.** |
-| **26/10** | **R2 — acesso local e primeira avaliação (objetivo)** | Cadastro e login offline, atendimento e TCLE registrados, dados protegidos e primeiro desenho demonstrado localmente, se as dependências forem concluídas. O desenho isolado é avanço parcial das USs das três tarefas, não seu aceite. |
+| **26/10** | **R2 — acesso local e primeira avaliação (objetivo)** | Cadastro e login offline, área inicial do profissional, atendimento e TCLE registrados, dados protegidos e primeiro desenho demonstrado localmente, se as dependências forem concluídas. O desenho isolado é avanço parcial das USs das três tarefas, não seu aceite. |
 | **30/11** | **R3 — marco do MVP (objetivo)** | Três tarefas, captura e retomada, inferência e resultados locais, exportação XML sob solicitação; tudo condicionado à integração, à validação no tablet e às decisões do parceiro. Escopo não concluído deve ser registrado como desvio. |
 | **07/12** | **Release final** | Correções e estabilização do incremento validado; acessibilidade priorizada conforme capacidade. |
 | **14/12** | Encerramento | APK, documentação, resultados e limitações efetivamente alcançados. |
@@ -47,12 +47,18 @@ As datas oficiais permanecem. Uma funcionalidade só passa de objetivo para entr
 
 ### Rastreabilidade das histórias de usuário até o MVP
 
-Esta distribuição relaciona as **18 USs do backlog do APP** às releases. A R1 ainda não concluiu nenhuma US: suas telas são apenas parte das histórias de cadastro e login. Cada US aparece na release em que **todos** os seus critérios de aceitação devem ser verificados; trabalho parcial em uma release anterior não significa história pronta. R2 e R3 são metas, não funcionalidades já entregues.
+Esta distribuição relaciona as USs do backlog do APP mapeadas para o MVP e
+seus incrementos às releases. A R1 ainda não concluiu nenhuma US: suas telas
+são apenas parte das histórias de cadastro e login. Cada US aparece na release
+em que **todos** os seus critérios de aceitação devem ser verificados; trabalho
+parcial em uma release anterior não significa história pronta. R2 e R3 são
+metas, não funcionalidades já entregues.
 
 | Release-alvo | US do APP | Resultado necessário para aceitar a história |
 |---|---|---|
 | **R2** | [#5 — Cadastro do médico](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/5) | Conta persistida localmente, com validação e senha protegida. |
 | **R2** | [#6 — Login do médico](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/6) | Autenticação offline e recusa de credenciais inválidas. |
+| **R2** | [#46 — Tela inicial do profissional com os atalhos](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/46) | Identificação do profissional autenticado e atalhos para novo exame, exportação, sincronização e configurações. |
 | **R2** | [#7 — Registro do atendimento](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/7) | Atendimento vinculado ao profissional, data/hora e campos aprovados, inclusive escolaridade quando exigida. |
 | **R2** | [#21 — Aceite do TCLE](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/21) | Termo aprovado, decisão e horário registrados; sem aceite, nenhuma coleta de desenho. |
 | **R3** | [#8 — Instrução simples por desenho](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/8) | Instrução legível e aprovada antes de cada uma das três tarefas. |
@@ -78,8 +84,8 @@ Esta distribuição relaciona as **18 USs do backlog do APP** às releases. A R1
 | Preparação | 10/08–30/08 | — | Visão do Produto, sequenciador, arquitetura inicial e base dos repositórios. | Artefatos publicados e ambiente de desenvolvimento disponível. |
 | **Sprint 1 — telas de acesso** | 31/08–13/09 | R1 | Estrutura do app, navegação e telas de cadastro e login. | Telas presentes na branch de integração do APP. |
 | **Sprint 2 — demonstração da R1** | 14/09–27/09 | **R1 · 28/09** | Navegação entre as telas e avisos de campos obrigatórios e senhas divergentes no cadastro. | Demonstrar as interfaces no aplicativo; registrar que criar conta e entrar ainda não foram validados como fluxo funcional. |
-| **Sprint 3 — acesso local funcional** | 29/09–11/10 | R2 | Integrar cadastro e login locais (#5 e #6), registro do atendimento (#7) e iniciar a proteção dos dados (#17). | Conta persiste, credenciais são verificadas offline e dados coletados ficam protegidos; o aceite integral da #17 permanece na R3, após incluir os resultados. |
-| **Sprint 4 — consentimento e primeiro desenho** | 12/10–25/10 | **R2 · 26/10** | Registrar TCLE (#21) e demonstrar a primeira tarefa com salvamento local; este desenho inicia, mas não conclui, as USs #8, #9, #10, #23 e #25. | TCLE aprovado e testado; fluxo demonstrado no tablet após o acesso funcional. O aceite das USs das três tarefas permanece na R3. |
+| **Sprint 3 — acesso local funcional** | 29/09–11/10 | R2 | Integrar cadastro e login locais (#5 e #6), a área inicial do profissional (#46), o registro do atendimento (#7) e iniciar a proteção dos dados (#17). | Conta persiste, credenciais são verificadas offline, a tela inicial identifica o profissional e os dados coletados ficam protegidos; o aceite integral da #17 permanece na R3, após incluir os resultados. |
+| **Sprint 4 — consentimento e primeiro desenho** | 12/10–25/10 | **R2 · 26/10** | Concluir o fluxo da área profissional, registrar TCLE (#21) e demonstrar a primeira tarefa com salvamento local; este desenho inicia, mas não conclui, as USs #8, #9, #10, #23 e #25. | Área profissional e TCLE aprovados e testados; fluxo demonstrado no tablet após o acesso funcional. O aceite das USs das três tarefas permanece na R3. |
 | **Sprints 5–7 — integração do MVP** | 27/10–29/11 | **R3 · 30/11** | Concluir as USs R3 da tabela: três tarefas, captura, retomada, resultados e inferência offline, controles do desenho e XML local. | Modelo exportado e integrado, critérios de todas as USs R3 testados no tablet e decisões do PO registradas. Itens não verificados permanecem pendentes, mesmo na data da R3. |
 | **Sprint 8 — estabilização** | 01/12–06/12 | **RF · 07/12** | Corrigir defeitos do incremento entregue e aplicar melhorias de acessibilidade que caibam sem regressão. | APK e documentação revisados; alterações adicionais demonstradas e aceitas. |
 | Encerramento | 08/12–14/12 | Pós-RF | Consolidar evidências, limitações, resultados e trabalhos futuros. | Entrega final corresponde ao software efetivamente testado. |
@@ -99,4 +105,5 @@ Esta distribuição relaciona as **18 USs do backlog do APP** às releases. A R1
 | 25/09/2026 | 1.1 | Redução do escopo da R1 para cadastro e login e replanejamento do primeiro fluxo de avaliação para a R2. | Equipe MED |
 | 26/09/2026 | 1.2 | Ajuste da R1 ao que está integrado no APP e explicitação das dependências dos objetivos de R2 e R3. | Equipe MED (proposta para revisão) |
 | 26/09/2026 | 1.3 | Mapeamento das 18 USs do backlog para R2, R3 e pós-MVP, com critérios e divergências de escopo explicitados. | Equipe MED (proposta para revisão) |
+| 12/10/2026 | 1.4 | Inclusão da tela inicial do profissional (US #46) na R2 e alinhamento com a EAP revisada. | Daniel Ferreira Nunes |
 

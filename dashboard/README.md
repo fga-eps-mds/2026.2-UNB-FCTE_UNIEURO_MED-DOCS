@@ -96,7 +96,30 @@ dashboard/
     ├── theme.py                  # Componentes visuais e injeção de CSS
     ├── data_layer.py             # Leitura resiliente de JSONs
     ├── metrics.py                # Modelagem matemática de EVM e Riscos
+    ├── qualidade.py              # Q-Rapids: métricas m1 a m8, fatores, características e índice Q
+    ├── processo.py               # Indicadores de processo e comparação R1 × R2
     └── templates.py              # Utilitários de apresentação
+└── tests/
+    ├── test_qualidade.py         # Testes das fórmulas do Plano de Qualidade
+    └── test_processo.py          # Testes dos indicadores de processo
+```
+
+Os módulos `qualidade.py` e `processo.py` não dependem do Streamlit:
+
+- `qualidade.avaliar_repositorio("APP")` devolve, para cada versão, as métricas com os
+  arquivos fora do limiar e a agregação, e `qualidade.por_marco()` escolhe a versão de
+  cada release;
+- `processo.indicadores_por_release()` devolve os indicadores de processo P1 a P3 e o
+  índice P de cada release, e `processo.comparativo()` devolve a velocidade, a
+  cobertura e os defeitos de cada release, a comparação R1 × R2 que o cronograma pede
+  para o DA-R2.
+
+Para conferir os valores e rodar os testes, a partir desta pasta:
+
+```bash
+python3 -m src.qualidade
+python3 -m src.processo
+python3 -m unittest discover tests
 ```
 
 ---

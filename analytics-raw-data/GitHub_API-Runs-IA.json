@@ -1,7 +1,19 @@
 {
   "repositorio": "IA",
-  "coletado_em": "2026-10-07T09:20:11Z",
+  "coletado_em": "2026-10-22T09:17:40Z",
   "workflow_runs": [
+    {
+      "id": 38306111456,
+      "name": "Build",
+      "head_branch": "feat/exportacao-modelo-android",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-12T20:43:57Z",
+      "updated_at": "2026-10-12T20:45:48Z",
+      "run_number": 20,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/actions/runs/38306111456"
+    },
     {
       "id": 37252136305,
       "name": "Export de métricas",
