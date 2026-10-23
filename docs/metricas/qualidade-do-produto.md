@@ -31,6 +31,14 @@ python3 -m unittest discover tests
 Cada release é representada pela última versão medida até a data dela: a R1 pela
 v1.0.0, de 28/09, a RM1 pela v1.2.0, de 13/10, e a R2, por enquanto, pela v1.2.3, de 22/10.
 
+!!! warning "Limiares em validação"
+    Os limiares por arquivo (Tabela 2 do plano) e as faixas de interpretação (Tabela 3)
+    foram escolhidos pelo time e **ainda aguardam a validação do professor**. O
+    cronograma da disciplina define que "a escolha do modelo de qualidade e os limiares
+    aceitáveis são decisões do time com o professor". Se algum limiar mudar, basta
+    atualizar a constante correspondente em `dashboard/src/qualidade.py` e gerar as
+    tabelas de novo.
+
 ## Resultados do aplicativo (MED-APP)
 
 **Tabela 2:** Métricas, fatores, características e índice Q por release
@@ -125,11 +133,11 @@ andamento. Pelo princípio do plano, o valor fica como não medido, e não como 
 
 ## Pontos para as decisões gerenciais da R2
 
-Os resultados apontam três assuntos para a equipe decidir e registrar no dashboard:
+Os resultados apontam três assuntos para a equipe decidir e registrar, com causa,
+evidência e ação:
 
 1. **Comentários (QC em atenção):** comentar as regras de negócio dos arquivos que
-   não têm nenhuma explicação, ou registrar que a faixa de 10% a 30% não se aplica a
-   arquivos de estilo e de rota e ajustar o plano.
+   não têm nenhuma explicação.
 2. **Problemas abertos (m7 e m8):** corrigir os três problemas da Tabela 3 antes da R2,
    o que levaria m7 e m8 a 1,00, ou registrar a exceção com responsável e prazo.
 3. **IA sem medição:** priorizar a IA #13 para que o MED-IA tenha qualidade medida na

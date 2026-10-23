@@ -96,6 +96,7 @@ nav:
   - Métricas:
       - Coleta de métricas: metricas/coleta-de-metricas.md
       - Qualidade do produto: metricas/qualidade-do-produto.md
+      - Processo e comparação R1 × R2: metricas/processo-e-comparativo.md
   - Atas de Reunião:
       - atas-reunioes/index.md
       - Modelo de ata: atas-reunioes/modelo-ata.md
