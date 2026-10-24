@@ -167,7 +167,7 @@ class TabelasDeProcessoTest(unittest.TestCase):
         tabela = templates.tabela_comparativo(dados)
 
         self.assertEqual(tabela.iloc[0].tolist(), ["R1", "n/m", "n/m", "21.0", "n/m", "0", "n/m"])
-        self.assertTrue(all(tabela.dtypes == object))
+        self.assertTrue(all(isinstance(celula, str) for celula in tabela.to_numpy().ravel()))
 
 
 if __name__ == "__main__":
