@@ -1,117 +1,266 @@
 # Plano de Gerenciamento da Qualidade — MED 2026.2
 
-> Versão 2.0, levantamento de 28/09/2026. Este plano combina critérios de qualidade com a situação observada da R1. Métricas, testes automatizados, aceite funcional e qualidade clínica são evidências distintas; uma não substitui a outra. A revisão e aprovação pela equipe ainda estão pendentes.
+## 1. Finalidade e escopo
 
-## 1. Objetivo, escopo e princípios
+Este plano define como a equipe avalia a qualidade do produto MED. Ele apresenta o
+modelo de qualidade de referência, as métricas com suas fórmulas, os valores de
+referência, a interpretação de cada resultado e os testes que produzem as evidências.
 
-A equipe acompanha a qualidade do aplicativo Android (APP), do módulo de inteligência artificial (IA), da integração entre ambos e das evidências publicadas no repositório DOCS. Para o software em desenvolvimento, a referência é a branch de integração develop; para uma release, é o commit da tag publicado em main. Toda medição deve indicar repositório, branch ou tag, commit, data da análise, valor e link para a execução ou relatório.
+O plano cobre o aplicativo Android (MED-APP), o modelo de IA e sua exportação
+(MED-IA) e a integração entre os dois, que acontece pelo arquivo do modelo empacotado
+no APK, conforme o contrato da
+[Arquitetura](../produto/arquitetura.md#63-contrato-entre-aplicativo-e-modelo). O
+MED-DOCS não tem código de produto e fica fora das métricas de código.
 
-O aplicativo e a inferência devem funcionar integralmente sem internet. Dados de atendimento, imagens, traçados e resultados não devem sair do tablet automaticamente, e o paciente não deve ver o escore. As restrições estão na [Visão do Produto](../produto/visao.md), na [Arquitetura](../produto/arquitetura.md) e nas histórias de usuário. Um gate verde do SonarCloud indica conformidade com regras de análise do código presente; não atesta execução no tablet, aceite da história ou validade clínica.
+### 1.1 Princípios
 
-As metas acadêmicas do [Cronograma](cronograma.md) são: cobertura de testes unitários de pelo menos **85% na R1**, pelo menos **85% com testes de integração na R2** e pelo menos **90% na R3**. Este plano mede cada repositório com código de produto testável separadamente. Não se faz média de APP e IA, nem se considera uma métrica ausente como zero ou como meta cumprida. As regras operacionais adicionais abaixo são propostas de controle para revisão da equipe.
+- Cada repositório é medido separadamente.
+- Métrica ausente é registrada como "não medida", e não como zero.
+- Toda medição indica repositório, branch ou tag, versão, data e fonte.
+- Um quality gate aprovado mostra conformidade com a análise estática, mas não mostra
+  que a história foi aceita nem que o produto se comporta como esperado. Por isso o
+  plano mede separadamente a qualidade interna, do código, e a qualidade externa, do
+  comportamento do produto.
+- Exclusões de análise e de cobertura só mudam com justificativa técnica registrada.
+- Os testes usam apenas dados fictícios. Nenhum dado sai do aparelho e nenhum escore
+  aparece na tela do paciente.
 
-## 2. Linha de base verificada em 28/09/2026
+## 2. Modelo de qualidade de referência
 
-| Evidência | APP | IA |
+O modelo de referência é o Q-Rapids (Martínez-Fernández et al., 2018). Nele, os dados
+coletados por ferramentas viram métricas normalizadas entre 0 e 1, que são agregadas
+por pesos em fatores de produto e, depois, em características de qualidade.
+
+O Q-Rapids foi escolhido por três motivos. Cada métrica tem fórmula sobre dados que o
+pipeline já coleta. A agregação permite rastrear uma queda até o fator, a métrica e os
+arquivos que a causaram. E fatores, pesos e limiares podem ser ajustados ao projeto.
+
+Os nomes das características e subcaracterísticas seguem a ISO/IEC 25010:2011. O
+SQALE (Letouzey; Coq, 2010), que o SonarCloud usa para calcular a dívida técnica e a nota de
+manutenibilidade, entra como indicador complementar.
+
+**Tabela 1** – Modelos de qualidade considerados
+
+| Modelo | O que oferece | Limitação para o MED | Uso neste plano |
+|---|---|---|---|
+| ISO/IEC 25010 | Características e subcaracterísticas da qualidade do produto, com vocabulário padronizado | Não define métricas nem limiares | Nome das características e subcaracterísticas |
+| SQALE | Dívida técnica como custo de correção das não conformidades do código, com nota de A a E | Considera só o código-fonte, sem resultados de testes nem comportamento do produto | Indicador complementar de manutenibilidade |
+| Q-Rapids | Métricas normalizadas entre 0 e 1, agregadas por pesos em fatores e características | Os fatores de execução e de uso dependem de logs e monitoramento, que o MED não tem por funcionar offline | Modelo de referência |
+
+A estrutura adotada é a seguinte. O índice Q, calculado por repositório, é um
+acréscimo deste plano ao Q-Rapids.
+
+![Árvore de Métricas de Qualidade](../assets/imagens/plano-qualidade/Arvore-metricas-qualidade.png)
+
+
+## 3. Qualidade interna
+
+### 3.1 Dados de entrada
+
+As métricas são calculadas a partir do `.json` que o pipeline de release do APP e do
+IA grava a cada merge, com as medidas do SonarCloud por arquivo, como descreve a
+[Coleta de métricas](../metricas/coleta-de-metricas.md). Os arquivos de código são os
+componentes com `qualifier` igual a `FIL`, e os de teste, os com `UTS`.
+
+Nas fórmulas, `#X` é a quantidade de elementos do conjunto X.
+
+- A é o conjunto dos arquivos de código com `ncloc` maior que zero.
+- A_f é o subconjunto de A com pelo menos uma função.
+- A_c é o subconjunto de A com cobertura medida.
+- U é o conjunto dos arquivos de teste com `test_execution_time` registrado.
+
+### 3.2 Métricas
+
+**Tabela 2** – Métricas de qualidade interna
+
+| Id | Métrica | Fórmula | Limiar por arquivo | Origem do limiar | Característica / subcaracterística |
+|---|---|---|---|---|---|
+| m1 | Densidade de arquivos não complexos | `#{a ∈ A_f : complexity(a) / functions(a) < 10} / #A_f` | Complexidade ciclomática média por função menor que 10 | McCabe (1976) | Manutenibilidade / analisabilidade e modificabilidade |
+| m2 | Densidade de arquivos comentados | `#{a ∈ A : 10 < comment_lines_density(a) < 30} / #A` | Entre 10% e 30% de linhas de comentário | Faixa padrão do Q-Rapids | Manutenibilidade / analisabilidade |
+| m3 | Densidade de arquivos sem duplicação | `#{a ∈ A : duplicated_lines_density(a) < 5} / #A` | Menos de 5% de linhas duplicadas | Mais tolerante que os 3% do quality gate, porque vale para o arquivo inteiro e não só para o código novo | Manutenibilidade / modificabilidade |
+| m4 | Taxa de sucesso dos testes | `(tests − test_errors − test_failures) / tests` | Medida do projeto | — | Confiabilidade / maturidade |
+| m5 | Densidade de arquivos de teste rápidos | `#{u ∈ U : test_execution_time(u) < 5000} / #U` | Menos de 5 s por arquivo de teste | Padrão do `slowTestThreshold` do Jest | Manutenibilidade / testabilidade |
+| m6 | Densidade de arquivos com cobertura adequada | `#{a ∈ A_c : coverage(a) ≥ 75} / #A_c` | Pelo menos 75% de cobertura | Nível "louvável" da diretriz de cobertura do Google (Arguelles; Ivanković; Bender, 2020) | Manutenibilidade / testabilidade |
+| m7 | Densidade de arquivos sem problema grave de manutenibilidade | `#{a ∈ A : maintainability_issue_severity(a) < alta} / #A` | Nenhum problema de manutenibilidade de severidade alta ou bloqueante | Fator Código bloqueante do Q-Rapids | Manutenibilidade / analisabilidade e modificabilidade |
+| m8 | Densidade de arquivos sem problema de confiabilidade | `#{a ∈ A : software_quality_reliability_issues(a) = 0} / #A` | Nenhum problema com impacto em confiabilidade | Todo problema desse tipo é um defeito provável | Confiabilidade / maturidade |
+
+### 3.3 Agregação
+
+```text
+QC = (m1 + m2 + m3) / 3
+CB = m7
+T  = (m5 + 2 × m6) / 3
+ST = m4
+DP = m8
+M  = (QC + CB + T) / 3
+C  = 0,5 × ST + 0,5 × DP
+Q  = 0,5 × M  + 0,5 × C
+```
+
+Os pesos são iguais porque não há evidência de que um item pese mais que outro no
+MED. A exceção é a testabilidade, em que a cobertura tem o dobro do peso da
+velocidade, já que a cobertura indica que código é exercitado e a velocidade só afeta
+o custo de rodar a suíte. Quando um fator não tem dado, seu peso é dividido entre os
+outros fatores da mesma característica, e o valor é marcado como parcial.
+
+### 3.4 Adaptações em relação ao Q-Rapids
+
+O plano faz três adaptações. A cobertura e a velocidade dos testes formam o fator
+Testabilidade, em Manutenibilidade, e não o fator Testing Status, em Confiabilidade,
+porque cobertura mede testabilidade. O fator Código bloqueante considera só problemas
+de manutenibilidade de severidade alta ou bloqueante, porque as chaves
+`blocker_violations` e `critical_violations` estão obsoletas no SonarCloud. E o fator
+Defeitos prováveis substitui o fator Estabilidade do software, que depende de dados de
+execução que o MED não coleta. Sem ele, a confiabilidade interna dependeria só de m4,
+que vale sempre 1, porque o pipeline falha antes da análise quando um teste quebra.
+
+### 3.5 Valores de referência e interpretação
+
+Métricas, fatores, características e o índice Q são lidos nas mesmas faixas.
+
+**Tabela 3** – Faixas de interpretação
+
+| Faixa | Valor | Leitura | Ação |
+|---|---|---|---|
+| Adequado | ≥ 0,80 | A propriedade está presente na maior parte do código | Acompanhar a tendência |
+| Atenção | 0,60 a 0,79 | Uma parte relevante do código está fora do limiar | Analisar a causa na revisão da sprint e registrar a decisão |
+| Crítico | < 0,60 | A maior parte do código está fora do limiar | Abrir issue de desvio com responsável e prazo, priorizada na sprint seguinte |
+
+Uma queda de 0,05 ou mais em um fator, uma característica ou em Q entre duas releases
+seguidas também é analisada, mesmo dentro da faixa adequada.
+
+**Tabela 4** – Interpretação de cada métrica
+
+| Métrica | Valor baixo indica | Ação |
 |---|---|---|
-| Branch de integração consultada | develop, commit 53a8833 | develop, commit da9f7fb |
-| Release R1 | [v1.0.0](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/releases/tag/v1.0.0), main no commit 8c61a76 | [v1.0.0](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/releases/tag/v1.0.0); ainda sem artefato de modelo |
-| Última análise de develop exibida no SonarCloud | 28/09, 03h29 UTC | 28/09, 04h09 UTC |
-| Linhas analisadas (NCLOC) | 1.370 | Não publicada após a exclusão de arquivos auxiliares |
-| Cobertura total publicada | **96,0%** | **Não publicada** |
-| Duplicação total | 2,2% | Não publicada |
-| Code smells | 12 | 0 reportados |
-| Bugs / vulnerabilidades reportados | 0 / 0 | 0 / 0 |
-| Quality gate de develop | **Aprovado**; cobertura nova 96,0% e duplicação nova 1,2% | **Aprovado**, sem condição de cobertura avaliada |
-| CI mais recente da integração | [Build de develop aprovado](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/36374433461) | [Build de develop aprovado](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/actions/runs/36376520477) |
+| m1 | Funções com muitos caminhos, difíceis de entender e de testar | Dividir a função ou extrair a regra |
+| m2 | Regras não óbvias sem explicação | Comentar regras de negócio e restrições, sem comentários óbvios só para subir a métrica |
+| m3 | Trechos copiados, em que uma correção precisa ser repetida | Extrair componente ou função |
+| m4 | Teste quebrado integrado à branch | Corrigir antes de qualquer outra tarefa, sem desligar o teste |
+| m5 | Suíte lenta, o que desestimula rodar os testes localmente | Dividir arquivos grandes e reaproveitar a preparação do banco |
+| m6 | Arquivos pouco exercitados pelos testes | Escrever o teste que falta, sem ampliar exclusões |
+| m7 | Problema grave de manutenção, como função complexa demais | Refatorar antes da release |
+| m8 | Defeito provável apontado pela análise estática | Corrigir antes da release |
 
-Fontes: [SonarCloud APP/develop](https://sonarcloud.io/project/overview?id=fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-APP&branch=develop), [SonarCloud APP/main](https://sonarcloud.io/project/overview?id=fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-APP&branch=main) e [SonarCloud IA/develop](https://sonarcloud.io/project/overview?id=fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-IA&branch=develop). A análise de APP/main da R1 ocorreu em 28/09, 04h39 UTC e também mostrou **96,0% de cobertura e gate aprovado**. A análise do Sonar pode não expor o SHA na consulta pública; os commits acima identificam as branches verificadas no GitHub, e a correspondência exata com cada análise deve ser registrada no pipeline.
+### 3.6 Indicadores complementares
 
-### 2.1 O que mudou no APP
+**Tabela 5** – Indicadores complementares do SonarCloud
 
-Os [PRs #31 (testes)](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/pull/31), [#36 (cadastro e login locais)](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/pull/36) e [#26 (release e métricas)](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/pull/26) foram incorporados a develop; o [PR #37](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/pull/37) levou develop à main para a R1. Há código de SQLite, migração, repositório de profissionais, validação de cadastro, hash PBKDF2-SHA256 com sal, verificação de senha, telas de acesso e menu. Há testes Jest para banco, repositório, senha, cadastro, login, estilos e tema.
+| Indicador | Regra | Valor de referência | Característica |
+|---|---|---|---|
+| Razão de dívida técnica (SQALE) | `sqale_index / (30 min × ncloc)` | ≤ 5% (nota A) | Manutenibilidade |
+| Nota de confiabilidade | Severidade do pior bug aberto | A | Confiabilidade |
+| Nota de segurança e hotspots revisados | Vulnerabilidades abertas e `hotspots revisados / hotspots` | Nota A e 100% | Segurança |
+| Cobertura global | `coverage` do projeto | ≥ 90% | Manutenibilidade / testabilidade |
+| Quality gate | Cobertura ≥ 80%, duplicação ≤ 3%, notas A e hotspots revisados no código novo | Aprovado em todo PR | — |
 
-O workflow de Build executa instalação limpa, testes com cobertura e análise Sonar. O Jest exige no mínimo 90% de linhas, instruções e funções e 80% de ramos. A cobertura publicada pelo Sonar é **96,0% no código incluído no cálculo**; rotas que apenas reexportam telas e variantes web não embarcadas estão excluídas. A exclusão precisa permanecer documentada e não deve esconder lógica de produto. O gate da release em main está aprovado, mas a [release v1.0.0 do APP](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/releases/tag/v1.0.0) anexa código/testes compactados e JSON de métricas, **não um APK**.
+A cobertura indica que código os testes exercitam, e não que o comportamento está
+correto. Por isso ela não substitui os testes de integração, de sistema e de
+aceitação.
 
-### 2.2 O que mudou na IA
+## 4. Qualidade externa
 
-O pipeline de release e exportação de métricas entrou em develop pelo [PR #11](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/pull/11). O [PR #12](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/pull/12) excluiu workflows e script de métricas da análise do Sonar. A branch de integração ainda não contém código de treino, inferência, testes de modelo ou artefato embarcável. Os resultados do primeiro treino permanecem no [PR #10](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/pull/10), em revisão.
+As métricas internas não mostram se o produto faz o que os *Product Owners* pediram,
+se funciona sem internet ou se protege os dados. Essas propriedades são medidas pelos
+testes.
 
-Por isso, o gate verde da IA é registrado como **configuração de análise aprovada, produto de IA ainda não mensurável**. Não se atribui 0% de cobertura, nem se declara a meta de cobertura cumprida. A release v1.0.0 sem artefato de modelo não demonstra inferência local nem desempenho clínico.
+**Tabela 6** – Métricas de qualidade externa
 
-### 2.3 Evidência do painel gerencial
+| Id | Característica / subcaracterística | Métrica | Fórmula | Valor de referência | Como é medida |
+|---|---|---|---|---|---|
+| E1 | Adequação funcional / completude funcional | Cenários de aceitação aprovados | `cenários aprovados / cenários executados` | 1,0 para aceitar a história | Teste de aceitação |
+| E2 | Confiabilidade / maturidade | Defeitos graves abertos na release | Quantidade de bugs de severidade Alta ou Crítica abertos | 0 | Issues de bug |
+| E3 | Confiabilidade / recuperabilidade | Retomada sem perda de dados | `interrupções com dados preservados / interrupções testadas` | 1,0 | Teste de sistema |
+| E4 | Segurança / confidencialidade | Dados protegidos legíveis no banco | Quantidade de dados protegidos encontrados em texto no arquivo do banco | 0 | Teste de integração |
+| E5 | Segurança / confidencialidade | Permissões de rede no APK | Quantidade de permissões de rede declaradas | 0 | `aapt dump permissions` |
+| E6 | Segurança / confidencialidade | Resultado exibido ao paciente | Quantidade de telas do paciente que exibem escore ou classe | 0 | Teste de sistema |
+| E7 | Eficiência de desempenho / comportamento temporal | Tempo de inferência | Percentil 95 do tempo de 20 avaliações seguidas | Definido com os *Product Owners* | Teste de sistema |
+| E8 | Eficiência de desempenho / utilização de recursos | Memória e tamanho do APK | Memória de pico na inferência e tamanho do APK | Definido com os *Product Owners* | Teste de sistema |
+| E9 | Portabilidade / instalabilidade | Instalação do APK | `instalações bem-sucedidas / tentativas` | 1,0 | Teste de sistema |
+| E10 | Usabilidade / acessibilidade | Problemas de acessibilidade | Quantidade de problemas de prioridade alta | 0 | Inspeção das telas |
+| E11 | Adequação funcional / correção funcional | Desempenho do classificador | AUC, F1, sensibilidade e especificidade, em média e desvio-padrão de cinco sementes | AUC de referência de 0,838 do artigo de origem. Limiar de uso clínico definido com os *Product Owners* | Experimento no MED-IA |
+| E12 | Adequação funcional / correção funcional | Diferença entre faixas de escolaridade | Maior diferença de AUC entre as faixas | Definido com os *Product Owners* | Experimento no MED-IA |
+| E13 | Adequação funcional / correção funcional | Fidelidade do modelo exportado | Maior diferença de escore entre o modelo original e o exportado | ≤ 1 × 10⁻⁴ | Conferência da exportação |
 
-O [dashboard gerencial](https://2026-2-unb-fcte-unieuro-med-docs.streamlit.app) e a [coleta de métricas](../metricas/coleta-de-metricas.md) estão publicados. A aba de qualidade lê arquivos JSON versionados; os arquivos agregados Sonar de APP e IA presentes em analytics-raw-data foram coletados em **21/09**. Eles são anteriores à medição acima e não substituem a consulta atual à branch da release. O painel deve exibir data, origem, branch e indicação de dado ausente ou simulado antes de ser usado como evidência da R1.
+## 5. Plano de testes
 
-## 3. Critérios de qualidade e aceitação
+### 5.1 Níveis de teste
 
-| Eixo | Condição de aceite proposta | Evidência exigida |
+Quem implementa escreve os testes do próprio código, no mesmo PR.
+
+**Tabela 7** – Níveis de teste
+
+| Nível | O que verifica | Ferramenta e local | Quem | Quando | Critério de saída |
+|---|---|---|---|---|---|
+| Unitário | Regras de negócio, validações, repositórios e telas, de forma isolada | Jest e Testing Library em `tests/unit/` no APP. `pytest` no IA | Quem implementa | Localmente e em todo PR | Todos passam e o piso de cobertura é respeitado |
+| Integração | Tela, regra, repositório e SQLite real, migrações e proteção de dados. Contrato entre aplicativo e modelo | Jest com SQLite em `tests/integration/` | Quem implementa | Todo PR | Todo fluxo que grava dados tem ao menos um teste sem mock do banco |
+| Sistema | Fluxos completos do produto, da tela ao banco, e o APK funcionando sem internet | Jest em `tests/integration/*.sistema.test.tsx`. Testes de interface automatizados sobre o APK, por exemplo com Maestro | Equipe | Todo PR e cada release | Todos os cenários do fluxo passam |
+| Aceitação | Se a história atende aos critérios de aceitação aprovados | Formulário de aceitação | *Product Owners*, com o formulário preparado pela equipe | A cada história concluída | E1 = 1,0 |
+| Regressão | Se o que já foi aceito continua funcionando | Suíte automatizada completa | Equipe | Todo PR e cada release | Nenhuma regressão aberta |
+
+### 5.2 Teste de aceitação
+
+O teste de aceitação verifica a história do ponto de vista dos *Product Owners*, a
+partir dos critérios de aceitação aprovados. A cada funcionalidade concluída, a equipe
+envia o APK e um formulário com um item por cenário BDD da história, a versão do APK e
+um campo de observação. Os *Product Owners* marcam cada cenário como aprovado ou
+reprovado.
+
+A história só fecha depois do aceite. Um cenário reprovado vira issue de bug quando o
+comportamento não atende ao critério, ou nova história quando o pedido é diferente do
+critério aprovado. Os resultados alimentam E1 e E2.
+
+### 5.3 Testes do modelo de IA
+
+Os testes unitários do MED-IA cobrem o modelo, a leitura das imagens e a exportação.
+A exportação é conferida comparando os escores do modelo original e do exportado num
+conjunto de conferência, com a tolerância de E13. Cada experimento usa cinco sementes
+e divisão estratificada de 70%, 15% e 15%, informa média e desvio-padrão e registra
+versão dos dados, parâmetros e métricas. A integração com o aplicativo é verificada
+com imagens de referência e escores esperados gerados no MED-IA.
+
+## 6. Acompanhamento
+
+**Tabela 8** – Quando cada verificação acontece
+
+| Momento | O que é verificado | Responsável |
 |---|---|---|
-| Código e CI | Build e testes pertinentes aprovados no commit da release; gate Sonar aprovado na branch/tag analisada | Link do workflow, SHA, relatório de testes, LCOV e análise Sonar |
-| Cobertura | Metas do cronograma por repositório com código testável; informar denominador e exclusões | Percentual total e novo, arquivos excluídos, data e branch |
-| Segurança | Nenhuma vulnerabilidade crítica/alta ou defeito bloqueador conhecido sem decisão registrada; senha nunca armazenada em texto simples | Análise, inspeção da persistência, teste e issue de tratamento |
-| Histórias de usuário | Todos os critérios aplicáveis ao incremento demonstrado passam no tablet-alvo sem internet | Roteiro preenchido, resultado observado, APK/commit, dispositivo e responsável |
-| Dados locais | Dados persistem conforme o requisito e não são enviados automaticamente; acesso não autorizado é bloqueado | Teste de reabertura, modo avião, inspeção de fluxo/rede e comportamento de sessão |
-| IA | Modelo reproduzível, exportado, integrado e testado offline; métricas e limitações registradas | Código e versão de dados, parâmetros, resultados por execução, artefato e teste no tablet |
-| Processo e dashboard | Métricas com fonte, data, branch e interpretação; dados simulados e ausentes identificados | JSON, execução da coleta, link do painel e revisão de consistência |
+| Cada PR | Lint, formatação, testes, piso de cobertura e quality gate | Autor e revisor |
+| Cada release do pipeline | m1 a m8, fatores, características e Q, publicados no dashboard | Pipeline |
+| Revisão da sprint | Faixas e tendência dos indicadores, defeitos e pendências de aceitação | Equipe |
+| Release major | Indicadores internos e externos comparados com a release anterior | Liderança |
 
-A equipe deve manter **100% dos cenários críticos planejados para o incremento aprovado** e nenhum defeito bloqueador aberto antes de declarar uma história aceita. Trata-se de critério operacional proposto; caso haja exceção, registrar causa, impacto, responsável e aceite explícito. Cenário não executado permanece pendente. Zero bugs reportados pelo Sonar não significa ausência de defeitos funcionais.
+Quando um indicador cai na faixa de atenção ou crítica, ou uma métrica externa não
+atinge o valor de referência, a equipe registra a medição, abre uma issue de desvio
+com responsável e prazo, corrige e mede de novo. Se a entrega seguir com a exceção, o
+risco e a decisão são registrados no dashboard.
 
-### 3.1 R1: cadastro e login no tablet
+## 7. Referências
 
-As [US #5 (cadastro)](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/5) e [#6 (login)](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/6) foram fechadas no GitHub após a integração do código. Isso não substitui a demonstração dos critérios de aceitação. O [roadmap](roadmap.md) ainda registra a R1 como interfaces navegáveis e remete o aceite completo das USs à R2; a equipe deve atualizar esse registro conforme o resultado do teste real.
+ARGUELLES, Carlos; IVANKOVIĆ, Marko; BENDER, Adam. *Code coverage best practices*.
+Google Testing Blog, 7 ago. 2020. Disponível em:
+<https://testing.googleblog.com/2020/08/code-coverage-best-practices.html>. Acesso
+em: 14 out. 2026.
 
-| Cenário crítico | Resultado esperado | Situação pública em 28/09 |
-|---|---|---|
-| Cadastrar profissional sem internet | Conta local criada; login possível após fechar e reabrir o app | Implementação e testes automatizados integrados; falta evidência pública do teste no tablet |
-| Campos inválidos, CPF/CRM incorretos e duplicados | Cadastro rejeitado, mensagem compreensível e nenhum registro indevido | Casos automatizados presentes; confirmar comportamento no dispositivo |
-| Senha e dados de acesso | Hash com sal no SQLite, sem senha em texto simples; credenciais erradas não abrem o menu | Código e testes integrados; inspecionar banco e fluxo no tablet |
-| Login válido e inválido | Válido leva ao menu; inválido não revela se e-mail está cadastrado e não concede acesso | Código e testes integrados; falta demonstração observada no tablet |
-| Acesso às telas profissionais | Rotas protegidas também após reabrir o app ou navegar diretamente | Não há evidência pública de teste de sessão e bloqueio de rotas |
-| Fluxo do paciente e retorno ao médico | Paciente não faz login nem vê escore; retorno exige confirmação do médico | Critérios da US #6 ligados ao fluxo de avaliação; ainda não demonstráveis integralmente na R1 |
+INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. *ISO/IEC 25010:2011*: Systems and
+software engineering — Systems and software Quality Requirements and Evaluation
+(SQuaRE) — System and software quality models. Genebra: ISO, 2011.
 
-O roteiro de execução deve registrar: versão e SHA do APK, modelo e sistema do tablet, rede desativada, dados de teste não reais, passos, resultado esperado, resultado observado, captura ou vídeo sem dados sensíveis, defeito/issue, executor e data. A release no GitHub contém fontes e métricas, mas não um APK; informar separadamente onde está o artefato instalável usado na demonstração.
+LETOUZEY, Jean-Louis; COQ, Thierry. The SQALE analysis model: an analysis model
+compliant with the representation condition for assessing the quality of software
+source code. In: INTERNATIONAL CONFERENCE ON ADVANCES IN SYSTEM TESTING AND VALIDATION
+LIFECYCLE, 2., 2010, Nice. *Proceedings* [...]. [S. l.]: IEEE, 2010. p. 43-48.
 
-### 3.2 R2 e R3: qualidade por incremento
+MARTÍNEZ-FERNÁNDEZ, Silverio *et al*. A quality model for actionable analytics in rapid
+software development. In: EUROMICRO CONFERENCE ON SOFTWARE ENGINEERING AND ADVANCED
+APPLICATIONS, 44., 2018, Praga. *Proceedings* [...]. [S. l.]: IEEE, 2018. p. 370-377.
 
-Na **R2**, acrescentar testes de integração de atendimento, TCLE, persistência, primeiro desenho, proteção dos dados e interação entre APP e IA conforme o escopo aprovado. A meta é pelo menos 85% de cobertura com testes de integração, além de validação offline no tablet. O modelo preliminar só é aceito se houver código, artefato exportado e teste de entrada/saída versionados.
+MCCABE, Thomas J. A complexity measure. *IEEE Transactions on Software Engineering*,
+v. SE-2, n. 4, p. 308-320, dez. 1976.
 
-Na **R3**, exigir pelo menos 90% de cobertura e testes unitários, de integração, de sistema e de interface conforme o cronograma. Verificar as três tarefas, captura e retomada, inferência embarcada, resultados restritos ao profissional, ausência de escore na tela do paciente e XML local quando solicitado. Casos com dados de saúde devem usar material de teste autorizado e não devem ser versionados. Metas de desempenho clínico do modelo precisam ser acordadas com o PO antes da avaliação; **este plano não inventa um limiar clínico**.
-
-### 3.3 Reprodutibilidade e proteção dos dados da IA
-
-Cada experimento deve registrar versão e origem permitida dos dados, separação treino/validação/teste, semente, parâmetros, versão do código, métricas por execução, resumo estatístico, limitações e artefato exportado. O resultado do melhor treino isolado não deve ser apresentado como média de execuções nem como validação clínica. Antes da integração, verificar compatibilidade de formato e tempo de inferência no tablet em modo avião.
-
-O APP já usa hash de senha, mas isso **não equivale à cifra do banco inteiro** nem demonstra proteção de dados clínicos futuros. A revisão deve cobrir chaves, armazenamento local, descarte e exportação autorizada; acompanhar os riscos [R10, R13 e R14](riscos.md).
-
-## 4. Ciclo de medição, decisão e tratamento de desvios
-
-| Momento | Quem verifica | Registro mínimo |
-|---|---|---|
-| Em cada PR | Autor e revisor | Issue vinculada, teste alterado, comandos/resultados, análise estática e riscos da mudança |
-| Após merge em develop | Qualidade/DevOps | SHA, workflow, cobertura/gate, diferenças de métrica e falhas abertas |
-| Antes da release em main | Liderança, Qualidade e PO quando aplicável | Tag/commit, artefato instalável, teste no tablet, critérios das USs, exceções e decisão de aceite |
-| Após a release | Equipe | Defeitos, regressões, indicadores atualizados, causa e ação com responsável/prazo |
-
-Para resultado abaixo da meta: registrar a medição e sua origem; abrir ou atualizar issue de desvio; atribuir responsável e prazo; corrigir e repetir o teste; se a entrega prosseguir com exceção, documentar risco e decisão. Não alterar exclusões de cobertura apenas para atingir o percentual sem justificativa técnica. O dashboard deve distinguir resultado da branch de integração, resultado da release e dado histórico.
-
-## 5. Ações de qualidade imediatas
-
-1. **Registrar a prova funcional da R1:** executar a matriz de cadastro/login no tablet em modo avião, com APK identificável e resultados observados. Manter pendentes os critérios da US #6 que dependem do fluxo do paciente.
-2. **Consolidar a medição de APP:** anexar ao registro da R1 o [Build de main aprovado](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/36378600379), o LCOV, o Sonar de main (96,0%) e as exclusões de cobertura. Triar os 12 code smells e eventuais defeitos funcionais; não confundir gate aprovado com aceite completo.
-3. **Disponibilizar o APK de demonstração:** indicar link, SHA e dispositivo usado. O ZIP da release v1.0.0 contém fonte e testes, não o aplicativo instalável.
-4. **Construir a evidência de IA:** revisar o PR #10, versionar código/artefato de modelo e testes; medir cobertura e desempenho só quando houver código de produto analisável. Manter o gate atual como evidência de configuração, não de modelo.
-5. **Atualizar as fontes gerenciais:** executar a coleta após os merges, registrar branch/commit/análise em cada JSON, atualizar o painel e corrigir páginas que ainda mostram a situação de 26/09 como atual.
-6. **Alinhar o roadmap ao aceite real:** descrever o que foi demonstrado na R1 e manter o restante das USs #5/#6 como pendência se não houver prova no tablet.
-
-## 6. Referências e histórico
-
-- [Cronograma](cronograma.md), [Metodologia](metodologia.md), [Roadmap](roadmap.md) e [Coleta de métricas](../metricas/coleta-de-metricas.md).
-- [APP: pipeline de Build](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/blob/develop/.github/workflows/build.yml), [IA: pipeline de Build](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/blob/develop/.github/workflows/build.yml).
-- [SonarCloud APP/develop](https://sonarcloud.io/project/overview?id=fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-APP&branch=develop) e [SonarCloud IA/develop](https://sonarcloud.io/project/overview?id=fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-IA&branch=develop). Consulta em 28/09/2026.
+## Histórico de versões
 
 | Versão | Data | Descrição | Autor(es) | Revisor(es) |
 |---|---|---|---|---|
-| 1.0 | 26/09/2026 | Criação do plano com linha de base do SonarCloud, critérios de teste e ações para APP e IA | Equipe MED (proposta para revisão) | Pendente |
-| 1.1 | 27/09/2026 | Alinhamento ao roadmap, à coleta automatizada e ao plano de riscos incorporados à main | Equipe MED (proposta para revisão) | Pendente |
-| 2.0 | 28/09/2026 | Nova linha de base após integração de cadastro, testes e releases; critérios de aceite por incremento e limites da análise de IA | Proposta para revisão da equipe | Pendente |
+| 1.0 | 15/10/2026 | Q-Rapids como modelo de referência, métricas internas e externas com fórmulas, valores de referência e interpretação, e plano de testes por nível | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | [Vitor](https://github.com/vcpVitor) |
+| 1.1 | 24/10/2026 | Inclusão nas referências do Q-Rapids, do SQALE e de McCabe, citados no texto | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | Pendente |
