@@ -246,8 +246,21 @@ INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. *ISO/IEC 25010:2011*: Systems an
 software engineering — Systems and software Quality Requirements and Evaluation
 (SQuaRE) — System and software quality models. Genebra: ISO, 2011.
 
+LETOUZEY, Jean-Louis; COQ, Thierry. The SQALE analysis model: an analysis model
+compliant with the representation condition for assessing the quality of software
+source code. In: INTERNATIONAL CONFERENCE ON ADVANCES IN SYSTEM TESTING AND VALIDATION
+LIFECYCLE, 2., 2010, Nice. *Proceedings* [...]. [S. l.]: IEEE, 2010. p. 43-48.
+
+MARTÍNEZ-FERNÁNDEZ, Silverio *et al*. A quality model for actionable analytics in rapid
+software development. In: EUROMICRO CONFERENCE ON SOFTWARE ENGINEERING AND ADVANCED
+APPLICATIONS, 44., 2018, Praga. *Proceedings* [...]. [S. l.]: IEEE, 2018. p. 370-377.
+
+MCCABE, Thomas J. A complexity measure. *IEEE Transactions on Software Engineering*,
+v. SE-2, n. 4, p. 308-320, dez. 1976.
+
 ## Histórico de versões
 
 | Versão | Data | Descrição | Autor(es) | Revisor(es) |
 |---|---|---|---|---|
-| 1.0 | 15/10/2026 | Q-Rapids como modelo de referência, métricas internas e externas com fórmulas, valores de referência e interpretação, e plano de testes por nível | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | Pendente |
+| 1.0 | 15/10/2026 | Q-Rapids como modelo de referência, métricas internas e externas com fórmulas, valores de referência e interpretação, e plano de testes por nível | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | [Vitor](https://github.com/vcpVitor) |
+| 1.1 | 24/10/2026 | Inclusão nas referências do Q-Rapids, do SQALE e de McCabe, citados no texto | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | Pendente |
