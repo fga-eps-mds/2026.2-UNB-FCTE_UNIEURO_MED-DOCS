@@ -133,6 +133,11 @@ jobs:
           done
           echo "Arquivos de release em analytics-raw-data: $(ls analytics-raw-data/fga-eps-mds-*.json 2>/dev/null | wc -l)"
 
+      - name: Coletar problemas do SonarCloud e branches das releases
+        # Alimentam m7 e m8 do Q-Rapids (dashboard/src/qualidade.py). O script preserva
+        # o arquivo anterior quando uma fonte falha e não derruba a esteira.
+        run: python3 scripts/coleta_qualidade.py
+
       - name: Coletar métricas de sprint do Zenhub
         env:
           ZENHUB_TOKEN: ${{ secrets.ZENHUB_TOKEN }}

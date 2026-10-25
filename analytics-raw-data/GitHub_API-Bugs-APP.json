@@ -1,0 +1,12 @@
+{
+  "repositorio": "APP",
+  "coletado_em": "2026-10-25T01:25:24Z",
+  "bugs": [
+    {
+      "numero": 52,
+      "titulo": "[BUG] Promises da splash screen sem tratamento no layout raiz",
+      "aberta_em": "2026-10-05T16:14:02Z",
+      "fechada_em": "2026-10-05T16:21:21Z"
+    }
+  ]
+}

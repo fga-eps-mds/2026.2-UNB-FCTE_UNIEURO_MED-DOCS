@@ -81,18 +81,22 @@ nav:
       - Arquitetura: produto/arquitetura.md
       - Lean Inception: produto/lean-inception.md
       - Funcionalidades: produto/funcionalidades.md
+      - Modelo de IA — Experimentos: produto/modelo-ia-experimentos.md
       - Sequenciador: produto/sequenciador.md
       - Canvas MVP: produto/canvas-mvp.md
       - Identidade Visual: produto/identidade-visual.md
   - Processo:
       - Metodologia: processo/metodologia.md
       - Roadmap do Produto: processo/roadmap.md
+      - Estimativa do Backlog: processo/estimativa-do-backlog.md
       - Cronograma: processo/cronograma.md
       - Plano de Custos: processo/plano_de_custos.md
       - Plano de Qualidade: processo/plano_de_qualidade.md
       - Plano de Gestão de Riscos: processo/riscos.md
   - Métricas:
       - Coleta de métricas: metricas/coleta-de-metricas.md
+      - Qualidade do produto: metricas/qualidade-do-produto.md
+      - Processo e comparação R1 × R2: metricas/processo-e-comparativo.md
   - Atas de Reunião:
       - atas-reunioes/index.md
       - Modelo de ata: atas-reunioes/modelo-ata.md
@@ -104,6 +108,8 @@ nav:
       - Ata 06 — 15/09/2026: atas-reunioes/Ata-06-EPS-2026-09-15-PO.md
       - Ata 07 — 23/09/2026: atas-reunioes/Ata-07-EPS-2026-09-23-PO.md
       - Ata 08 — 02/10/2026: atas-reunioes/Ata-08-EPS-2026-10-02-PO.md
+      - Ata 09 — 05/10/2026: atas-reunioes/Ata-09-EPS-2026-10-05-PO.md
+      - Ata 10 — 19/10/2026: atas-reunioes/Ata-10-EPS-2026-10-19-PO.md
   - Equipe:
     - equipe/equipe.md
     - Operacional: equipe/operacional.md

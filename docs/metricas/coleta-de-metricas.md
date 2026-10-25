@@ -18,6 +18,9 @@ Esta página descreve quais arquivos existem, quem os gera e o que falta.
 | `zenhub_analytics.json` | Sprints e Agile EVM (projeto) | API do Zenhub | Automatizado — depende do *secret* |
 | `riscos_analytics.json` | Matriz de Riscos (projeto) | Plano de Riscos | Pendente — depende da issue #26 |
 | `fga-eps-mds-<repositório>-<data>-vX.Y.Z.json` | Métricas de cada versão do produto | Pipeline de release de APP e IA | Em revisão — ver [Métricas por versão](#metricas-por-versao-do-produto) |
+| `Sonar_API-Issues-*.json` | Q-Rapids, métricas m7 e m8 | API do SonarCloud | Automatizado — ver [Problemas do SonarCloud](#problemas-do-sonarcloud-e-branches-das-releases) |
+| `GitHub_API-Releases-*.json` | Q-Rapids, branch medida por release | API do GitHub | Automatizado |
+| `GitHub_API-Bugs-*.json` | Comparação de defeitos entre releases | API do GitHub | Automatizado |
 
 **Fonte:** [Vitor Carvalho Pereira](https://github.com/vcpVitor), 2026
 
@@ -146,6 +149,27 @@ Deste lado, a coleta diária copia para a pasta o `.json` de cada release de APP
 que ainda não estiver aqui. Com isso, nenhum dos repositórios precisa de *secret* de
 escrita em outro.
 
+## Problemas do SonarCloud e branches das releases
+
+O `.json` de cada release traz as medidas por arquivo, mas não os problemas apontados
+pelo SonarCloud, que as métricas m7 e m8 do
+[Plano de Qualidade](../processo/plano_de_qualidade.md) precisam. O script
+[`scripts/coleta_qualidade.py`](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/blob/main/scripts/coleta_qualidade.py),
+chamado pela coleta diária, grava três arquivos por repositório de código:
+
+- `Sonar_API-Issues-<repositório>.json`: todos os problemas da `main` e da `develop`,
+  abertos e resolvidos, com o arquivo, a regra, os impactos e as datas de criação e de
+  fechamento. As datas permitem saber o que estava aberto no momento de cada release.
+- `GitHub_API-Releases-<repositório>.json`: a *tag*, o commit e a branch de destino de
+  cada release. O pipeline de release roda nos merges para a `main` e para a `develop`,
+  e cada `.json` mede a branch de destino; os problemas são lidos da mesma branch.
+- `GitHub_API-Bugs-<repositório>.json`: as issues com o rótulo `bug`, com as datas de
+  abertura e de fechamento, para a comparação de defeitos entre as releases.
+
+A release guarda só o commit de merge, e a branch vem do PR desse commit. O cálculo e os
+resultados estão em [Qualidade do produto](qualidade-do-produto.md) e em
+[Processo e comparação R1 × R2](processo-e-comparativo.md).
+
 ## Sprints e Agile EVM
 
 O script [`scripts/coleta_zenhub.py`](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/blob/main/scripts/coleta_zenhub.py)
@@ -192,3 +216,4 @@ gerado por API: é a transcrição do Plano de Riscos, que ainda não foi elabor
 | `1.0` | 20/09/2026 | Criação da página e automação da coleta de execuções de CI/CD | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
 | `1.1` | 21/09/2026 | Coleta do SonarCloud e do Zenhub | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
 | `1.2` | 24/09/2026 | Pasta renomeada para `analytics-raw-data/`, métricas exigidas pelo professor e seção de métricas por versão do produto | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
+| `1.3` | 22/10/2026 | Coleta dos problemas do SonarCloud e das branches das releases, para o Q-Rapids | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |

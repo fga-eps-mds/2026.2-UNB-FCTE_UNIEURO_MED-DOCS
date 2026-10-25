@@ -1,0 +1,1099 @@
+{
+  "repositorio": "APP",
+  "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-APP",
+  "coletado_em": "2026-10-25T01:25:15Z",
+  "branches": {
+    "main": [
+      {
+        "chave": "AaE4Owjrs708TekgG4to",
+        "arquivo": "src/features/home/home-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-12T16:51:49+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4Owixs708TekgG4ti",
+        "arquivo": "src/features/avaliacao/new-attendance-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-10T04:18:57+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4Owixs708TekgG4tj",
+        "arquivo": "src/features/avaliacao/new-attendance-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-10T04:18:57+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4Owixs708TekgG4tk",
+        "arquivo": "src/features/avaliacao/new-attendance-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-10T04:18:57+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4OwiOs708TekgG4th",
+        "arquivo": "src/features/avaliacao/new-attendance.styles.ts",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-10T02:20:05+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4Owh2s708TekgG4tg",
+        "arquivo": "src/features/avaliacao/patient.ts",
+        "regra": "typescript:S7776",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-09T20:40:32+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4Owkhs708TekgG4tr",
+        "arquivo": "src/db/cpf-migration.ts",
+        "regra": "typescript:S9382",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-08T19:46:23+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4OwkDs708TekgG4tq",
+        "arquivo": "src/db/cpf-protection.ts",
+        "regra": "typescript:S7758",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-08T19:46:23+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          },
+          {
+            "qualidade": "RELIABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4Owk2s708TekgG4tt",
+        "arquivo": "src/db/database.ts",
+        "regra": "typescript:S9382",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-08T19:46:23+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4OwX4s708TekgG4tc",
+        "arquivo": "src/features/auth/registration.ts",
+        "regra": "typescript:S3776",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-08T02:15:50+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "HIGH"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4OwgOs708TekgG4te",
+        "arquivo": "src/features/auth/feedback-message.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-08T02:15:40+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4OwgOs708TekgG4tf",
+        "arquivo": "src/features/auth/feedback-message.tsx",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-08T02:15:40+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4Owjrs708TekgG4tm",
+        "arquivo": "src/features/home/home-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-05T15:45:40+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4Owjrs708TekgG4tn",
+        "arquivo": "src/features/home/home-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-05T15:45:40+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4Owjrs708TekgG4tp",
+        "arquivo": "src/features/home/home-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-05T15:45:40+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4OwjQs708TekgG4tl",
+        "arquivo": "src/features/settings/settings-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-05T15:45:40+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4OwaAs708TekgG4td",
+        "arquivo": "src/features/auth/session.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-05T15:43:45+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaDmUBDXs4mYgcx9-wvC",
+        "arquivo": "src/features/auth/registration.ts",
+        "regra": "typescript:S3776",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-09-28T01:21:21+0000",
+        "fechado_em": "2026-10-14T02:25:16+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "HIGH"
+          }
+        ]
+      },
+      {
+        "chave": "AaDmUBGks4mYgcx9-wvJ",
+        "arquivo": "src/features/auth/login-screen.tsx",
+        "regra": "typescript:S1128",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-09-27T05:30:58+0000",
+        "fechado_em": "2026-10-14T02:25:16+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaDmUBGks4mYgcx9-wvK",
+        "arquivo": "src/features/auth/login-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-27T05:30:58+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaE4Owk2s708TekgG4ts",
+        "arquivo": "src/db/database.ts",
+        "regra": "typescript:S9382",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-26T21:13:20+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaDmUBGAs4mYgcx9-wvH",
+        "arquivo": "src/features/auth/register-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-26T19:55:03+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaDmUBDXs4mYgcx9-wvA",
+        "arquivo": "src/features/auth/registration.ts",
+        "regra": "typescript:S8786",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-26T19:35:24+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "RELIABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaDmUBDXs4mYgcx9-wvB",
+        "arquivo": "src/features/auth/registration.ts",
+        "regra": "typescript:S7776",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-26T19:35:24+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaDmUBGAs4mYgcx9-wvI",
+        "arquivo": "src/features/auth/register-screen.tsx",
+        "regra": "typescript:S6479",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-25T01:47:22+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaDmUBFIs4mYgcx9-wvD",
+        "arquivo": "src/features/auth/register.styles.ts",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-25T01:47:22+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaDmUBFIs4mYgcx9-wvE",
+        "arquivo": "src/features/auth/register.styles.ts",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-25T01:47:22+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaDmUBHPs4mYgcx9-wvL",
+        "arquivo": "src/hooks/use-theme.ts",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-25T00:17:47+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaDmUBFns4mYgcx9-wvF",
+        "arquivo": "src/features/auth/login.styles.ts",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-24T23:28:12+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaDmUBFns4mYgcx9-wvG",
+        "arquivo": "src/features/auth/login.styles.ts",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-24T23:28:12+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      }
+    ],
+    "develop": [
+      {
+        "chave": "AaFmQiyRESiijjIYy0J6",
+        "arquivo": "src/features/captura/quadro-desenho.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-20T14:53:37+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaFmEwodDMzkYK3Q1mXJ",
+        "arquivo": "src/features/home/home-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-19T21:19:54+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaFmEwodDMzkYK3Q1mXK",
+        "arquivo": "src/features/home/home-screen.tsx",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-19T21:19:54+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaFmEwodDMzkYK3Q1mXL",
+        "arquivo": "src/features/home/home-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-19T21:19:54+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaFmQizLESiijjIYy0J8",
+        "arquivo": "src/features/captura/eventos-tracado.ts",
+        "regra": "typescript:S7755",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-19T14:10:37+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaFmQizLESiijjIYy0J9",
+        "arquivo": "src/features/captura/eventos-tracado.ts",
+        "regra": "typescript:S6582",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-19T14:10:37+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaFmQiyRESiijjIYy0J7",
+        "arquivo": "src/features/captura/quadro-desenho.tsx",
+        "regra": "typescript:S6479",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-19T14:10:37+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaFKbBRdfdjnIPOAglkM",
+        "arquivo": "src/features/home/home-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-10-14T19:33:50+0000",
+        "fechado_em": "2026-10-23T00:03:58+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaExGUg4izS8zDEb7bi9",
+        "arquivo": "src/features/home/home-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-12T16:51:49+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaEydPY4SU7UZ9wpO0IW",
+        "arquivo": "src/features/avaliacao/new-attendance-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-10T04:18:57+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaEydPY4SU7UZ9wpO0IX",
+        "arquivo": "src/features/avaliacao/new-attendance-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-10T04:18:57+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaEydPY4SU7UZ9wpO0IY",
+        "arquivo": "src/features/avaliacao/new-attendance-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-10T04:18:57+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaEydPYhSU7UZ9wpO0IV",
+        "arquivo": "src/features/avaliacao/new-attendance.styles.ts",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-10T02:20:05+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaEydPX3SU7UZ9wpO0IU",
+        "arquivo": "src/features/avaliacao/patient.ts",
+        "regra": "typescript:S7776",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-09T20:40:32+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaEhjzBItK1Opc4bfW8a",
+        "arquivo": "src/db/cpf-migration.ts",
+        "regra": "typescript:S9382",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-08T19:46:23+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaEhjzAqtK1Opc4bfW8Z",
+        "arquivo": "src/db/cpf-protection.ts",
+        "regra": "typescript:S7758",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-08T19:46:23+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "RELIABILITY",
+            "severidade": "LOW"
+          },
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaEhjzCLtK1Opc4bfW8b",
+        "arquivo": "src/db/database.ts",
+        "regra": "typescript:S9382",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-08T19:46:23+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaEwnI4xWzuM77vMHy9U",
+        "arquivo": "src/features/auth/registration.ts",
+        "regra": "typescript:S3776",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-08T02:15:50+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "HIGH"
+          }
+        ]
+      },
+      {
+        "chave": "AaEwnI7kWzuM77vMHy9V",
+        "arquivo": "src/features/auth/feedback-message.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-08T02:15:40+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaEwnI7kWzuM77vMHy9W",
+        "arquivo": "src/features/auth/feedback-message.tsx",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-08T02:15:40+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaFm_r1erX8l-P369-uL",
+        "arquivo": "src/features/settings/deactivate-account-dialog.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-07T15:04:37+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaFm_r1TrX8l-P369-uK",
+        "arquivo": "src/features/settings/edit-account-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-07T15:04:37+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaFm_rzFrX8l-P369-uJ",
+        "arquivo": "src/features/settings/settings-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-07T15:04:37+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaExGUg4izS8zDEb7bi7",
+        "arquivo": "src/features/home/home-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-10-05T15:45:40+0000",
+        "fechado_em": "2026-10-17T15:11:49+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaExGUg4izS8zDEb7bi8",
+        "arquivo": "src/features/home/home-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-05T15:45:40+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaExGUg4izS8zDEb7bi-",
+        "arquivo": "src/features/home/home-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-05T15:45:40+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaExGUggizS8zDEb7bi6",
+        "arquivo": "src/features/settings/settings-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-05T15:45:40+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaExGUb2izS8zDEb7bi5",
+        "arquivo": "src/features/auth/session.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-05T15:43:45+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaEM1Stm12SGwlcS43o_",
+        "arquivo": "src/features/auth/registration.ts",
+        "regra": "typescript:S3776",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-09-28T01:21:21+0000",
+        "fechado_em": "2026-10-12T14:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "HIGH"
+          }
+        ]
+      },
+      {
+        "chave": "AaEM1SxE12SGwlcS43pG",
+        "arquivo": "src/features/auth/login-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-27T05:30:58+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaEM1SyS12SGwlcS43pI",
+        "arquivo": "src/db/database.ts",
+        "regra": "typescript:S9382",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-26T21:13:20+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaEM1SwL12SGwlcS43pE",
+        "arquivo": "src/features/auth/register-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-26T19:55:03+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaEM1Stm12SGwlcS43o-",
+        "arquivo": "src/features/auth/registration.ts",
+        "regra": "typescript:S8786",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-26T19:35:24+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "RELIABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaEM1Stm12SGwlcS43o9",
+        "arquivo": "src/features/auth/registration.ts",
+        "regra": "typescript:S7776",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-26T19:35:24+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaEM1SwL12SGwlcS43pF",
+        "arquivo": "src/features/auth/register-screen.tsx",
+        "regra": "typescript:S6479",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-25T01:47:22+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaEM1Suf12SGwlcS43pA",
+        "arquivo": "src/features/auth/register.styles.ts",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-25T01:47:22+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaEM1Suf12SGwlcS43pB",
+        "arquivo": "src/features/auth/register.styles.ts",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-25T01:47:22+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaEM1Sx_12SGwlcS43pH",
+        "arquivo": "src/hooks/use-theme.ts",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-25T00:17:47+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaEM1S1o12SGwlcS43pJ",
+        "arquivo": "src/app/_layout.tsx",
+        "regra": "typescript:S9383",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-09-24T23:28:12+0000",
+        "fechado_em": "2026-10-05T16:22:12+0000",
+        "impactos": [
+          {
+            "qualidade": "RELIABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaEM1S1o12SGwlcS43pK",
+        "arquivo": "src/app/_layout.tsx",
+        "regra": "typescript:S9383",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-09-24T23:28:12+0000",
+        "fechado_em": "2026-10-05T16:22:12+0000",
+        "impactos": [
+          {
+            "qualidade": "RELIABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaEM1SvY12SGwlcS43pC",
+        "arquivo": "src/features/auth/login.styles.ts",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-24T23:28:12+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaEM1SvY12SGwlcS43pD",
+        "arquivo": "src/features/auth/login.styles.ts",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-09-24T23:28:12+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      }
+    ]
+  }
+}

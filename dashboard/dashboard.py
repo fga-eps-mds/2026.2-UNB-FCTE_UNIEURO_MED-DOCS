@@ -19,9 +19,23 @@ from src.data_layer import (
     get_risks_data,
     get_github_runs_data,
     get_sonar_metrics_data,
+    get_qrapids_data,
     get_latest_collection_timestamp
 )
 from src.metrics import compute_release_evm, process_risks_summary
+from src.processo import INDICADORES
+from src.qualidade import BRASILIA, FAIXA_ADEQUADA, FAIXA_ATENCAO, METRICAS, QUEDA_RELEVANTE, faixa
+from src.templates import (
+    arquivos_fora_do_limiar,
+    cor_da_faixa,
+    formatar_indice,
+    marcos_sem_medida,
+    rotulo_do_marco,
+    serie_do_indice,
+    tabela_comparativo,
+    tabela_processo,
+    tabela_qrapids,
+)
 
 RATING_LETTERS = {1.0: "A", 2.0: "B", 3.0: "C", 4.0: "D", 5.0: "E"}
 
@@ -754,6 +768,369 @@ def render_process_tab():
         )
 
 
+def _linha_de_faixas(fig):
+    """
+    Marca no gráfico os limites das faixas Adequado e Atenção do Plano de Qualidade.
+
+    O rótulo vai para a legenda: escrito sobre a linha ele cobriria as barras e os pontos.
+    """
+    for limite, cor, nome in ((FAIXA_ADEQUADA, THEME_COLORS["secondary"], "Adequado a partir de"),
+                              (FAIXA_ATENCAO, THEME_COLORS["warning"], "Atenção a partir de")):
+        fig.add_hline(y=limite, line_dash="dot", line_color=cor)
+        fig.add_trace(go.Scatter(x=[None], y=[None], mode="lines", name=f"{nome} {limite:.2f}",
+                                 line=dict(color=cor, dash="dot")))
+
+
+def _config_colunas(tabela: pd.DataFrame, largura_primeira: int, largura_demais: int) -> dict:
+    """Larguras em pixels: sem isso a coluna de texto longo empurra as demais para fora da tabela."""
+    return {
+        coluna: st.column_config.TextColumn(coluna, width=largura_primeira if i == 0 else largura_demais)
+        for i, coluna in enumerate(tabela.columns)
+    }
+
+
+def _render_qrapids_produto(produto: dict):
+    """Q-Rapids do produto: índices por marco de release, evolução por versão e causa por arquivo."""
+    repos = [r for r in ("APP", "IA") if produto[r]["avaliacoes"]]
+    if not repos:
+        st.info("Nenhuma versão do produto foi coletada ainda em `analytics-raw-data/`.")
+        return
+
+    repo = st.radio(
+        "Repositório:",
+        options=repos,
+        format_func=lambda k: REPOS_CONFIG[k]["name"],
+        horizontal=True,
+        key="qrapids_repo_selector"
+    )
+    item = produto[repo]
+    marcos = {nome: v for nome, v in item["marcos"].items() if v}
+    if not marcos:
+        st.info(
+            f"A qualidade interna de **{REPOS_CONFIG[repo]['name']}** ainda não está medida: nenhuma versão "
+            "tem arquivos de código com resultado do SonarCloud. Pelo Plano de Qualidade, o valor fica "
+            "como não medido, e não como zero."
+        )
+        return
+
+    sem_medida = marcos_sem_medida(item["marcos"], datetime.now(BRASILIA))
+    if sem_medida:
+        st.warning(
+            f"Sem versão nova medida para: **{', '.join(sem_medida)}**. Nesses marcos o valor fica como não "
+            "medido, e não como zero, e os índices abaixo são os dos marcos que tiveram versão."
+        )
+
+    ultimo_nome, ultimo = list(marcos.items())[-1]
+    faixas_txt = (f"Adequado a partir de {FAIXA_ADEQUADA:.2f}, Atenção de {FAIXA_ATENCAO:.2f} a "
+                  f"{FAIXA_ADEQUADA - 0.01:.2f} e Crítico abaixo de {FAIXA_ATENCAO:.2f}.")
+    ajuda = {
+        "Q": "Índice de qualidade do produto: média de Manutenibilidade (M) e Confiabilidade (C), de 0 a 1. ",
+        "M": "Manutenibilidade: média da qualidade do código (QC), do código sem problema grave (CB) e da "
+             "testabilidade (T). Indica o quanto o código é fácil de manter. ",
+        "C": "Confiabilidade: média do sucesso dos testes (ST) e dos defeitos prováveis (DP). Indica o "
+             "quanto se pode confiar que o código funciona. ",
+    }
+    colunas = st.columns(3)
+    for coluna, chave, nome in zip(colunas, ("Q", "M", "C"), ("Índice de Qualidade", "Manutenibilidade", "Confiabilidade")):
+        agregado = ultimo["agregacao"][chave]
+        with coluna:
+            render_kpi(
+                f"{chave} {nome}",
+                formatar_indice(agregado["valor"], agregado["parcial"]),
+                f"{faixa(agregado['valor'])} em {rotulo_do_marco(ultimo_nome, ultimo)}",
+                cor_da_faixa(agregado["valor"]),
+                help_text=ajuda[chave] + faixas_txt,
+            )
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    if item["quedas"]:
+        linhas = "\n".join(
+            f"- **{q['indicador']}** caiu de {q['antes']:.2f} ({q['de']}) para {q['depois']:.2f} ({q['para']})."
+            for q in item["quedas"]
+        )
+        st.warning(
+            f"Queda de {QUEDA_RELEVANTE:.2f} ou mais entre duas versões medidas seguidas. O plano pede "
+            f"a análise da causa e o registro da decisão:\n\n{linhas}"
+        )
+    else:
+        st.caption(
+            f"Nenhum fator, característica ou índice caiu {QUEDA_RELEVANTE:.2f} ou mais entre duas "
+            "versões medidas seguidas, o que dispensa a análise de queda do plano."
+        )
+
+    st.markdown("#### Índices por Release")
+    nomes = [rotulo_do_marco(n, v) for n, v in marcos.items()]
+    fig_marcos = go.Figure()
+    for chave, cor in (("Q", THEME_COLORS["primary"]), ("M", THEME_COLORS["accent"]), ("C", THEME_COLORS["secondary"])):
+        fig_marcos.add_trace(go.Bar(
+            x=nomes, y=[v["agregacao"][chave]["valor"] for v in marcos.values()], name=chave,
+            marker_color=cor, text=[formatar_indice(v["agregacao"][chave]["valor"]) for v in marcos.values()],
+            textposition="outside",
+            hovertemplate="<b>%{x}</b><br>" + chave + ": %{y:.2f}<extra></extra>"
+        ))
+    _linha_de_faixas(fig_marcos)
+    layout = _layout_barras("Qualidade do produto por marco de release", "Índice de 0 a 1", 400)
+    layout["yaxis"]["range"] = [0, 1.1]
+    fig_marcos.update_layout(layout)
+    st.plotly_chart(fig_marcos, use_container_width=True, config=PLOTLY_CONFIG)
+    st.caption(
+        "Cada release é representada pela última versão medida até a data dela. Os asteriscos nas "
+        "tabelas marcam valores parciais: faltava uma métrica abaixo deles e o peso foi dividido entre as demais."
+    )
+
+    tabela = tabela_qrapids(marcos)
+    st.dataframe(tabela, use_container_width=True, hide_index=True,
+                 column_config=_config_colunas(tabela, 360, 115), height=(len(tabela) + 1) * 35 + 3)
+    st.caption("n/m: métrica não medida na versão. * valor parcial.")
+
+    st.markdown("#### Evolução do Índice Q por Versão")
+    serie = serie_do_indice(item["avaliacoes"])
+    fig_serie = go.Figure(go.Scatter(
+        x=serie["versao"], y=serie["valor"], mode="lines+markers", connectgaps=False,
+        line=dict(color=THEME_COLORS["primary"], width=3),
+        marker=dict(size=9, symbol=["circle-open" if p else "circle" for p in serie["parcial"]]),
+        hovertemplate="<b>%{x}</b><br>Q: %{y:.2f}<extra></extra>"
+    ))
+    _linha_de_faixas(fig_serie)
+    layout = get_plotly_layout("Índice Q de cada versão", height=360, y_title="Índice Q")
+    layout["yaxis"]["range"] = [0, 1.05]
+    fig_serie.update_layout(layout)
+    st.plotly_chart(fig_serie, use_container_width=True, config=PLOTLY_CONFIG)
+    st.caption(
+        "Círculos vazados são versões com valor parcial. Uma versão sem ponto não teve dado no .json "
+        "da release, e a linha é interrompida em vez de cair a zero."
+    )
+
+    st.markdown("#### De Onde Vem Cada Nota")
+    c1, c2 = st.columns(2)
+    with c1:
+        marco_escolhido = st.selectbox("Release:", options=list(marcos), key="qrapids_marco_selector")
+    with c2:
+        metrica = st.selectbox(
+            "Métrica:", options=list(METRICAS), format_func=lambda k: f"{k} {METRICAS[k]}",
+            key="qrapids_metrica_selector"
+        )
+    detalhe = arquivos_fora_do_limiar(marcos[marco_escolhido], metrica)
+    if detalhe["valor"] is None:
+        st.info(detalhe["motivo"] or "Métrica não medida nesta versão.")
+    else:
+        st.markdown(
+            f"**{detalhe['conformes']} de {detalhe['total']}** itens estão dentro do limiar, "
+            f"o que dá {formatar_indice(detalhe['valor'])}."
+        )
+        if detalhe["arquivos"]:
+            st.dataframe(pd.DataFrame({"Fora do limiar": detalhe["arquivos"]}), use_container_width=True, hide_index=True)
+        else:
+            st.success("Nenhum arquivo fora do limiar nesta métrica.")
+
+    with st.expander("Como ler o Q-Rapids"):
+        st.markdown(
+            "O Q-Rapids transforma medidas do SonarCloud em índices de 0 a 1, e cada nível é a média "
+            "ponderada do nível abaixo: **métricas (m1 a m8)**, **fatores (QC, CB, T, ST, DP)**, "
+            "**características (M e C)** e o **índice Q**. As métricas m1 a m3 e m5 a m8 são densidades: "
+            "a parte dos arquivos que respeita o limiar do plano. A m4 é a taxa de testes que passam.\n\n"
+            f"- {faixas_txt}\n"
+            "- Como as métricas são densidades, o mesmo problema pesa menos em um código maior. Se uma "
+            "nota sobe porque o código cresceu, e não porque o problema foi resolvido, a lista de "
+            "arquivos acima mostra a diferença.\n"
+            "- Métrica sem dado é **não medida (n/m)**, nunca zero. O peso dela é dividido entre as demais "
+            "e o resultado é marcado como parcial. Uma comparação com valor parcial não gera alerta de queda.\n"
+            "- A data de criação de um problema no SonarCloud é a do commit da linha, e não a da análise. "
+            "Em versões antigas, m7 e m8 podem apontar um problema alguns dias antes de ele ter sido encontrado."
+        )
+
+
+def _render_qrapids_processo(processo_dados: dict):
+    """Indicadores de processo P1 a P3 e o índice P por release."""
+    if not processo_dados:
+        st.info("Nenhuma sprint com pontos planejados nem execução de CI foi coletada ainda.")
+        return
+
+    ids = list(processo_dados)
+    release = st.radio(
+        "Release:", options=ids, index=len(ids) - 1, horizontal=True, key="processo_release_selector"
+    )
+    item = processo_dados[release]
+    valores = item["indicadores"]
+
+    ajuda = {
+        "P1": "Execuções do CI que terminaram com sucesso sobre as concluídas com sucesso ou falha, no APP e na IA. "
+              "Execuções puladas ou canceladas não entram. Mede se o código se mantém estável a cada mudança.",
+        "P2": "Pontos de história aceitos pelo PO sobre os pontos planejados, em média por sprint. "
+              "Uma história só conta depois do aceite.",
+        "P3": "Parte do escopo final da sprint que já estava nela quando a sprint começou. "
+              "Abaixo de 1,00, entraram pontos com a sprint em andamento.",
+    }
+    colunas = st.columns(4)
+    for coluna, (chave, nome) in zip(colunas[:3], INDICADORES.items()):
+        with coluna:
+            render_kpi(f"{chave} {nome}", formatar_indice(valores[chave]), "Índice de 0 a 1",
+                       cor_da_faixa(valores[chave]), help_text=ajuda[chave])
+    with colunas[3]:
+        render_kpi("P Índice de Processo", formatar_indice(item["P"], item["parcial"]), "Média de P1, P2 e P3",
+                   cor_da_faixa(item["P"]),
+                   help_text="Média simples de P1, P2 e P3, com as mesmas faixas do Q-Rapids: "
+                             f"Adequado a partir de {FAIXA_ADEQUADA:.2f} e Crítico abaixo de {FAIXA_ATENCAO:.2f}.")
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    if item["em_andamento"]:
+        st.caption("Release em andamento: P2, P3 e a velocidade mudam até o fim das sprints.")
+    ci = item["execucoes"]
+    if ci:
+        st.caption(f"CI: {ci['success']} de {ci['success'] + ci['failure']} execuções concluídas terminaram com sucesso (APP e IA).")
+    if valores["P2"] == 0:
+        st.info(
+            "Nenhum ponto de história foi aceito pelo PO nas sprints desta release. Sem o aceite a "
+            "história não conta como entregue, então P2 e a velocidade ficam em zero. É o mesmo efeito "
+            "do aviso da aba de EVM: indica espera de aceite, e não necessariamente atraso do time."
+        )
+    if valores["P3"] is not None and valores["P3"] < 1:
+        st.info(
+            f"Entraram pontos nas sprints depois do início: só {valores['P3'] * 100:.0f}% do escopo "
+            "final já estava planejado quando elas começaram."
+        )
+
+    st.markdown("#### Processo por Release")
+    fig = go.Figure()
+    cores = {"P1": THEME_COLORS["primary"], "P2": THEME_COLORS["accent"], "P3": THEME_COLORS["warning"]}
+    rotulos = [r + (" (em andamento)" if processo_dados[r]["em_andamento"] else "") for r in ids]
+    for chave, nome in INDICADORES.items():
+        fig.add_trace(go.Bar(
+            x=rotulos, y=[processo_dados[r]["indicadores"][chave] for r in ids], name=f"{chave} {nome}",
+            marker_color=cores[chave],
+            text=[formatar_indice(processo_dados[r]["indicadores"][chave]) for r in ids], textposition="outside",
+            hovertemplate="<b>%{x}</b><br>" + chave + ": %{y:.2f}<extra></extra>"
+        ))
+    fig.add_trace(go.Scatter(
+        x=rotulos, y=[processo_dados[r]["P"] for r in ids], name="P Índice de processo", mode="lines+markers",
+        line=dict(color="#F8FAFC", width=2), hovertemplate="<b>%{x}</b><br>P: %{y:.2f}<extra></extra>"
+    ))
+    _linha_de_faixas(fig)
+    layout = _layout_barras("Indicadores de processo por release", "Índice de 0 a 1", 420)
+    layout["yaxis"]["range"] = [0, 1.15]
+    fig.update_layout(layout)
+    st.plotly_chart(fig, use_container_width=True, config=PLOTLY_CONFIG)
+
+    tabela = tabela_processo(processo_dados)
+    st.dataframe(tabela, use_container_width=True, hide_index=True)
+    st.caption(
+        "P1 Estabilidade do CI, P2 Entrega do comprometido, P3 Estabilidade do escopo e P Índice de processo "
+        "(média dos três). n/m: não medido. * valor parcial."
+    )
+
+    with st.expander("Como ler os indicadores de processo"):
+        st.markdown(
+            "O Plano de Qualidade define o modelo do produto, mas não o do processo. Estes três indicadores "
+            "usam dados que a coleta diária já grava e seguem o mesmo princípio: valor de 0 a 1, sem dado é "
+            "n/m, e as faixas são as do Q-Rapids. São uma **proposta do time** que ainda precisa ser "
+            "validada com o professor.\n\n"
+            "- **P1 Estabilidade do CI:** execuções com sucesso sobre execuções concluídas.\n"
+            "- **P2 Entrega do comprometido:** pontos aceitos sobre pontos planejados, em média por sprint.\n"
+            "- **P3 Estabilidade do escopo:** pontos que já estavam na sprint no início sobre os planejados ao final, "
+            "em média por sprint.\n"
+            "- **P Índice de processo:** média simples de P1, P2 e P3.\n\n"
+            "P2 e P3 são médias por sprint porque somar os pontos da release contaria duas vezes a história "
+            "que passa de uma sprint para a outra. Cada sprint entra na release em que termina, e sprints sem "
+            "pontos planejados, como as de preparação, ficam de fora."
+        )
+
+
+def _render_qrapids_comparativo(comparativo: dict):
+    """Comparação entre releases de velocidade, cobertura e defeitos, como pede o DA-R2."""
+    if not comparativo:
+        st.info("Ainda não há dados de nenhuma release para comparar.")
+        return
+
+    ids = list(comparativo)
+    st.dataframe(tabela_comparativo(comparativo), use_container_width=True, hide_index=True)
+    st.caption(
+        "Velocidade e Planejados em pontos de história por sprint. Defeito provável é a quantidade de arquivos "
+        "com problema de confiabilidade no SonarCloud. A cobertura e o defeito provável vêm da última versão do "
+        "APP medida até o fim de cada release. Os bugs abertos contam só as issues com o rótulo `bug`; defeitos "
+        "corrigidos direto em PR, sem issue, não aparecem."
+    )
+
+    velocidades = [comparativo[r]["velocidade"] or 0 for r in ids]
+    if all(v == 0 for v in velocidades):
+        st.info(
+            "A velocidade é zero porque nenhuma história foi aceita pelo PO. Os pontos planejados por sprint "
+            "mostram o quanto está esperando aceite."
+        )
+
+    col_a, col_b = st.columns(2)
+    with col_a:
+        fig_vel = go.Figure()
+        fig_vel.add_trace(go.Bar(
+            x=ids, y=velocidades, name="Velocidade (aceitos)", marker_color=THEME_COLORS["secondary"],
+            text=[f"{v:.1f}" for v in velocidades], textposition="outside",
+            hovertemplate="<b>%{x}</b><br>Aceitos por sprint: %{y:.1f}<extra></extra>"
+        ))
+        planejados = [comparativo[r]["planejados_por_sprint"] or 0 for r in ids]
+        fig_vel.add_trace(go.Bar(
+            x=ids, y=planejados, name="Planejados", marker_color=THEME_COLORS["primary"],
+            text=[f"{v:.1f}" for v in planejados], textposition="outside",
+            hovertemplate="<b>%{x}</b><br>Planejados por sprint: %{y:.1f}<extra></extra>"
+        ))
+        fig_vel.update_layout(_layout_barras("Velocidade e pontos planejados", "Pontos por sprint", 380))
+        st.plotly_chart(fig_vel, use_container_width=True, config=PLOTLY_CONFIG)
+    with col_b:
+        fig_def = go.Figure()
+        bugs = [comparativo[r]["bugs_abertos_na_release"] or 0 for r in ids]
+        provaveis = [comparativo[r]["arquivos_com_defeito_provavel"] or 0 for r in ids]
+        fig_def.add_trace(go.Bar(
+            x=ids, y=bugs, name="Issues de bug abertas", marker_color=THEME_COLORS["danger"],
+            text=bugs, textposition="outside",
+            hovertemplate="<b>%{x}</b><br>Issues de bug: %{y}<extra></extra>"
+        ))
+        fig_def.add_trace(go.Bar(
+            x=ids, y=provaveis, name="Arquivos com defeito provável", marker_color=THEME_COLORS["warning"],
+            text=provaveis, textposition="outside",
+            hovertemplate="<b>%{x}</b><br>Arquivos: %{y}<extra></extra>"
+        ))
+        fig_def.update_layout(_layout_barras("Defeitos por release", "Quantidade", 380))
+        st.plotly_chart(fig_def, use_container_width=True, config=PLOTLY_CONFIG)
+
+    with st.expander("Como ler a comparação"):
+        st.markdown(
+            "- **Velocidade:** média dos pontos de história aceitos por sprint. Os pontos planejados por "
+            "sprint acompanham o número porque explicam uma velocidade baixa.\n"
+            "- **Cobertura:** percentual do código do APP exercitado por testes na versão que representa a release.\n"
+            "- **Issues de bug abertas:** issues com o rótulo `bug` abertas dentro do período da release.\n"
+            "- **Arquivos com defeito provável:** arquivos com problema de confiabilidade aberto no SonarCloud "
+            "(o que reduz a m8 do Q-Rapids)."
+        )
+
+
+def render_qrapids_tab(dados: dict):
+    """Aba do DA-R2: Q-Rapids do produto, indicadores de processo e comparação entre releases."""
+    st.markdown("### Q-Rapids, Processo e Comparação entre Releases (DA-R2)")
+    st.caption(
+        "Índices de 0 a 1 calculados com os arquivos de `analytics-raw-data/`, conforme o Plano de Qualidade. "
+        "Valor sem dado aparece como n/m (não medido), nunca como zero."
+    )
+    st.warning(
+        "Os limiares, os pesos e os indicadores de processo são uma proposta do time e aguardam a "
+        "validação do professor."
+    )
+
+    if not dados["disponivel"]:
+        st.info(
+            "Os arquivos de qualidade, de CI e de sprints ainda não foram coletados em `analytics-raw-data/`. "
+            "Esta aba não usa dados de exemplo, porque um índice inventado seria lido como resultado real."
+        )
+        return
+
+    aba_produto, aba_processo, aba_comparativo = st.tabs([
+        "Qualidade do Produto", "Processo", "Comparação entre Releases"
+    ])
+    with aba_produto:
+        _render_qrapids_produto(dados["produto"])
+    with aba_processo:
+        _render_qrapids_processo(dados["processo"])
+    with aba_comparativo:
+        _render_qrapids_comparativo(dados["comparativo"])
+
+
 def render_theory_tab():
     """Memória de cálculo e critérios formais."""
     st.markdown("### Fundamentação Teórica e Critérios Acadêmicos")
@@ -788,6 +1165,7 @@ def main():
     sprints_data = filter_started_sprints(sprints_all)
     risks_data, is_risks_mock = get_risks_data()
     sonar_data, is_sonar_mock = get_sonar_metrics_data()
+    qrapids_data = get_qrapids_data()
 
     # Alerta global discreto caso algum dos eixos utilize dados mockados.
     # Nomeia a(s) fonte(s) em mock explicitamente: sem isso, o aviso genérico
@@ -811,11 +1189,12 @@ def main():
     
     evm_results = compute_release_evm(sprints=sprints_all, releases=RELEASES)
 
-    tab_evm, tab_riscos, tab_processo, tab_qualidade, tab_teoria = st.tabs([
+    tab_evm, tab_riscos, tab_processo, tab_qualidade, tab_qrapids, tab_teoria = st.tabs([
         "Agile EVM e Velocity",
         "Gestão de Riscos",
         "Processo e CI/CD",
         "Qualidade de Produto",
+        "Q-Rapids e R1 × R2",
         "Memória de Cálculo"
     ])
 
@@ -830,6 +1209,9 @@ def main():
 
     with tab_qualidade:
         render_quality_tab(sonar_data, is_sonar_mock)
+
+    with tab_qrapids:
+        render_qrapids_tab(qrapids_data)
 
     with tab_teoria:
         render_theory_tab()
