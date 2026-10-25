@@ -43,6 +43,19 @@ RELEASES = [
     {"id": "RF", "nome": "Release final", "inicio": "2026-12-01", "fim": "2026-12-07", "bac_brl": 3148.93},
 ]
 
+# Pontos entregues. Uma história só é fechada depois do aceite do PO (Ata 08), e o ZenHub só
+# conta como entregue a história fechada. Por decisão da equipe, o painel mostra também as
+# histórias da coluna "Aceitação PO": código entregue, aguardando o aceite. O modo escolhe o
+# que entra nos pontos entregues, e a mesma escolha vale para EVM, velocity, burn e processo.
+COLUNAS_ACEITACAO = ("Aceitação PO",)
+MODO_ACEITAS = "aceitas"
+MODO_ENTREGUES = "entregues"
+MODO_PADRAO = MODO_ENTREGUES
+ROTULOS_MODO = {
+    MODO_ACEITAS: "Somente histórias aceitas (fechadas)",
+    MODO_ENTREGUES: "Aceitas + em Aceitação PO",
+}
+
 THEME_COLORS = {
     "primary": "#38BDF8",       # Sky Blue brilhante
     "secondary": "#34D399",     # Emerald brilhante (sucesso / no prazo)
