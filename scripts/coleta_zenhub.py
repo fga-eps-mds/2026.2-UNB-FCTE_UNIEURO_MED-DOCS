@@ -23,11 +23,15 @@ WORKSPACE_ID = "6a8c447d652b15002979b829"
 
 DESTINO = Path(__file__).resolve().parent.parent / "analytics-raw-data" / "zenhub_analytics.json"
 
+# Coluna (pipeline) em que a issue está agora. O dashboard usa a coluna "Aceitação PO" para
+# somar os pontos das histórias entregues que aguardam o aceite do PO.
+CAMPO_COLUNA = "pipelineIssue(workspaceId: $id) { pipeline { name } }"
+
 # Campos pedidos de cada issue, além da estimativa, do mais completo ao mais simples.
 # O identificador permite ao dashboard contar uma história uma só vez quando ela passa
 # de uma sprint para a seguinte. Como a API não pôde ser conferida aqui, se o Zenhub
 # recusar um campo a coleta tenta a variante seguinte, e a última é a consulta original.
-VARIANTES_ISSUE = ("id number", "id", "")
+VARIANTES_ISSUE = (f"id number {CAMPO_COLUNA}", "id number", "id", "")
 
 CONSULTA = """
 query($id: ID!) {
@@ -93,6 +97,7 @@ def consultar(token):
             print(f"Consulta com os campos '{campos or 'somente estimativa'}' recusada: {e}", file=sys.stderr)
             continue
         workspace["issues_detalhadas"] = bool(campos)
+        workspace["issues_com_coluna"] = CAMPO_COLUNA in campos
         break
     else:
         raise erro
@@ -120,6 +125,17 @@ def pontos_adicionados(sprint):
     return total
 
 
+def _resumir_issue(issue, com_coluna):
+    resumo = {
+        "id": issue.get("id"),
+        "numero": issue.get("number"),
+        "estimativa": (issue.get("estimate") or {}).get("value"),
+    }
+    if com_coluna:
+        resumo["coluna"] = (((issue.get("pipelineIssue") or {}).get("pipeline")) or {}).get("name")
+    return resumo
+
+
 def montar(workspace):
     sprints = {}
     for s in workspace["sprints"]["nodes"]:
@@ -130,14 +146,7 @@ def montar(workspace):
         detalhe = {}
         if workspace.get("issues_detalhadas"):
             # Uma entrada por issue, para contar cada história uma só vez entre sprints.
-            detalhe["issues"] = [
-                {
-                    "id": i.get("id"),
-                    "numero": i.get("number"),
-                    "estimativa": (i.get("estimate") or {}).get("value"),
-                }
-                for i in nodes
-            ]
+            detalhe["issues"] = [_resumir_issue(i, workspace.get("issues_com_coluna")) for i in nodes]
 
         sprints[s["name"]] = {
             # Campos consumidos pelo data_layer do dashboard
