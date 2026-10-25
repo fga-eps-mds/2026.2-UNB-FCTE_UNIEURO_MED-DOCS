@@ -26,7 +26,7 @@ Origem: Sulaiman, Barton e Blackburn (2006), *AgileEVM - Earned Value Management
 |---|---|---|
 | BAC | orçamento da release (`RELEASES` em `src/config.py`) | R$ |
 | PRP | pontos das histórias distintas das sprints que terminam na release | pontos de história |
-| RPC | soma dos pontos entregues (`delivered_sp`) nessas sprints, após o aceite do PO | pontos de história |
+| RPC | pontos entregues nessas sprints: os aceitos (`delivered_sp`) e, conforme o modo, os que estão em Aceitação PO | pontos de história |
 | PPC | dias decorridos da release ÷ dias da release | 0 a 1 |
 | APC | RPC ÷ PRP | 0 a 1 |
 | PV | PPC × BAC | R$ |
@@ -42,10 +42,29 @@ Hipóteses e limites:
 - **Sprint e release:** cada sprint é atribuída à release em que termina (data de término em horário de Brasília). Sprints depois da release final ficam de fora.
 - **PRP depende da estimativa:** só é confiável se todas as histórias estiverem estimadas no ZenHub. Se o ZenHub pontuar tarefas em vez de histórias, o PRP sai inflado. O painel não conta issues sem estimativa, porque nem toda issue é uma história de usuário.
 - **Histórias contadas uma vez:** uma história que passa de uma sprint para a seguinte aparece nas duas no ZenHub. O PRP conta cada uma só uma vez, com a estimativa da última sprint em que aparece. Para isso a coleta (`scripts/coleta_zenhub.py`) guarda, por sprint, o id, o número e a estimativa de cada issue (`issues` em `zenhub_analytics.json`). Se o ZenHub recusar esses campos ou o detalhe estiver incompleto, o painel soma o `total_points` das sprints e avisa que o PRP é aproximado.
-- **Aceite do PO:** uma história só entra no RPC depois do aceite do PO. Enquanto isso o RPC, o EV, o SPI e o CPI ficam em zero, o que indica espera de aceite e não necessariamente atraso do time. O painel exibe esse aviso na aba.
+- **Aceite do PO:** uma história só é fechada depois do aceite do PO (Ata 08), e o ZenHub só conta como entregue a história fechada. No modo "somente aceitas", enquanto o PO não aceita, o RPC, o EV, o SPI e o CPI ficam em zero, o que indica espera de aceite e não necessariamente atraso do time. Veja a seção seguinte.
 - **AC estimado:** não há custo real apurado. Por isso o CPI coincide com o SPI até que o custo real seja registrado.
 
 ---
+
+## Pontos entregues: aceitos e em Aceitação PO
+
+A equipe decidiu medir também o que já foi entregue e aguarda o aceite: o código está pronto, o APK segue para o PO e para o cliente, e a história fica aberta na coluna **Aceitação PO** do ZenHub até o aceite. O painel guarda as duas partes e a barra lateral ("Pontos entregues") escolhe o que conta:
+
+| Modo | O que entra nos pontos entregues |
+|---|---|
+| Somente histórias aceitas (fechadas) | só os pontos das histórias fechadas (`delivered_story_points` do ZenHub) |
+| Aceitas + em Aceitação PO (padrão) | os aceitos e os pontos das histórias da coluna Aceitação PO |
+
+A escolha vale para tudo que envolve pontos entregues: RPC, APC, EV, SPI e CPI do EVM, o burnup e o burndown, a velocity e, na aba Q-Rapids, o P2 (entrega do comprometido) e a velocidade da comparação entre releases. O PRP, o P3 e o BAC não mudam. Os dois valores aparecem sempre separados nos cartões e na tabela de auditoria (`RPC aceito`, `Em aceitação` e `RPC considerado`), e a lista das histórias em aceitação fica na aba de EVM.
+
+Regras e hipóteses:
+
+- **Origem.** `scripts/coleta_zenhub.py` grava, para cada issue de cada sprint, o id, o número, a estimativa e a coluna atual (`coluna`). A regra de quais colunas contam está em `COLUNAS_ACEITACAO` (`src/config.py`), e a leitura em `src/aceitacao.py`. A comparação ignora acento, caixa e espaços.
+- **Contada uma vez.** Uma história que passa de uma sprint para a seguinte aparece nas duas, e conta na última sprint em que aparece, com a estimativa de lá. História sem estimativa vale 0 ponto.
+- **Retrato do momento.** A coluna é lida na hora da coleta. Quando o PO aceita, a história fecha e passa a contar como aceita; se ele a devolve, ela sai dos pontos entregues. Por isso o valor do modo "entregues" pode cair.
+- **Sem a coluna coletada.** Se a API do ZenHub recusar o campo, a coleta volta às consultas anteriores e o painel avisa que a coluna não foi coletada: os dois modos mostram o mesmo valor, sem inventar dado. Como alternativa, o arquivo `analytics-raw-data/aceitacao_po_manual.json`, no formato `{"issues": [7, 8]}`, com os números das issues que estão na coluna, é usado somente nessa situação. Ele precisa ser mantido à mão e não deve listar histórias já fechadas, que contariam duas vezes.
+- **Leitura.** O modo "entregues" mostra trabalho entregue, mas ainda não validado. Ao apresentar um número, cite o modo.
 
 ## Tecnologias Utilizadas
 
@@ -97,12 +116,16 @@ dashboard/
     ├── theme.py                  # Componentes visuais e injeção de CSS
     ├── data_layer.py             # Leitura resiliente de JSONs
     ├── metrics.py                # Modelagem matemática de EVM e Riscos
+    ├── aceitacao.py              # Histórias em Aceitação PO e os pontos entregues por modo
     ├── qualidade.py              # Q-Rapids: métricas m1 a m8, fatores, características e índice Q
     ├── processo.py               # Indicadores de processo e comparação R1 × R2
     └── templates.py              # Utilitários de apresentação, incluindo as tabelas da aba Q-Rapids
 └── tests/
     ├── test_qualidade.py         # Testes das fórmulas do Plano de Qualidade
     ├── test_processo.py          # Testes dos indicadores de processo
+    ├── test_aceitacao.py         # Testes das histórias em Aceitação PO
+    ├── test_aceitacao_dados.py   # Testes da leitura dos dados e do processo nos dois modos
+    ├── test_metrics_modo.py      # Testes do EVM nos dois modos de pontos entregues
     ├── test_data_layer_qrapids.py  # Testes da leitura resiliente dos dados da aba Q-Rapids
     └── test_templates_qrapids.py   # Testes das tabelas e dos formatos da aba Q-Rapids
 ```
@@ -146,7 +169,8 @@ python3 -m unittest discover tests
 ## Origem dos Dados (`analytics-raw-data/`)
 
 O dashboard lê os arquivos `.json` em `../analytics-raw-data/`:
-- `zenhub_analytics.json`: Dados de sprints (pontos planejados e entregues por sprint).
+- `zenhub_analytics.json`: Dados de sprints (pontos planejados e entregues por sprint, e por issue o id, o número, a estimativa e a coluna).
+- `aceitacao_po_manual.json` (opcional): números das issues em Aceitação PO, usado só quando a coleta não trouxe a coluna.
 - `riscos_analytics.json`: Planilha/matriz de riscos da equipe.
 - `GitHub_API-Runs-*.json`: Histórico de execuções das GitHub Actions.
 - `Sonar_API-Measures-*.json`: Métricas de qualidade de produto do SonarCloud (APP/IA).
