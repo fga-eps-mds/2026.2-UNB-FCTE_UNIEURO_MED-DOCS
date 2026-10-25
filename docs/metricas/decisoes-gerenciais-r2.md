@@ -44,13 +44,22 @@ PO do ZenHub; encaminhamentos da Ata 10.
    "somente aceitas" como padrão, para que o time não pareça parado quando está
    esperando aceite.
 
+**Responsável e prazo.** Aceite ao vivo: Gustavo e Lucas, líderes da semana, na reunião
+de 26/10. Risco R06: Eduardo, no plano de riscos (DOCS #77), até 26/10. Dashboard:
+Cláudio (DOCS #107), até 26/10.
+
 ## D-R2-02: Planejar a Sprint 4 pela capacidade real, sem puxar história nova no meio da sprint
 
-**Causa.** Na Sprint 3, 37 dos 74 pontos comprometidos entraram com a sprint em
-andamento: as histórias #21, #8, #9 e #10, apresentadas aos *Product Owners* em 19/10,
-e a #11, puxada da R3. Só metade do compromisso final estava planejada no início da
-sprint, e a estabilidade do escopo da R2 caiu para 0,75 (P3). Ao mesmo tempo, os pontos
-planejados por sprint passaram de 21 na R1 para 57 na R2, sem nenhum ponto aceito.
+**Causa.** Na Sprint 3, o relatório do ZenHub conta 37 dos 74 pontos comprometidos como
+entrada com a sprint em andamento. Três desses pontos são da #21, que estava na sprint
+desde o início e foi tirada e recolocada em 19/10, em dois minutos; o ZenHub registrou
+isso como entrada nova. A entrada real foi de 34 pontos: as histórias #8, #9 e #10,
+apresentadas aos *Product Owners* em 19/10, e a #11, puxada da R3. Só 40 dos 74 pontos,
+pouco mais da metade do compromisso final, estavam planejados no início da sprint. O
+dashboard usa o número do ZenHub e mostra a estabilidade do escopo da R2 em 0,75 (P3);
+sem o registro da #21, ela seria 0,77, e o índice de processo fica em 0,58 nos dois
+casos. Ao mesmo tempo, os pontos planejados por sprint passaram de 21 na R1 para 57 na
+R2, sem nenhum ponto aceito.
 
 **Evidência.** Aba "Q-Rapids e R1 × R2" do dashboard (Processo);
 [Processo e comparação R1 × R2](processo-e-comparativo.md); sprints do ZenHub.
@@ -58,6 +67,8 @@ planejados por sprint passaram de 21 na R1 para 57 na R2, sem nenhum ponto aceit
 **Ação.** No planejamento da Sprint 4, comprometer só histórias validadas pelo *Product
 Owner* e dentro da capacidade medida nas sprints anteriores, e registrar como
 replanejamento qualquer história que entre com a sprint em andamento.
+
+**Responsável e prazo.** Líderes da Sprint 4, no planejamento dela.
 
 ## D-R2-03: Manter e estender o padrão de comentar as regras de negócio
 
@@ -76,6 +87,8 @@ restrições não óbvias dos arquivos antigos, sem comentários óbvios só par
 métrica, como orienta a Tabela 4 do
 [Plano de Qualidade](../processo/plano_de_qualidade.md). Cobrar isso na revisão dos PRs.
 
+**Responsável e prazo.** Todo o time, cobrado na revisão de cada PR a partir de 26/10.
+
 ## D-R2-04: Corrigir os problemas abertos no SonarCloud
 
 **Causa.** Três problemas seguem abertos na `develop` desde a R1 ou a RM1: um grave de
@@ -89,6 +102,8 @@ SonarCloud da `develop`.
 
 **Ação.** Corrigir os três problemas, o que leva m7 e m8 a 1,00, ou registrar a exceção,
 como pede a seção 6 do [Plano de Qualidade](../processo/plano_de_qualidade.md).
+
+**Responsável e prazo.** Artur, com o prazo definido por ele, até a R3.
 
 ## Pendência para a R3
 
