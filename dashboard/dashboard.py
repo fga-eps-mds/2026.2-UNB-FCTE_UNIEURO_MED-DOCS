@@ -5,11 +5,16 @@ import os
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 
+from src.aceitacao import pontos_entregues
 from src.config import (
+    MODO_ACEITAS,
+    MODO_ENTREGUES,
+    MODO_PADRAO,
     ORGANIZATION,
     PROJECT_PREFIX,
     RELEASES,
     ANALYSIS_NOTES_DIR,
+    ROTULOS_MODO,
     THEME_COLORS,
     REPOS_CONFIG
 )
@@ -112,13 +117,32 @@ def render_header():
     """, unsafe_allow_html=True)
 
 
-def render_sidebar():
-    """Barra lateral com metadados do projeto. O EVM não tem parâmetros ajustáveis."""
+def render_sidebar() -> str:
+    """
+    Barra lateral: a escolha do que conta como ponto entregue e os metadados do projeto.
+    Devolve o modo escolhido, que vale para EVM, velocity, burnup, burndown e processo.
+    """
+    st.sidebar.markdown("### Pontos entregues")
+    modos = list(ROTULOS_MODO)
+    modo = st.sidebar.radio(
+        "O que conta como entregue:",
+        options=modos,
+        index=modos.index(MODO_PADRAO),
+        format_func=lambda m: ROTULOS_MODO[m],
+        key="modo_pontos",
+        help="Uma história só é fechada depois do aceite do PO. \"Somente aceitas\" conta só as "
+             "fechadas. \"Aceitas + em Aceitação PO\" conta também as da coluna Aceitação PO do "
+             "ZenHub: o código foi entregue e o aceite está pendente. A escolha vale para o EVM, "
+             "a velocity, o burnup, o burndown e os indicadores de processo."
+    )
+    st.sidebar.caption("Os dois valores aparecem sempre separados nas tabelas e nos cartões.")
+    st.sidebar.markdown("---")
     st.sidebar.markdown("### Governança do Projeto")
     st.sidebar.info(f"**Organização:** `{ORGANIZATION}`\n\n**Projeto:** `{PROJECT_PREFIX}`")
 
     st.sidebar.markdown("---")
     st.sidebar.caption("Repositórios Integrados:\n- `-DOCS` (Documentação e Analytics)\n- `-IA` (Módulo de Inteligência Artificial)\n- `-APP` (Aplicação Mobile)")
+    return modo
 
 
 def render_mock_alert(metric_name: str, file_name: str):
@@ -142,7 +166,59 @@ def _formatar_release(r: dict) -> str:
     return f"{r['id']} ({r['inicio']:%d/%m} a {r['fim']:%d/%m})"
 
 
-def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
+def _rotulo_em_frase(modo: str) -> str:
+    """Rótulo do modo no meio de uma frase: só a primeira letra vira minúscula, para "PO" continuar "PO"."""
+    rotulo = ROTULOS_MODO[modo]
+    return rotulo[0].lower() + rotulo[1:]
+
+
+def _render_aviso_do_modo(r: dict, modo: str):
+    """Diz qual modo de pontos está valendo e quanto ele soma, para ninguém ler o número sem saber a regra."""
+    em_aceitacao = len(r["em_aceitacao"])
+    if r["aceitacao_fonte"] is None:
+        st.warning(
+            "A coluna Aceitação PO ainda não foi coletada do ZenHub, então os dois modos mostram o mesmo "
+            "valor: só as histórias aceitas. Ela passa a aparecer na próxima coleta de métricas."
+        )
+    elif modo == MODO_ENTREGUES:
+        st.info(
+            f"**Modo: {ROTULOS_MODO[modo]}.** Os pontos entregues desta release incluem "
+            f"**{r['rpc_aguardando']:.0f} SP** de {em_aceitacao} história(s) em Aceitação PO, com o código "
+            f"entregue e o aceite pendente. Já aceitos: {r['rpc_aceito']:.0f} SP. Para ver só as aceitas, "
+            "mude a opção na barra lateral."
+        )
+    else:
+        st.caption(
+            f"Modo: {_rotulo_em_frase(modo)}. {r['rpc_aguardando']:.0f} SP de {em_aceitacao} história(s) "
+            "em Aceitação PO ficam fora da conta. Para incluí-los, mude a opção na barra lateral."
+        )
+
+
+def _render_historias_em_aceitacao(r: dict):
+    """Lista as histórias da release que estão em Aceitação PO, para conferir o que entra no modo entregues."""
+    historias = r["em_aceitacao"]
+    titulo = f"Histórias em Aceitação PO nesta release ({len(historias)}, {r['rpc_aguardando']:.0f} SP)"
+    with st.expander(titulo):
+        if r["aceitacao_fonte"] is None:
+            st.markdown("A coluna Aceitação PO ainda não foi coletada.")
+            return
+        if not historias:
+            st.markdown("Nenhuma história desta release está em Aceitação PO.")
+            return
+        tabela = pd.DataFrame([
+            {"História": f"#{h['numero']}" if h.get("numero") is not None else "sem número",
+             "Pontos (SP)": f"{h['estimativa']:.0f}", "Sprint": h.get("sprint") or "-"}
+            for h in sorted(historias, key=lambda h: (h.get("numero") is None, h.get("numero") or 0))
+        ])
+        st.dataframe(tabela, use_container_width=True, hide_index=True)
+        origem = "coluna do ZenHub" if r["aceitacao_fonte"] == "zenhub" else "lista manual (`aceitacao_po_manual.json`)"
+        st.caption(
+            f"Fonte: {origem}. Cada história conta uma vez, na última sprint em que aparece. "
+            "História sem estimativa vale 0 ponto."
+        )
+
+
+def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str = MODO_PADRAO):
     """Renderiza a aba do Agile EVM por release, com burn de pontos e velocity."""
     if is_mock:
         render_mock_alert("Sprints e Agile EVM", "zenhub_analytics.json")
@@ -150,7 +226,8 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
     st.markdown("### Desempenho de Prazo e Custos por Release (Agile EVM)")
     st.caption(
         "O EVM é calculado por release, com o orçamento (BAC) de cada release do Plano de Custos e "
-        "os pontos reais do ZenHub. Não há parâmetros ajustáveis: o painel reflete o que aconteceu."
+        "os pontos reais do ZenHub. A única escolha é o que conta como ponto entregue (barra lateral): "
+        "só as histórias aceitas ou também as que estão em Aceitação PO."
     )
 
     with st.expander("Como funciona o Agile EVM e como ler os índices"):
@@ -160,8 +237,10 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
             "- **BAC:** orçamento da release, vindo do Plano de Custos.\n"
             "- **PRP:** pontos de história planejados para a release, contando cada história uma "
             "só vez mesmo que ela passe de uma sprint para a seguinte.\n"
-            "- **RPC:** pontos de história já entregues. Uma história só conta como entregue depois "
-            "do aceite do PO.\n"
+            "- **RPC:** pontos de história já entregues. Uma história só é fechada depois do aceite do "
+            "PO. Por isso o RPC tem duas partes: os pontos **aceitos** (histórias fechadas) e os das "
+            "histórias **em Aceitação PO**, com o código entregue e o aceite pendente. A barra lateral "
+            "escolhe se a segunda parte entra no RPC e, portanto, no EV, no SPI e no CPI.\n"
             "- **PPC:** fração dos dias da release já decorrida. **APC:** RPC dividido pelo PRP.\n"
             "- **PV** = PPC × BAC, o valor que deveria estar entregue. **EV** = APC × BAC, o valor "
             "realmente entregue. **AC:** custo incorrido.\n"
@@ -169,8 +248,12 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
             "custo acima do valor entregue; acima de 1,0, o contrário.\n\n"
             "**Limitações a considerar na leitura:**\n\n"
             "- O PRP só é confiável se todas as histórias da release estiverem estimadas.\n"
-            "- Enquanto o PO não aceita as histórias, o RPC fica em zero: EV, SPI e CPI saem zerados, "
-            "o que indica espera de aceite e não, necessariamente, atraso do time.\n"
+            "- No modo \"somente aceitas\", enquanto o PO não aceita as histórias o RPC fica em zero e "
+            "EV, SPI e CPI saem zerados: isso indica espera de aceite e não, necessariamente, atraso do time. "
+            "No modo \"aceitas + em Aceitação PO\", o número mostra o trabalho entregue, mas ainda não "
+            "validado: uma história pode voltar para desenvolvimento se o PO pedir mudanças.\n"
+            "- A coluna Aceitação PO é lida no momento da coleta. Uma história que sai dela (aceita ou "
+            "devolvida) muda o número na coleta seguinte.\n"
             "- Ainda não há custo real apurado, então o AC é estimado pela linha de base de custo "
             "(PPC × BAC). Por isso o CPI coincide com o SPI até que o custo real seja registrado.\n"
             "- Uma sprint nem sempre coincide com os limites da release. Cada sprint é atribuída à "
@@ -190,12 +273,14 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
     )
     r = next(x for x in releases if x["id"] == escolhido)
 
-    aguardando_aceite = r["prp"] > 0 and r["rpc"] <= 0
-    if aguardando_aceite:
+    _render_aviso_do_modo(r, modo)
+    sem_entrega = r["prp"] > 0 and r["rpc"] <= 0
+    if sem_entrega and not (modo == MODO_ACEITAS and r["rpc_aguardando"] > 0):
         st.info(
-            "Nenhuma história desta release foi entregue até agora. Uma história só conta como "
-            "entregue depois do aceite do PO, então enquanto o aceite não acontece o RPC e o EV "
-            "ficam em zero e o SPI e o CPI saem zerados. Isso indica espera de aceite, e não "
+            "Nenhuma história desta release foi entregue até agora"
+            + (", nem está em Aceitação PO" if modo == MODO_ENTREGUES and r["aceitacao_fonte"] else "")
+            + ". Uma história só conta como aceita depois do aceite do PO, então enquanto isso o RPC e o "
+            "EV ficam em zero e o SPI e o CPI saem zerados. Isso indica espera de aceite, e não "
             "necessariamente atraso do time."
         )
     if r["prp_aproximado"]:
@@ -228,10 +313,14 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
     with row1_c3:
         ev_txt = "N/A" if r["ev"] is None else f"R$ {r['ev']:,.2f}"
         render_kpi(
-            "EV (Valor Agregado)", ev_txt, "Valor realmente entregue", THEME_COLORS["primary"],
-            help_text="Valor do trabalho já entregue e aceito, convertido em reais pela fração do "
-                      "escopo concluído (APC) aplicada ao BAC. Mede o que foi produzido, não o que "
-                      "foi gasto. Sem pontos estimados, não pode ser calculado."
+            "EV (Valor Agregado)", ev_txt,
+            "Entregue, incluindo Aceitação PO" if modo == MODO_ENTREGUES else "Entregue e aceito",
+            THEME_COLORS["primary"],
+            help_text="Valor do trabalho já entregue, convertido em reais pela fração do escopo "
+                      "concluído (APC) aplicada ao BAC. No modo \"somente aceitas\" conta só o que o PO "
+                      "aceitou; no modo \"aceitas + em Aceitação PO\" conta também o que aguarda o aceite. "
+                      "Mede o que foi produzido, não o que foi gasto. Sem pontos estimados, não pode "
+                      "ser calculado."
         )
 
     st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
@@ -239,7 +328,7 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
     row2_c1, row2_c2, row2_c3 = st.columns(3)
     with row2_c1:
         spi = r["spi"]
-        spi_color = THEME_COLORS["accent"] if spi is None or aguardando_aceite else (THEME_COLORS["secondary"] if spi >= 1.0 else THEME_COLORS["danger"])
+        spi_color = THEME_COLORS["accent"] if spi is None or sem_entrega else (THEME_COLORS["secondary"] if spi >= 1.0 else THEME_COLORS["danger"])
         render_kpi(
             "SPI (Cronograma)", "N/A" if spi is None else f"{spi:.2f}", "EV ÷ PV, referência 1.0", spi_color,
             help_text="SPI = EV ÷ PV. Compara o valor entregue com o que deveria ter sido entregue "
@@ -248,7 +337,7 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
         )
     with row2_c2:
         cpi = r["cpi"]
-        cpi_color = THEME_COLORS["accent"] if cpi is None or aguardando_aceite else (THEME_COLORS["secondary"] if cpi >= 1.0 else THEME_COLORS["danger"])
+        cpi_color = THEME_COLORS["accent"] if cpi is None or sem_entrega else (THEME_COLORS["secondary"] if cpi >= 1.0 else THEME_COLORS["danger"])
         render_kpi(
             "CPI (Custo)", "N/A" if cpi is None else f"{cpi:.2f}", "EV ÷ AC, AC estimado", cpi_color,
             help_text="CPI = EV ÷ AC. Compara o valor entregue com o quanto foi gasto para "
@@ -257,11 +346,18 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
         )
     with row2_c3:
         apc_txt = f"{r['rpc']:.0f} de {r['prp']:.0f} SP"
+        detalhe = (f"{r['rpc_aceito']:.0f} aceitos + {r['rpc_aguardando']:.0f} em aceitação"
+                   if modo == MODO_ENTREGUES
+                   else f"{r['rpc_aceito']:.0f} aceitos ({r['rpc_aguardando']:.0f} em aceitação fora)")
         render_kpi(
-            "Escopo Entregue", apc_txt, "RPC de PRP, em pontos de história", THEME_COLORS["secondary"],
+            "Escopo Entregue", apc_txt, detalhe, THEME_COLORS["secondary"],
             help_text="Pontos de história entregues (RPC) sobre os pontos planejados para a "
-                      "release (PRP). O PRP só é confiável quando todas as histórias estão estimadas."
+                      "release (PRP). O RPC separa os pontos aceitos dos que estão em Aceitação PO, e o "
+                      "modo da barra lateral escolhe se os segundos entram. O PRP só é confiável quando "
+                      "todas as histórias estão estimadas."
         )
+
+    _render_historias_em_aceitacao(r)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -325,11 +421,18 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
     if serie:
         rotulos = [p["sprint"] for p in serie]
         fig_up = go.Figure()
+        if modo == MODO_ENTREGUES:
+            fig_up.add_trace(go.Scatter(
+                x=rotulos, y=[p["entregue_acum"] for p in serie], name="Aceitos + em aceitação (acumulado)",
+                mode="lines+markers", fill="tozeroy", fillcolor="rgba(251, 191, 36, 0.12)",
+                line=dict(color="#FBBF24", width=3, dash="dot"),
+                hovertemplate="<b>%{x}</b><br>Aceitos + em aceitação: %{y:.0f} SP<extra></extra>"
+            ))
         fig_up.add_trace(go.Scatter(
-            x=rotulos, y=[p["entregue_acum"] for p in serie], name="Pontos entregues (acumulado)",
+            x=rotulos, y=[p["aceito_acum"] for p in serie], name="Pontos aceitos (acumulado)",
             mode="lines+markers", fill="tozeroy", fillcolor="rgba(56, 189, 248, 0.15)",
             line=dict(color="#38BDF8", width=3),
-            hovertemplate="<b>%{x}</b><br>Entregues: %{y:.0f} SP<extra></extra>"
+            hovertemplate="<b>%{x}</b><br>Aceitos: %{y:.0f} SP<extra></extra>"
         ))
         fig_up.add_hline(y=r["prp"], line_dash="dash", line_color="#94A3B8",
                          annotation_text=f"Escopo planejado (PRP): {r['prp']:.0f} SP")
@@ -352,37 +455,55 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool):
         st.plotly_chart(fig_down, use_container_width=True, config=PLOTLY_CONFIG)
         with st.expander("O que estes gráficos mostram?"):
             st.markdown(
-                "O burnup acumula os pontos entregues sprint a sprint e a linha tracejada marca o "
-                "escopo planejado da release (PRP). O burndown é o espelho: quanto ainda falta "
-                "entregar, comparado com o ritmo ideal para terminar no fim do prazo. Se o PRP "
-                "mudar, as duas curvas se ajustam."
+                "O burnup acumula os pontos sprint a sprint e a linha tracejada marca o escopo "
+                "planejado da release (PRP). A linha azul são os pontos aceitos; no modo \"aceitas + em "
+                "Aceitação PO\" aparece também a linha pontilhada com os que aguardam o aceite. O burndown "
+                "é o espelho: quanto ainda falta entregar (conforme o modo), comparado com o ritmo ideal "
+                "para terminar no fim do prazo. Se o PRP mudar, as duas curvas se ajustam."
             )
     else:
         st.info("Nenhuma sprint termina dentro desta release até agora.")
 
     st.markdown("#### Histórico de Velocity")
+    # Sprint em andamento só entra quando já tem pontos entregues no modo escolhido: antes disso
+    # a barra seria uma sprint vazia, e não uma velocidade.
+    def _pontos(sprint):
+        return pontos_entregues(sprint["delivered_sp"], sprint.get("aguardando_pontos", 0.0), modo)
+
     fechadas = [s for s in velocity_sprints if s.get("status") == "CLOSED"]
-    if fechadas:
-        fig_vel = go.Figure(go.Bar(
-            x=[s["name"] for s in fechadas],
-            y=[s["delivered_sp"] for s in fechadas],
-            marker=dict(
-                color=["#38BDF8" if i % 2 == 0 else "#0284C7" for i in range(len(fechadas))],
-                line=dict(color="rgba(255, 255, 255, 0.3)", width=1)
-            ),
-            text=[f"{s['delivered_sp']:.0f} SP" for s in fechadas],
-            textposition="auto",
-            hovertemplate="<b>%{x}</b><br>Entregue: %{y} SP<extra></extra>"
+    em_andamento = [s for s in velocity_sprints if s.get("status") != "CLOSED" and _pontos(s) > 0]
+    barras = fechadas + (em_andamento if modo == MODO_ENTREGUES else [])
+    if barras:
+        rotulos_vel = [s["name"] + ("" if s in fechadas else " (em andamento)") for s in barras]
+        fig_vel = go.Figure()
+        fig_vel.add_trace(go.Bar(
+            x=rotulos_vel, y=[s["delivered_sp"] for s in barras], name="Aceitos",
+            marker=dict(color="#38BDF8"),
+            text=[f"{s['delivered_sp']:.0f}" for s in barras], textposition="inside",
+            hovertemplate="<b>%{x}</b><br>Aceitos: %{y} SP<extra></extra>"
         ))
-        fig_vel.update_layout(get_plotly_layout("Velocity por Sprint (Story Points Entregues)", height=360, y_title="Story Points"))
+        if modo == MODO_ENTREGUES:
+            fig_vel.add_trace(go.Bar(
+                x=rotulos_vel, y=[s.get("aguardando_pontos", 0.0) for s in barras], name="Em Aceitação PO",
+                marker=dict(color="#FBBF24", pattern=dict(shape="/")),
+                text=[f"{s.get('aguardando_pontos', 0.0):.0f}" for s in barras], textposition="inside",
+                hovertemplate="<b>%{x}</b><br>Em Aceitação PO: %{y} SP<extra></extra>"
+            ))
+        layout_vel = get_plotly_layout("Velocity por Sprint (Story Points Entregues)", height=380, y_title="Story Points")
+        layout_vel["barmode"] = "stack"
+        layout_vel["legend"]["y"] = -0.25
+        fig_vel.update_layout(layout_vel)
         st.plotly_chart(fig_vel, use_container_width=True, config=PLOTLY_CONFIG)
-        media = sum(s["delivered_sp"] for s in fechadas) / len(fechadas)
-        st.caption(f"Média das sprints fechadas: {media:.1f} SP por sprint.")
+        if fechadas:
+            media = sum(_pontos(s) for s in fechadas) / len(fechadas)
+            st.caption(f"Média das sprints fechadas ({_rotulo_em_frase(modo)}): {media:.1f} SP por sprint.")
     else:
         st.info("Ainda não há sprints fechadas para calcular a velocity.")
     with st.expander("O que este gráfico mostra?"):
         st.markdown(
-            "Quantos pontos de história cada sprint fechada entregou. Uma sprint com poucos pontos "
+            "Quantos pontos de história cada sprint fechada entregou. A parte azul são os pontos aceitos e, "
+            "no modo \"aceitas + em Aceitação PO\", a parte listrada são as histórias que aguardam o "
+            "aceite; sprints em andamento aparecem só quando já têm pontos nesse modo. Uma sprint com poucos pontos "
             "não é necessariamente ruim: pode refletir histórias maiores do que o normal, feriados, "
             "ou trabalho técnico que não gera pontos diretamente. Se as histórias não foram "
             "estimadas, a velocity aparece zerada e deixa de refletir o trabalho feito."
@@ -940,7 +1061,17 @@ def _render_qrapids_produto(produto: dict):
         )
 
 
-def _render_qrapids_processo(processo_dados: dict):
+def _legenda_do_modo(modo: str, em_aceitacao: float):
+    """Nas abas de processo, lembra a regra dos pontos entregues e quanto dela vem de Aceitação PO."""
+    texto = f"Pontos entregues: {_rotulo_em_frase(modo)} (opção da barra lateral)."
+    if modo == MODO_ENTREGUES and em_aceitacao > 0:
+        texto += f" Inclui {em_aceitacao:.0f} SP de histórias em Aceitação PO, com o aceite pendente."
+    elif modo == MODO_ACEITAS and em_aceitacao > 0:
+        texto += f" {em_aceitacao:.0f} SP em Aceitação PO ficam de fora."
+    st.caption(texto)
+
+
+def _render_qrapids_processo(processo_dados: dict, modo: str = MODO_PADRAO):
     """Indicadores de processo P1 a P3 e o índice P por release."""
     if not processo_dados:
         st.info("Nenhuma sprint com pontos planejados nem execução de CI foi coletada ainda.")
@@ -973,17 +1104,24 @@ def _render_qrapids_processo(processo_dados: dict):
                              f"Adequado a partir de {FAIXA_ADEQUADA:.2f} e Crítico abaixo de {FAIXA_ATENCAO:.2f}.")
     st.markdown("<br>", unsafe_allow_html=True)
 
+    _legenda_do_modo(modo, item.get("pontos_em_aceitacao", 0.0))
     if item["em_andamento"]:
         st.caption("Release em andamento: P2, P3 e a velocidade mudam até o fim das sprints.")
     ci = item["execucoes"]
     if ci:
         st.caption(f"CI: {ci['success']} de {ci['success'] + ci['failure']} execuções concluídas terminaram com sucesso (APP e IA).")
     if valores["P2"] == 0:
-        st.info(
-            "Nenhum ponto de história foi aceito pelo PO nas sprints desta release. Sem o aceite a "
-            "história não conta como entregue, então P2 e a velocidade ficam em zero. É o mesmo efeito "
-            "do aviso da aba de EVM: indica espera de aceite, e não necessariamente atraso do time."
-        )
+        if modo == MODO_ENTREGUES:
+            st.info(
+                "Nenhum ponto de história foi entregue nem está em Aceitação PO nas sprints desta release, "
+                "então P2 e a velocidade ficam em zero."
+            )
+        else:
+            st.info(
+                "Nenhum ponto de história foi aceito pelo PO nas sprints desta release. Sem o aceite a "
+                "história não conta como aceita, então P2 e a velocidade ficam em zero. É o mesmo efeito "
+                "do aviso da aba de EVM: indica espera de aceite, e não necessariamente atraso do time."
+            )
     if valores["P3"] is not None and valores["P3"] < 1:
         st.info(
             f"Entraram pontos nas sprints depois do início: só {valores['P3'] * 100:.0f}% do escopo "
@@ -1035,13 +1173,14 @@ def _render_qrapids_processo(processo_dados: dict):
         )
 
 
-def _render_qrapids_comparativo(comparativo: dict):
+def _render_qrapids_comparativo(comparativo: dict, modo: str = MODO_PADRAO):
     """Comparação entre releases de velocidade, cobertura e defeitos, como pede o DA-R2."""
     if not comparativo:
         st.info("Ainda não há dados de nenhuma release para comparar.")
         return
 
     ids = list(comparativo)
+    _legenda_do_modo(modo, sum(item.get("pontos_em_aceitacao", 0.0) for item in comparativo.values()))
     st.dataframe(tabela_comparativo(comparativo), use_container_width=True, hide_index=True)
     st.caption(
         "Velocidade e Planejados em pontos de história por sprint. Defeito provável é a quantidade de arquivos "
@@ -1053,15 +1192,18 @@ def _render_qrapids_comparativo(comparativo: dict):
     velocidades = [comparativo[r]["velocidade"] or 0 for r in ids]
     if all(v == 0 for v in velocidades):
         st.info(
-            "A velocidade é zero porque nenhuma história foi aceita pelo PO. Os pontos planejados por sprint "
-            "mostram o quanto está esperando aceite."
+            "A velocidade é zero porque nenhuma história foi "
+            + ("entregue nem está em Aceitação PO." if modo == MODO_ENTREGUES else "aceita pelo PO.")
+            + " Os pontos planejados por sprint mostram o tamanho do que ainda não foi concluído."
         )
 
     col_a, col_b = st.columns(2)
     with col_a:
         fig_vel = go.Figure()
         fig_vel.add_trace(go.Bar(
-            x=ids, y=velocidades, name="Velocidade (aceitos)", marker_color=THEME_COLORS["secondary"],
+            x=ids, y=velocidades,
+            name="Velocidade (entregues)" if modo == MODO_ENTREGUES else "Velocidade (aceitos)",
+            marker_color=THEME_COLORS["secondary"],
             text=[f"{v:.1f}" for v in velocidades], textposition="outside",
             hovertemplate="<b>%{x}</b><br>Aceitos por sprint: %{y:.1f}<extra></extra>"
         ))
@@ -1101,7 +1243,7 @@ def _render_qrapids_comparativo(comparativo: dict):
         )
 
 
-def render_qrapids_tab(dados: dict):
+def render_qrapids_tab(dados: dict, modo: str = MODO_PADRAO):
     """Aba do DA-R2: Q-Rapids do produto, indicadores de processo e comparação entre releases."""
     st.markdown("### Q-Rapids, Processo e Comparação entre Releases (DA-R2)")
     st.caption(
@@ -1126,9 +1268,9 @@ def render_qrapids_tab(dados: dict):
     with aba_produto:
         _render_qrapids_produto(dados["produto"])
     with aba_processo:
-        _render_qrapids_processo(dados["processo"])
+        _render_qrapids_processo(dados["processo"], modo)
     with aba_comparativo:
-        _render_qrapids_comparativo(dados["comparativo"])
+        _render_qrapids_comparativo(dados["comparativo"], modo)
 
 
 def render_theory_tab():
@@ -1141,7 +1283,7 @@ def render_theory_tab():
     2. **PRP (Planned Release Points)**: pontos de história planejados para a release, contando cada história uma só vez entre as sprints que terminam nela.
     3. **PPC (Planned Percent Complete)**: fração dos dias da release já decorrida:
        $$PPC = \frac{\text{dias decorridos}}{\text{dias da release}}$$
-    4. **APC (Actual Percent Complete)**: fração do escopo concluído, com $RPC$ os pontos entregues:
+    4. **APC (Actual Percent Complete)**: fração do escopo concluído, com $RPC$ os pontos entregues (os das histórias aceitas e, conforme o modo escolhido na barra lateral, também os das que estão em Aceitação PO):
        $$APC = \frac{RPC}{PRP}$$
     5. **PV (Planned Value)**: $PV = PPC \times BAC$
     6. **EV (Earned Value)**: $EV = APC \times BAC$
@@ -1151,6 +1293,8 @@ def render_theory_tab():
     10. **SV e CV**: $SV = EV - PV$ e $CV = EV - AC$
     11. **ETC e EAC**: $ETC = \frac{BAC - EV}{CPI}$ e $EAC = AC + ETC$
 
+    **Pontos aceitos e em aceitação:** uma história só é fechada depois do aceite do PO, e o ZenHub só conta como entregue a história fechada. As histórias na coluna Aceitação PO têm o código entregue e o aceite pendente. O painel guarda as duas partes e a barra lateral escolhe se a segunda entra nos pontos entregues; o PRP não muda. Uma história que passa de uma sprint para a seguinte conta uma vez.
+
     **Hipóteses e limites:** o BAC de cada release é provisório e segue o Plano de Custos. O PRP depende de todas as histórias estarem estimadas no ZenHub. Cada sprint é atribuída à release em que termina. Uma história só conta como entregue depois do aceite do PO. Como o AC é estimado, o CPI coincide com o SPI até que o custo real seja registrado.
     """)
 
@@ -1159,13 +1303,13 @@ def main():
     apply_custom_theme()
     render_header()
     
-    render_sidebar()
+    modo = render_sidebar()
     
     sprints_all, is_sprints_mock = get_zenhub_sprints_data()
     sprints_data = filter_started_sprints(sprints_all)
     risks_data, is_risks_mock = get_risks_data()
     sonar_data, is_sonar_mock = get_sonar_metrics_data()
-    qrapids_data = get_qrapids_data()
+    qrapids_data = get_qrapids_data(modo=modo)
 
     # Alerta global discreto caso algum dos eixos utilize dados mockados.
     # Nomeia a(s) fonte(s) em mock explicitamente: sem isso, o aviso genérico
@@ -1187,7 +1331,7 @@ def main():
             "Cada aba mostrada acima mostra seu próprio aviso quando usa dados simulados."
         )
     
-    evm_results = compute_release_evm(sprints=sprints_all, releases=RELEASES)
+    evm_results = compute_release_evm(sprints=sprints_all, releases=RELEASES, modo=modo)
 
     tab_evm, tab_riscos, tab_processo, tab_qualidade, tab_qrapids, tab_teoria = st.tabs([
         "Agile EVM e Velocity",
@@ -1199,7 +1343,7 @@ def main():
     ])
 
     with tab_evm:
-        render_evm_tab(evm_results, sprints_data, is_sprints_mock)
+        render_evm_tab(evm_results, sprints_data, is_sprints_mock, modo)
 
     with tab_riscos:
         render_risks_tab(risks_data, is_risks_mock)
@@ -1211,7 +1355,7 @@ def main():
         render_quality_tab(sonar_data, is_sonar_mock)
 
     with tab_qrapids:
-        render_qrapids_tab(qrapids_data)
+        render_qrapids_tab(qrapids_data, modo)
 
     with tab_teoria:
         render_theory_tab()
