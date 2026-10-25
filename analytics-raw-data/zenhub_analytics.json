@@ -1,6 +1,6 @@
 {
   "workspace": "UNB/FCTE-UNIEURO/MED",
-  "coletado_em": "2026-10-24T09:15:26Z",
+  "coletado_em": "2026-10-25T01:25:31Z",
   "sprints_velocity": {
     "Preparação 1": {
       "delivered_story_points": 0.0,
@@ -53,9 +53,9 @@
       "start_at": "2026-10-12T03:59:00Z",
       "end_at": "2026-10-26T02:59:00Z",
       "total_points": 74.0,
-      "issues_total": 50,
-      "issues_closed": 20,
-      "issues_sem_estimativa": 41
+      "issues_total": 54,
+      "issues_closed": 22,
+      "issues_sem_estimativa": 45
     },
     "Sprint 4": {
       "delivered_story_points": 0.0,

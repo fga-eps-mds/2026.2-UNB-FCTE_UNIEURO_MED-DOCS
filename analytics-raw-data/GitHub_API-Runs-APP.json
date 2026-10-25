@@ -1,7 +1,55 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-10-24T09:15:08Z",
+  "coletado_em": "2026-10-25T01:24:58Z",
   "workflow_runs": [
+    {
+      "id": 40147905118,
+      "name": "Build",
+      "head_branch": "feat/11-tela-final-sem-escore",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-25T00:45:02Z",
+      "updated_at": "2026-10-25T00:47:44Z",
+      "run_number": 102,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/40147905118"
+    },
+    {
+      "id": 40139679773,
+      "name": "Build",
+      "head_branch": "feat/21-persistencia-consentimento",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-24T22:42:09Z",
+      "updated_at": "2026-10-24T22:44:24Z",
+      "run_number": 101,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/40139679773"
+    },
+    {
+      "id": 40136566565,
+      "name": "Build",
+      "head_branch": "feat/21-tela-do-termo",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-24T21:58:56Z",
+      "updated_at": "2026-10-24T22:00:58Z",
+      "run_number": 100,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/40136566565"
+    },
+    {
+      "id": 40105981066,
+      "name": "Build",
+      "head_branch": "feat/9-trilhas",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-24T15:13:21Z",
+      "updated_at": "2026-10-24T15:15:08Z",
+      "run_number": 99,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/40105981066"
+    },
     {
       "id": 40060920632,
       "name": "Build",
