@@ -1,16 +1,40 @@
 {
   "repositorio": "DOCS",
-  "coletado_em": "2026-10-25T02:49:52Z",
+  "coletado_em": "2026-10-25T09:15:08Z",
   "workflow_runs": [
+    {
+      "id": 40179849252,
+      "name": "Coleta de métricas",
+      "head_branch": "main",
+      "event": "schedule",
+      "status": "in_progress",
+      "conclusion": null,
+      "created_at": "2026-10-25T09:14:54Z",
+      "updated_at": "2026-10-25T09:14:57Z",
+      "run_number": 32,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/40179849252"
+    },
+    {
+      "id": 40157436250,
+      "name": "Deploy to GitHub Pages",
+      "head_branch": "fix/dashboard-pontos-em-aceitacao",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-25T03:13:48Z",
+      "updated_at": "2026-10-25T03:14:08Z",
+      "run_number": 178,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/40157436250"
+    },
     {
       "id": 40155922975,
       "name": "Coleta de métricas",
       "head_branch": "main",
       "event": "workflow_dispatch",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-10-25T02:49:38Z",
-      "updated_at": "2026-10-25T02:49:43Z",
+      "updated_at": "2026-10-25T02:50:31Z",
       "run_number": 31,
       "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/40155922975"
     },
