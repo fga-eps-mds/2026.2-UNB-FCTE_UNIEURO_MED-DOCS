@@ -4,7 +4,8 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
-from .config import FUSO_BRASILIA
+from .aceitacao import pontos_entregues
+from .config import FUSO_BRASILIA, MODO_PADRAO
 
 
 def _data_brasilia(valor: Optional[str]) -> Optional[date]:
@@ -79,6 +80,7 @@ def compute_release_evm(
     sprints: List[Dict[str, Any]],
     releases: List[Dict[str, Any]],
     hoje: Optional[date] = None,
+    modo: str = MODO_PADRAO,
 ) -> Dict[str, Any]:
     """Agile EVM por release (Sulaiman et al., 2006), sem parâmetros de simulação.
 
@@ -88,6 +90,11 @@ def compute_release_evm(
     (ver `pontos_distintos`); RPC = soma dos pontos entregues nessas sprints; PPC = fração
     dos dias da release já decorrida; AC é estimado pela linha de base de custo
     (PPC x BAC), pois não há custo real apurado, então CPI coincide com SPI.
+
+    `modo` escolhe o que são pontos entregues (RPC): só os das histórias aceitas (fechadas)
+    ou também os das que estão em Aceitação PO, com o código entregue e o aceite pendente.
+    Os dois valores ficam sempre no resultado (`rpc_aceito` e `rpc_aguardando`), e só o
+    `rpc`, e tudo que parte dele (APC, EV, SPI, CPI), segue o modo. O PRP não muda.
     """
     hoje = hoje or datetime.now(ZoneInfo(FUSO_BRASILIA)).date()
 
@@ -104,7 +111,10 @@ def compute_release_evm(
         bac = float(release["bac_brl"])
 
         prp, prp_aproximado = pontos_distintos(lista)
-        rpc = sum(float(s.get("delivered_sp", 0.0)) for s in lista)
+        rpc_aceito = sum(float(s.get("delivered_sp", 0.0)) for s in lista)
+        rpc_aguardando = sum(float(s.get("aguardando_pontos", 0.0)) for s in lista)
+        rpc = pontos_entregues(rpc_aceito, rpc_aguardando, modo)
+        em_aceitacao = [i for s in lista for i in s.get("aguardando_issues", [])]
 
         if hoje < inicio:
             status = "Futura"
@@ -129,12 +139,16 @@ def compute_release_evm(
 
         serie = []
         acumulado = 0.0
+        aceito_acum = 0.0
         for s in lista:
-            acumulado += float(s.get("delivered_sp", 0.0))
+            aceito_acum += float(s.get("delivered_sp", 0.0))
+            acumulado += pontos_entregues(
+                float(s.get("delivered_sp", 0.0)), float(s.get("aguardando_pontos", 0.0)), modo)
             fim_sprint = _data_brasilia(s.get("end_at")) or fim
             serie.append({
                 "sprint": s.get("name", "Sprint"),
                 "entregue_acum": acumulado,
+                "aceito_acum": aceito_acum,
                 "restante": max(prp - acumulado, 0.0),
                 "restante_ideal": round(prp * (1 - _ppc(release, min(fim_sprint, fim))), 2),
             })
@@ -149,6 +163,11 @@ def compute_release_evm(
             "prp": prp,
             "prp_aproximado": prp_aproximado,
             "rpc": rpc,
+            "rpc_aceito": rpc_aceito,
+            "rpc_aguardando": rpc_aguardando,
+            "em_aceitacao": em_aceitacao,
+            "aceitacao_fonte": next((s.get("aceitacao_fonte") for s in lista if s.get("aceitacao_fonte")), None),
+            "modo": modo,
             "n_sprints": len(lista),
             "ppc": ppc,
             "apc": apc,
@@ -193,7 +212,9 @@ def _tabela_auditoria(releases: List[Dict[str, Any]]) -> pd.DataFrame:
             "Status": r["status"],
             "BAC (R$)": _brl(r["bac"]),
             "PRP (SP)": _num(r["prp"], 1) + (" (aprox.)" if r["prp_aproximado"] else ""),
-            "RPC (SP)": _num(r["rpc"], 1),
+            "RPC aceito (SP)": _num(r["rpc_aceito"], 1),
+            "Em aceitação (SP)": _num(r["rpc_aguardando"], 1),
+            "RPC considerado (SP)": _num(r["rpc"], 1),
             "PPC": f"{r['ppc'] * 100:.1f}%",
             "APC": "-" if r["apc"] is None else f"{r['apc'] * 100:.1f}%",
             "PV (R$)": _brl(r["pv"]),
