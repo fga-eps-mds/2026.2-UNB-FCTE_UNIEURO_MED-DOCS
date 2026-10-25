@@ -56,7 +56,7 @@ def get_zenhub_sprints_data() -> Tuple[List[Dict[str, Any]], bool]:
             manual = aceitacao.numeros_manuais(
                 load_json_file(os.path.join(RAW_DATA_DIR, ARQUIVO_ACEITACAO_MANUAL))
             )
-            aceitacao.marcar_aguardando(result, manual=manual)
+            aceitacao.marcar_aguardando(result, manual=manual, coletada=data.get("colunas_coletadas"))
             return result, False
 
     # Dados mock de exemplo: sprints de 14 dias com datas, para que o EVM por release

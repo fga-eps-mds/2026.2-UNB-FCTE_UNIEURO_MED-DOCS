@@ -86,7 +86,7 @@ def sprints(pasta: str = RAW_DATA_DIR, modo: str = MODO_ACEITAS) -> List[Dict[st
         })
     resultado = sorted(resultado, key=lambda s: s["inicio"])
     manual = aceitacao.numeros_manuais(qualidade._ler(os.path.join(pasta, "aceitacao_po_manual.json")))
-    aceitacao.marcar_aguardando(resultado, manual=manual)
+    aceitacao.marcar_aguardando(resultado, manual=manual, coletada=dados.get("colunas_coletadas"))
     for sprint in resultado:
         sprint["aguardando"] = sprint["aguardando_pontos"]
         sprint["entregues"] = aceitacao.pontos_entregues(sprint["aceitos"], sprint["aguardando"], modo)

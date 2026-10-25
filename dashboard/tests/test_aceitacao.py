@@ -119,6 +119,46 @@ class MarcarAguardandoTest(unittest.TestCase):
         self.assertEqual(sprints[0]["aguardando_pontos"], 5.0)
 
 
+class SinalDeColetaTest(unittest.TestCase):
+    def test_coluna_lida_e_vazia_e_zero_medido_e_nao_dado_ausente(self):
+        sprints = [sprint("Sprint 3", issue("A", 7, 5, "Em andamento"), issue("B", 8, 8, "Em andamento"))]
+
+        fonte = aceitacao.marcar_aguardando(sprints, coletada=True)
+
+        self.assertEqual(fonte, aceitacao.FONTE_ZENHUB)
+        self.assertEqual(sprints[0]["aguardando_pontos"], 0.0)
+
+    def test_coluna_lida_mas_sem_nenhuma_issue_com_coluna_tambem_e_zero_medido(self):
+        sprints = [sprint("Sprint 3", issue("A", 7, 5), issue("B", 8, 8))]
+
+        fonte = aceitacao.marcar_aguardando(sprints, coletada=True)
+
+        self.assertEqual(fonte, aceitacao.FONTE_ZENHUB)
+
+    def test_o_sinal_de_nao_coletada_vale_mais_que_a_inferencia(self):
+        sprints = [sprint("Sprint 3", issue("A", 7, 5, "Aceitação PO"))]
+
+        fonte = aceitacao.marcar_aguardando(sprints, coletada=False)
+
+        self.assertIsNone(fonte)
+        self.assertEqual(sprints[0]["aguardando_pontos"], 0.0)
+
+    def test_nao_coletada_com_lista_manual_usa_a_lista(self):
+        sprints = [sprint("Sprint 3", issue("A", 7, 5), issue("B", 8, 8))]
+
+        fonte = aceitacao.marcar_aguardando(sprints, manual={8}, coletada=False)
+
+        self.assertEqual(fonte, aceitacao.FONTE_MANUAL)
+        self.assertEqual(sprints[0]["aguardando_pontos"], 8.0)
+
+    def test_sem_o_sinal_a_coluna_e_inferida_pelas_issues(self):
+        com = [sprint("Sprint 3", issue("A", 7, 5, "Aceitação PO"))]
+        sem = [sprint("Sprint 3", issue("A", 7, 5))]
+
+        self.assertEqual(aceitacao.marcar_aguardando(com), aceitacao.FONTE_ZENHUB)
+        self.assertIsNone(aceitacao.marcar_aguardando(sem))
+
+
 class PontosEntreguesTest(unittest.TestCase):
     def test_modo_aceitas_ignora_os_pontos_em_aceitacao(self):
         self.assertEqual(aceitacao.pontos_entregues(10, 5, MODO_ACEITAS), 10.0)

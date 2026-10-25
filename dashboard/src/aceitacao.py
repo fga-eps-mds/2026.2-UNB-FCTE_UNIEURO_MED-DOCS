@@ -42,6 +42,7 @@ def marcar_aguardando(
     sprints: List[Dict[str, Any]],
     colunas: Iterable[str] = COLUNAS_ACEITACAO,
     manual: Optional[Iterable[int]] = None,
+    coletada: Optional[bool] = None,
 ) -> Optional[str]:
     """
     Preenche em cada sprint `aguardando_issues` (as histórias em aceitação, com número,
@@ -50,14 +51,21 @@ def marcar_aguardando(
     Recebe as sprints em ordem cronológica, com `issues` (id, numero, estimativa e, quando a
     coleta trouxe, coluna). Sem coluna coletada nem lista manual, nada é marcado e a fonte é
     None: o painel avisa que o dado não existe, em vez de mostrar zero como se fosse medido.
+
+    `coletada` é o sinal que a coleta grava (`colunas_coletadas`). Com ele, uma coluna Aceitação PO
+    vazia (coluna lida, nenhuma história nela) deixa de parecer coluna nunca coletada. Sem o
+    sinal (JSON antigo), a coluna é dada como coletada se alguma issue traz o campo `coluna`.
     """
     nomes = {_normalizar(c) for c in colunas}
     numeros = set(manual) if manual else None
-    coletou_coluna = any(
-        issue.get("coluna") is not None
-        for sprint in sprints
-        for issue in (sprint.get("issues") or [])
-    )
+    if coletada is not None:
+        coletou_coluna = bool(coletada)
+    else:
+        coletou_coluna = any(
+            issue.get("coluna") is not None
+            for sprint in sprints
+            for issue in (sprint.get("issues") or [])
+        )
     usa_manual = bool(numeros) and not coletou_coluna
     fonte = FONTE_ZENHUB if coletou_coluna else (FONTE_MANUAL if usa_manual else None)
 

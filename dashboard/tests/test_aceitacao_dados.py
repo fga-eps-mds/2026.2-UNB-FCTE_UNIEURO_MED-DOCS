@@ -151,6 +151,27 @@ class SprintsDoDashboardTest(unittest.TestCase):
         self.assertIsNone(lista[0]["aceitacao_fonte"])
         self.assertEqual(lista[0]["aguardando_pontos"], 0.0)
 
+    def test_coluna_lida_e_vazia_nao_vira_aviso_de_nao_coletada(self):
+        sprints = {"Sprint 3": sprint(21, 0, [issue("A", 5, 13, "Em andamento")])}
+        with PastaDeDados(sprints) as dados:
+            dados.gravar("zenhub_analytics.json", {"colunas_coletadas": True, "sprints_velocity": sprints})
+            lista, _ = self.carregar(dados)
+            do_processo = processo.sprints(dados.caminho, MODO_ENTREGUES)
+
+        self.assertEqual(lista[0]["aceitacao_fonte"], "zenhub")
+        self.assertEqual(lista[0]["aguardando_pontos"], 0.0)
+        self.assertEqual(do_processo[0]["aceitacao_fonte"], "zenhub")
+
+    def test_o_sinal_de_nao_coletada_do_json_chega_ao_painel_e_ao_processo(self):
+        sprints = {"Sprint 3": sprint(21, 0, [issue("A", 5, 13, "Aceitação PO")])}
+        with PastaDeDados(sprints) as dados:
+            dados.gravar("zenhub_analytics.json", {"colunas_coletadas": False, "sprints_velocity": sprints})
+            lista, _ = self.carregar(dados)
+            do_processo = processo.sprints(dados.caminho, MODO_ENTREGUES)
+
+        self.assertIsNone(lista[0]["aceitacao_fonte"])
+        self.assertIsNone(do_processo[0]["aceitacao_fonte"])
+
     def test_lista_manual_marca_as_historias_quando_a_coleta_nao_trouxe_a_coluna(self):
         sprints = {"Sprint 3": sprint(21, 0, [issue("A", 5, 13), issue("B", 6, 8)])}
         with PastaDeDados(sprints, manual={"issues": [6]}) as dados:
