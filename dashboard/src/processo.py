@@ -19,8 +19,8 @@ import os
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-from . import qualidade
-from .config import RAW_DATA_DIR
+from . import aceitacao, qualidade
+from .config import MODO_ACEITAS, RAW_DATA_DIR
 from .qualidade import BRASILIA, MARCOS, faixa, media_ponderada
 
 # O processo é avaliado nas releases major, e cada uma vai do fim da anterior até a sua data.
@@ -57,10 +57,14 @@ def release_de(momento: Optional[datetime]) -> Optional[str]:
 # Sprints
 # ---------------------------------------------------------------------------
 
-def sprints(pasta: str = RAW_DATA_DIR) -> List[Dict[str, Any]]:
+def sprints(pasta: str = RAW_DATA_DIR, modo: str = MODO_ACEITAS) -> List[Dict[str, Any]]:
     """
     Sprints com pontos planejados, em ordem. Cada sprint pertence à release em que
     termina. Sprints sem pontos planejados, como as de preparação, ficam de fora.
+
+    `entregues` segue o `modo`: só os pontos das histórias aceitas (fechadas) ou também os
+    das que estão em Aceitação PO (`aguardando`), como em `aceitacao.pontos_entregues`.
+    Os pontos aceitos ficam sempre em `aceitos`.
     """
     dados = qualidade._ler(os.path.join(pasta, "zenhub_analytics.json")) or {}
     resultado = []
@@ -76,10 +80,17 @@ def sprints(pasta: str = RAW_DATA_DIR) -> List[Dict[str, Any]]:
             "fim": fim,
             "release": release_de(fim),
             "planejados": planejados,
-            "entregues": float(info.get("delivered_story_points") or 0),
+            "aceitos": float(info.get("delivered_story_points") or 0),
             "adicionados": float(info.get("points_added") or 0),
+            "issues": info.get("issues") if isinstance(info.get("issues"), list) else None,
         })
-    return sorted(resultado, key=lambda s: s["inicio"])
+    resultado = sorted(resultado, key=lambda s: s["inicio"])
+    manual = aceitacao.numeros_manuais(qualidade._ler(os.path.join(pasta, "aceitacao_po_manual.json")))
+    aceitacao.marcar_aguardando(resultado, manual=manual)
+    for sprint in resultado:
+        sprint["aguardando"] = sprint["aguardando_pontos"]
+        sprint["entregues"] = aceitacao.pontos_entregues(sprint["aceitos"], sprint["aguardando"], modo)
+    return resultado
 
 
 def _entrega(sprint: Dict[str, Any]) -> float:
@@ -139,9 +150,9 @@ def _problemas_de_confiabilidade(avaliacao: Optional[Dict[str, Any]]) -> Optiona
 # Indicadores e comparação
 # ---------------------------------------------------------------------------
 
-def indicadores_por_release(pasta: str = RAW_DATA_DIR) -> Dict[str, Dict[str, Any]]:
-    """P1 a P3 e o índice de processo P de cada release que já tem dados."""
-    lista_sprints = sprints(pasta)
+def indicadores_por_release(pasta: str = RAW_DATA_DIR, modo: str = MODO_ACEITAS) -> Dict[str, Dict[str, Any]]:
+    """P1 a P3 e o índice de processo P de cada release que já tem dados. `modo` escolhe os pontos de P2."""
+    lista_sprints = sprints(pasta, modo)
     execucoes = execucoes_por_release(pasta)
     resultado = {}
     for release in RELEASES:
@@ -163,18 +174,21 @@ def indicadores_por_release(pasta: str = RAW_DATA_DIR) -> Dict[str, Dict[str, An
             "sprints": [s["nome"] for s in da_release],
             "em_andamento": any(s["estado"] != "CLOSED" for s in da_release),
             "execucoes": ci,
+            "pontos_aceitos": sum(s["aceitos"] for s in da_release),
+            "pontos_em_aceitacao": sum(s["aguardando"] for s in da_release),
         }
     return resultado
 
 
-def comparativo(pasta: str = RAW_DATA_DIR) -> Dict[str, Dict[str, Any]]:
+def comparativo(pasta: str = RAW_DATA_DIR, modo: str = MODO_ACEITAS) -> Dict[str, Dict[str, Any]]:
     """
     Velocidade, cobertura e defeitos de cada release, como pede o cronograma do DA-R2.
 
-    A velocidade é a média dos pontos de história aceitos por sprint; os pontos
-    planejados acompanham o número, porque explicam uma velocidade baixa.
+    A velocidade é a média dos pontos de história entregues por sprint (só os aceitos ou, no
+    modo "entregues", também os que estão em Aceitação PO); os pontos planejados acompanham
+    o número, porque explicam uma velocidade baixa.
     """
-    lista_sprints = sprints(pasta)
+    lista_sprints = sprints(pasta, modo)
     marcos = qualidade.por_marco(qualidade.avaliar_repositorio("APP", pasta))
     versoes = {v["versao"]: v for v in qualidade.carregar_versoes("APP", pasta)}
     lista_bugs = bugs(pasta)
@@ -191,6 +205,7 @@ def comparativo(pasta: str = RAW_DATA_DIR) -> Dict[str, Dict[str, Any]]:
             "sprints": [s["nome"] for s in da_release],
             "velocidade": (sum(s["entregues"] for s in da_release) / len(da_release)) if da_release else None,
             "planejados_por_sprint": (sum(s["planejados"] for s in da_release) / len(da_release)) if da_release else None,
+            "pontos_em_aceitacao": sum(s["aguardando"] for s in da_release),
             "cobertura": cobertura,
             "bugs_abertos_na_release": None if lista_bugs is None else len(
                 [b for b in lista_bugs if b["aberta_em"] and b["aberta_em"] <= fim

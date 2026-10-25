@@ -4,8 +4,8 @@ import glob
 import statistics
 from datetime import datetime
 from typing import Dict, List, Any, Tuple, Optional
-from . import processo, qualidade
-from .config import RAW_DATA_DIR
+from . import aceitacao, processo, qualidade
+from .config import MODO_PADRAO, RAW_DATA_DIR
 
 
 def load_json_file(file_path: str) -> Any:
@@ -20,10 +20,16 @@ def load_json_file(file_path: str) -> Any:
         return None
 
 
+ARQUIVO_ACEITACAO_MANUAL = "aceitacao_po_manual.json"
+
+
 def get_zenhub_sprints_data() -> Tuple[List[Dict[str, Any]], bool]:
     """
     Carrega dados das sprints do ZenHub ou dados estruturados mock de fallback.
     Retorna uma tupla (dados, is_mock).
+
+    Cada sprint real traz também `aguardando_pontos` e `aguardando_issues`: as histórias
+    entregues que estão na coluna Aceitação PO (ver aceitacao.py), contadas uma vez só.
     """
     zh_path = os.path.join(RAW_DATA_DIR, "zenhub_analytics.json")
     data = load_json_file(zh_path)
@@ -47,6 +53,10 @@ def get_zenhub_sprints_data() -> Tuple[List[Dict[str, Any]], bool]:
                     sprint["issues"] = info["issues"]
                     sprint["issues_total"] = info.get("issues_total")
                 result.append(sprint)
+            manual = aceitacao.numeros_manuais(
+                load_json_file(os.path.join(RAW_DATA_DIR, ARQUIVO_ACEITACAO_MANUAL))
+            )
+            aceitacao.marcar_aguardando(result, manual=manual)
             return result, False
 
     # Dados mock de exemplo: sprints de 14 dias com datas, para que o EVM por release
@@ -56,6 +66,7 @@ def get_zenhub_sprints_data() -> Tuple[List[Dict[str, Any]], bool]:
             "name": nome, "delivered_sp": entregues, "points_added": 0.0,
             "total_points": total,
             "status": status, "start_at": inicio, "end_at": fim,
+            "aguardando_pontos": 0.0, "aguardando_issues": [], "aceitacao_fonte": None,
         }
 
     mock_data = [
@@ -287,12 +298,12 @@ def _ou_padrao(rotulo, calcular, padrao):
         return padrao
 
 
-def get_qrapids_data(pasta: str = RAW_DATA_DIR) -> Dict[str, Any]:
+def get_qrapids_data(pasta: str = RAW_DATA_DIR, modo: str = MODO_PADRAO) -> Dict[str, Any]:
     """
     Q-Rapids do produto, indicadores de processo e comparação R1 x R2 do DA-R2.
 
     Os cálculos ficam em `qualidade.py` e `processo.py`; aqui só se lê e se protege a
-    aba. Não há dado simulado: sem os arquivos, `disponivel` é False e as listas
+    aba. `modo` escolhe se os pontos entregues do processo incluem as histórias em Aceitação PO. Não há dado simulado: sem os arquivos, `disponivel` é False e as listas
     voltam vazias, porque um índice inventado seria lido como resultado real.
     """
     produto = {}
@@ -304,8 +315,8 @@ def get_qrapids_data(pasta: str = RAW_DATA_DIR) -> Dict[str, Any]:
             "quedas": _ou_padrao(f"quedas {repo}", lambda: qualidade.quedas(avaliacoes), []),
         }
 
-    indicadores = _ou_padrao("indicadores de processo", lambda: processo.indicadores_por_release(pasta), {})
-    comparativo = _ou_padrao("comparativo R1 x R2", lambda: processo.comparativo(pasta), {})
+    indicadores = _ou_padrao("indicadores de processo", lambda: processo.indicadores_por_release(pasta, modo), {})
+    comparativo = _ou_padrao("comparativo R1 x R2", lambda: processo.comparativo(pasta, modo), {})
     disponivel = bool(
         indicadores or comparativo or any(item["avaliacoes"] for item in produto.values())
     )
