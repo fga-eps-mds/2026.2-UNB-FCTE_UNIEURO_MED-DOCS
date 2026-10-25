@@ -3,6 +3,7 @@ import json
 import glob
 from datetime import datetime
 from typing import Dict, List, Any, Tuple, Optional
+from . import processo, qualidade
 from .config import RAW_DATA_DIR
 
 
@@ -254,3 +255,42 @@ def get_latest_collection_timestamp() -> Optional[datetime]:
             except (TypeError, ValueError):
                 continue
     return max(datas) if datas else None
+
+
+def _ou_padrao(rotulo, calcular, padrao):
+    """Executa o cálculo e devolve o padrão se ele falhar, para a aba não cair com um .json malformado."""
+    try:
+        return calcular()
+    except Exception as e:
+        print(f"[DATA LAYER] Falha ao calcular {rotulo}: {e}")
+        return padrao
+
+
+def get_qrapids_data(pasta: str = RAW_DATA_DIR) -> Dict[str, Any]:
+    """
+    Q-Rapids do produto, indicadores de processo e comparação R1 x R2 do DA-R2.
+
+    Os cálculos ficam em `qualidade.py` e `processo.py`; aqui só se lê e se protege a
+    aba. Não há dado simulado: sem os arquivos, `disponivel` é False e as listas
+    voltam vazias, porque um índice inventado seria lido como resultado real.
+    """
+    produto = {}
+    for repo in ("APP", "IA"):
+        avaliacoes = _ou_padrao(f"Q-Rapids {repo}", lambda: qualidade.avaliar_repositorio(repo, pasta), [])
+        produto[repo] = {
+            "avaliacoes": avaliacoes,
+            "marcos": _ou_padrao(f"marcos {repo}", lambda: qualidade.por_marco(avaliacoes), {}),
+            "quedas": _ou_padrao(f"quedas {repo}", lambda: qualidade.quedas(avaliacoes), []),
+        }
+
+    indicadores = _ou_padrao("indicadores de processo", lambda: processo.indicadores_por_release(pasta), {})
+    comparativo = _ou_padrao("comparativo R1 x R2", lambda: processo.comparativo(pasta), {})
+    disponivel = bool(
+        indicadores or comparativo or any(item["avaliacoes"] for item in produto.values())
+    )
+    return {
+        "disponivel": disponivel,
+        "produto": produto,
+        "processo": indicadores,
+        "comparativo": comparativo,
+    }
