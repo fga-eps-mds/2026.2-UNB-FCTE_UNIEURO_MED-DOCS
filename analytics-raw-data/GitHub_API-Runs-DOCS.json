@@ -1,16 +1,64 @@
 {
   "repositorio": "DOCS",
-  "coletado_em": "2026-10-25T01:24:54Z",
+  "coletado_em": "2026-10-25T02:49:52Z",
   "workflow_runs": [
     {
-      "id": 40150515677,
+      "id": 40155922975,
       "name": "Coleta de métricas",
       "head_branch": "main",
       "event": "workflow_dispatch",
       "status": "in_progress",
       "conclusion": null,
+      "created_at": "2026-10-25T02:49:38Z",
+      "updated_at": "2026-10-25T02:49:43Z",
+      "run_number": 31,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/40155922975"
+    },
+    {
+      "id": 40155245902,
+      "name": "Deploy to GitHub Pages",
+      "head_branch": "fix/dashboard-pontos-em-aceitacao",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-25T02:38:54Z",
+      "updated_at": "2026-10-25T02:39:14Z",
+      "run_number": 177,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/40155245902"
+    },
+    {
+      "id": 40155014433,
+      "name": "Deploy to GitHub Pages",
+      "head_branch": "main",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-25T02:35:17Z",
+      "updated_at": "2026-10-25T02:35:58Z",
+      "run_number": 176,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/40155014433"
+    },
+    {
+      "id": 40154926927,
+      "name": "Deploy to GitHub Pages",
+      "head_branch": "fix/76-evm-por-release",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-25T02:33:57Z",
+      "updated_at": "2026-10-25T02:34:16Z",
+      "run_number": 175,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/40154926927"
+    },
+    {
+      "id": 40150515677,
+      "name": "Coleta de métricas",
+      "head_branch": "main",
+      "event": "workflow_dispatch",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-10-25T01:24:39Z",
-      "updated_at": "2026-10-25T01:24:43Z",
+      "updated_at": "2026-10-25T01:25:36Z",
       "run_number": 30,
       "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/40150515677"
     },

@@ -1,6 +1,6 @@
 {
   "workspace": "UNB/FCTE-UNIEURO/MED",
-  "coletado_em": "2026-10-25T01:25:31Z",
+  "coletado_em": "2026-10-25T02:50:27Z",
   "sprints_velocity": {
     "Preparação 1": {
       "delivered_story_points": 0.0,
@@ -11,7 +11,8 @@
       "total_points": 0.0,
       "issues_total": 0,
       "issues_closed": 0,
-      "issues_sem_estimativa": 0
+      "issues_sem_estimativa": 0,
+      "issues": []
     },
     "Preparação 2": {
       "delivered_story_points": 0.0,
@@ -22,7 +23,44 @@
       "total_points": 0.0,
       "issues_total": 7,
       "issues_closed": 1,
-      "issues_sem_estimativa": 7
+      "issues_sem_estimativa": 7,
+      "issues": [
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
+          "numero": 4,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQwOA",
+          "numero": 6,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQxOA",
+          "numero": 7,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQyMQ",
+          "numero": 8,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzUwNQ",
+          "numero": 9,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzUzMA",
+          "numero": 10,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzU3Ng",
+          "numero": 11,
+          "estimativa": null
+        }
+      ]
     },
     "Sprint 1": {
       "delivered_story_points": 0.0,
@@ -33,7 +71,149 @@
       "total_points": 21.0,
       "issues_total": 28,
       "issues_closed": 19,
-      "issues_sem_estimativa": 26
+      "issues_sem_estimativa": 26,
+      "issues": [
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
+          "numero": 4,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQwOA",
+          "numero": 6,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQxOA",
+          "numero": 7,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQyMQ",
+          "numero": 8,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzUwNQ",
+          "numero": 9,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzU3Ng",
+          "numero": 11,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODc2NTc4Nw",
+          "numero": 14,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg0NQ",
+          "numero": 5,
+          "estimativa": 13.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1MA",
+          "numero": 6,
+          "estimativa": 8.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTUxODM2MQ",
+          "numero": 20,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTcyMzUwNA",
+          "numero": 23,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk0NDYxNQ",
+          "numero": 24,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk0NjE5Mw",
+          "numero": 25,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk0NjIyNg",
+          "numero": 26,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk0ODM5Nw",
+          "numero": 27,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk1ODIxMA",
+          "numero": 28,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk1ODI1OA",
+          "numero": 29,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk1ODMwNg",
+          "numero": 30,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk1ODM0OQ",
+          "numero": 31,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk1ODUxNg",
+          "numero": 32,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDE3OTI4MQ",
+          "numero": 37,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDE3OTMzMg",
+          "numero": 40,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDI3MzU1Mw",
+          "numero": 42,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDMxMTg0NQ",
+          "numero": 44,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDMxMTkxMw",
+          "numero": 46,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDQ4NzM3NA",
+          "numero": 50,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzMzc5MQ",
+          "numero": 51,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTAzMDQyMg",
+          "numero": 63,
+          "estimativa": null
+        }
+      ]
     },
     "Sprint 2": {
       "delivered_story_points": 0.0,
@@ -44,7 +224,214 @@
       "total_points": 40.0,
       "issues_total": 41,
       "issues_closed": 11,
-      "issues_sem_estimativa": 36
+      "issues_sem_estimativa": 36,
+      "issues": [
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
+          "numero": 4,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQwOA",
+          "numero": 6,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQxOA",
+          "numero": 7,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQyMQ",
+          "numero": 8,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzUwNQ",
+          "numero": 9,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg0NQ",
+          "numero": 5,
+          "estimativa": 13.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1MA",
+          "numero": 6,
+          "estimativa": 8.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1MQ",
+          "numero": 7,
+          "estimativa": 8.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4Mw",
+          "numero": 2,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4OA",
+          "numero": 6,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDE3OTMxMA",
+          "numero": 10,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzNzg1Mg",
+          "numero": 21,
+          "estimativa": 3.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzAwMQ",
+          "numero": 68,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzAwMw",
+          "numero": 69,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA0NA",
+          "numero": 40,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA2NQ",
+          "numero": 41,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA3OA",
+          "numero": 70,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4MA",
+          "numero": 71,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4MQ",
+          "numero": 72,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4Mw",
+          "numero": 73,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4NQ",
+          "numero": 74,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4Ng",
+          "numero": 75,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4OA",
+          "numero": 76,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5MA",
+          "numero": 77,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5MQ",
+          "numero": 78,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5Mg",
+          "numero": 79,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5NA",
+          "numero": 80,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5Ng",
+          "numero": 81,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5Nw",
+          "numero": 42,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5OQ",
+          "numero": 43,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgyMDUxMQ",
+          "numero": 82,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE2OA",
+          "numero": 46,
+          "estimativa": 8.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NA",
+          "numero": 83,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NQ",
+          "numero": 84,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjA3NjQ2Mw",
+          "numero": 60,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjEzMjAzNQ",
+          "numero": 62,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjEzMjA0Mg",
+          "numero": 63,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjEzMjA0Nw",
+          "numero": 89,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjE2OTg3MQ",
+          "numero": 91,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjMyMzkxNg",
+          "numero": 69,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjMzNTkxMQ",
+          "numero": 93,
+          "estimativa": null
+        }
+      ]
     },
     "Sprint 3": {
       "delivered_story_points": 0.0,
@@ -53,9 +440,291 @@
       "start_at": "2026-10-12T03:59:00Z",
       "end_at": "2026-10-26T02:59:00Z",
       "total_points": 74.0,
-      "issues_total": 54,
-      "issues_closed": 22,
-      "issues_sem_estimativa": 45
+      "issues_total": 56,
+      "issues_closed": 23,
+      "issues_sem_estimativa": 47,
+      "issues": [
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
+          "numero": 4,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQxOA",
+          "numero": 7,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQyMQ",
+          "numero": 8,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzUwNQ",
+          "numero": 9,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg0NQ",
+          "numero": 5,
+          "estimativa": 13.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1MA",
+          "numero": 6,
+          "estimativa": 8.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1MQ",
+          "numero": 7,
+          "estimativa": 8.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1Mw",
+          "numero": 8,
+          "estimativa": 8.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1NA",
+          "numero": 9,
+          "estimativa": 8.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg2MA",
+          "numero": 10,
+          "estimativa": 13.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg2NA",
+          "numero": 11,
+          "estimativa": 5.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4Mw",
+          "numero": 2,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4Ng",
+          "numero": 4,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4OA",
+          "numero": 6,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzMzc5MQ",
+          "numero": 51,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzNzg1Mg",
+          "numero": 21,
+          "estimativa": 3.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA3OA",
+          "numero": 70,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4MA",
+          "numero": 71,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4MQ",
+          "numero": 72,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4Mw",
+          "numero": 73,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4NQ",
+          "numero": 74,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4Ng",
+          "numero": 75,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4OA",
+          "numero": 76,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5MA",
+          "numero": 77,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5MQ",
+          "numero": 78,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5NA",
+          "numero": 80,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5Ng",
+          "numero": 81,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5OQ",
+          "numero": 43,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzEwMA",
+          "numero": 44,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzEwMQ",
+          "numero": 45,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE2OA",
+          "numero": 46,
+          "estimativa": 8.0
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NA",
+          "numero": 83,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NQ",
+          "numero": 84,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjEzMjAzNQ",
+          "numero": 62,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjEzMjA0Mg",
+          "numero": 63,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjEzMjA0Nw",
+          "numero": 89,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjE2OTg3MQ",
+          "numero": 91,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjMyNjExNA",
+          "numero": 70,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjMzNTkxMQ",
+          "numero": 93,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjMzNjU4OA",
+          "numero": 94,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjQyOTU0NQ",
+          "numero": 13,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjQzMTgzNw",
+          "numero": 71,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjQzNzYxMw",
+          "numero": 72,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjQzODk1Mg",
+          "numero": 73,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjUwNzM4Mg",
+          "numero": 77,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjU2NzkxNA",
+          "numero": 78,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjg0MTUzMg",
+          "numero": 100,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjg5MDgyMA",
+          "numero": 80,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzE1NzE3OA",
+          "numero": 103,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzE1NzIyMw",
+          "numero": 104,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzE2OTY5MA",
+          "numero": 82,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzE2OTY5Mg",
+          "numero": 83,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzE3MDA4Mg",
+          "numero": 105,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzE4NjkxNQ",
+          "numero": 86,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzIxMzQ2NQ",
+          "numero": 87,
+          "estimativa": null
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzIzNjI1OA",
+          "numero": 90,
+          "estimativa": null
+        }
+      ]
     },
     "Sprint 4": {
       "delivered_story_points": 0.0,
@@ -66,7 +735,8 @@
       "total_points": 0.0,
       "issues_total": 0,
       "issues_closed": 0,
-      "issues_sem_estimativa": 0
+      "issues_sem_estimativa": 0,
+      "issues": []
     },
     "Sprint 5": {
       "delivered_story_points": 0.0,
@@ -77,7 +747,8 @@
       "total_points": 0.0,
       "issues_total": 0,
       "issues_closed": 0,
-      "issues_sem_estimativa": 0
+      "issues_sem_estimativa": 0,
+      "issues": []
     },
     "Sprint 6": {
       "delivered_story_points": 0.0,
@@ -88,7 +759,8 @@
       "total_points": 0.0,
       "issues_total": 0,
       "issues_closed": 0,
-      "issues_sem_estimativa": 0
+      "issues_sem_estimativa": 0,
+      "issues": []
     },
     "Sprint: Dec 7 - Dec 20, 2026": {
       "delivered_story_points": 0.0,
@@ -99,7 +771,8 @@
       "total_points": 0.0,
       "issues_total": 0,
       "issues_closed": 0,
-      "issues_sem_estimativa": 0
+      "issues_sem_estimativa": 0,
+      "issues": []
     },
     "Sprint: Dec 21 - Jan 3, 2027": {
       "delivered_story_points": 0.0,
@@ -110,7 +783,8 @@
       "total_points": 0.0,
       "issues_total": 0,
       "issues_closed": 0,
-      "issues_sem_estimativa": 0
+      "issues_sem_estimativa": 0,
+      "issues": []
     },
     "Sprint: Jan 4 - Jan 17, 2027": {
       "delivered_story_points": 0.0,
@@ -121,7 +795,8 @@
       "total_points": 0.0,
       "issues_total": 0,
       "issues_closed": 0,
-      "issues_sem_estimativa": 0
+      "issues_sem_estimativa": 0,
+      "issues": []
     },
     "Sprint: Jan 18 - Jan 31, 2027": {
       "delivered_story_points": 0.0,
@@ -132,7 +807,8 @@
       "total_points": 0.0,
       "issues_total": 0,
       "issues_closed": 0,
-      "issues_sem_estimativa": 0
+      "issues_sem_estimativa": 0,
+      "issues": []
     }
   }
 }

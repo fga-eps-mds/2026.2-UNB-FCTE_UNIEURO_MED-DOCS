@@ -1,7 +1,7 @@
 {
   "repositorio": "APP",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-APP",
-  "coletado_em": "2026-10-25T01:25:15Z",
+  "coletado_em": "2026-10-25T02:50:11Z",
   "branches": {
     "main": [
       {
@@ -119,11 +119,11 @@
         "fechado_em": null,
         "impactos": [
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           }
         ]
@@ -695,11 +695,11 @@
         "fechado_em": null,
         "impactos": [
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           }
         ]

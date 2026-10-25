@@ -1,7 +1,43 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-10-25T01:24:58Z",
+  "coletado_em": "2026-10-25T02:49:56Z",
   "workflow_runs": [
+    {
+      "id": 40153853458,
+      "name": "Build",
+      "head_branch": "feat/21-persistencia-consentimento",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-25T02:16:51Z",
+      "updated_at": "2026-10-25T02:19:30Z",
+      "run_number": 105,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/40153853458"
+    },
+    {
+      "id": 40152743277,
+      "name": "Build",
+      "head_branch": "chore/45-release-main-apk",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-25T01:59:40Z",
+      "updated_at": "2026-10-25T02:02:11Z",
+      "run_number": 104,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/40152743277"
+    },
+    {
+      "id": 40152250905,
+      "name": "Build",
+      "head_branch": "feat/21-assinatura-termo",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-25T01:51:39Z",
+      "updated_at": "2026-10-25T01:53:28Z",
+      "run_number": 103,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/40152250905"
+    },
     {
       "id": 40147905118,
       "name": "Build",
