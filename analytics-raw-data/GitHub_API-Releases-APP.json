@@ -1,6 +1,6 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-10-25T09:15:27Z",
+  "coletado_em": "2026-10-26T02:13:21Z",
   "releases": [
     {
       "tag": "v0.0.1",
@@ -114,6 +114,36 @@
       "tag": "v1.2.6",
       "commit": "dbebae4747c2bf2843ace77ca22f6b868a101fd1",
       "publicada_em": "2026-10-24T01:14:57Z",
+      "branch": "develop"
+    },
+    {
+      "tag": "v1.2.7",
+      "commit": "683da11d36558ff58a883abda86d34527391513e",
+      "publicada_em": "2026-10-25T15:47:54Z",
+      "branch": "develop"
+    },
+    {
+      "tag": "v1.2.8",
+      "commit": "fbd46bd5ef3dc6bcf086708444c87749dd67652c",
+      "publicada_em": "2026-10-25T16:41:06Z",
+      "branch": "develop"
+    },
+    {
+      "tag": "v1.2.9",
+      "commit": "b18fb6c09b867c0629cdaa8d6d4844ed493a7248",
+      "publicada_em": "2026-10-25T17:32:21Z",
+      "branch": "develop"
+    },
+    {
+      "tag": "v1.2.10",
+      "commit": "cd9ed2face8283b27f623beceb69c8665ff85bae",
+      "publicada_em": "2026-10-25T17:43:49Z",
+      "branch": "develop"
+    },
+    {
+      "tag": "v1.2.11",
+      "commit": "3b58d9b7f617a889075627c4790df5065d9fa28f",
+      "publicada_em": "2026-10-25T21:15:11Z",
       "branch": "develop"
     }
   ]
