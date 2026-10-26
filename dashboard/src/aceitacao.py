@@ -14,6 +14,10 @@ Fontes, da mais confiável à menos:
 
 Uma história que passa de uma sprint para a seguinte aparece nas duas. Ela conta uma vez,
 na última sprint em que aparece.
+
+A coluna também guarda pull requests (já mesclados, por exemplo), que o ZenHub trata como
+issues. Eles não têm estimativa, então só entra a issue com estimativa maior que zero: é o
+que distingue uma história de um PR sem depender de rótulo.
 """
 
 import unicodedata
@@ -31,7 +35,15 @@ def _normalizar(texto: Any) -> str:
     return " ".join(sem_acento.casefold().split())
 
 
+def _e_historia(issue: Dict[str, Any]) -> bool:
+    """Histórias têm estimativa em pontos; PRs e tarefas sem estimativa ficam de fora da conta."""
+    estimativa = issue.get("estimativa")
+    return isinstance(estimativa, (int, float)) and not isinstance(estimativa, bool) and estimativa > 0
+
+
 def _esta_em_aceitacao(issue: Dict[str, Any], colunas: Set[str], manual: Optional[Set[int]]) -> bool:
+    if not _e_historia(issue):
+        return False
     coluna = issue.get("coluna")
     if coluna and _normalizar(coluna) in colunas:
         return True

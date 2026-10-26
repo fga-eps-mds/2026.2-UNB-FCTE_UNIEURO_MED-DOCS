@@ -60,13 +60,31 @@ class MarcarAguardandoTest(unittest.TestCase):
 
         self.assertEqual(sum(s["aguardando_pontos"] for s in sprints), 8.0)
 
-    def test_historia_sem_estimativa_vale_zero(self):
-        sprints = [sprint("Sprint 3", issue("A", 7, None, "Aceitação PO"))]
+    def test_item_sem_estimativa_nao_conta_como_historia(self):
+        sprints = [sprint("Sprint 3", issue("A", 7, None, "Aceitação PO"), issue("B", 8, 0, "Aceitação PO"),
+                          issue("C", 9, 5, "Aceitação PO"))]
+
+        fonte = aceitacao.marcar_aguardando(sprints)
+
+        self.assertEqual(fonte, aceitacao.FONTE_ZENHUB)
+        self.assertEqual([i["numero"] for i in sprints[0]["aguardando_issues"]], [9])
+        self.assertEqual(sprints[0]["aguardando_pontos"], 5.0)
+
+    def test_pull_requests_na_coluna_nao_entram_na_contagem(self):
+        sprints = [sprint("Sprint 3", issue("A", 5, 13, "Aceitação PO"), issue("P1", 69, None, "Aceitação PO"),
+                          issue("P2", 70, None, "Aceitação PO"))]
 
         aceitacao.marcar_aguardando(sprints)
 
-        self.assertEqual(sprints[0]["aguardando_pontos"], 0.0)
         self.assertEqual(len(sprints[0]["aguardando_issues"]), 1)
+        self.assertEqual(sprints[0]["aguardando_pontos"], 13.0)
+
+    def test_lista_manual_tambem_ignora_o_que_nao_tem_estimativa(self):
+        sprints = [sprint("Sprint 3", issue("A", 7, 5), issue("B", 7, None))]
+
+        aceitacao.marcar_aguardando(sprints, manual={7})
+
+        self.assertEqual([i["id"] for i in sprints[0]["aguardando_issues"]], ["A"])
 
     def test_sem_coluna_coletada_nada_e_marcado_e_a_fonte_fica_vazia(self):
         sprints = [sprint("Sprint 3", issue("A", 7, 5), issue("B", 8, 8))]
