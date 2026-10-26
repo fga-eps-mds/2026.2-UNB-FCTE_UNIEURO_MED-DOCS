@@ -170,5 +170,19 @@ class TabelasDeProcessoTest(unittest.TestCase):
         self.assertTrue(all(isinstance(celula, str) for celula in tabela.to_numpy().ravel()))
 
 
+class AvisoModoEntreguesTest(unittest.TestCase):
+    def test_diz_os_pontos_em_aceitacao_e_os_ja_aceitos(self):
+        texto = templates.aviso_modo_entregues("Aceitas + em Aceitação PO", 8.0, 45.0, 5)
+
+        self.assertIn("**45 SP** de 5 história(s) em Aceitação PO", texto)
+        self.assertIn("Já aceitos: 8 SP", texto)
+
+    def test_explica_que_a_historia_conta_na_ultima_sprint(self):
+        texto = templates.aviso_modo_entregues("Aceitas + em Aceitação PO", 0.0, 45.0, 5)
+
+        self.assertIn("última sprint em que aparece", texto)
+        self.assertIn("velocity daquela sprint anterior fica mais baixa", texto)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -154,3 +154,15 @@ def tabela_comparativo(comparativo: Dict[str, Dict[str, Any]]) -> pd.DataFrame:
             "Defeito provável": _inteiro(item["arquivos_com_defeito_provavel"]),
         })
     return pd.DataFrame(linhas)
+
+
+def aviso_modo_entregues(rotulo: str, aceitos: float, aguardando: float, historias: int) -> str:
+    """Texto do modo com Aceitação PO: o que entra, o que já foi aceito e por que a velocity das sprints muda."""
+    return (
+        f"**Modo: {rotulo}.** Os pontos entregues desta release incluem "
+        f"**{aguardando:.0f} SP** de {historias} história(s) em Aceitação PO, com o código "
+        f"entregue e o aceite pendente. Já aceitos: {aceitos:.0f} SP. "
+        "Cada história conta na última sprint em que aparece: as entregues numa sprint anterior e "
+        "ainda sem aceite somam na sprint atual, e a velocity daquela sprint anterior fica mais baixa. "
+        "Para ver só as aceitas, mude a opção na barra lateral."
+    )

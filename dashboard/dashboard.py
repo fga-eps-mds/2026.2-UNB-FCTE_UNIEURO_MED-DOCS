@@ -31,6 +31,7 @@ from src.metrics import compute_release_evm, process_risks_summary
 from src.processo import INDICADORES
 from src.qualidade import BRASILIA, FAIXA_ADEQUADA, FAIXA_ATENCAO, METRICAS, QUEDA_RELEVANTE, faixa
 from src.templates import (
+    aviso_modo_entregues,
     arquivos_fora_do_limiar,
     cor_da_faixa,
     formatar_indice,
@@ -181,12 +182,7 @@ def _render_aviso_do_modo(r: dict, modo: str):
             "valor: só as histórias aceitas. Ela passa a aparecer na próxima coleta de métricas."
         )
     elif modo == MODO_ENTREGUES:
-        st.info(
-            f"**Modo: {ROTULOS_MODO[modo]}.** Os pontos entregues desta release incluem "
-            f"**{r['rpc_aguardando']:.0f} SP** de {em_aceitacao} história(s) em Aceitação PO, com o código "
-            f"entregue e o aceite pendente. Já aceitos: {r['rpc_aceito']:.0f} SP. Para ver só as aceitas, "
-            "mude a opção na barra lateral."
-        )
+        st.info(aviso_modo_entregues(ROTULOS_MODO[modo], r["rpc_aceito"], r["rpc_aguardando"], em_aceitacao))
     else:
         st.caption(
             f"Modo: {_rotulo_em_frase(modo)}. {r['rpc_aguardando']:.0f} SP de {em_aceitacao} história(s) "
