@@ -1,16 +1,28 @@
 {
   "repositorio": "DOCS",
-  "coletado_em": "2026-10-26T05:45:18Z",
+  "coletado_em": "2026-10-26T09:26:07Z",
   "workflow_runs": [
+    {
+      "id": 40299479824,
+      "name": "Coleta de métricas",
+      "head_branch": "main",
+      "event": "schedule",
+      "status": "in_progress",
+      "conclusion": null,
+      "created_at": "2026-10-26T09:25:52Z",
+      "updated_at": "2026-10-26T09:25:56Z",
+      "run_number": 35,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/40299479824"
+    },
     {
       "id": 40275909104,
       "name": "Coleta de métricas",
       "head_branch": "main",
       "event": "workflow_dispatch",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-10-26T05:45:05Z",
-      "updated_at": "2026-10-26T05:45:09Z",
+      "updated_at": "2026-10-26T05:45:59Z",
       "run_number": 34,
       "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/40275909104"
     },
