@@ -5,7 +5,7 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 
 from .aceitacao import pontos_entregues
-from .config import FUSO_BRASILIA, MODO_PADRAO
+from .config import FAIXAS_RISCO, FUSO_BRASILIA, MODO_PADRAO
 
 
 def _data_brasilia(valor: Optional[str]) -> Optional[date]:
@@ -229,20 +229,21 @@ def _tabela_auditoria(releases: List[Dict[str, Any]]) -> pd.DataFrame:
     return pd.DataFrame(linhas)
 
 
-def process_risks_summary(risks: List[Dict[str, Any]]) -> pd.DataFrame:
-    """Calcula o índice de severidade e formata a tabela de riscos."""
+def classificar_risco(severidade: int) -> str:
+    """Grau do risco pela escala única do plano (FAIXAS_RISCO): Baixo, Médio ou Elevado."""
+    for _minimo, maximo, grau in FAIXAS_RISCO:
+        if severidade <= maximo:
+            return grau
+    return FAIXAS_RISCO[-1][2]
+
+
+def process_risks_summary(risks: List[Dict[str, Any]],
+                          ocorrencias: Optional[List[Dict[str, Any]]] = None) -> pd.DataFrame:
+    """Calcula a severidade (P×I), o grau pela escala do plano e a situação de cada risco."""
+    ocorridos = {o["risco"] for o in (ocorrencias or [])}
     rows = []
     for r in risks:
         score = r["probabilidade"] * r["impacto"]
-        if score >= 16:
-            nivel = "Crítico"
-        elif score >= 10:
-            nivel = "Alto"
-        elif score >= 5:
-            nivel = "Médio"
-        else:
-            nivel = "Baixo"
-
         rows.append({
             "ID": r["id"],
             "Título do Risco": r["titulo"],
@@ -250,7 +251,44 @@ def process_risks_summary(risks: List[Dict[str, Any]]) -> pd.DataFrame:
             "Probabilidade (1-5)": r["probabilidade"],
             "Impacto (1-5)": r["impacto"],
             "Severidade (P×I)": score,
-            "Nível": nivel,
+            "Grau": classificar_risco(score),
+            "Situação": "Concretizado" if r["id"] in ocorridos else "Monitorado",
             "Ação Preventiva / Mitigatória": r.get("acao", "-")
         })
     return pd.DataFrame(rows)
+
+
+def revisoes_realizadas(revisoes: List[Dict[str, Any]], hoje: Optional[date] = None) -> List[Dict[str, Any]]:
+    """
+    Revisões de riscos de sprints que já aconteceram, em ordem de data.
+
+    Uma revisão só existe depois da sprint review: entrada com data futura (ou sem data)
+    é descartada, para que o histórico nunca mostre sprints que ainda não ocorreram.
+    """
+    hoje = hoje or datetime.now(ZoneInfo(FUSO_BRASILIA)).date()
+    validas = []
+    for rev in revisoes or []:
+        try:
+            quando = date.fromisoformat(str(rev.get("data")))
+        except ValueError:
+            continue
+        if quando <= hoje:
+            validas.append(rev)
+    return sorted(validas, key=lambda rev: rev["data"])
+
+
+def tabela_historico_riscos(revisoes: List[Dict[str, Any]]) -> pd.DataFrame:
+    """Severidade e grau de cada risco em cada revisão realizada (linhas: riscos; colunas: sprints)."""
+    ids = sorted({rid for rev in revisoes for rid in rev.get("riscos", {})})
+    linhas = []
+    for rid in ids:
+        linha = {"ID": rid}
+        for rev in revisoes:
+            pi = rev.get("riscos", {}).get(rid)
+            if pi is None:
+                linha[rev["sprint"]] = "—"
+                continue
+            sev = pi["probabilidade"] * pi["impacto"]
+            linha[rev["sprint"]] = f"{pi['probabilidade']}×{pi['impacto']} = {sev} ({classificar_risco(sev)})"
+        linhas.append(linha)
+    return pd.DataFrame(linhas)

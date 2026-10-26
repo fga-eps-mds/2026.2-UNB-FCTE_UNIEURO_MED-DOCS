@@ -15,6 +15,9 @@ from src.config import (
     RELEASES,
     ANALYSIS_NOTES_DIR,
     ROTULOS_MODO,
+    ROTULOS_IMPACTO,
+    ROTULOS_PROBABILIDADE,
+    FAIXAS_RISCO,
     THEME_COLORS,
     REPOS_CONFIG
 )
@@ -22,12 +25,18 @@ from src.theme import apply_custom_theme, render_kpi, get_plotly_layout
 from src.data_layer import (
     get_zenhub_sprints_data,
     get_risks_data,
+    get_risks_history,
     get_github_runs_data,
     get_sonar_metrics_data,
     get_qrapids_data,
     get_latest_collection_timestamp
 )
-from src.metrics import compute_release_evm, process_risks_summary
+from src.metrics import (
+    compute_release_evm,
+    process_risks_summary,
+    revisoes_realizadas,
+    tabela_historico_riscos,
+)
 from src.processo import INDICADORES
 from src.qualidade import BRASILIA, FAIXA_ADEQUADA, FAIXA_ATENCAO, METRICAS, QUEDA_RELEVANTE, faixa
 from src.templates import (
@@ -540,20 +549,32 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str =
         st.success(f"Parecer registrado em: {os.path.basename(arquivo_nota)}")
 
 
-def render_risks_tab(risks_raw: list, is_mock: bool):
-    """Renderiza a aba de Gestão de Riscos."""
+def _data_br(iso: str) -> str:
+    """AAAA-MM-DD para DD/MM/AAAA."""
+    try:
+        return datetime.fromisoformat(iso).strftime("%d/%m/%Y")
+    except (TypeError, ValueError):
+        return str(iso)
+
+
+def render_risks_tab(risks_raw: list, is_mock: bool, historico: dict = None):
+    """Renderiza a aba de Gestão de Riscos com a escala única do plano de riscos."""
     if is_mock:
         render_mock_alert("Matriz de Riscos", "riscos_analytics.json")
 
+    historico = historico or {"revisoes": [], "ocorrencias": []}
+    ocorrencias = historico.get("ocorrencias", [])
+
     st.markdown("### Matriz de Exposição e Governança de Riscos")
-    
-    df_risks = process_risks_summary(risks_raw)
-    
+
+    df_risks = process_risks_summary(risks_raw, ocorrencias)
+    faixa = {grau: f"{minimo} a {maximo}" for minimo, maximo, grau in FAIXAS_RISCO}
+
     r1, r2, r3, r4 = st.columns(4)
     total_r = len(df_risks)
-    crit_r = len(df_risks[df_risks["Nível"] == "Crítico"])
-    alto_r = len(df_risks[df_risks["Nível"] == "Alto"])
-    media_sev = round(df_risks["Severidade (P×I)"].mean(), 1) if total_r > 0 else 0
+    elev_r = len(df_risks[df_risks["Grau"] == "Elevado"])
+    medio_r = len(df_risks[df_risks["Grau"] == "Médio"])
+    conc_r = len({o["risco"] for o in ocorrencias})
 
     with r1:
         render_kpi(
@@ -563,23 +584,22 @@ def render_risks_tab(risks_raw: list, is_mock: bool):
         )
     with r2:
         render_kpi(
-            "Riscos Críticos", str(crit_r), "Severidade ≥ 16", THEME_COLORS["danger"] if crit_r > 0 else THEME_COLORS["secondary"],
-            help_text="Riscos com severidade (probabilidade × impacto) ≥ 16, o canto superior direito "
-                      "da matriz. Segundo o plano de riscos, exigem ação preventiva ativa, não apenas "
-                      "monitoramento passivo."
+            "Riscos Elevados", str(elev_r), f"Severidade {faixa['Elevado']}",
+            THEME_COLORS["danger"] if elev_r > 0 else THEME_COLORS["secondary"],
+            help_text="Riscos de grau Elevado na escala do plano de riscos (probabilidade × impacto "
+                      "de 15 a 25). Exigem ação preventiva ativa, não apenas monitoramento."
         )
     with r3:
         render_kpi(
-            "Riscos Altos", str(alto_r), "Severidade 10 a 15", THEME_COLORS["warning"],
-            help_text="Severidade entre 10 e 15. Merecem plano de mitigação acompanhado, mas sem a "
-                      "mesma urgência dos críticos."
+            "Riscos Médios", str(medio_r), f"Severidade {faixa['Médio']}", THEME_COLORS["warning"],
+            help_text="Riscos de grau Médio na escala do plano (6 a 12). Merecem plano de mitigação "
+                      "acompanhado a cada sprint."
         )
     with r4:
         render_kpi(
-            "Severidade Média", str(media_sev), "Média ponderada (P×I)", THEME_COLORS["accent"],
-            help_text="Média aritmética simples da severidade de todos os riscos mapeados. É um "
-                      "indicador geral de quão pesada é a carteira de riscos como um todo. Não "
-                      "substitui olhar os riscos críticos individualmente."
+            "Concretizados", str(conc_r), "Riscos que já ocorreram", THEME_COLORS["accent"],
+            help_text="Riscos que deixaram de ser hipótese e aconteceram. O impacto e a resposta "
+                      "aplicada estão registrados abaixo e no plano de riscos."
         )
 
     st.markdown("<br>", unsafe_allow_html=True)
@@ -587,7 +607,8 @@ def render_risks_tab(risks_raw: list, is_mock: bool):
     col_matriz, col_cat = st.columns([1.35, 1.0])
 
     with col_matriz:
-        st.caption("🟢 Baixo (1–5) · 🟡 Médio (6–12) · 🟠 Alto (15–16) · 🔴 Crítico (20–25). Severidade = probabilidade × impacto")
+        st.caption(f"🟢 Baixo ({faixa['Baixo']}) · 🟡 Médio ({faixa['Médio']}) · 🔴 Elevado "
+                   f"({faixa['Elevado']}). Severidade = probabilidade × impacto, escala do plano de riscos")
         z_scores = [
             [1, 2, 3, 4, 5],
             [2, 4, 6, 8, 10],
@@ -597,14 +618,17 @@ def render_risks_tab(risks_raw: list, is_mock: bool):
         ]
         fig_heat = go.Figure(data=go.Heatmap(
             z=z_scores,
-            x=["1 (Muito Baixo)", "2 (Baixo)", "3 (Médio)", "4 (Alto)", "5 (Crítico)"],
-            y=["1 (Muito Baixa)", "2 (Baixa)", "3 (Média)", "4 (Alta)", "5 (Muito Alta)"],
+            x=[f"{n} ({rotulo})" for n, rotulo in enumerate(ROTULOS_IMPACTO, start=1)],
+            y=[f"{n} ({rotulo})" for n, rotulo in enumerate(ROTULOS_PROBABILIDADE, start=1)],
+            # Faixas discretas, as mesmas de FAIXAS_RISCO: a cor muda só onde o grau muda
+            # (5→6 e 12→15), nunca em degradê. A posição é (severidade - 1) / 24.
             colorscale=[
-                [0.0, "rgba(52, 211, 153, 0.35)"],
-                [0.25, "rgba(251, 191, 36, 0.45)"],
-                [0.55, "rgba(249, 115, 22, 0.55)"],
-                [1.0, "rgba(239, 68, 68, 0.65)"]
+                [0.0, "rgba(52, 211, 153, 0.35)"], [0.19, "rgba(52, 211, 153, 0.35)"],
+                [0.19, "rgba(251, 191, 36, 0.45)"], [0.52, "rgba(251, 191, 36, 0.45)"],
+                [0.52, "rgba(239, 68, 68, 0.6)"], [1.0, "rgba(239, 68, 68, 0.6)"],
             ],
+            zmin=1,
+            zmax=25,
             showscale=False
         ))
         
@@ -663,6 +687,24 @@ def render_risks_tab(risks_raw: list, is_mock: bool):
 
     st.markdown("#### Detalhamento dos Riscos e Planos de Ação")
     st.dataframe(df_risks, use_container_width=True, hide_index=True)
+
+    st.markdown("#### Riscos concretizados")
+    if not ocorrencias:
+        st.caption("Nenhum risco concretizado registrado em `riscos_historico.json`.")
+    for o in ocorrencias:
+        with st.container(border=True):
+            st.markdown(f"**{o['risco']}** · ocorreu em {_data_br(o['data'])} ({o.get('sprint', '—')}, {o.get('release', '—')})")
+            st.markdown(f"{o.get('descricao', '')}\n\n**Impacto:** {o.get('impacto', '—')}\n\n"
+                        f"**Resposta aplicada:** {o.get('resposta', '—')}")
+
+    st.markdown("#### Histórico de revisões por sprint")
+    revisoes = revisoes_realizadas(historico.get("revisoes", []))
+    if not revisoes:
+        st.caption("Nenhuma revisão de riscos registrada ainda.")
+        return
+    st.caption("Só entram sprints que já aconteceram: cada coluna é a revisão feita na sprint review. "
+               "Formato: probabilidade × impacto = severidade (grau).")
+    st.dataframe(tabela_historico_riscos(revisoes), use_container_width=True, hide_index=True)
 
 
 def render_quality_tab(sonar_data: dict, is_mock: bool):
@@ -1304,6 +1346,7 @@ def main():
     sprints_all, is_sprints_mock = get_zenhub_sprints_data()
     sprints_data = filter_started_sprints(sprints_all)
     risks_data, is_risks_mock = get_risks_data()
+    risks_history = get_risks_history()
     sonar_data, is_sonar_mock = get_sonar_metrics_data()
     qrapids_data = get_qrapids_data(modo=modo)
 
@@ -1342,7 +1385,7 @@ def main():
         render_evm_tab(evm_results, sprints_data, is_sprints_mock, modo)
 
     with tab_riscos:
-        render_risks_tab(risks_data, is_risks_mock)
+        render_risks_tab(risks_data, is_risks_mock, risks_history)
 
     with tab_processo:
         render_process_tab()

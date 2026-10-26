@@ -57,6 +57,18 @@ ROTULOS_MODO = {
     MODO_ENTREGUES: "Aceitas + em Aceitação PO",
 }
 
+# Escala única de classificação dos riscos, a mesma do Plano de Gestão de Riscos
+# (docs/processo/riscos.md, seção "Graus de risco"). Severidade = probabilidade (1 a 5)
+# × impacto (1 a 5). Nenhum produto de dois números de 1 a 5 vale 13 ou 14, por isso a
+# faixa "Elevado" começa em 15. Qualquer mudança aqui precisa ser feita também no plano.
+FAIXAS_RISCO = (
+    (1, 5, "Baixo"),
+    (6, 12, "Médio"),
+    (15, 25, "Elevado"),
+)
+ROTULOS_PROBABILIDADE = ("Muito baixa", "Baixa", "Média", "Alta", "Muito alta")
+ROTULOS_IMPACTO = ("Muito baixo", "Baixo", "Médio", "Alto", "Muito alto")
+
 THEME_COLORS = {
     "primary": "#38BDF8",       # Sky Blue brilhante
     "secondary": "#34D399",     # Emerald brilhante (sucesso / no prazo)

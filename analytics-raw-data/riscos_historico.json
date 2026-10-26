@@ -1,0 +1,276 @@
+{
+  "_descricao": "Histórico do monitoramento de riscos, transcrito da planilha Monitoramento de riscos. Cada revisão é feita na sprint review e só entra depois que a sprint terminou. Fonte: docs/processo/riscos.md.",
+  "revisoes": [
+    {
+      "sprint": "Sprint 1",
+      "release": "R1",
+      "data": "2026-09-13",
+      "observacao": "Classificação da Sprint 1 (31/08 a 13/09).",
+      "riscos": {
+        "R01": {
+          "probabilidade": 4,
+          "impacto": 4
+        },
+        "R02": {
+          "probabilidade": 1,
+          "impacto": 3
+        },
+        "R03": {
+          "probabilidade": 4,
+          "impacto": 3
+        },
+        "R04": {
+          "probabilidade": 3,
+          "impacto": 3
+        },
+        "R05": {
+          "probabilidade": 2,
+          "impacto": 2
+        },
+        "R06": {
+          "probabilidade": 2,
+          "impacto": 3
+        },
+        "R07": {
+          "probabilidade": 1,
+          "impacto": 2
+        },
+        "R08": {
+          "probabilidade": 1,
+          "impacto": 2
+        },
+        "R09": {
+          "probabilidade": 1,
+          "impacto": 3
+        },
+        "R10": {
+          "probabilidade": 3,
+          "impacto": 3
+        },
+        "R11": {
+          "probabilidade": 1,
+          "impacto": 4
+        },
+        "R12": {
+          "probabilidade": 2,
+          "impacto": 3
+        },
+        "R13": {
+          "probabilidade": 2,
+          "impacto": 4
+        },
+        "R14": {
+          "probabilidade": 1,
+          "impacto": 3
+        }
+      }
+    },
+    {
+      "sprint": "Sprint 2",
+      "release": "R1",
+      "data": "2026-09-27",
+      "observacao": "Classificação da Sprint 2 (14/09 a 27/09), fechamento da R1. O R02 se concretizou nesta sprint, em 24/09, e a probabilidade sobe de 1 para 4.",
+      "riscos": {
+        "R01": {
+          "probabilidade": 4,
+          "impacto": 4
+        },
+        "R02": {
+          "probabilidade": 4,
+          "impacto": 3
+        },
+        "R03": {
+          "probabilidade": 4,
+          "impacto": 3
+        },
+        "R04": {
+          "probabilidade": 3,
+          "impacto": 3
+        },
+        "R05": {
+          "probabilidade": 2,
+          "impacto": 2
+        },
+        "R06": {
+          "probabilidade": 2,
+          "impacto": 3
+        },
+        "R07": {
+          "probabilidade": 2,
+          "impacto": 2
+        },
+        "R08": {
+          "probabilidade": 1,
+          "impacto": 2
+        },
+        "R09": {
+          "probabilidade": 1,
+          "impacto": 3
+        },
+        "R10": {
+          "probabilidade": 3,
+          "impacto": 3
+        },
+        "R11": {
+          "probabilidade": 1,
+          "impacto": 4
+        },
+        "R12": {
+          "probabilidade": 2,
+          "impacto": 3
+        },
+        "R13": {
+          "probabilidade": 2,
+          "impacto": 4
+        },
+        "R14": {
+          "probabilidade": 1,
+          "impacto": 3
+        }
+      }
+    },
+    {
+      "sprint": "Sprint 3",
+      "release": "R2",
+      "data": "2026-10-11",
+      "observacao": "Classificação da Sprint 3 (29/09 a 11/10). Primeira sprint com a equipe de 10 integrantes.",
+      "riscos": {
+        "R01": {
+          "probabilidade": 3,
+          "impacto": 4
+        },
+        "R02": {
+          "probabilidade": 4,
+          "impacto": 3
+        },
+        "R03": {
+          "probabilidade": 3,
+          "impacto": 4
+        },
+        "R04": {
+          "probabilidade": 2,
+          "impacto": 3
+        },
+        "R05": {
+          "probabilidade": 2,
+          "impacto": 3
+        },
+        "R06": {
+          "probabilidade": 2,
+          "impacto": 2
+        },
+        "R07": {
+          "probabilidade": 2,
+          "impacto": 2
+        },
+        "R08": {
+          "probabilidade": 1,
+          "impacto": 2
+        },
+        "R09": {
+          "probabilidade": 2,
+          "impacto": 3
+        },
+        "R10": {
+          "probabilidade": 3,
+          "impacto": 3
+        },
+        "R11": {
+          "probabilidade": 2,
+          "impacto": 4
+        },
+        "R12": {
+          "probabilidade": 2,
+          "impacto": 3
+        },
+        "R13": {
+          "probabilidade": 3,
+          "impacto": 4
+        },
+        "R14": {
+          "probabilidade": 1,
+          "impacto": 3
+        }
+      }
+    },
+    {
+      "sprint": "Sprint 4",
+      "release": "R2",
+      "data": "2026-10-25",
+      "observacao": "Classificação da Sprint 4 (12/10 a 25/10), fechamento da R2.",
+      "riscos": {
+        "R01": {
+          "probabilidade": 3,
+          "impacto": 5
+        },
+        "R02": {
+          "probabilidade": 3,
+          "impacto": 3
+        },
+        "R03": {
+          "probabilidade": 3,
+          "impacto": 2
+        },
+        "R04": {
+          "probabilidade": 2,
+          "impacto": 3
+        },
+        "R05": {
+          "probabilidade": 1,
+          "impacto": 2
+        },
+        "R06": {
+          "probabilidade": 2,
+          "impacto": 3
+        },
+        "R07": {
+          "probabilidade": 2,
+          "impacto": 2
+        },
+        "R08": {
+          "probabilidade": 1,
+          "impacto": 2
+        },
+        "R09": {
+          "probabilidade": 3,
+          "impacto": 4
+        },
+        "R10": {
+          "probabilidade": 2,
+          "impacto": 3
+        },
+        "R11": {
+          "probabilidade": 4,
+          "impacto": 4
+        },
+        "R12": {
+          "probabilidade": 2,
+          "impacto": 3
+        },
+        "R13": {
+          "probabilidade": 2,
+          "impacto": 4
+        },
+        "R14": {
+          "probabilidade": 2,
+          "impacto": 4
+        }
+      }
+    }
+  ],
+  "ocorrencias": [
+    {
+      "risco": "R02",
+      "data": "2026-09-24",
+      "sprint": "Sprint 2",
+      "release": "R1",
+      "descricao": "Marcelo Araújo dos Santos trancou a disciplina após a Sprint Review de 23/09/2026.",
+      "impacto": "A equipe passou de 11 para 10 integrantes. As atividades dele na R1 precisaram ser assumidas pelos demais para fechar a release. A partir da Sprint 3 (R2), são 18 horas a menos por semana, cerca de 9% da capacidade (de 198 para 180 horas semanais), ou 72 horas nas 4 semanas da R2.",
+      "resposta": "As atividades que estavam com o integrante foram redistribuídas entre os 10 integrantes restantes, o que permitiu concluir a R1 no prazo. O plano de custos foi recalculado com 10 integrantes a partir da R2.",
+      "fontes": [
+        "docs/atas-reunioes/Ata-08-EPS-2026-10-02-PO.md",
+        "docs/processo/plano_de_custos.md"
+      ]
+    }
+  ]
+}
