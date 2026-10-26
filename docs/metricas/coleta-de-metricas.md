@@ -174,7 +174,8 @@ resultados estão em [Qualidade do produto](qualidade-do-produto.md) e em
 
 O script [`scripts/coleta_zenhub.py`](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/blob/main/scripts/coleta_zenhub.py)
 consulta a API GraphQL do Zenhub e grava, para cada sprint, os pontos entregues e
-adicionados, o estado, as datas e a contagem de issues.
+adicionados, o estado, as datas e a contagem de issues. Por issue, grava também o
+identificador, o número, a estimativa e a coluna em que ela está.
 
 Diferente das outras duas fontes, esta **exige um token**, lido da variável de
 ambiente `ZENHUB_TOKEN`. Ele precisa ser cadastrado como *secret* do repositório,
@@ -200,6 +201,35 @@ issues não tem pontos, a velocity e os índices do Agile EVM ficam próximos de
 zero mesmo com trabalho sendo entregue. O que falta, nesse caso, é estimativa —
 não entrega.
 
+### Histórias em Aceitação PO
+
+Uma história só é fechada depois do aceite do *Product Owner* e do cliente, e os
+pontos entregues de uma sprint no Zenhub só contam as histórias fechadas. Enquanto o
+aceite não acontece, a história fica aberta na coluna **Aceitação PO**, com o código
+entregue. Por isso a coleta grava a **coluna** de cada issue, e o dashboard soma os
+pontos das histórias que estão em Aceitação PO, separados dos pontos aceitos. A barra
+lateral do dashboard escolhe se esses pontos entram nos pontos entregues.
+
+Particularidades:
+
+- A coluna é lida no momento da coleta. Quando o PO aceita uma história, ela fecha e
+  passa a contar como aceita; se ele a devolve, ela sai da coluna.
+- A API do Zenhub não pôde ser conferida com o token durante o desenvolvimento, então a
+  coluna é lida de duas formas. Primeiro a coleta pergunta a cada issue em que coluna ela
+  está. Se o Zenhub recusar o campo, pergunta ao workspace quais issues cada coluna guarda
+  (até 100 por coluna) e junta pelo identificador da issue.
+- Se as duas formas forem recusadas, a coleta tenta as consultas anteriores (com número e
+  id e, por fim, a original) e imprime no log os campos que a API tem nos tipos `Issue`,
+  `Pipeline`, `PipelineIssue` e `Workspace`, na linha `Esquema: campos de ...`. Com esses
+  nomes a consulta pode ser corrigida sem adivinhar. O painel avisa que a coluna não foi
+  coletada, em vez de mostrar zero como se fosse medido.
+- O arquivo grava `colunas_coletadas` e `colunas_fonte`. É esse sinal que diferencia uma
+  coluna Aceitação PO vazia de uma coluna que não chegou a ser coletada. No fim da coleta
+  o log mostra quantas issues há em cada coluna.
+- Nesse caso, o arquivo opcional `analytics-raw-data/aceitacao_po_manual.json`, no
+  formato `{"issues": [7, 8]}`, com os números das issues em Aceitação PO, é usado
+  como alternativa.
+
 ## O que ainda falta
 
 ### Riscos
@@ -217,3 +247,4 @@ gerado por API: é a transcrição do Plano de Riscos, que ainda não foi elabor
 | `1.1` | 21/09/2026 | Coleta do SonarCloud e do Zenhub | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
 | `1.2` | 24/09/2026 | Pasta renomeada para `analytics-raw-data/`, métricas exigidas pelo professor e seção de métricas por versão do produto | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
 | `1.3` | 22/10/2026 | Coleta dos problemas do SonarCloud e das branches das releases, para o Q-Rapids | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |
+| `1.4` | 25/10/2026 | Coleta da coluna de cada issue do Zenhub, por duas formas e com diagnóstico do esquema, para os pontos em Aceitação PO | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |

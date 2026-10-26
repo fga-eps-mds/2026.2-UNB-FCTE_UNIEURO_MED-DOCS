@@ -23,11 +23,35 @@ WORKSPACE_ID = "6a8c447d652b15002979b829"
 
 DESTINO = Path(__file__).resolve().parent.parent / "analytics-raw-data" / "zenhub_analytics.json"
 
+# Coluna (pipeline) em que a issue está agora. O dashboard usa a coluna "Aceitação PO" para
+# somar os pontos das histórias entregues que aguardam o aceite do PO.
+CAMPO_COLUNA = "pipelineIssue(workspaceId: $id) { pipeline { name } }"
+
 # Campos pedidos de cada issue, além da estimativa, do mais completo ao mais simples.
 # O identificador permite ao dashboard contar uma história uma só vez quando ela passa
 # de uma sprint para a seguinte. Como a API não pôde ser conferida aqui, se o Zenhub
 # recusar um campo a coleta tenta a variante seguinte, e a última é a consulta original.
-VARIANTES_ISSUE = ("id number", "id", "")
+VARIANTES_ISSUE = (f"id number {CAMPO_COLUNA}", "id number", "id", "")
+
+# Segunda forma de ler a coluna: em vez de perguntar a cada issue onde ela está, pergunta ao
+# workspace quais são as colunas e quais issues cada uma guarda. Só é usada se a primeira for
+# recusada. Lê até 100 issues por coluna, o que sobra para a coluna Aceitação PO.
+CONSULTA_COLUNAS = """
+query($id: ID!) {
+  workspace(id: $id) {
+    pipelinesConnection(first: 50) {
+      nodes { name issues(first: 100) { totalCount nodes { id number } } }
+    }
+  }
+}
+"""
+
+# Introspecção: se nenhuma das duas formas funcionar, o log mostra os campos que a API tem de
+# verdade, para a próxima correção usar os nomes certos em vez de adivinhar.
+CONSULTA_TIPO = """
+query($tipo: String!) { __type(name: $tipo) { fields { name } } }
+"""
+TIPOS_DO_DIAGNOSTICO = ("Issue", "Pipeline", "PipelineIssue", "Workspace")
 
 CONSULTA = """
 query($id: ID!) {
@@ -79,6 +103,41 @@ def executar(token, consulta, variaveis):
     return dados["data"]
 
 
+def buscar_colunas(token):
+    """Mapa {id da issue: nome da coluna}, lido pelas colunas do workspace."""
+    dados = executar(token, CONSULTA_COLUNAS, {"id": WORKSPACE_ID})
+    colunas = ((dados.get("workspace") or {}).get("pipelinesConnection") or {}).get("nodes")
+    if colunas is None:
+        raise RuntimeError("a resposta não trouxe as colunas do workspace")
+
+    mapa = {}
+    for coluna in colunas:
+        issues = coluna.get("issues") or {}
+        nos = issues.get("nodes") or []
+        if issues.get("totalCount", len(nos)) > len(nos):
+            print(
+                f"Atenção: a coluna '{coluna.get('name')}' tem {issues['totalCount']} issues e só "
+                f"{len(nos)} foram lidas.",
+                file=sys.stderr,
+            )
+        for issue in nos:
+            if issue.get("id"):
+                mapa[issue["id"]] = coluna.get("name")
+    return mapa
+
+
+def diagnosticar_esquema(token):
+    """Imprime no log os campos dos tipos que importam, para corrigir a consulta com os nomes reais."""
+    for tipo in TIPOS_DO_DIAGNOSTICO:
+        try:
+            dados = executar(token, CONSULTA_TIPO, {"tipo": tipo})
+            campos = [c["name"] for c in ((dados.get("__type") or {}).get("fields") or [])]
+        except (urllib.error.URLError, RuntimeError, KeyError, TypeError) as e:
+            print(f"Esquema: não foi possível listar os campos de {tipo}: {e}", file=sys.stderr)
+            return
+        print(f"Esquema: campos de {tipo}: {', '.join(campos) if campos else '(tipo não encontrado)'}", file=sys.stderr)
+
+
 def construir_consulta(campos_issue):
     return CONSULTA.replace("__CAMPOS_ISSUE__", f" {campos_issue}" if campos_issue else "")
 
@@ -93,9 +152,25 @@ def consultar(token):
             print(f"Consulta com os campos '{campos or 'somente estimativa'}' recusada: {e}", file=sys.stderr)
             continue
         workspace["issues_detalhadas"] = bool(campos)
+        workspace["issues_com_coluna"] = CAMPO_COLUNA in campos
         break
     else:
         raise erro
+
+    workspace["colunas_fonte"] = "issue" if workspace["issues_com_coluna"] else None
+    workspace["colunas_por_id"] = None
+    if not workspace["issues_com_coluna"]:
+        # A primeira forma foi recusada: tenta ler as colunas pelo workspace e juntar pelo id.
+        if workspace["issues_detalhadas"]:
+            try:
+                workspace["colunas_por_id"] = buscar_colunas(token)
+                workspace["colunas_fonte"] = "workspace"
+                workspace["issues_com_coluna"] = True
+            except (urllib.error.URLError, RuntimeError, KeyError, TypeError) as e:
+                print(f"Leitura das colunas pelo workspace recusada: {e}", file=sys.stderr)
+        if not workspace["issues_com_coluna"]:
+            print("A coluna das issues não pôde ser coletada pelas duas formas.", file=sys.stderr)
+            diagnosticar_esquema(token)
 
     for sprint in workspace["sprints"]["nodes"]:
         try:
@@ -120,6 +195,20 @@ def pontos_adicionados(sprint):
     return total
 
 
+def _resumir_issue(issue, com_coluna, colunas_por_id=None):
+    resumo = {
+        "id": issue.get("id"),
+        "numero": issue.get("number"),
+        "estimativa": (issue.get("estimate") or {}).get("value"),
+    }
+    if com_coluna:
+        coluna = (((issue.get("pipelineIssue") or {}).get("pipeline")) or {}).get("name")
+        if coluna is None and colunas_por_id:
+            coluna = colunas_por_id.get(issue.get("id"))
+        resumo["coluna"] = coluna
+    return resumo
+
+
 def montar(workspace):
     sprints = {}
     for s in workspace["sprints"]["nodes"]:
@@ -131,11 +220,7 @@ def montar(workspace):
         if workspace.get("issues_detalhadas"):
             # Uma entrada por issue, para contar cada história uma só vez entre sprints.
             detalhe["issues"] = [
-                {
-                    "id": i.get("id"),
-                    "numero": i.get("number"),
-                    "estimativa": (i.get("estimate") or {}).get("value"),
-                }
+                _resumir_issue(i, workspace.get("issues_com_coluna"), workspace.get("colunas_por_id"))
                 for i in nodes
             ]
 
@@ -157,8 +242,27 @@ def montar(workspace):
     return {
         "workspace": workspace.get("displayName"),
         "coletado_em": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        # Diz se a coluna das issues foi lida, e por qual forma. Sem isso, uma coluna Aceitação PO
+        # vazia seria igual a uma coluna que nunca foi coletada.
+        "colunas_coletadas": bool(workspace.get("issues_com_coluna")),
+        "colunas_fonte": workspace.get("colunas_fonte"),
         "sprints_velocity": sprints,
     }
+
+
+def resumir_colunas(dados):
+    """Quantas issues distintas há em cada coluna, para o log da coleta mostrar o que foi lido."""
+    por_coluna = {}
+    vistas = set()
+    for sprint in dados["sprints_velocity"].values():
+        for issue in sprint.get("issues") or []:
+            chave = issue.get("id") if issue.get("id") is not None else (issue.get("numero"), id(issue))
+            if chave in vistas:
+                continue
+            vistas.add(chave)
+            coluna = issue.get("coluna") or "(coluna não identificada)"
+            por_coluna[coluna] = por_coluna.get(coluna, 0) + 1
+    return por_coluna
 
 
 def main():
@@ -183,6 +287,14 @@ def main():
     print(f"{total} sprints coletadas em {DESTINO.name}")
     if sem_est:
         print(f"Atenção: {sem_est} issues sem estimativa — velocity e EVM ficam subestimados.")
+    if dados["colunas_coletadas"]:
+        resumo = ", ".join(f"{nome}: {n}" for nome, n in sorted(resumir_colunas(dados).items()))
+        print(f"Colunas das issues lidas (forma: {dados['colunas_fonte']}). Issues por coluna: {resumo}")
+    else:
+        print(
+            "Atenção: a coluna das issues não foi coletada. Os pontos em Aceitação PO não aparecem "
+            "no dashboard. Veja acima as linhas 'recusada' e 'Esquema'."
+        )
     return 0
 
 
