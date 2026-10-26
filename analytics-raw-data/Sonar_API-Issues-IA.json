@@ -1,9 +1,221 @@
 {
   "repositorio": "IA",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-IA",
-  "coletado_em": "2026-10-26T02:13:36Z",
+  "coletado_em": "2026-10-26T05:45:50Z",
   "branches": {
-    "main": [],
-    "develop": []
+    "main": [
+      {
+        "chave": "AaF2qL8ERFaOQeZRK0vX",
+        "arquivo": "exportacao/aparelho.py",
+        "regra": "pythonsecurity:S8707",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-22T17:23:09+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "SECURITY",
+            "severidade": "HIGH"
+          }
+        ]
+      },
+      {
+        "chave": "AaF2qL8ERFaOQeZRK0vW",
+        "arquivo": "exportacao/aparelho.py",
+        "regra": "python:S1313",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-22T17:23:09+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "SECURITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaF2qL7wRFaOQeZRK0vR",
+        "arquivo": "exportacao/aparelho/index.html",
+        "regra": "Web:S5256",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-22T17:23:09+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "RELIABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaF2qL7wRFaOQeZRK0vS",
+        "arquivo": "exportacao/aparelho/index.html",
+        "regra": "Web:S5725",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-22T17:23:09+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "SECURITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaF2qL7wRFaOQeZRK0vT",
+        "arquivo": "exportacao/aparelho/index.html",
+        "regra": "javascript:S9382",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-22T17:23:09+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaF2qL7wRFaOQeZRK0vU",
+        "arquivo": "exportacao/aparelho/index.html",
+        "regra": "javascript:S9382",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-22T17:23:09+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaF2qL7wRFaOQeZRK0vV",
+        "arquivo": "exportacao/aparelho/index.html",
+        "regra": "javascript:S7718",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-22T17:23:09+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      }
+    ],
+    "develop": [
+      {
+        "chave": "AaF2XtPGI5fXcO_Y6vkJ",
+        "arquivo": "exportacao/aparelho.py",
+        "regra": "pythonsecurity:S8707",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-22T17:23:09+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "SECURITY",
+            "severidade": "HIGH"
+          }
+        ]
+      },
+      {
+        "chave": "AaF2XtPGI5fXcO_Y6vkI",
+        "arquivo": "exportacao/aparelho.py",
+        "regra": "python:S1313",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-22T17:23:09+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "SECURITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaF2XtNzI5fXcO_Y6vkD",
+        "arquivo": "exportacao/aparelho/index.html",
+        "regra": "Web:S5256",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-22T17:23:09+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "RELIABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaF2XtNzI5fXcO_Y6vkE",
+        "arquivo": "exportacao/aparelho/index.html",
+        "regra": "Web:S5725",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-22T17:23:09+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "SECURITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaF2XtNzI5fXcO_Y6vkF",
+        "arquivo": "exportacao/aparelho/index.html",
+        "regra": "javascript:S9382",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-22T17:23:09+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaF2XtNzI5fXcO_Y6vkG",
+        "arquivo": "exportacao/aparelho/index.html",
+        "regra": "javascript:S9382",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-22T17:23:09+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaF2XtNzI5fXcO_Y6vkH",
+        "arquivo": "exportacao/aparelho/index.html",
+        "regra": "javascript:S7718",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-22T17:23:09+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      }
+    ]
   }
 }
