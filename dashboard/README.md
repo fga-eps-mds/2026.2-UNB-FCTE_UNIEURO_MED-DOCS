@@ -11,7 +11,7 @@ O painel consolida os indicadores gerenciais e de processo exigidos para a prime
 - **Agile EVM (Earned Value Management) por release**: BAC, PRP, RPC, PPC, APC, PV, EV, AC, SPI, CPI, SV, CV e EAC (Sulaiman et al., 2006), calculados para cada release já iniciada (R1, R2, R3 e release final aparecem a partir da data de início). Não há parâmetros de simulação: o painel reflete os dados reais.
 - **Velocity**: histórico de pontos entregues por sprint fechada.
 - **Burnup e Burndown de pontos**: progresso da release selecionada contra o escopo planejado (PRP) e contra o ritmo ideal.
-- **Matriz de Riscos**: Mapa de calor 5x5 (Probabilidade x Impacto) e planos de mitigação.
+- **Matriz de Riscos**: Mapa de calor 5x5 (Probabilidade x Impacto) com a escala única do plano de riscos (Baixo 1–5, Médio 6–12, Elevado 15–25), planos de mitigação, riscos concretizados e histórico por sprint.
 - **Processo e CI/CD**: Taxa de sucesso de pipelines e tempo mediano de execução (a mediana evita que execuções atípicas distorçam o indicador).
 - **Qualidade de Produto**: Métricas do SonarCloud (cobertura, bugs, vulnerabilidades, code smells, security hotspots, ratings) por repositório de código (APP/IA).
 - **Q-Rapids e R1 × R2 (DA-R2)**: índice de qualidade do produto (Q) com métricas, fatores e características por release, indicadores de processo (P1 a P3 e P) e a comparação de velocidade, cobertura e defeitos entre as releases.
@@ -172,7 +172,8 @@ python3 -m unittest discover tests
 O dashboard lê os arquivos `.json` em `../analytics-raw-data/`:
 - `zenhub_analytics.json`: Dados de sprints (pontos planejados e entregues por sprint, e por issue o id, o número, a estimativa e a coluna).
 - `aceitacao_po_manual.json` (opcional): números das issues em Aceitação PO, usado só quando a coleta não trouxe a coluna.
-- `riscos_analytics.json`: Planilha/matriz de riscos da equipe.
+- `riscos_analytics.json`: classificação atual dos riscos (probabilidade, impacto, ação).
+- `riscos_historico.json`: revisões de riscos por sprint realizada e riscos concretizados (data, impacto e resposta). Revisões com data futura são descartadas.
 - `GitHub_API-Runs-*.json`: Histórico de execuções das GitHub Actions.
 - `Sonar_API-Measures-*.json`: Métricas de qualidade de produto do SonarCloud (APP/IA).
 

@@ -79,6 +79,22 @@ def get_zenhub_sprints_data() -> Tuple[List[Dict[str, Any]], bool]:
     return mock_data, True
 
 
+def get_risks_history() -> Dict[str, Any]:
+    """
+    Histórico de revisões por sprint e riscos concretizados (riscos_historico.json).
+
+    Sem o arquivo, devolve listas vazias: o dashboard não inventa revisões nem ocorrências.
+    """
+    data = load_json_file(os.path.join(RAW_DATA_DIR, "riscos_historico.json"))
+    if not isinstance(data, dict):
+        return {"revisoes": [], "ocorrencias": [], "disponivel": False}
+    return {
+        "revisoes": data.get("revisoes") or [],
+        "ocorrencias": data.get("ocorrencias") or [],
+        "disponivel": True,
+    }
+
+
 def get_risks_data() -> Tuple[List[Dict[str, Any]], bool]:
     """
     Carrega os riscos mapeados do projeto ou dados estruturados mock de fallback.
