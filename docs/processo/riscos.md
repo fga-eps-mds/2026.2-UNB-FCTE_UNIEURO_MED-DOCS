@@ -51,11 +51,18 @@ Os riscos foram divididos nas seguintes categorias:
 
 ### Graus de risco
 
-| Grau | Risco |
+A severidade de um risco é o produto `probabilidade × impacto`, de 1 a 25. O grau é dado pela tabela abaixo.
+
+| Severidade | Grau |
 | :---: | :---: |
 | 1 - 5 | Baixo |
 | 6 - 12 | Médio |
 | 15 - 25 | Elevado |
+
+Nenhum produto de dois níveis de 1 a 5 resulta em 13 ou 14, por isso não há lacuna entre as faixas.
+
+!!! info "Escala única"
+    Esta é a única escala de classificação do projeto. O [dashboard gerencial](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/tree/main/dashboard), na aba Gestão de Riscos, usa as mesmas faixas e os mesmos rótulos (`FAIXAS_RISCO` em `dashboard/src/config.py`), e um teste automatizado falha se o documento e o dashboard divergirem.
 
 ## Levantamento de riscos
 
@@ -118,15 +125,66 @@ Os riscos foram divididos nas seguintes categorias:
 
 ## Monitoramento dos Riscos
 
+Os riscos são revisados ao fim de cada sprint, na *sprint review*. A revisão reavalia a probabilidade e o impacto de todos os riscos, registra os que se concretizaram e entra no histórico abaixo. O histórico só contém sprints que já aconteceram: uma sprint ganha coluna depois da sua revisão, nunca antes.
+
+Os dados ficam versionados em `analytics-raw-data/riscos_historico.json`, e a classificação atual em `analytics-raw-data/riscos_analytics.json`. O dashboard lê esses dois arquivos e descarta qualquer revisão com data futura.
+
 <iframe width="700" height="400" src="https://docs.google.com/spreadsheets/d/1ZarJ5KuICboZrPrMZGIZyJAHq8Ju39r4wP2-Lx8_pqc/preview"></iframe>
 
-## Gráfico Impacto X Probabilidade de cada Risco por Sprint
+### Gráfico Impacto X Probabilidade de cada Risco por Sprint
 
 <iframe width="1200" height="700" frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTejXRkOfqXWpRfc1pocJMvWkX0TJ5t-oaOfZRiwPMVeY88WhsgXMddbEWA_K1EpaSrunR9_o0qTtCw/pubchart?oid=1663055085&amp;format=interactive"></iframe>
 
-## Gráfico Impacto X Probabilidade Total por Sprint
+### Gráfico Impacto X Probabilidade Total por Sprint
 
 <iframe width="700" height="400" frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTejXRkOfqXWpRfc1pocJMvWkX0TJ5t-oaOfZRiwPMVeY88WhsgXMddbEWA_K1EpaSrunR9_o0qTtCw/pubchart?oid=365709643&format=interactive"></iframe>
+
+
+### Rotina de revisão a cada sprint
+
+1. Na *sprint review*, reavaliar probabilidade e impacto de cada risco com a escala deste plano.
+2. Registrar os riscos que se concretizaram na sprint: data, impacto observado e resposta aplicada.
+3. Acrescentar a revisão em `riscos_historico.json` e uma coluna na tabela de histórico abaixo.
+4. Atualizar `riscos_analytics.json` com a classificação atual e o histórico de versões deste documento.
+
+### Histórico de revisões por sprint
+
+**Tabela:** Classificação dos riscos nas sprints realizadas
+
+| Risco | Sprint 1 · R1 (até 13/09) | Sprint 2 · R1 (até 27/09) | Sprint 3 · R2 (até 11/10) | Sprint 4 · R2 (até 25/10) |
+| :---: | :---: | :---: | :---: | :---: |
+| R01 | 4 × 4 = 16 (Elevado) | 4 × 4 = 16 (Elevado) | 3 × 4 = 12 (Médio) | 3 × 5 = 15 (Elevado) |
+| R02 | 1 × 3 = 3 (Baixo) | 4 × 3 = 12 (Médio) | 4 × 3 = 12 (Médio) | 3 × 3 = 9 (Médio) |
+| R03 | 4 × 3 = 12 (Médio) | 4 × 3 = 12 (Médio) | 3 × 4 = 12 (Médio) | 3 × 2 = 6 (Médio) |
+| R04 | 3 × 3 = 9 (Médio) | 3 × 3 = 9 (Médio) | 2 × 3 = 6 (Médio) | 2 × 3 = 6 (Médio) |
+| R05 | 2 × 2 = 4 (Baixo) | 2 × 2 = 4 (Baixo) | 2 × 3 = 6 (Médio) | 1 × 2 = 2 (Baixo) |
+| R06 | 2 × 3 = 6 (Médio) | 2 × 3 = 6 (Médio) | 2 × 2 = 4 (Baixo) | 2 × 3 = 6 (Médio) |
+| R07 | 1 × 2 = 2 (Baixo) | 2 × 2 = 4 (Baixo) | 2 × 2 = 4 (Baixo) | 2 × 2 = 4 (Baixo) |
+| R08 | 1 × 2 = 2 (Baixo) | 1 × 2 = 2 (Baixo) | 1 × 2 = 2 (Baixo) | 1 × 2 = 2 (Baixo) |
+| R09 | 1 × 3 = 3 (Baixo) | 1 × 3 = 3 (Baixo) | 2 × 3 = 6 (Médio) | 3 × 4 = 12 (Médio) |
+| R10 | 3 × 3 = 9 (Médio) | 3 × 3 = 9 (Médio) | 3 × 3 = 9 (Médio) | 2 × 3 = 6 (Médio) |
+| R11 | 1 × 4 = 4 (Baixo) | 1 × 4 = 4 (Baixo) | 2 × 4 = 8 (Médio) | 4 × 4 = 16 (Elevado) |
+| R12 | 2 × 3 = 6 (Médio) | 2 × 3 = 6 (Médio) | 2 × 3 = 6 (Médio) | 2 × 3 = 6 (Médio) |
+| R13 | 2 × 4 = 8 (Médio) | 2 × 4 = 8 (Médio) | 3 × 4 = 12 (Médio) | 2 × 4 = 8 (Médio) |
+| R14 | 1 × 3 = 3 (Baixo) | 1 × 3 = 3 (Baixo) | 1 × 3 = 3 (Baixo) | 2 × 4 = 8 (Médio) |
+| **Total** | **87** | **98** | **102** | **106** |
+
+Formato: probabilidade × impacto = severidade (grau). A classificação atual, usada na matriz do dashboard, é a da Sprint 4. A probabilidade do R02 sobe de 1 para 4 da Sprint 1 para a Sprint 2 porque o risco se concretizou na Sprint 2.
+
+A [planilha de monitoramento](https://docs.google.com/spreadsheets/d/1ZarJ5KuICboZrPrMZGIZyJAHq8Ju39r4wP2-Lx8_pqc/edit?usp=sharing) segue como apoio da equipe e deve conter as mesmas sprints desta tabela.
+
+### Riscos concretizados
+
+#### R02 — Saída de algum integrante do projeto
+
+| Item | Registro |
+| :--- | :--- |
+| Quando | 24/09/2026, na Sprint 2 (R1), após a *Sprint Review* de 23/09/2026 ([Ata 07](../atas-reunioes/Ata-07-EPS-2026-09-23-PO.md)) |
+| O que aconteceu | Marcelo Araújo dos Santos trancou a disciplina ([Ata 08](../atas-reunioes/Ata-08-EPS-2026-10-02-PO.md)) |
+| Impacto | A equipe passou de 11 para 10 integrantes. As atividades dele na R1 precisaram ser assumidas pelos demais para fechar a release. A partir da Sprint 3 (R2), são 18 horas a menos por semana, cerca de 9% da capacidade (de 198 para 180 horas semanais), ou 72 horas nas 4 semanas da R2 |
+| Resposta aplicada | As atividades que estavam com o integrante foram redistribuídas entre os 10 integrantes restantes, o que permitiu concluir a R1. O [plano de custos](plano_de_custos.md) foi recalculado com 10 integrantes a partir da R2 |
+
+O R02 continua sendo monitorado, porque outra saída ainda pode acontecer até o fim do semestre.
 
 ## Conclusão
 
@@ -136,7 +194,7 @@ A gestão de riscos é essencial no desenvolvimento de software para garantir qu
 
 Na Release 1, o foco da equipe está na construção da base inicial do aplicativo e na validação do primeiro fluxo funcional. Os principais riscos estão relacionados à adaptação da equipe às tecnologias escolhidas, à disponibilidade dos integrantes e à implementação da autenticação.
 
-A redução da equipe de 11 para 10 integrantes a partir da Sprint 2 não compromete diretamente a R1, mas exige organização e distribuição equilibrada das atividades restantes. A equipe deve estar atenta à comunicação e ao planejamento para evitar atrasos e garantir que as entregas sejam concluídas com sucesso.
+O risco R02 se concretizou na Sprint 2, com a saída de um integrante em 24/09/2026 (ver [Riscos concretizados](#riscos-concretizados)). As atividades do integrante foram redistribuídas e a R1 foi concluída. A redução da equipe de 11 para 10 integrantes vale a partir da Sprint 3 e exige organização e distribuição equilibrada das atividades restantes. A equipe deve estar atenta à comunicação e ao planejamento para evitar atrasos e garantir que as entregas sejam concluídas com sucesso.
 
 ## Histórico de versões
 
@@ -144,3 +202,4 @@ A redução da equipe de 11 para 10 integrantes a partir da Sprint 2 não compro
 |---|---|---|---|---|---|
 | 1.0 | Criação da documentação de riscos | [Eduardo Ferreira](https://github.com/eduardoferre) | 27/09/2026 | A definir | — |
 | 1.1 | Adição dos gráficos de impacto e probabilidade e conclusão da R1 | [Eduardo Ferreira](https://github.com/eduardoferre) | 27/09/2026 | A definir | — |
+| 1.2 | Escala única de classificação com o dashboard, histórico apenas das sprints realizadas, registro do R02 concretizado | [Eduardo Ferreira](https://github.com/eduardoferre) | 25/10/2026 | A definir | — |

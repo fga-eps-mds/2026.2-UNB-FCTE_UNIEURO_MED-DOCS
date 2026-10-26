@@ -16,7 +16,8 @@ Esta página descreve quais arquivos existem, quem os gera e o que falta.
 | `GitHub_API-Runs-*.json` | Fluxo de CI/CD (processo) | API do GitHub Actions | Automatizado |
 | `Sonar_API-Measures-*.json` | Qualidade de produto | API do SonarCloud | Automatizado |
 | `zenhub_analytics.json` | Sprints e Agile EVM (projeto) | API do Zenhub | Automatizado — depende do *secret* |
-| `riscos_analytics.json` | Matriz de Riscos (projeto) | Plano de Riscos | Pendente — depende da issue #26 |
+| `riscos_analytics.json` | Matriz de Riscos (projeto) | Plano de Riscos | Transcrito à mão a cada sprint review |
+| `riscos_historico.json` | Histórico por sprint e riscos concretizados | Plano de Riscos | Transcrito à mão a cada sprint review |
 | `fga-eps-mds-<repositório>-<data>-vX.Y.Z.json` | Métricas de cada versão do produto | Pipeline de release de APP e IA | Em revisão — ver [Métricas por versão](#metricas-por-versao-do-produto) |
 | `Sonar_API-Issues-*.json` | Q-Rapids, métricas m7 e m8 | API do SonarCloud | Automatizado — ver [Problemas do SonarCloud](#problemas-do-sonarcloud-e-branches-das-releases) |
 | `GitHub_API-Releases-*.json` | Q-Rapids, branch medida por release | API do GitHub | Automatizado |
@@ -235,9 +236,13 @@ Particularidades:
 ### Riscos
 
 O arquivo `riscos_analytics.json` é um array de riscos, cada um com `id`,
-`titulo`, `categoria`, `probabilidade`, `impacto`, `estrategia` e `acao`. Não é
-gerado por API: é a transcrição do Plano de Riscos, que ainda não foi elaborado
-(issue #26). Enquanto o plano não existir, não há o que transcrever.
+`titulo`, `categoria`, `probabilidade`, `impacto`, `estrategia` e `acao`, com a
+classificação atual. O arquivo `riscos_historico.json` guarda as revisões feitas em
+cada sprint review (`revisoes`) e os riscos que se concretizaram (`ocorrencias`, com
+data, impacto e resposta aplicada). Nenhum dos dois é gerado por API: são a
+transcrição do [Plano de Gestão de Riscos](../processo/riscos.md), atualizada a cada
+sprint, e só registram sprints que já aconteceram. A classificação usa a escala única
+do plano (Baixo 1–5, Médio 6–12, Elevado 15–25).
 
 ## Histórico de versão
 
@@ -248,3 +253,4 @@ gerado por API: é a transcrição do Plano de Riscos, que ainda não foi elabor
 | `1.2` | 24/09/2026 | Pasta renomeada para `analytics-raw-data/`, métricas exigidas pelo professor e seção de métricas por versão do produto | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
 | `1.3` | 22/10/2026 | Coleta dos problemas do SonarCloud e das branches das releases, para o Q-Rapids | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |
 | `1.4` | 25/10/2026 | Coleta da coluna de cada issue do Zenhub, por duas formas e com diagnóstico do esquema, para os pontos em Aceitação PO | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |
+| `1.5` | 25/10/2026 | Histórico de riscos por sprint e riscos concretizados (`riscos_historico.json`) | Nicollas Martins | |
