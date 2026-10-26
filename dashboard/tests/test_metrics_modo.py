@@ -10,7 +10,7 @@ import unittest
 from datetime import date
 
 from src import aceitacao
-from src.config import MODO_ACEITAS, MODO_ENTREGUES
+from src.config import MODO_ACEITAS, MODO_ENTREGUES, MODO_PADRAO
 from src.metrics import compute_release_evm
 
 RELEASES = [
@@ -146,6 +146,20 @@ class SerieEListaPorModoTest(unittest.TestCase):
         self.assertEqual(linha["RPC aceito (SP)"], "8.0")
         self.assertEqual(linha["Em aceitação (SP)"], "18.0")
         self.assertEqual(linha["RPC considerado (SP)"], "26.0")
+
+
+class ModoPadraoTest(unittest.TestCase):
+    def test_o_padrao_conta_so_as_historias_aceitas(self):
+        self.assertEqual(MODO_PADRAO, MODO_ACEITAS)
+
+    def test_sem_escolher_o_modo_os_pontos_em_aceitacao_ficam_fora(self):
+        sprints = duas_sprints()
+        aceitacao.marcar_aguardando(sprints)
+
+        r = compute_release_evm(sprints, RELEASES, hoje=HOJE)["releases"][0]
+
+        self.assertEqual(r["rpc"], 8.0)
+        self.assertEqual(r["rpc_aguardando"], 18.0)
 
 
 if __name__ == "__main__":

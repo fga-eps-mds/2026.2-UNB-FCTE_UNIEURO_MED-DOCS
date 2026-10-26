@@ -53,8 +53,8 @@ A equipe decidiu medir também o que já foi entregue e aguarda o aceite: o cód
 
 | Modo | O que entra nos pontos entregues |
 |---|---|
-| Somente histórias aceitas (fechadas) | só os pontos das histórias fechadas (`delivered_story_points` do ZenHub) |
-| Aceitas + em Aceitação PO (padrão) | os aceitos e os pontos das histórias da coluna Aceitação PO |
+| Somente histórias aceitas (fechadas) (padrão) | só os pontos das histórias fechadas (`delivered_story_points` do ZenHub) |
+| Aceitas + em Aceitação PO | os aceitos e os pontos das histórias da coluna Aceitação PO |
 
 A escolha vale para tudo que envolve pontos entregues: RPC, APC, EV, SPI e CPI do EVM, o burnup e o burndown, a velocity e, na aba Q-Rapids, o P2 (entrega do comprometido) e a velocidade da comparação entre releases. O PRP, o P3 e o BAC não mudam. Os dois valores aparecem sempre separados nos cartões e na tabela de auditoria (`RPC aceito`, `Em aceitação` e `RPC considerado`), e a lista das histórias em aceitação fica na aba de EVM.
 

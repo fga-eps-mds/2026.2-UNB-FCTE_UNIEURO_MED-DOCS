@@ -47,10 +47,11 @@ RELEASES = [
 # conta como entregue a história fechada. Por decisão da equipe, o painel mostra também as
 # histórias da coluna "Aceitação PO": código entregue, aguardando o aceite. O modo escolhe o
 # que entra nos pontos entregues, e a mesma escolha vale para EVM, velocity, burn e processo.
+# O padrão conta só as aceitas, como o Agile EVM e a Ata 08; o outro modo é uma visão opcional.
 COLUNAS_ACEITACAO = ("Aceitação PO",)
 MODO_ACEITAS = "aceitas"
 MODO_ENTREGUES = "entregues"
-MODO_PADRAO = MODO_ENTREGUES
+MODO_PADRAO = MODO_ACEITAS
 ROTULOS_MODO = {
     MODO_ACEITAS: "Somente histórias aceitas (fechadas)",
     MODO_ENTREGUES: "Aceitas + em Aceitação PO",
