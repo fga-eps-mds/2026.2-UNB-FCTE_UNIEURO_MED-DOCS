@@ -1,16 +1,52 @@
 {
   "repositorio": "DOCS",
-  "coletado_em": "2026-10-26T09:26:07Z",
+  "coletado_em": "2026-10-27T09:18:43Z",
   "workflow_runs": [
     {
-      "id": 40299479824,
+      "id": 40479780284,
       "name": "Coleta de métricas",
       "head_branch": "main",
       "event": "schedule",
       "status": "in_progress",
       "conclusion": null,
+      "created_at": "2026-10-27T09:18:29Z",
+      "updated_at": "2026-10-27T09:18:32Z",
+      "run_number": 36,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/40479780284"
+    },
+    {
+      "id": 40437368871,
+      "name": "Deploy to GitHub Pages",
+      "head_branch": "main",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-27T02:15:21Z",
+      "updated_at": "2026-10-27T02:16:52Z",
+      "run_number": 190,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/40437368871"
+    },
+    {
+      "id": 40346639901,
+      "name": "Deploy to GitHub Pages",
+      "head_branch": "docs/canvas-medicao-no-tablet",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-26T15:10:04Z",
+      "updated_at": "2026-10-26T15:10:33Z",
+      "run_number": 189,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/40346639901"
+    },
+    {
+      "id": 40299479824,
+      "name": "Coleta de métricas",
+      "head_branch": "main",
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-10-26T09:25:52Z",
-      "updated_at": "2026-10-26T09:25:56Z",
+      "updated_at": "2026-10-26T09:26:51Z",
       "run_number": 35,
       "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/40299479824"
     },

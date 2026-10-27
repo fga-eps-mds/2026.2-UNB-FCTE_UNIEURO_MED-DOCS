@@ -1,7 +1,19 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-10-26T09:26:12Z",
+  "coletado_em": "2026-10-27T09:18:50Z",
   "workflow_runs": [
+    {
+      "id": 40346972280,
+      "name": "Build",
+      "head_branch": "fix/carregando-uma-vez",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-26T15:12:05Z",
+      "updated_at": "2026-10-26T15:14:36Z",
+      "run_number": 131,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/40346972280"
+    },
     {
       "id": 40272606731,
       "name": "Export de métricas",
