@@ -1,6 +1,6 @@
 {
   "workspace": "UNB/FCTE-UNIEURO/MED",
-  "coletado_em": "2026-10-29T09:14:37Z",
+  "coletado_em": "2026-10-30T09:14:44Z",
   "colunas_coletadas": true,
   "colunas_fonte": "issue",
   "sprints_velocity": {
@@ -879,9 +879,9 @@
       "start_at": "2026-10-26T03:59:00Z",
       "end_at": "2026-11-09T02:59:00Z",
       "total_points": 74.0,
-      "issues_total": 24,
+      "issues_total": 25,
       "issues_closed": 4,
-      "issues_sem_estimativa": 15,
+      "issues_sem_estimativa": 16,
       "issues": [
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
@@ -1026,6 +1026,12 @@
           "numero": 109,
           "estimativa": null,
           "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzUxMDQ4Ng",
+          "numero": 18,
+          "estimativa": null,
+          "coluna": "Review/QA"
         }
       ]
     },
