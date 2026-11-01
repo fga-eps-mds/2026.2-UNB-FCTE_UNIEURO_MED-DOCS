@@ -19,7 +19,7 @@ O padrão adotado está descrito no [modelo de ata](modelo-ata.md).
 | [08](Ata-08-EPS-2026-10-02-PO.md) | 02/10/2026 | Entrega da R1 e avaliação da disciplina | Professor, *Product Owner*, Cliente |
 | [09](Ata-09-EPS-2026-10-05-PO.md) | 05/10/2026 | Validação das histórias da Release Minor 1, CRUD do médico e sincronização | Professor, *Product Owner* |
 | [10](Ata-10-EPS-2026-10-19-PO.md) | 19/10/2026 | Experimentos do modelo de IA, aceitação das entregas e validação das histórias da R2 | Professor, *Product Owner*, Cliente |
-| [11](Ata-11-EPS-2026-10-30-PO.md) | 30/10/2026 | Apresentação da R2, dashboard e métricas do projeto | Professor |
+| [11](Ata-11-EPS-2026-10-30-PO.md) | 30/10/2026 | Entrega da R2, tablets e avaliação da disciplina | Professor, *Product Owner*, Cliente |
 
 **Fonte:** [Vitor Carvalho Pereira](https://github.com/vcpVitor), 2026
 
