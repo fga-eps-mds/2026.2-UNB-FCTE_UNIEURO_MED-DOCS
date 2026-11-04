@@ -1,7 +1,67 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-11-03T09:12:03Z",
+  "coletado_em": "2026-11-04T09:12:24Z",
   "workflow_runs": [
+    {
+      "id": 41767930628,
+      "name": "Build",
+      "head_branch": "fix/97-limite-do-nome",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-04T03:34:11Z",
+      "updated_at": "2026-11-04T03:37:04Z",
+      "run_number": 135,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/41767930628"
+    },
+    {
+      "id": 41759465526,
+      "name": "Export de métricas",
+      "head_branch": "fix/carregando-uma-vez",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-04T02:14:50Z",
+      "updated_at": "2026-11-04T02:18:26Z",
+      "run_number": 33,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/41759465526"
+    },
+    {
+      "id": 41759465030,
+      "name": "Build",
+      "head_branch": "develop",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-04T02:14:50Z",
+      "updated_at": "2026-11-04T02:18:13Z",
+      "run_number": 134,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/41759465030"
+    },
+    {
+      "id": 41722730727,
+      "name": "Build",
+      "head_branch": "feat/10-gravacao-desenho",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-03T21:32:31Z",
+      "updated_at": "2026-11-03T21:36:04Z",
+      "run_number": 133,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/41722730727"
+    },
+    {
+      "id": 41635699207,
+      "name": "Build",
+      "head_branch": "feat/tcle-consentimentos-pesquisa",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-03T12:26:19Z",
+      "updated_at": "2026-11-03T12:29:39Z",
+      "run_number": 132,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/41635699207"
+    },
     {
       "id": 40346972280,
       "name": "Build",
