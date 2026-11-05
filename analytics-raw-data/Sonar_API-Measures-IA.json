@@ -1,7 +1,7 @@
 {
   "repositorio": "IA",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-IA",
-  "coletado_em": "2026-11-04T09:12:27Z",
+  "coletado_em": "2026-11-05T09:12:09Z",
   "medidas": {
     "coverage": "95.3",
     "reliability_rating": "3.0",
@@ -14,8 +14,8 @@
     "security_hotspots": "0",
     "sqale_index": "45",
     "sqale_rating": "1.0",
-    "alert_status": "ERROR",
     "bugs": "1",
+    "alert_status": "ERROR",
     "ncloc": "423",
     "vulnerabilities": "2",
     "files": "9"
@@ -31,18 +31,6 @@
         {
           "date": "2026-10-26T05:21:45+0000",
           "value": "3.0"
-        }
-      ]
-    },
-    {
-      "metric": "alert_status",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000"
-        },
-        {
-          "date": "2026-10-26T05:21:45+0000",
-          "value": "ERROR"
         }
       ]
     },
@@ -189,6 +177,18 @@
         {
           "date": "2026-10-26T05:21:45+0000",
           "value": "1.0"
+        }
+      ]
+    },
+    {
+      "metric": "alert_status",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        },
+        {
+          "date": "2026-10-26T05:21:45+0000",
+          "value": "ERROR"
         }
       ]
     },
