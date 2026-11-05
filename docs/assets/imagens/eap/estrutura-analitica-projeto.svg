@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1460" viewBox="0 0 1800 1460" role="img" aria-labelledby="title desc">
   <title id="title">Estrutura Analítica do Projeto MED</title>
-  <desc id="desc">Diagrama hierárquico do projeto MED. A Visão do Produto, a gestão do projeto, a engenharia e qualidade e o produto de software aparecem no segundo nível. O produto é decomposto nas releases R1, R2, R3 e final, com os épicos funcionais de cada entrega.</desc>
+  <desc id="desc">Diagrama hierárquico do projeto MED. A Visão do Produto, a gestão do projeto, a engenharia e qualidade e o produto de software aparecem no segundo nível. O produto é decomposto nas releases R1, R2, R3 e final, com os épicos funcionais de cada entrega, incluindo o modelo de IA na R2 e na R3.</desc>
   <defs>
     <style>
       .root { fill: #9a3412; stroke: #7c2d12; stroke-width: 3; }
@@ -113,6 +113,10 @@
   <text class="box-title" x="675" y="1124">1.4.2.4 Fundação da avaliação</text>
   <text class="small" x="675" y="1148">Primeiro desenho e persistência protegida</text>
   <text class="small" x="675" y="1165">avanço parcial de #8, #9, #10, #17, #23 e #25</text>
+  <rect class="epic" x="485" y="1182" width="380" height="76" rx="8"/>
+  <text class="box-title" x="675" y="1210">1.4.2.5 Modelo base de IA</text>
+  <text class="small" x="675" y="1234">Cinco sementes e exportação em ONNX · IA #6</text>
+  <text class="small" x="675" y="1251">avanço parcial da IA #4</text>
 
   <rect class="release" x="935" y="785" width="380" height="74" rx="9"/>
   <text class="box-title" x="1125" y="814">1.4.3 R3 · MVP integrado</text>
@@ -132,6 +136,10 @@
   <rect class="epic" x="935" y="1170" width="380" height="64" rx="8"/>
   <text class="box-title" x="1125" y="1198">1.4.3.5 Exportação local</text>
   <text class="small" x="1125" y="1222">XML sob solicitação, sem transmissão · #22</text>
+  <rect class="epic" x="935" y="1244" width="380" height="76" rx="8"/>
+  <text class="box-title" x="1125" y="1272">1.4.3.6 Modelo de IA de pontuação</text>
+  <text class="small" x="1125" y="1296">Treinos versionados, dados e medição no tablet</text>
+  <text class="small" x="1125" y="1313">IA #5, #15 e #21 a #25</text>
 
   <rect class="increment" x="1385" y="785" width="380" height="74" rx="9"/>
   <text class="box-title" x="1575" y="814">1.4.4 Release final · Estabilização</text>
@@ -143,7 +151,7 @@
   <text class="box-title" x="1575" y="976">1.4.4.2 Acessibilidade</text>
   <text class="small" x="1575" y="1000">Contraste e tamanho da fonte · #24</text>
 
-  <path class="connector" d="M225 859 V874 M675 859 V874 M675 938 V948 M675 1012 V1022 M675 1086 V1096 M1125 859 V874 M1125 938 V948 M1125 1012 V1022 M1125 1086 V1096 M1125 1160 V1170 M1575 859 V874 M1575 938 V948"/>
+  <path class="connector" d="M225 859 V874 M675 859 V874 M675 938 V948 M675 1012 V1022 M675 1086 V1096 M675 1172 V1182 M1125 859 V874 M1125 938 V948 M1125 1012 V1022 M1125 1086 V1096 M1125 1160 V1170 M1125 1234 V1244M1575 859 V874 M1575 938 V948"/>
 
   <rect x="35" y="1360" width="1730" height="64" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
   <text class="legend" x="60" y="1387">Leitura: R1, R2, R3 e Release final são entregas irmãs, decompostas em épicos funcionais. As USs aparecem somente como rastreabilidade.</text>
