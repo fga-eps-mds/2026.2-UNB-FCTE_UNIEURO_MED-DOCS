@@ -1109,7 +1109,30 @@ def _legenda_do_modo(modo: str, em_aceitacao: float):
     st.caption(texto)
 
 
-def _render_qrapids_processo(processo_dados: dict, modo: str = MODO_PADRAO):
+def _render_variacao_do_prp(linhas: list):
+    """PRP, RPC e APC de cada sprint: a variação do backlog comprometido, como no Agile EVM."""
+    if not linhas:
+        return
+    st.markdown("#### Variação do PRP por Sprint")
+    tabela = pd.DataFrame([{
+        "Sprint": l["sprint"] + (" (em andamento)" if l["em_andamento"] else ""),
+        "Release": l["release"] or "—",
+        "PRP no início (SP)": f"{l['prp_inicio']:.0f}",
+        "Adicionados (SP)": f"{l['adicionados']:.0f}",
+        "PRP no fim (SP)": f"{l['prp_fim']:.0f}",
+        "RPC (SP)": f"{l['rpc']:.0f}",
+        "Em Aceitação PO (SP)": f"{l['em_aceitacao']:.0f}",
+        "APC": formatar_indice(l["apc"]),
+    } for l in linhas])
+    st.dataframe(tabela, use_container_width=True, hide_index=True)
+    st.caption(
+        "PRP: pontos de história planejados para a sprint. RPC: pontos entregues, pela regra da barra lateral. "
+        "APC = RPC ÷ PRP do fim. O PRP do início é o do fim menos os pontos que entraram com a sprint em "
+        "andamento; P3 é a razão entre os dois."
+    )
+
+
+def _render_qrapids_processo(processo_dados: dict, modo: str = MODO_PADRAO, prp: list = None):
     """Indicadores de processo P1 a P3 e o índice P por release."""
     if not processo_dados:
         st.info("Nenhuma sprint com pontos planejados nem execução de CI foi coletada ainda.")
@@ -1125,10 +1148,11 @@ def _render_qrapids_processo(processo_dados: dict, modo: str = MODO_PADRAO):
     ajuda = {
         "P1": "Execuções do CI que terminaram com sucesso sobre as concluídas com sucesso ou falha, no APP e na IA. "
               "Execuções puladas ou canceladas não entram. Mede se o código se mantém estável a cada mudança.",
-        "P2": "Pontos de história aceitos pelo PO sobre os pontos planejados, em média por sprint. "
-              "Uma história só conta depois do aceite.",
-        "P3": "Parte do escopo final da sprint que já estava nela quando a sprint começou. "
-              "Abaixo de 1,00, entraram pontos com a sprint em andamento.",
+        "P2": "É o APC do Agile EVM: RPC ÷ PRP, os pontos de história aceitos pelo PO sobre os pontos "
+              "planejados, em média por sprint. Uma história só conta depois do aceite.",
+        "P3": "Estabilidade do PRP: PRP do início ÷ PRP do fim da sprint, ou seja, a parte do escopo final "
+              "que já estava planejada quando a sprint começou. Abaixo de 1,00, o PRP cresceu com a sprint "
+              "em andamento. A variação de cada sprint está na tabela abaixo.",
     }
     colunas = st.columns(4)
     for coluna, (chave, nome) in zip(colunas[:3], INDICADORES.items()):
@@ -1190,8 +1214,8 @@ def _render_qrapids_processo(processo_dados: dict, modo: str = MODO_PADRAO):
     tabela = tabela_processo(processo_dados)
     st.dataframe(tabela, use_container_width=True, hide_index=True)
     st.caption(
-        "P1 Estabilidade do CI, P2 Entrega do comprometido, P3 Estabilidade do escopo e P Índice de processo "
-        "(média dos três). n/m: não medido. * valor parcial."
+        "P1 Estabilidade do CI, P2 APC (RPC ÷ PRP, do Agile EVM), P3 Estabilidade do PRP e P Índice de "
+        "processo (média dos três). n/m: não medido. * valor parcial."
     )
 
     with st.expander("Como ler os indicadores de processo"):
@@ -1201,14 +1225,17 @@ def _render_qrapids_processo(processo_dados: dict, modo: str = MODO_PADRAO):
             "n/m, e as faixas são as do Q-Rapids. São uma **proposta do time** que ainda precisa ser "
             "validada com o professor.\n\n"
             "- **P1 Estabilidade do CI:** execuções com sucesso sobre execuções concluídas.\n"
-            "- **P2 Entrega do comprometido:** pontos aceitos sobre pontos planejados, em média por sprint.\n"
-            "- **P3 Estabilidade do escopo:** pontos que já estavam na sprint no início sobre os planejados ao final, "
-            "em média por sprint.\n"
+            "- **P2 APC (escopo concluído):** é o APC do Agile EVM (Sulaiman, Barton e Blackburn, 2006), "
+            "RPC ÷ PRP, em média por sprint.\n"
+            "- **P3 Estabilidade do PRP:** PRP do início ÷ PRP do fim da sprint, em média por sprint. "
+            "Mostra a variação do backlog comprometido.\n"
             "- **P Índice de processo:** média simples de P1, P2 e P3.\n\n"
             "P2 e P3 são médias por sprint porque somar os pontos da release contaria duas vezes a história "
             "que passa de uma sprint para a outra. Cada sprint entra na release em que termina, e sprints sem "
             "pontos planejados, como as de preparação, ficam de fora."
         )
+
+    _render_variacao_do_prp(prp or [])
 
 
 def _render_qrapids_comparativo(comparativo: dict, modo: str = MODO_PADRAO):
@@ -1306,7 +1333,7 @@ def render_qrapids_tab(dados: dict, modo: str = MODO_PADRAO):
     with aba_produto:
         _render_qrapids_produto(dados["produto"])
     with aba_processo:
-        _render_qrapids_processo(dados["processo"], modo)
+        _render_qrapids_processo(dados["processo"], modo, dados.get("prp"))
     with aba_comparativo:
         _render_qrapids_comparativo(dados["comparativo"], modo)
 

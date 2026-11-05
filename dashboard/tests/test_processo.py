@@ -117,3 +117,16 @@ class BugsTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class VariacaoDoPrpTest(unittest.TestCase):
+    def test_mostra_o_prp_do_inicio_e_do_fim_o_rpc_e_o_apc_de_cada_sprint(self):
+        zenhub = {"sprints_velocity": {
+            "Sprint 3": sprint(74, entregues=0, adicionados=37, fim="2026-10-26T02:59:00Z"),
+        }}
+        with PastaDeDados(zenhub_analytics=zenhub) as pasta:
+            linha = processo.variacao_do_prp(pasta)[0]
+        self.assertEqual((linha["prp_inicio"], linha["adicionados"], linha["prp_fim"]), (37, 37, 74))
+        self.assertEqual(linha["rpc"], 0)
+        self.assertEqual(linha["apc"], 0)
+        self.assertEqual(linha["release"], "R2")

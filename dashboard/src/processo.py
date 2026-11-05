@@ -29,10 +29,11 @@ REPOSITORIOS_DE_PRODUTO = ("APP", "IA")
 # Execuções puladas ou canceladas não dizem se o código está estável.
 CONCLUSOES_CONTADAS = {"success", "failure"}
 
+# P2 é o APC do Agile EVM (RPC ÷ PRP) e P3 mede a variação do PRP durante a sprint.
 INDICADORES = {
     "P1": "Estabilidade do CI",
-    "P2": "Entrega do comprometido",
-    "P3": "Estabilidade do escopo",
+    "P2": "APC: escopo concluído",
+    "P3": "Estabilidade do PRP",
 }
 PESOS = {"P1": 1, "P2": 1, "P3": 1}
 
@@ -213,6 +214,30 @@ def comparativo(pasta: str = RAW_DATA_DIR, modo: str = MODO_ACEITAS) -> Dict[str
             "arquivos_com_defeito_provavel": _problemas_de_confiabilidade(avaliacao),
         }
     return resultado
+
+
+def variacao_do_prp(pasta: str = RAW_DATA_DIR, modo: str = MODO_ACEITAS) -> List[Dict[str, Any]]:
+    """
+    Uma linha por sprint com o PRP no início e no fim, os pontos adicionados, o RPC e o APC.
+
+    O PRP do fim é o total de pontos de história da sprint no ZenHub. O do início é esse total
+    menos os pontos adicionados com a sprint em andamento. O RPC são os pontos entregues, pela
+    regra do `modo`, e o APC é RPC ÷ PRP do fim, como no Agile EVM.
+    """
+    linhas = []
+    for s in sprints(pasta, modo):
+        linhas.append({
+            "sprint": s["nome"],
+            "release": s["release"],
+            "prp_inicio": s["planejados"] - s["adicionados"],
+            "adicionados": s["adicionados"],
+            "prp_fim": s["planejados"],
+            "rpc": s["entregues"],
+            "em_aceitacao": s["aguardando"],
+            "apc": _entrega(s),
+            "em_andamento": s["estado"] != "CLOSED",
+        })
+    return linhas
 
 
 if __name__ == "__main__":

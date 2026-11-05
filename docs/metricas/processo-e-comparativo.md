@@ -20,8 +20,8 @@ diária já grava e seguem o mesmo princípio do plano: valor entre 0 e 1, sem d
 | Id | Indicador | Fórmula | Fonte |
 |---|---|---|---|
 | P1 | Estabilidade do CI | execuções com sucesso / execuções concluídas com sucesso ou falha, no APP e na IA | `GitHub_API-Runs-*.json` |
-| P2 | Entrega do comprometido | pontos de história aceitos / pontos planejados, em média por sprint | `zenhub_analytics.json` |
-| P3 | Estabilidade do escopo | pontos que já estavam na sprint no início / pontos planejados ao final, em média por sprint | `zenhub_analytics.json` |
+| P2 | APC: escopo concluído | RPC / PRP: pontos de história aceitos / pontos planejados, em média por sprint | `zenhub_analytics.json` |
+| P3 | Estabilidade do PRP | PRP no início / PRP no fim da sprint, em média por sprint | `zenhub_analytics.json` |
 | P | Índice de processo | `(P1 + P2 + P3) / 3` | — |
 
 **Fonte:** [Gabriel Lopes de Amorim](https://github.com/BrzGab), 2026
@@ -57,6 +57,14 @@ histórias #21, #8, #9 e #10, apresentadas aos *Product Owners* em 19/10.
 
 **O CI está estável (P1 = 0,97).** Na R2, 71 de 73 execuções concluídas terminaram com
 sucesso no APP e na IA.
+
+### P2, P3 e o Agile EVM
+
+O P2 é o APC (*Actual Percent Complete*) do Agile EVM (Sulaiman, Barton e Blackburn, 2006):
+os pontos entregues da release (RPC) sobre os pontos planejados (PRP). O P3 mostra a
+variação do PRP, ou seja, do backlog comprometido: o PRP do início da sprint é o do fim
+menos os pontos que entraram com ela em andamento. O dashboard mostra, na aba de processo,
+o PRP do início e do fim, os pontos adicionados, o RPC e o APC de cada sprint.
 
 ## Comparação R1 × R2
 
@@ -113,3 +121,4 @@ da versão 1.2.3, as mesmas usadas no Q-Rapids. As issues de bug vêm do arquivo
 | Versão | Data | Descrição | Autor | Revisor |
 |:------:|------|-----------|-------|---------|
 | `1.0` | 22/10/2026 | Indicadores de processo e comparação R1 × R2 de velocidade, cobertura e defeitos | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |
+| `1.1` | 05/11/2026 | P2 e P3 como APC e estabilidade do PRP, do Agile EVM, e variação do PRP por sprint | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |
