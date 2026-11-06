@@ -1,7 +1,19 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-11-05T09:12:06Z",
+  "coletado_em": "2026-11-06T09:13:05Z",
   "workflow_runs": [
+    {
+      "id": 42172464336,
+      "name": "Build",
+      "head_branch": "feat/tcle-consentimentos-pesquisa",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-06T06:07:31Z",
+      "updated_at": "2026-11-06T06:09:41Z",
+      "run_number": 137,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/42172464336"
+    },
     {
       "id": 41936769183,
       "name": "Build",
