@@ -77,6 +77,20 @@ metas, não funcionalidades já entregues.
 | **R3** | [#25 — Salvar e retomar avaliação](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/25) | Progresso salvo, retomada após interrupção e consulta local às avaliações do profissional. |
 | **Após o MVP** | [#24 — Configurar contraste e fonte](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/24) | Ajustes configuráveis nas três tarefas; candidata à release final, sem dispensar a legibilidade padrão da #8. |
 
+### Modelo de IA até a R3
+
+Na avaliação da R2, o professor pediu que o treinamento do modelo fosse versionado e que isso entrasse no roadmap ([Ata 11](../atas-reunioes/Ata-11-EPS-2026-10-30-PO.md)). As entregas abaixo são do [épico IA #1](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/1), que termina na R3 (Tabela 1), e correspondem ao épico 1.4.3.6 da [EAP](../EAP.md).
+
+**Tabela 2** – Entregas do modelo de IA até a R3
+
+| Entrega | Tarefas | Resultado esperado |
+|---|---|---|
+| Versionamento dos treinos | [IA #22](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/22) | Cada rodada de treino registrada no MLflow, com a rede, a configuração, as métricas e os pesos. |
+| Modelo exportado ligado ao treino | [IA #25](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/25) | É possível saber de qual treino saiu cada arquivo exportado, e o pipeline confere a exportação. |
+| Qualidade do conjunto de dados | [IA #23](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/23) | Análise das imagens do conjunto atual, com recomendação sobre manter ou trocar o conjunto. |
+| Novo conjunto de dados | [IA #24](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/24) | Treino e comparação com o conjunto que o PO está procurando. Se ele não encontrar outro conjunto, o modelo atual continua. |
+| Imagem do aplicativo e tablet | [IA #21](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/21) e [IA #15](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/15) | Desenho do aplicativo preparado para a entrada do modelo e tempo de cálculo medido no tablet do parceiro. |
+| Validação por escolaridade | [IA #5](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/5) | Desempenho do modelo medido por faixa de escolaridade. |
 
 ### Execução por sprint
 
@@ -108,4 +122,5 @@ metas, não funcionalidades já entregues.
 | 26/09/2026 | 1.3 | Mapeamento das 18 USs do backlog para R2, R3 e pós-MVP, com critérios e divergências de escopo explicitados. | Equipe MED (proposta para revisão) |
 | 12/10/2026 | 1.4 | Inclusão da tela inicial do profissional (US #46) na R2 e alinhamento com a EAP revisada. | Daniel Ferreira Nunes |
 | 19/10/2026 | 1.5 | Troca do quadro do Miro pelo roadmap do ZenHub, com os épicos e suas datas. | Vitor Carvalho Pereira |
+| 05/11/2026 | 1.6 | Inclusão das entregas do modelo de IA até a R3, com o versionamento dos treinos pedido na avaliação da R2. | Artur Mendonça Arruda |
 

@@ -72,6 +72,12 @@ metas futuras não representam funcionalidades concluídas.
 
 ### 1.4 Produto de software
 
+Até a versão 1.5, o modelo de IA aparecia só como a inferência embarcada do
+épico 1.4.3.3. Na avaliação da R2, houve o apontamento de que a equipe está
+subvalorizando a parte de IA do escopo, inclusive na EAP
+([Ata 11](atas-reunioes/Ata-11-EPS-2026-10-30-PO.md)). Por isso, o modelo
+entrou como épico próprio na R2 (1.4.2.5) e na R3 (1.4.3.6).
+
 #### 1.4.1 R1 — Interfaces de acesso
 
 A R1 registrou o incremento demonstrado em 28/09. A existência das telas não
@@ -93,6 +99,7 @@ que abrangem as três tarefas e somente serão aceitas na R3.
 | **1.4.2.2** | Área do profissional | Tela inicial após o login, com identificação do profissional e atalhos para novo exame, exportação, sincronização e configurações. | US [#46](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/46). |
 | **1.4.2.3** | Atendimento e consentimento | Registro do atendimento vinculado ao profissional e apresentação e registro do TCLE antes de qualquer desenho. | USs [#7](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/7) e [#21](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/21). |
 | **1.4.2.4** | Fundação da avaliação | Primeiro desenho demonstrado localmente e início da persistência protegida. | Avanço parcial das USs [#8](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/8), [#9](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/9), [#10](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/10), [#17](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/17), [#23](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/23) e [#25](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/25). |
+| **1.4.2.5** | Modelo base de IA | Modelo do artigo de referência treinado em cinco sementes e exportado em ONNX, conferido no computador e num celular sem internet. | Tarefa [IA #6](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/6) e avanço parcial da [IA #4](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/4). |
 
 #### 1.4.3 R3 — MVP integrado
 
@@ -106,6 +113,7 @@ integração, testes no tablet em modo avião e aceite dos critérios pelo PO.
 | **1.4.3.3** | Inferência e resultados | Encerramento sem escore para o paciente, inferência embarcada e resultados explicáveis acessíveis somente ao profissional. | USs [#11](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/11), [#12](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/12), [#13](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/13) e [#14](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/14). |
 | **1.4.3.4** | Operação protegida | Fluxo integral sem internet, sem envio de dados clínicos e com dados locais cifrados. | USs [#15](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/15), [#16](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/16) e [#17](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/17). |
 | **1.4.3.5** | Exportação local | Geração de XML sob solicitação do profissional, sem transmissão automática. | US [#22](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/22). |
+| **1.4.3.6** | Modelo de IA de pontuação | Treinos versionados e ligados ao modelo exportado, conjunto de dados avaliado, imagem do aplicativo preparada para o modelo e modelo medido no tablet e validado por faixa de escolaridade. | Tarefas [IA #5](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/5), [IA #15](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/15), [IA #21](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/21), [IA #22](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/22), [IA #23](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/23), [IA #24](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/24) e [IA #25](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/25). Base para as USs [#12](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/12) a [#14](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/14). |
 
 #### 1.4.4 Release final — Estabilização
 
@@ -146,3 +154,4 @@ por isso, não aparece no sequenciador original da Lean Inception.
 | 1.3 | Definição dos pacotes de R1, R2 e R3 com vínculo às USs do APP e ao roadmap. | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | 26/09/2026 | — | — |
 | 1.4 | Reestruturação da EAP por entregas, releases e épicos funcionais, com alinhamento ao sequenciador, backlog e roadmap após a R1. | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | 10/10/2026 | — | — |
 | 1.5 | Ajustes após revisão: elevação da Visão do Produto, separação entre roadmap e cronograma, inclusão da US #46 e correção da rastreabilidade. | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | 12/10/2026 | — | — |
+| 1.6 | Inclusão do modelo de IA como épico próprio na R2 (1.4.2.5) e na R3 (1.4.3.6), após o apontamento da avaliação da R2. | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 05/11/2026 | — | — |
