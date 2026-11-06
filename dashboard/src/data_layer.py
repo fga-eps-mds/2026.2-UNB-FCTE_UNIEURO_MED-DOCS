@@ -333,6 +333,7 @@ def get_qrapids_data(pasta: str = RAW_DATA_DIR, modo: str = MODO_PADRAO) -> Dict
 
     indicadores = _ou_padrao("indicadores de processo", lambda: processo.indicadores_por_release(pasta, modo), {})
     comparativo = _ou_padrao("comparativo R1 x R2", lambda: processo.comparativo(pasta, modo), {})
+    prp = _ou_padrao("variação do PRP", lambda: processo.variacao_do_prp(pasta, modo), [])
     disponivel = bool(
         indicadores or comparativo or any(item["avaliacoes"] for item in produto.values())
     )
@@ -341,4 +342,5 @@ def get_qrapids_data(pasta: str = RAW_DATA_DIR, modo: str = MODO_PADRAO) -> Dict
         "produto": produto,
         "processo": indicadores,
         "comparativo": comparativo,
+        "prp": prp,
     }
