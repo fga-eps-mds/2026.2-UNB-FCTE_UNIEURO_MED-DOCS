@@ -1,7 +1,7 @@
 {
   "repositorio": "IA",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-IA",
-  "coletado_em": "2026-11-05T09:12:40Z",
+  "coletado_em": "2026-11-06T09:13:43Z",
   "branches": {
     "main": [
       {
@@ -115,10 +115,10 @@
         "chave": "AaF2XtPGI5fXcO_Y6vkJ",
         "arquivo": "exportacao/aparelho.py",
         "regra": "pythonsecurity:S8707",
-        "status": "OPEN",
-        "resolucao": null,
+        "status": "CLOSED",
+        "resolucao": "FIXED",
         "criado_em": "2026-10-22T17:23:09+0000",
-        "fechado_em": null,
+        "fechado_em": "2026-11-05T17:56:01+0000",
         "impactos": [
           {
             "qualidade": "SECURITY",
@@ -145,10 +145,10 @@
         "chave": "AaF2XtNzI5fXcO_Y6vkD",
         "arquivo": "exportacao/aparelho/index.html",
         "regra": "Web:S5256",
-        "status": "OPEN",
-        "resolucao": null,
+        "status": "CLOSED",
+        "resolucao": "FIXED",
         "criado_em": "2026-10-22T17:23:09+0000",
-        "fechado_em": null,
+        "fechado_em": "2026-11-05T17:56:01+0000",
         "impactos": [
           {
             "qualidade": "RELIABILITY",
@@ -160,10 +160,10 @@
         "chave": "AaF2XtNzI5fXcO_Y6vkE",
         "arquivo": "exportacao/aparelho/index.html",
         "regra": "Web:S5725",
-        "status": "OPEN",
-        "resolucao": null,
+        "status": "CLOSED",
+        "resolucao": "FIXED",
         "criado_em": "2026-10-22T17:23:09+0000",
-        "fechado_em": null,
+        "fechado_em": "2026-11-05T17:56:01+0000",
         "impactos": [
           {
             "qualidade": "SECURITY",

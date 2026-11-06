@@ -1,7 +1,31 @@
 {
   "repositorio": "IA",
-  "coletado_em": "2026-11-05T09:12:08Z",
+  "coletado_em": "2026-11-06T09:13:07Z",
   "workflow_runs": [
+    {
+      "id": 42079088055,
+      "name": "Export de métricas",
+      "head_branch": "fix/sonar-gate-aparelho",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-05T17:54:03Z",
+      "updated_at": "2026-11-05T17:57:00Z",
+      "run_number": 8,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/actions/runs/42079088055"
+    },
+    {
+      "id": 42079087230,
+      "name": "Build",
+      "head_branch": "develop",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-05T17:54:02Z",
+      "updated_at": "2026-11-05T17:56:41Z",
+      "run_number": 34,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/actions/runs/42079087230"
+    },
     {
       "id": 41899888101,
       "name": "Build",
