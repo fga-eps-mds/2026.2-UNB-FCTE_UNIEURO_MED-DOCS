@@ -1,6 +1,6 @@
 {
   "workspace": "Mnema",
-  "coletado_em": "2026-11-06T09:13:51Z",
+  "coletado_em": "2026-11-07T09:10:53Z",
   "colunas_coletadas": true,
   "colunas_fonte": "issue",
   "sprints_velocity": {
@@ -879,9 +879,9 @@
       "start_at": "2026-10-26T03:59:00Z",
       "end_at": "2026-11-09T02:59:00Z",
       "total_points": 74.0,
-      "issues_total": 30,
-      "issues_closed": 7,
-      "issues_sem_estimativa": 21,
+      "issues_total": 31,
+      "issues_closed": 8,
+      "issues_sem_estimativa": 22,
       "issues": [
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
@@ -1056,6 +1056,12 @@
           "numero": 113,
           "estimativa": null,
           "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzk5MzAxNQ",
+          "numero": 108,
+          "estimativa": null,
+          "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDExMDAzMg",

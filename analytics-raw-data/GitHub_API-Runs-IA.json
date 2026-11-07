@@ -1,7 +1,79 @@
 {
   "repositorio": "IA",
-  "coletado_em": "2026-11-06T09:13:07Z",
+  "coletado_em": "2026-11-07T09:10:12Z",
   "workflow_runs": [
+    {
+      "id": 42283030571,
+      "name": "Build",
+      "head_branch": "feat/21-preparo-imagem-app",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-06T19:49:37Z",
+      "updated_at": "2026-11-06T19:51:23Z",
+      "run_number": 38,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/actions/runs/42283030571"
+    },
+    {
+      "id": 42282165590,
+      "name": "Build",
+      "head_branch": "develop",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-06T19:43:42Z",
+      "updated_at": "2026-11-06T19:46:14Z",
+      "run_number": 37,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/actions/runs/42282165590"
+    },
+    {
+      "id": 42282131193,
+      "name": "Export de métricas",
+      "head_branch": "feat/mlflow-treino",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-06T19:43:29Z",
+      "updated_at": "2026-11-06T19:45:03Z",
+      "run_number": 10,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/actions/runs/42282131193"
+    },
+    {
+      "id": 42281954279,
+      "name": "Export de métricas",
+      "head_branch": "fix/modelo-ultimo-pooling",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-06T19:42:16Z",
+      "updated_at": "2026-11-06T19:44:50Z",
+      "run_number": 9,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/actions/runs/42281954279"
+    },
+    {
+      "id": 42281953582,
+      "name": "Build",
+      "head_branch": "develop",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-06T19:42:16Z",
+      "updated_at": "2026-11-06T19:44:36Z",
+      "run_number": 36,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/actions/runs/42281953582"
+    },
+    {
+      "id": 42277056775,
+      "name": "Build",
+      "head_branch": "feat/21-preparo-imagem-app",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-06T19:08:55Z",
+      "updated_at": "2026-11-06T19:11:12Z",
+      "run_number": 35,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/actions/runs/42277056775"
+    },
     {
       "id": 42079088055,
       "name": "Export de métricas",

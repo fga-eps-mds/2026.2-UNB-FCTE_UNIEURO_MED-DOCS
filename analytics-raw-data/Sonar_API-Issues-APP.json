@@ -1,7 +1,7 @@
 {
   "repositorio": "APP",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-APP",
-  "coletado_em": "2026-11-06T09:13:26Z",
+  "coletado_em": "2026-11-07T09:10:31Z",
   "branches": {
     "main": [
       {
@@ -611,6 +611,36 @@
     ],
     "develop": [
       {
+        "chave": "AaGwgQ9mw1IScazXtSPk",
+        "arquivo": "src/features/avaliacao/consent-decision.tsx",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-28T07:19:01+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaGwgQ9mw1IScazXtSPl",
+        "arquivo": "src/features/avaliacao/consent-decision.tsx",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-10-28T07:19:01+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
         "chave": "AaFmQiyRESiijjIYy0J6",
         "arquivo": "src/features/captura/quadro-desenho.tsx",
         "regra": "typescript:S6759",
@@ -845,11 +875,11 @@
         "fechado_em": "2026-10-25T21:14:11+0000",
         "impactos": [
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           }
         ]
@@ -1180,36 +1210,6 @@
         "impactos": [
           {
             "qualidade": "MAINTAINABILITY",
-            "severidade": "MEDIUM"
-          }
-        ]
-      },
-      {
-        "chave": "AaEM1S1o12SGwlcS43pJ",
-        "arquivo": "src/app/_layout.tsx",
-        "regra": "typescript:S9383",
-        "status": "CLOSED",
-        "resolucao": "FIXED",
-        "criado_em": "2026-09-24T23:28:12+0000",
-        "fechado_em": "2026-10-05T16:22:12+0000",
-        "impactos": [
-          {
-            "qualidade": "RELIABILITY",
-            "severidade": "MEDIUM"
-          }
-        ]
-      },
-      {
-        "chave": "AaEM1S1o12SGwlcS43pK",
-        "arquivo": "src/app/_layout.tsx",
-        "regra": "typescript:S9383",
-        "status": "CLOSED",
-        "resolucao": "FIXED",
-        "criado_em": "2026-09-24T23:28:12+0000",
-        "fechado_em": "2026-10-05T16:22:12+0000",
-        "impactos": [
-          {
-            "qualidade": "RELIABILITY",
             "severidade": "MEDIUM"
           }
         ]
