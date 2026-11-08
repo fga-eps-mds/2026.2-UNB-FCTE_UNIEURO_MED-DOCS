@@ -20,15 +20,16 @@ diária já grava e seguem o mesmo princípio do plano: valor entre 0 e 1, sem d
 | Id | Indicador | Fórmula | Fonte |
 |---|---|---|---|
 | P1 | Estabilidade do CI | execuções com sucesso / execuções concluídas com sucesso ou falha, no APP e na IA | `GitHub_API-Runs-*.json` |
-| P2 | APC: escopo concluído | RPC / PRP: pontos de história aceitos / pontos planejados, em média por sprint | `zenhub_analytics.json` |
+| P2 | APC: escopo concluído | RPC / PRP da release: pontos de história aceitos / pontos planejados, com cada história contada uma vez | `zenhub_analytics.json` |
 | P3 | Estabilidade do PRP | PRP no início / PRP no fim da sprint, em média por sprint | `zenhub_analytics.json` |
 | P | Índice de processo | `(P1 + P2 + P3) / 3` | — |
 
 **Fonte:** [Gabriel Lopes de Amorim](https://github.com/BrzGab), 2026
 
 Cada sprint entra na release em que termina, e sprints sem pontos planejados, como as de
-preparação, ficam de fora. P2 e P3 são médias por sprint, porque somar os pontos de uma
-release contaria duas vezes a história que passa de uma sprint para a outra. Execuções
+preparação, ficam de fora. O P2 é calculado por release, como na aba de EVM: a história que passa
+de uma sprint para a outra entra uma vez só no PRP. O P3 é a média por sprint, porque a
+variação do PRP acontece dentro de cada sprint. Execuções
 puladas ou canceladas não entram em P1, porque não dizem se o código está estável.
 
 !!! warning "Proposta para validação"
@@ -61,10 +62,12 @@ sucesso no APP e na IA.
 ### P2, P3 e o Agile EVM
 
 O P2 é o APC (*Actual Percent Complete*) do Agile EVM (Sulaiman, Barton e Blackburn, 2006):
-os pontos entregues da release (RPC) sobre os pontos planejados (PRP). O P3 mostra a
+os pontos entregues da release (RPC) sobre os pontos planejados da release (PRP), com
+cada história contada uma vez, o mesmo valor da aba de EVM do dashboard. O P3 mostra a
 variação do PRP, ou seja, do backlog comprometido: o PRP do início da sprint é o do fim
 menos os pontos que entraram com ela em andamento. O dashboard mostra, na aba de processo,
-o PRP do início e do fim, os pontos adicionados, o RPC e o APC de cada sprint.
+o PRP do início e do fim, os pontos adicionados, o RPC e o APC de cada sprint. Nessa
+tabela, o PRP é o de cada sprint, e por isso a soma das sprints não é o PRP da release.
 
 ## Comparação R1 × R2
 
@@ -121,4 +124,4 @@ da versão 1.2.3, as mesmas usadas no Q-Rapids. As issues de bug vêm do arquivo
 | Versão | Data | Descrição | Autor | Revisor |
 |:------:|------|-----------|-------|---------|
 | `1.0` | 22/10/2026 | Indicadores de processo e comparação R1 × R2 de velocidade, cobertura e defeitos | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |
-| `1.1` | 05/11/2026 | P2 e P3 como APC e estabilidade do PRP, do Agile EVM, e variação do PRP por sprint | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |
+| `1.1` | 05/11/2026 | P2 como o APC da release e P3 como a estabilidade do PRP, do Agile EVM, e variação do PRP por sprint | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |

@@ -21,6 +21,7 @@ from typing import Any, Dict, List, Optional
 
 from . import aceitacao, qualidade
 from .config import MODO_ACEITAS, RAW_DATA_DIR
+from .metrics import pontos_distintos
 from .qualidade import BRASILIA, MARCOS, faixa, media_ponderada
 
 # O processo é avaliado nas releases major, e cada uma vai do fim da anterior até a sua data.
@@ -29,7 +30,8 @@ REPOSITORIOS_DE_PRODUTO = ("APP", "IA")
 # Execuções puladas ou canceladas não dizem se o código está estável.
 CONCLUSOES_CONTADAS = {"success", "failure"}
 
-# P2 é o APC do Agile EVM (RPC ÷ PRP) e P3 mede a variação do PRP durante a sprint.
+# P2 é o APC do Agile EVM (RPC ÷ PRP da release, como na aba de EVM) e P3 mede a variação
+# do PRP durante cada sprint.
 INDICADORES = {
     "P1": "Estabilidade do CI",
     "P2": "APC: escopo concluído",
@@ -84,6 +86,7 @@ def sprints(pasta: str = RAW_DATA_DIR, modo: str = MODO_ACEITAS) -> List[Dict[st
             "aceitos": float(info.get("delivered_story_points") or 0),
             "adicionados": float(info.get("points_added") or 0),
             "issues": info.get("issues") if isinstance(info.get("issues"), list) else None,
+            "issues_total": info.get("issues_total"),
         })
     resultado = sorted(resultado, key=lambda s: s["inicio"])
     manual = aceitacao.numeros_manuais(qualidade._ler(os.path.join(pasta, "aceitacao_po_manual.json")))
@@ -96,6 +99,25 @@ def sprints(pasta: str = RAW_DATA_DIR, modo: str = MODO_ACEITAS) -> List[Dict[st
 
 def _entrega(sprint: Dict[str, Any]) -> float:
     return min(1.0, sprint["entregues"] / sprint["planejados"])
+
+
+def prp_e_rpc_da_release(da_release: List[Dict[str, Any]]) -> tuple:
+    """
+    PRP e RPC da release, pelo mesmo cálculo da aba de EVM: (prp, rpc, aproximado).
+
+    O PRP conta cada história uma vez só, mesmo que ela passe de uma sprint para a outra
+    (`metrics.pontos_distintos`). O RPC soma os pontos entregues das sprints, e o ZenHub
+    conta a história entregue só na sprint em que ela fecha.
+    """
+    prp, aproximado = pontos_distintos([
+        {"total_points": s["planejados"], "issues": s["issues"], "issues_total": s["issues_total"]}
+        for s in da_release
+    ])
+    return prp, sum(s["entregues"] for s in da_release), aproximado
+
+
+def _apc(prp: float, rpc: float) -> Optional[float]:
+    return min(1.0, rpc / prp) if prp > 0 else None
 
 
 def _escopo(sprint: Dict[str, Any]) -> float:
@@ -161,10 +183,12 @@ def indicadores_por_release(pasta: str = RAW_DATA_DIR, modo: str = MODO_ACEITAS)
         ci = execucoes.get(release)
         if not da_release and not ci:
             continue
+        prp, rpc, prp_aproximado = prp_e_rpc_da_release(da_release)
         valores = {
             "P1": ci["success"] / (ci["success"] + ci["failure"]) if ci else None,
-            # Média por sprint: somar os pontos contaria duas vezes a história que passa de uma sprint para a outra.
-            "P2": sum(_entrega(s) for s in da_release) / len(da_release) if da_release else None,
+            # APC da release, igual ao da aba de EVM: cada história entra uma vez no PRP.
+            "P2": _apc(prp, rpc) if da_release else None,
+            # Média por sprint: a variação do PRP acontece dentro de cada sprint.
             "P3": sum(_escopo(s) for s in da_release) / len(da_release) if da_release else None,
         }
         indice, parcial = media_ponderada(valores, PESOS)
@@ -175,6 +199,9 @@ def indicadores_por_release(pasta: str = RAW_DATA_DIR, modo: str = MODO_ACEITAS)
             "sprints": [s["nome"] for s in da_release],
             "em_andamento": any(s["estado"] != "CLOSED" for s in da_release),
             "execucoes": ci,
+            "prp": prp,
+            "rpc": rpc,
+            "prp_aproximado": prp_aproximado,
             "pontos_aceitos": sum(s["aceitos"] for s in da_release),
             "pontos_em_aceitacao": sum(s["aguardando"] for s in da_release),
         }
@@ -221,15 +248,17 @@ def variacao_do_prp(pasta: str = RAW_DATA_DIR, modo: str = MODO_ACEITAS) -> List
     Uma linha por sprint com o PRP no início e no fim, os pontos adicionados, o RPC e o APC.
 
     O PRP do fim é o total de pontos de história da sprint no ZenHub. O do início é esse total
-    menos os pontos adicionados com a sprint em andamento. O RPC são os pontos entregues, pela
-    regra do `modo`, e o APC é RPC ÷ PRP do fim, como no Agile EVM.
+    menos os pontos adicionados com a sprint em andamento, e nunca fica negativo (uma história
+    tirada da sprint pode fazer os adicionados passarem do total). O RPC são os pontos
+    entregues, pela regra do `modo`, e o APC é RPC ÷ PRP do fim, da sprint. O APC da release,
+    que é o P2, conta cada história uma vez e está em `indicadores_por_release`.
     """
     linhas = []
     for s in sprints(pasta, modo):
         linhas.append({
             "sprint": s["nome"],
             "release": s["release"],
-            "prp_inicio": s["planejados"] - s["adicionados"],
+            "prp_inicio": max(0.0, s["planejados"] - s["adicionados"]),
             "adicionados": s["adicionados"],
             "prp_fim": s["planejados"],
             "rpc": s["entregues"],

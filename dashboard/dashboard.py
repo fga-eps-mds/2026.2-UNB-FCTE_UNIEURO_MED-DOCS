@@ -1122,13 +1122,15 @@ def _render_variacao_do_prp(linhas: list):
         "PRP no fim (SP)": f"{l['prp_fim']:.0f}",
         "RPC (SP)": f"{l['rpc']:.0f}",
         "Em Aceitação PO (SP)": f"{l['em_aceitacao']:.0f}",
-        "APC": formatar_indice(l["apc"]),
+        "APC da sprint": formatar_indice(l["apc"]),
     } for l in linhas])
     st.dataframe(tabela, use_container_width=True, hide_index=True)
     st.caption(
-        "PRP: pontos de história planejados para a sprint. RPC: pontos entregues, pela regra da barra lateral. "
-        "APC = RPC ÷ PRP do fim. O PRP do início é o do fim menos os pontos que entraram com a sprint em "
-        "andamento; P3 é a razão entre os dois."
+        "Nesta tabela, o PRP é o de cada sprint, o total de pontos dela no ZenHub. O PRP da release, usado no "
+        "P2 e na aba de EVM, conta uma vez só a história que passa por mais de uma sprint, por isso não é a "
+        "soma desta coluna. RPC: pontos entregues, pela regra da barra lateral. APC da sprint = RPC ÷ PRP do "
+        "fim. O PRP do início é o do fim menos os pontos que entraram com a sprint em andamento, e o P3 é a "
+        "razão entre os dois."
     )
 
 
@@ -1148,8 +1150,9 @@ def _render_qrapids_processo(processo_dados: dict, modo: str = MODO_PADRAO, prp:
     ajuda = {
         "P1": "Execuções do CI que terminaram com sucesso sobre as concluídas com sucesso ou falha, no APP e na IA. "
               "Execuções puladas ou canceladas não entram. Mede se o código se mantém estável a cada mudança.",
-        "P2": "É o APC do Agile EVM: RPC ÷ PRP, os pontos de história aceitos pelo PO sobre os pontos "
-              "planejados, em média por sprint. Uma história só conta depois do aceite.",
+        "P2": "É o APC do Agile EVM: RPC ÷ PRP da release, os pontos de história aceitos pelo PO sobre os "
+              "pontos planejados, com cada história contada uma vez, como na aba de EVM. Uma história só "
+              "conta depois do aceite.",
         "P3": "Estabilidade do PRP: PRP do início ÷ PRP do fim da sprint, ou seja, a parte do escopo final "
               "que já estava planejada quando a sprint começou. Abaixo de 1,00, o PRP cresceu com a sprint "
               "em andamento. A variação de cada sprint está na tabela abaixo.",
@@ -1226,13 +1229,14 @@ def _render_qrapids_processo(processo_dados: dict, modo: str = MODO_PADRAO, prp:
             "validada com o professor.\n\n"
             "- **P1 Estabilidade do CI:** execuções com sucesso sobre execuções concluídas.\n"
             "- **P2 APC (escopo concluído):** é o APC do Agile EVM (Sulaiman, Barton e Blackburn, 2006), "
-            "RPC ÷ PRP, em média por sprint.\n"
+            "RPC ÷ PRP da release, o mesmo valor da aba de EVM.\n"
             "- **P3 Estabilidade do PRP:** PRP do início ÷ PRP do fim da sprint, em média por sprint. "
             "Mostra a variação do backlog comprometido.\n"
             "- **P Índice de processo:** média simples de P1, P2 e P3.\n\n"
-            "P2 e P3 são médias por sprint porque somar os pontos da release contaria duas vezes a história "
-            "que passa de uma sprint para a outra. Cada sprint entra na release em que termina, e sprints sem "
-            "pontos planejados, como as de preparação, ficam de fora."
+            "O P2 é calculado por release, como na aba de EVM: a história que passa de uma sprint para a "
+            "outra entra uma vez só no PRP. O P3 é a média por sprint, porque a variação do PRP acontece "
+            "dentro de cada sprint. Cada sprint entra na release em que termina, e sprints sem pontos "
+            "planejados, como as de preparação, ficam de fora."
         )
 
     _render_variacao_do_prp(prp or [])
