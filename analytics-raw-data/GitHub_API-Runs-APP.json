@@ -1,7 +1,67 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-11-07T09:10:10Z",
+  "coletado_em": "2026-11-08T09:10:16Z",
   "workflow_runs": [
+    {
+      "id": 42439044552,
+      "name": "Build",
+      "head_branch": "feat/102-instrucao-do-relogio",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-08T02:33:22Z",
+      "updated_at": "2026-11-08T02:36:31Z",
+      "run_number": 143,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/42439044552"
+    },
+    {
+      "id": 42437904001,
+      "name": "Build",
+      "head_branch": "feat/104-assinatura-e-versao-do-apk",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-08T02:17:34Z",
+      "updated_at": "2026-11-08T02:19:36Z",
+      "run_number": 142,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/42437904001"
+    },
+    {
+      "id": 42435590344,
+      "name": "Build",
+      "head_branch": "feat/17-chave-cifragem-secure-store",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-08T01:45:04Z",
+      "updated_at": "2026-11-08T01:48:05Z",
+      "run_number": 141,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/42435590344"
+    },
+    {
+      "id": 42433089439,
+      "name": "Build",
+      "head_branch": "feat/109-instrucao-proporcional",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-08T01:10:32Z",
+      "updated_at": "2026-11-08T01:13:23Z",
+      "run_number": 140,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/42433089439"
+    },
+    {
+      "id": 42428514946,
+      "name": "Build",
+      "head_branch": "feat/tcle-cpf-responsavel",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-08T00:10:08Z",
+      "updated_at": "2026-11-08T00:12:49Z",
+      "run_number": 139,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/42428514946"
+    },
     {
       "id": 42206174696,
       "name": "Export de métricas",
