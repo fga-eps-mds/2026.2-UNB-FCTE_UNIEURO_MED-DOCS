@@ -11,7 +11,7 @@ import tempfile
 import unittest
 from unittest import mock
 
-from src import data_layer, qualidade
+from src import data_layer, processo, qualidade
 
 
 class DadosDaAbaTest(unittest.TestCase):
@@ -26,6 +26,7 @@ class DadosDaAbaTest(unittest.TestCase):
         self.assertFalse(dados["disponivel"])
         self.assertEqual(dados["processo"], {})
         self.assertEqual(dados["comparativo"], {})
+        self.assertEqual(dados["prp"], [])
         for repo in ("APP", "IA"):
             self.assertEqual(dados["produto"][repo]["avaliacoes"], [])
             self.assertEqual(dados["produto"][repo]["quedas"], [])
@@ -52,6 +53,20 @@ class DadosDaAbaTest(unittest.TestCase):
         self.assertTrue(dados["disponivel"])
         self.assertEqual(list(dados["processo"]), ["R1"])
         self.assertEqual(dados["processo"]["R1"]["indicadores"]["P2"], 0.0)
+        self.assertEqual([(l["sprint"], l["prp_fim"]) for l in dados["prp"]], [("Sprint 1", 21.0)])
+
+    def test_falha_na_variacao_do_prp_vira_lista_vazia_e_nao_apaga_o_processo(self):
+        sprints = {"sprints_velocity": {"Sprint 1": {
+            "total_points": 21, "delivered_story_points": 0, "points_added": 0, "state": "CLOSED",
+            "start_at": "2026-09-14T03:59:00Z", "end_at": "2026-09-28T02:59:00Z"}}}
+        with tempfile.TemporaryDirectory() as pasta:
+            self.gravar(pasta, "zenhub_analytics.json", sprints)
+            with mock.patch.object(processo, "variacao_do_prp", side_effect=ValueError("quebrou")):
+                with mock.patch("builtins.print"):
+                    dados = data_layer.get_qrapids_data(pasta)
+
+        self.assertEqual(dados["prp"], [])
+        self.assertIn("R1", dados["processo"])
 
     def test_falha_no_q_rapids_nao_apaga_o_processo(self):
         sprints = {"sprints_velocity": {"Sprint 1": {

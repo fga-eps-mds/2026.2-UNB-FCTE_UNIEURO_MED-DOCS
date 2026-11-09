@@ -72,8 +72,9 @@ class ProcessoPorModoTest(unittest.TestCase):
         with PastaDeDados(SPRINTS_COM_COLUNA) as dados:
             r2 = processo.indicadores_por_release(dados.caminho, MODO_ENTREGUES)["R2"]
 
-        # Sprint 2: 0 (a #5 conta na Sprint 3). Sprint 3: 13 + 8 = 21 de 21. Média por sprint: 0,5.
-        self.assertEqual(r2["indicadores"]["P2"], 0.5)
+        # APC da release, como na aba de EVM: a #5 passa pelas duas sprints e entra uma vez no PRP
+        # (13 + 8 + 8 = 29). Em aceitação, a #5 e a #7 somam 13 + 8 = 21 pontos entregues.
+        self.assertAlmostEqual(r2["indicadores"]["P2"], 21 / 29)
 
     def test_o_padrao_continua_sendo_so_as_aceitas(self):
         with PastaDeDados(SPRINTS_COM_COLUNA) as dados:
@@ -194,7 +195,7 @@ class SprintsDoDashboardTest(unittest.TestCase):
             entregues = data_layer.get_qrapids_data(dados.caminho, MODO_ENTREGUES)
 
         self.assertEqual(aceitas["processo"]["R2"]["indicadores"]["P2"], 0.0)
-        self.assertEqual(entregues["processo"]["R2"]["indicadores"]["P2"], 0.5)
+        self.assertAlmostEqual(entregues["processo"]["R2"]["indicadores"]["P2"], 21 / 29)
 
 
 if __name__ == "__main__":

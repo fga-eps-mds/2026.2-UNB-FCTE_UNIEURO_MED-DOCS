@@ -11,8 +11,8 @@ Os indicadores usados estão em [Qualidade do produto](qualidade-do-produto.md) 
 
 | Id | Decisão | Indicador de origem |
 |---|---|---|
-| D-R2-01 | Levar o aceite pendente para a reunião da R2 e registrar o risco | Velocidade e entrega do comprometido (P2) |
-| D-R2-02 | Planejar a Sprint 4 pela capacidade real, sem puxar história nova no meio da sprint | Estabilidade do escopo (P3) |
+| D-R2-01 | Levar o aceite pendente para a reunião da R2 e registrar o risco | Velocidade e APC (P2) |
+| D-R2-02 | Planejar a Sprint 4 pela capacidade real, sem puxar história nova no meio da sprint | Estabilidade do PRP (P3) |
 | D-R2-03 | Manter e estender o padrão de comentar as regras de negócio | Qualidade do código (QC) e comentários (m2) |
 | D-R2-04 | Corrigir os problemas abertos no SonarCloud | Código bloqueante (m7) e defeitos prováveis (m8) |
 
@@ -26,7 +26,7 @@ pelos *Product Owners*. Cinco histórias, com 45 pontos, estão na coluna Aceita
 inicial). Os APKs e os formulários de aceitação da R1 e da Release Minor 1 já foram
 enviados. Na reunião de 19/10 ([Ata 10](../atas-reunioes/Ata-10-EPS-2026-10-19-PO.md)),
 o *Product Owner* e o cliente se comprometeram a responder, com prazo do cliente em
-20/10, e até 24/10 não há resposta registrada. Sem aceite, a entrega do comprometido
+20/10, e até 24/10 não há resposta registrada. Sem aceite, o APC
 (P2) fica em 0 e o índice de processo da R2 fica na faixa crítica (P = 0,58).
 
 **Evidência.** Aba "Q-Rapids e R1 × R2" do dashboard (Processo e Comparação entre
@@ -56,7 +56,7 @@ desde o início e foi tirada e recolocada em 19/10, em dois minutos; o ZenHub re
 isso como entrada nova. A entrada real foi de 34 pontos: as histórias #8, #9 e #10,
 apresentadas aos *Product Owners* em 19/10, e a #11, puxada da R3. Só 40 dos 74 pontos,
 pouco mais da metade do compromisso final, estavam planejados no início da sprint. O
-dashboard usa o número do ZenHub e mostra a estabilidade do escopo da R2 em 0,75 (P3);
+dashboard usa o número do ZenHub e mostra a estabilidade do PRP da R2 em 0,75 (P3);
 sem o registro da #21, ela seria 0,77, e o índice de processo fica em 0,58 nos dois
 casos. Ao mesmo tempo, os pontos planejados por sprint passaram de 21 na R1 para 57 na
 R2, sem nenhum ponto aceito.
@@ -144,3 +144,4 @@ dashboard ou nesta página.
 | Versão | Data | Descrição | Autor | Revisor |
 |:------:|------|-----------|-------|---------|
 | `1.0` | 25/10/2026 | Decisões gerenciais da R2 | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |
+| `1.1` | 08/11/2026 | P2 e P3 com os nomes do Agile EVM: APC e estabilidade do PRP | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |
