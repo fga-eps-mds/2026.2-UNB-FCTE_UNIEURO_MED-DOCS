@@ -1,16 +1,64 @@
 {
   "repositorio": "DOCS",
-  "coletado_em": "2026-11-08T09:10:09Z",
+  "coletado_em": "2026-11-09T09:15:04Z",
   "workflow_runs": [
     {
-      "id": 42466001663,
+      "id": 42591907606,
       "name": "Coleta de métricas",
       "head_branch": "main",
       "event": "schedule",
       "status": "in_progress",
       "conclusion": null,
+      "created_at": "2026-11-09T09:14:49Z",
+      "updated_at": "2026-11-09T09:14:52Z",
+      "run_number": 49,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/42591907606"
+    },
+    {
+      "id": 42559903953,
+      "name": "Deploy to GitHub Pages",
+      "head_branch": "fix/dashboard-grafico-custo-spi-cpi",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-09T04:06:04Z",
+      "updated_at": "2026-11-09T04:06:27Z",
+      "run_number": 199,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/42559903953"
+    },
+    {
+      "id": 42555778973,
+      "name": "Deploy to GitHub Pages",
+      "head_branch": "main",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-09T03:19:39Z",
+      "updated_at": "2026-11-09T03:20:14Z",
+      "run_number": 198,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/42555778973"
+    },
+    {
+      "id": 42523087154,
+      "name": "Deploy to GitHub Pages",
+      "head_branch": "fix/dashboard-apc-prp",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-08T21:01:49Z",
+      "updated_at": "2026-11-08T21:02:11Z",
+      "run_number": 197,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/42523087154"
+    },
+    {
+      "id": 42466001663,
+      "name": "Coleta de métricas",
+      "head_branch": "main",
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-11-08T09:09:54Z",
-      "updated_at": "2026-11-08T09:09:58Z",
+      "updated_at": "2026-11-08T09:11:08Z",
       "run_number": 48,
       "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/actions/runs/42466001663"
     },

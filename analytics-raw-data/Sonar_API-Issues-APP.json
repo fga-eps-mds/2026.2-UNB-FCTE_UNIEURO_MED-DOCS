@@ -1,7 +1,7 @@
 {
   "repositorio": "APP",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-APP",
-  "coletado_em": "2026-11-08T09:10:38Z",
+  "coletado_em": "2026-11-09T09:15:40Z",
   "branches": {
     "main": [
       {
@@ -611,6 +611,55 @@
     ],
     "develop": [
       {
+        "chave": "AaG-QxP4GKiT1puDseuj",
+        "arquivo": "src/app/_layout.tsx",
+        "regra": "typescript:S6571",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-11-08T21:32:55+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaG-QxP4GKiT1puDseuk",
+        "arquivo": "src/app/_layout.tsx",
+        "regra": "typescript:S6571",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-11-08T21:32:55+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaG-QxO0GKiT1puDseui",
+        "arquivo": "src/db/database.ts",
+        "regra": "typescript:S7758",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-11-08T21:32:55+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          },
+          {
+            "qualidade": "RELIABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
         "chave": "AaGwgQ9mw1IScazXtSPk",
         "arquivo": "src/features/avaliacao/consent-decision.tsx",
         "regra": "typescript:S3358",
@@ -875,11 +924,11 @@
         "fechado_em": "2026-10-25T21:14:11+0000",
         "impactos": [
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           }
         ]
