@@ -166,3 +166,46 @@ def aviso_modo_entregues(rotulo: str, aceitos: float, aguardando: float, histori
         "ainda sem aceite somam na sprint atual, e a velocity daquela sprint anterior fica mais baixa. "
         "Para ver só as aceitas, mude a opção na barra lateral."
     )
+
+
+def dados_dos_indices(releases: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Dados do gráfico de SPI e CPI por release, só das releases que têm índice.
+
+    Enquanto o custo real não é apurado, o AC é estimado e o CPI sai igual ao SPI. Nesse caso
+    `iguais` é verdadeiro e o gráfico mostra um índice só, para não parecer que há duas medidas.
+    `aguardando_aceite` marca a release com pontos planejados e nenhum entregue: o índice zero
+    ali é espera de aceite, e não atraso do time.
+    """
+    com_indice = [r for r in releases if r["spi"] is not None]
+    spi = [r["spi"] for r in com_indice]
+    cpi = [r["cpi"] for r in com_indice]
+    iguais = all(c is None or abs(s - c) < 1e-9 for s, c in zip(spi, cpi))
+    aguardando = [r["prp"] > 0 and r["rpc"] <= 0 for r in com_indice]
+    maior = max([v for v in spi + cpi if v is not None] or [0.0])
+    return {
+        "releases": [r["id"] for r in com_indice],
+        "spi": spi,
+        "cpi": cpi,
+        "iguais": iguais,
+        "aguardando_aceite": aguardando,
+        "rotulos_spi": [_rotulo_do_indice(v, a) for v, a in zip(spi, aguardando)],
+        "rotulos_cpi": [_rotulo_do_indice(v, a) for v, a in zip(cpi, aguardando)],
+        # O eixo sempre mostra a referência 1,0 com folga acima, e começa em zero.
+        "topo": max(1.5, round(maior * 1.15, 2)),
+    }
+
+
+def _rotulo_do_indice(valor: Optional[float], aguardando_aceite: bool) -> str:
+    if valor is None:
+        return ""
+    return f"{valor:.2f}" + (" (aguardando aceite)" if aguardando_aceite else "")
+
+
+def tabela_de_custo_por_release(releases: List[Dict[str, Any]]) -> pd.DataFrame:
+    """Custo planejado da release (BAC) ao lado do acumulado do projeto até ela, para não confundir os dois."""
+    return pd.DataFrame([{
+        "Release": r["id"],
+        "Custo planejado da release (BAC)": f"R$ {r['bac']:,.2f}",
+        "Acumulado do projeto até a release": f"R$ {r['orcamento_acumulado']:,.2f}",
+    } for r in releases])
+
