@@ -253,6 +253,43 @@ class CurvaDeCustoTest(unittest.TestCase):
         self.assertEqual(so_aceitas[-1]["ev"], 0.0)
         self.assertEqual(com_aguardando[-1]["ev"], 10000.0)
 
+    def test_sprint_em_andamento_com_pontos_conta_no_dia_de_hoje(self):
+        # A Sprint 4 só termina em 25/10 (Brasília), mas os cartões já contam o que ela entregou.
+        em_andamento = [sprint("Sprint 4", "2026-10-26T02:59:00Z", entregues=5, total=10)]
+        hoje = date(2026, 10, 20)
+        resultado = compute_release_evm(em_andamento, DUAS_RELEASES, hoje=hoje)
+
+        curva = resultado["curva"]
+
+        self.assertEqual(curva[-1]["data"], hoje)
+        self.assertEqual(curva[-1]["ev"], 5000.0)
+        self.assertAlmostEqual(curva[-1]["ev"], sum(r["ev"] or 0.0 for r in resultado["releases"]), places=2)
+
+    def test_sprint_em_andamento_nao_adianta_o_ev_dos_dias_anteriores(self):
+        em_andamento = [sprint("Sprint 4", "2026-10-26T02:59:00Z", entregues=5, total=10)]
+
+        curva = self.curva(date(2026, 10, 20), sprints=em_andamento)
+
+        self.assertTrue(all(p["ev"] == 0.0 for p in curva[:-1]))
+
+    def test_modo_entregues_soma_na_curva_a_aceitacao_de_uma_sprint_em_andamento(self):
+        # O caso da R3: pontos em Aceitação PO numa sprint que ainda não terminou.
+        em_aceitacao = [sprint_aguardando("Sprint 4", "2026-10-26T02:59:00Z", aguardando=10, total=10)]
+        hoje = date(2026, 10, 20)
+
+        resultado = compute_release_evm(em_aceitacao, DUAS_RELEASES, hoje=hoje, modo=MODO_ENTREGUES)
+
+        self.assertEqual(resultado["curva"][-1]["ev"], 10000.0)
+        self.assertAlmostEqual(
+            resultado["curva"][-1]["ev"], sum(r["ev"] or 0.0 for r in resultado["releases"]), places=2)
+
+    def test_sprint_encerrada_continua_contando_na_data_em_que_terminou(self):
+        curva = {p["data"]: p for p in self.curva(date(2026, 10, 20))}
+
+        # A Sprint 1 termina em 12/09; antes disso o EV continua em zero, e depois dela sobe.
+        self.assertEqual(curva[date(2026, 9, 7)]["ev"], 0.0)
+        self.assertGreater(curva[date(2026, 9, 14)]["ev"], 0.0)
+
     def test_antes_do_inicio_do_projeto_nao_ha_curva(self):
         self.assertEqual(self.curva(date(2026, 8, 1)), [])
 

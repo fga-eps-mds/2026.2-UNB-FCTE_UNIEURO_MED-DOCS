@@ -169,8 +169,9 @@ def compute_release_evm(
         prp, prp_aproximado = pontos_distintos(lista)
         entradas.append({
             "release": release, "inicio": inicio, "bac": bac, "prp": prp,
+            # A sprint em andamento já conta nos cartões, então a curva a conta a partir de hoje.
             "entregas": [
-                (_data_brasilia(s.get("end_at")) or fim,
+                (min(_data_brasilia(s.get("end_at")) or fim, hoje),
                  pontos_entregues(float(s.get("delivered_sp", 0.0)),
                                   float(s.get("aguardando_pontos", 0.0)), modo))
                 for s in lista
