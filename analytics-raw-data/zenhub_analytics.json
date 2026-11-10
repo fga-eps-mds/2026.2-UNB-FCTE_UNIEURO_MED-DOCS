@@ -1,6 +1,6 @@
 {
   "workspace": "Mnema",
-  "coletado_em": "2026-11-09T09:16:10Z",
+  "coletado_em": "2026-11-10T09:13:13Z",
   "colunas_coletadas": true,
   "colunas_fonte": "issue",
   "sprints_velocity": {
@@ -315,7 +315,7 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4Mw",
           "numero": 2,
           "estimativa": null,
-          "coluna": "Product Backlog"
+          "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4OA",
@@ -465,7 +465,7 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NQ",
           "numero": 84,
           "estimativa": null,
-          "coluna": "Product Backlog"
+          "coluna": "Icebox"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjA3NjQ2Mw",
@@ -592,7 +592,7 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4Mw",
           "numero": 2,
           "estimativa": null,
-          "coluna": "Product Backlog"
+          "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4Ng",
@@ -718,7 +718,7 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NQ",
           "numero": 84,
           "estimativa": null,
-          "coluna": "Product Backlog"
+          "coluna": "Icebox"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjEzMjAzNQ",
@@ -965,7 +965,7 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzODMwOQ",
           "numero": 23,
           "estimativa": 8.0,
-          "coluna": "Review/QA"
+          "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4Mw",
@@ -1067,7 +1067,7 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzY5MjU1Mw",
           "numero": 104,
           "estimativa": 13.0,
-          "coluna": "In Progress"
+          "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzk5MzAxNQ",
@@ -1102,15 +1102,15 @@
       ]
     },
     "Sprint 5": {
-      "delivered_story_points": 0.0,
+      "delivered_story_points": 16.0,
       "points_added": 0.0,
       "state": "OPEN",
       "start_at": "2026-11-09T03:59:00Z",
       "end_at": "2026-11-23T02:59:00Z",
-      "total_points": 106.0,
-      "issues_total": 24,
-      "issues_closed": 0,
-      "issues_sem_estimativa": 11,
+      "total_points": 148.0,
+      "issues_total": 33,
+      "issues_closed": 5,
+      "issues_sem_estimativa": 15,
       "issues": [
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
@@ -1179,6 +1179,24 @@
           "coluna": "Aceitação PO"
         },
         {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg3Mg",
+          "numero": 13,
+          "estimativa": 8.0,
+          "coluna": "Sprint Backlog"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg3OA",
+          "numero": 16,
+          "estimativa": 5.0,
+          "coluna": "Sprint Backlog"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4MA",
+          "numero": 17,
+          "estimativa": 13.0,
+          "coluna": "In Progress"
+        },
+        {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4Ng",
           "numero": 4,
           "estimativa": null,
@@ -1191,10 +1209,22 @@
           "coluna": "Aceitação PO"
         },
         {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzODIzNg",
+          "numero": 22,
+          "estimativa": 8.0,
+          "coluna": "Sprint Backlog"
+        },
+        {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzODMwOQ",
           "numero": 23,
           "estimativa": 8.0,
-          "coluna": "Review/QA"
+          "coluna": "Aceitação PO"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDU0MDM3OQ",
+          "numero": 25,
+          "estimativa": 8.0,
+          "coluna": "Sprint Backlog"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5Ng",
@@ -1227,10 +1257,28 @@
           "coluna": "Review/QA"
         },
         {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzYwMTY3MA",
+          "numero": 111,
+          "estimativa": null,
+          "coluna": "Sprint Backlog"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzY2NjYzOQ",
+          "numero": 23,
+          "estimativa": null,
+          "coluna": "Sprint Backlog"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzY3NTQ5Mg",
+          "numero": 25,
+          "estimativa": null,
+          "coluna": "Sprint Backlog"
+        },
+        {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzY5MjU1Mw",
           "numero": 104,
           "estimativa": 13.0,
-          "coluna": "In Progress"
+          "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzk5MzAxNQ",
@@ -1253,6 +1301,12 @@
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDMxNzM0MA",
           "numero": 117,
+          "estimativa": null,
+          "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDQwMzYzMQ",
+          "numero": 120,
           "estimativa": null,
           "coluna": "Review/QA"
         }
