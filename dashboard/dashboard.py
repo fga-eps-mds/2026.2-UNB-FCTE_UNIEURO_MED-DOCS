@@ -264,7 +264,8 @@ def _render_grafico_de_custo(evm: dict, selecionada: dict):
                            text=f"<b>{rel['id']}</b>", showarrow=False,
                            font=dict(size=12, color="#94A3B8"))
     fig.update_layout(get_plotly_layout("PV, AC e EV acumulados do projeto", height=420, y_title="R$"))
-    fig.update_layout(yaxis=dict(tickprefix="R$ ", rangemode="tozero"))
+    # O eixo do tempo em dia/mês, sem o "Aug 9" que o Plotly escolheria em inglês.
+    fig.update_layout(xaxis=dict(tickformat="%d/%m"), yaxis=dict(tickprefix="R$ ", rangemode="tozero"))
     st.plotly_chart(fig, use_container_width=True, config=PLOTLY_CONFIG)
 
     ultimo = curva[-1]

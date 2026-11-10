@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 import unittest
@@ -32,6 +33,14 @@ class AbaEvmTest(unittest.TestCase):
 
         self.assertIn("o AC é estimado pela linha de base", avisos)
         self.assertIn("CPI é sempre igual ao SPI", avisos)
+
+    def test_o_eixo_do_tempo_da_curva_de_custo_usa_dia_e_mes(self):
+        especificacoes = [json.loads(g.proto.spec) for g in self.app.get("plotly_chart")]
+        curva = next(s for s in especificacoes
+                     if "PV, AC e EV acumulados do projeto" in s["layout"].get("title", {}).get("text", ""))
+
+        # Sem o formato, o Plotly escreve datas como "Aug 9", em inglês.
+        self.assertEqual(curva["layout"]["xaxis"]["tickformat"], "%d/%m")
 
     def test_o_cifrao_do_valor_em_reais_nao_vira_formula(self):
         legenda = next(t for t in self.textos if t.startswith("Hoje, no projeto todo"))
