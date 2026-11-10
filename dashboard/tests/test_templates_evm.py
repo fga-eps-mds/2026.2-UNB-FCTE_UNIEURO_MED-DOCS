@@ -7,9 +7,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.templates import dados_dos_indices, tabela_de_custo_por_release  # noqa: E402
 
 
-def release(id_, spi, cpi, prp=74.0, rpc=0.0, bac=1000.0, acumulado=1000.0):
-    return {"id": id_, "spi": spi, "cpi": cpi, "prp": prp, "rpc": rpc, "bac": bac,
-            "orcamento_acumulado": acumulado}
+def release(id_, spi, cpi, prp=74.0, rpc=0.0, bac=1000.0, acumulado=1000.0, aguardando=0.0):
+    return {"id": id_, "spi": spi, "cpi": cpi, "prp": prp, "rpc": rpc, "rpc_aguardando": aguardando,
+            "bac": bac, "orcamento_acumulado": acumulado}
 
 
 class DadosDosIndicesTest(unittest.TestCase):
@@ -36,10 +36,17 @@ class DadosDosIndicesTest(unittest.TestCase):
         self.assertEqual(dados["topo"], 1.5)
 
     def test_indice_zero_sem_entrega_diz_que_esta_aguardando_aceite(self):
-        dados = dados_dos_indices([release("R2", 0.0, 0.0, prp=74, rpc=0)])
+        dados = dados_dos_indices([release("R2", 0.0, 0.0, prp=74, rpc=0, aguardando=61)])
 
         self.assertEqual(dados["aguardando_aceite"], [True])
         self.assertEqual(dados["rotulos_spi"], ["0.00 (aguardando aceite)"])
+
+    def test_indice_zero_sem_nada_em_aceitacao_nao_e_espera_de_aceite(self):
+        # Nenhum ponto aceito e nenhum em Aceitação PO: é entrega zero de fato, e o rótulo não pode dizer que há espera.
+        dados = dados_dos_indices([release("R2", 0.0, 0.0, prp=74, rpc=0, aguardando=0)])
+
+        self.assertEqual(dados["aguardando_aceite"], [False])
+        self.assertEqual(dados["rotulos_spi"], ["0.00"])
 
     def test_indice_com_entrega_nao_e_marcado_como_aguardando(self):
         dados = dados_dos_indices([release("R2", 0.5, 0.5, prp=74, rpc=20)])

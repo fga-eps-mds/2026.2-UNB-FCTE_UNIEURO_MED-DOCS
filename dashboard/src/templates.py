@@ -173,14 +173,15 @@ def dados_dos_indices(releases: List[Dict[str, Any]]) -> Dict[str, Any]:
 
     Enquanto o custo real não é apurado, o AC é estimado e o CPI sai igual ao SPI. Nesse caso
     `iguais` é verdadeiro e o gráfico mostra um índice só, para não parecer que há duas medidas.
-    `aguardando_aceite` marca a release com pontos planejados e nenhum entregue: o índice zero
-    ali é espera de aceite, e não atraso do time.
+    `aguardando_aceite` marca a release com pontos planejados, nenhum aceito e histórias em
+    Aceitação PO: o índice zero ali é espera de aceite, e não atraso do time. Sem nada em
+    aceitação, o zero é entrega zero de fato e não leva o rótulo.
     """
     com_indice = [r for r in releases if r["spi"] is not None]
     spi = [r["spi"] for r in com_indice]
     cpi = [r["cpi"] for r in com_indice]
     iguais = all(c is None or abs(s - c) < 1e-9 for s, c in zip(spi, cpi))
-    aguardando = [r["prp"] > 0 and r["rpc"] <= 0 for r in com_indice]
+    aguardando = [r["prp"] > 0 and r["rpc"] <= 0 and r.get("rpc_aguardando", 0.0) > 0 for r in com_indice]
     maior = max([v for v in spi + cpi if v is not None] or [0.0])
     return {
         "releases": [r["id"] for r in com_indice],
