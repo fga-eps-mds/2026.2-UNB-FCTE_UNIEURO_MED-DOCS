@@ -5,7 +5,7 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 
 from .aceitacao import pontos_entregues
-from .config import FAIXAS_RISCO, FUSO_BRASILIA, MODO_PADRAO
+from .config import FAIXAS_INDICE_EVM, FAIXAS_RISCO, FUSO_BRASILIA, MODO_PADRAO
 
 
 def _data_brasilia(valor: Optional[str]) -> Optional[date]:
@@ -76,6 +76,59 @@ def pontos_distintos(sprints: List[Dict[str, Any]]) -> tuple:
     return sum(por_id.values()), False
 
 
+def classificar_indice(valor: Optional[float]) -> Optional[str]:
+    """Estado de um SPI ou CPI pelos limites do Plano de Custos (seção 6); sem valor, None."""
+    if valor is None:
+        return None
+    adequado, atencao = FAIXAS_INDICE_EVM
+    if valor >= adequado:
+        return "Adequado"
+    if valor >= atencao:
+        return "Atenção"
+    return "Crítico"
+
+
+def _datas_da_curva(releases: List[Dict[str, Any]], ate: date) -> List[date]:
+    """Datas da curva de custo: de 7 em 7 dias desde o início do projeto, os marcos das releases e `ate`."""
+    inicio = min(_limites(r)[0] for r in releases)
+    if ate < inicio:
+        return []
+    datas = {inicio, ate}
+    dia = inicio
+    while dia < ate:
+        datas.add(dia)
+        dia += timedelta(days=7)
+    for release in releases:
+        for marco in _limites(release):
+            if inicio <= marco <= ate:
+                datas.add(marco)
+    return sorted(datas)
+
+
+def _curva_de_custo(entradas: List[Dict[str, Any]], releases: List[Dict[str, Any]], hoje: date) -> List[Dict[str, Any]]:
+    """PV, AC e EV acumulados do projeto inteiro, na ordem do tempo (curva em S do EVM).
+
+    Em cada data, cada release contribui com o que já aconteceu nela: antes do início, nada;
+    durante, PV = PPC x BAC e EV = APC x BAC, com o RPC das sprints encerradas até a data;
+    depois do fim, o valor final. O AC é estimado pela linha de base (igual ao PV), como em
+    `compute_release_evm`. A curva soma as releases, então é o custo acumulado do projeto, e
+    não o de uma release só.
+    """
+    fim_do_projeto = max(_limites(r)[1] for r in releases)
+    curva = []
+    for dia in _datas_da_curva(releases, min(hoje, fim_do_projeto)):
+        pv = ev = 0.0
+        for e in entradas:
+            if dia < e["inicio"]:
+                continue
+            pv += _ppc(e["release"], dia) * e["bac"]
+            rpc = sum(pontos for fim_sprint, pontos in e["entregas"] if fim_sprint <= dia)
+            apc = min(1.0, rpc / e["prp"]) if e["prp"] > 0 else 0.0
+            ev += apc * e["bac"]
+        curva.append({"data": dia, "pv": round(pv, 2), "ac": round(pv, 2), "ev": round(ev, 2)})
+    return curva
+
+
 def compute_release_evm(
     sprints: List[Dict[str, Any]],
     releases: List[Dict[str, Any]],
@@ -105,12 +158,25 @@ def compute_release_evm(
             por_release[destino].append(s)
 
     resultado = []
+    entradas = []
+    orcamento_acumulado = 0.0
     for release in releases:
         inicio, fim = _limites(release)
         lista = sorted(por_release[release["id"]], key=lambda s: s.get("end_at") or "")
         bac = float(release["bac_brl"])
+        orcamento_acumulado += bac
 
         prp, prp_aproximado = pontos_distintos(lista)
+        entradas.append({
+            "release": release, "inicio": inicio, "bac": bac, "prp": prp,
+            # A sprint em andamento já conta nos cartões, então a curva a conta a partir de hoje.
+            "entregas": [
+                (min(_data_brasilia(s.get("end_at")) or fim, hoje),
+                 pontos_entregues(float(s.get("delivered_sp", 0.0)),
+                                  float(s.get("aguardando_pontos", 0.0)), modo))
+                for s in lista
+            ],
+        })
         rpc_aceito = sum(float(s.get("delivered_sp", 0.0)) for s in lista)
         rpc_aguardando = sum(float(s.get("aguardando_pontos", 0.0)) for s in lista)
         rpc = pontos_entregues(rpc_aceito, rpc_aguardando, modo)
@@ -160,6 +226,7 @@ def compute_release_evm(
             "fim": fim,
             "status": status,
             "bac": bac,
+            "orcamento_acumulado": round(orcamento_acumulado, 2),
             "prp": prp,
             "prp_aproximado": prp_aproximado,
             "rpc": rpc,
@@ -192,7 +259,12 @@ def compute_release_evm(
         concluidas = [r["id"] for r in resultado if r["status"] == "Concluída"]
         atual = concluidas[-1] if concluidas else resultado[0]["id"]
 
-    return {"releases": resultado, "atual": atual, "audit_df": _tabela_auditoria(resultado)}
+    return {
+        "releases": resultado,
+        "atual": atual,
+        "audit_df": _tabela_auditoria(resultado),
+        "curva": _curva_de_custo(entradas, releases, hoje),
+    }
 
 
 def _brl(valor: Optional[float]) -> str:

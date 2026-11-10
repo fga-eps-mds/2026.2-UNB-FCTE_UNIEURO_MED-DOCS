@@ -43,6 +43,11 @@ RELEASES = [
     {"id": "RF", "nome": "Release final", "inicio": "2026-12-01", "fim": "2026-12-07", "bac_brl": 3148.93},
 ]
 
+# Limites do SPI e do CPI para a tomada de decisão, do Plano de Custos (seção 6):
+# Adequado a partir de 0,90, Atenção de 0,80 a 0,89 e Crítico abaixo de 0,80.
+# (limite do Adequado, limite da Atenção)
+FAIXAS_INDICE_EVM = (0.90, 0.80)
+
 # Pontos entregues. Uma história só é fechada depois do aceite do PO (Ata 08), e o ZenHub só
 # conta como entregue a história fechada. Por decisão da equipe, o painel mostra também as
 # histórias da coluna "Aceitação PO": código entregue, aguardando o aceite. O modo escolhe o

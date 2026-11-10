@@ -7,6 +7,7 @@ from zoneinfo import ZoneInfo
 
 from src.aceitacao import pontos_entregues
 from src.config import (
+    FAIXAS_INDICE_EVM,
     MODO_ACEITAS,
     MODO_ENTREGUES,
     MODO_PADRAO,
@@ -32,6 +33,7 @@ from src.data_layer import (
     get_latest_collection_timestamp
 )
 from src.metrics import (
+    classificar_indice,
     compute_release_evm,
     process_risks_summary,
     revisoes_realizadas,
@@ -43,11 +45,13 @@ from src.templates import (
     aviso_modo_entregues,
     arquivos_fora_do_limiar,
     cor_da_faixa,
+    dados_dos_indices,
     formatar_indice,
     marcos_sem_medida,
     rotulo_do_marco,
     serie_do_indice,
     tabela_comparativo,
+    tabela_de_custo_por_release,
     tabela_processo,
     tabela_qrapids,
 )
@@ -223,6 +227,148 @@ def _render_historias_em_aceitacao(r: dict):
         )
 
 
+def _render_grafico_de_custo(evm: dict, selecionada: dict):
+    """Curva de PV, AC e EV acumulados do projeto, com as releases marcadas e a escolhida em destaque."""
+    curva = evm["curva"]
+    releases = evm["releases"]
+    st.markdown("#### Valor Planejado, Custo e Valor Agregado ao Longo do Projeto")
+    if not curva:
+        st.info("O projeto ainda não começou, então não há curva de custo.")
+        return
+
+    datas = [p["data"].isoformat() for p in curva]
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=datas, y=[p["pv"] for p in curva], name="PV (Planejado)", mode="lines",
+        line=dict(color="#94A3B8", width=3),
+        hovertemplate="%{x|%d/%m/%Y}<br>Planejado: R$ %{y:,.2f}<extra></extra>"
+    ))
+    fig.add_trace(go.Scatter(
+        x=datas, y=[p["ac"] for p in curva], name="AC (Custo, estimado = PV)", mode="lines",
+        line=dict(color="#FBBF24", width=3, dash="dot"),
+        hovertemplate="%{x|%d/%m/%Y}<br>Custo estimado: R$ %{y:,.2f}<extra></extra>"
+    ))
+    fig.add_trace(go.Scatter(
+        x=datas, y=[p["ev"] for p in curva], name="EV (Entregue)", mode="lines+markers",
+        line=dict(color="#38BDF8", width=3.5), marker=dict(size=6),
+        hovertemplate="%{x|%d/%m/%Y}<br>Entregue: R$ %{y:,.2f}<extra></extra>"
+    ))
+    # Cada release no eixo do tempo; a escolhida acima fica sombreada.
+    for rel in releases:
+        destaque = rel["id"] == selecionada["id"]
+        fig.add_shape(type="rect", xref="x", yref="paper", y0=0, y1=1,
+                      x0=rel["inicio"].isoformat(), x1=rel["fim"].isoformat(),
+                      fillcolor="rgba(56, 189, 248, 0.08)" if destaque else "rgba(0,0,0,0)",
+                      line=dict(color="rgba(148, 163, 184, 0.45)", width=1, dash="dot"), layer="below")
+        fig.add_annotation(x=rel["inicio"].isoformat(), xanchor="left", yref="paper", y=1.0, yanchor="bottom",
+                           text=f"<b>{rel['id']}</b>", showarrow=False,
+                           font=dict(size=12, color="#94A3B8"))
+    fig.update_layout(get_plotly_layout("PV, AC e EV acumulados do projeto", height=420, y_title="R$"))
+    # O eixo do tempo em dia/mês, sem o "Aug 9" que o Plotly escolheria em inglês.
+    fig.update_layout(xaxis=dict(tickformat="%d/%m"), yaxis=dict(tickprefix="R$ ", rangemode="tozero"))
+    st.plotly_chart(fig, use_container_width=True, config=PLOTLY_CONFIG)
+
+    ultimo = curva[-1]
+    st.caption(
+        # O cifrão do Streamlit abre uma fórmula; o `\\$` imprime o "R$".
+        f"Hoje, no projeto todo: planejado R\\$ {ultimo['pv']:,.2f}, entregue R\\$ {ultimo['ev']:,.2f}. "
+        "O custo é estimado pela linha de base, por isso a linha do AC acompanha a do PV."
+    )
+    st.dataframe(tabela_de_custo_por_release(releases), use_container_width=True, hide_index=True)
+    st.caption(
+        "O custo de uma release e o acumulado do projeto são valores diferentes. A R1 é a maior porque "
+        "inclui a compra dos computadores, feita uma única vez (Plano de Custos, seção 5)."
+    )
+    with st.expander("O que este gráfico mostra?"):
+        st.markdown(
+            "As três linhas somam o projeto inteiro e crescem com o tempo. O **PV** sobe todo dia, porque "
+            "mede quanto do orçamento já deveria estar entregue. O **EV** só sobe quando histórias são "
+            "entregues, e no modo \"somente aceitas\" só quando o PO as aceita. O **AC** é o custo: como ainda "
+            "não há custo real apurado, ele é estimado e fica igual ao PV, por isso as duas linhas se "
+            "sobrepõem. Leitura: EV abaixo do PV significa que se entregou menos do que o planejado até "
+            "aquela data; EV acima, mais. Uma linha de EV parada em zero indica espera de aceite, e não "
+            "necessariamente que o time não produziu. O retângulo marca cada release, e o mais claro é a "
+            "release escolhida acima."
+        )
+
+
+def _render_grafico_dos_indices(releases: list):
+    """SPI e CPI por release, com a referência 1,0, as faixas do plano e a explicação dos três casos."""
+    dados = dados_dos_indices(releases)
+    st.markdown("#### Índices de Desempenho SPI e CPI por Release")
+    if not dados["releases"]:
+        st.info("Nenhuma release tem pontos estimados suficientes para calcular SPI e CPI.")
+        return
+
+    fig = go.Figure()
+    adequado, atencao = FAIXAS_INDICE_EVM
+    topo = dados["topo"]
+    for y0, y1, cor in ((0, atencao, "248, 113, 113"), (atencao, adequado, "251, 191, 36"), (adequado, topo, "52, 211, 153")):
+        fig.add_shape(type="rect", xref="paper", yref="y", x0=0, x1=1, y0=y0, y1=y1,
+                      fillcolor=f"rgba({cor}, 0.10)", line=dict(width=0), layer="below")
+    if dados["iguais"]:
+        fig.add_trace(go.Bar(
+            x=dados["releases"], y=dados["spi"], name="SPI e CPI (iguais)", marker=dict(color="#38BDF8"),
+            text=dados["rotulos_spi"], textposition="outside", cliponaxis=False,
+            hovertemplate="<b>%{x}</b><br>SPI e CPI: %{y:.2f}<extra></extra>"
+        ))
+    else:
+        fig.add_trace(go.Bar(
+            x=dados["releases"], y=dados["spi"], name="SPI (Cronograma)", marker=dict(color="#FBBF24"),
+            text=dados["rotulos_spi"], textposition="outside", cliponaxis=False,
+            hovertemplate="<b>%{x}</b><br>SPI: %{y:.2f}<extra></extra>"
+        ))
+        fig.add_trace(go.Bar(
+            x=dados["releases"], y=dados["cpi"], name="CPI (Custo)", marker=dict(color="#34D399"),
+            text=dados["rotulos_cpi"], textposition="outside", cliponaxis=False,
+            hovertemplate="<b>%{x}</b><br>CPI: %{y:.2f}<extra></extra>"
+        ))
+    fig.add_hline(y=1.0, line_dash="dot", line_color="#CBD5E1", annotation_text="1.0 = como planejado",
+                  annotation_position="top left")
+    fig.update_layout(_layout_barras("SPI e CPI por Release", "Índice (1.0 = planejado)", 400))
+    fig.update_layout(yaxis=dict(range=[0, topo], rangemode="tozero"))
+    st.plotly_chart(fig, use_container_width=True, config=PLOTLY_CONFIG)
+
+    st.info(
+        "O custo real ainda não é apurado: o AC é estimado pela linha de base (PPC × BAC). Por isso o CPI é "
+        "sempre igual ao SPI e ainda não traz informação nova. Ele só passa a divergir quando o custo real "
+        "for registrado." if dados["iguais"] else
+        "SPI e CPI já divergem: o custo real foi registrado e o AC deixou de ser só a estimativa da linha de base."
+    )
+    with st.expander("Como ler o SPI e o CPI"):
+        st.markdown(
+            "São razões, não pontos: **1.0 é o planejado**. Os três casos:\n\n"
+            "- **Abaixo de 1.0:** entregou-se menos do que o planejado até hoje (SPI) ou o valor entregue "
+            "está abaixo do que se gastou (CPI).\n"
+            "- **Igual a 1.0:** exatamente como planejado.\n"
+            "- **Acima de 1.0:** entregou-se mais do que o planejado, ou a um custo menor.\n\n"
+            "O fundo colorido segue o Plano de Custos (seção 6): **Adequado** a partir de 0.90, **Atenção** de "
+            "0.80 a 0.89 e **Crítico** abaixo de 0.80. As barras partem do zero. Índice 0 não é uma barra que "
+            "\"subiu\": significa que nenhuma história foi aceita ainda. Enquanto o PO não aceita, o EV fica em "
+            "zero e o rótulo diz \"aguardando aceite\": é espera, e não atraso do time."
+        )
+
+
+_COR_DO_INDICE = {
+    "Adequado": THEME_COLORS["secondary"],
+    "Atenção": THEME_COLORS["warning"],
+    "Crítico": THEME_COLORS["danger"],
+}
+
+
+def _cor_do_indice(valor, sem_entrega: bool) -> str:
+    """Cor do cartão de SPI ou CPI pelas faixas do Plano de Custos; sem valor ou sem entrega, a neutra."""
+    estado = None if sem_entrega else classificar_indice(valor)
+    return _COR_DO_INDICE.get(estado, THEME_COLORS["accent"])
+
+
+def _subtexto_do_indice(formula: str, valor, sem_entrega: bool) -> str:
+    if sem_entrega:
+        return f"{formula}, aguardando aceite do PO"
+    estado = classificar_indice(valor)
+    return f"{formula}, {estado}" if estado else formula
+
+
 def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str = MODO_PADRAO):
     """Renderiza a aba do Agile EVM por release, com burn de pontos e velocity."""
     if is_mock:
@@ -333,21 +479,22 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str =
     row2_c1, row2_c2, row2_c3 = st.columns(3)
     with row2_c1:
         spi = r["spi"]
-        spi_color = THEME_COLORS["accent"] if spi is None or sem_entrega else (THEME_COLORS["secondary"] if spi >= 1.0 else THEME_COLORS["danger"])
         render_kpi(
-            "SPI (Cronograma)", "N/A" if spi is None else f"{spi:.2f}", "EV ÷ PV, referência 1.0", spi_color,
+            "SPI (Cronograma)", "N/A" if spi is None else f"{spi:.2f}",
+            _subtexto_do_indice("EV ÷ PV", spi, sem_entrega), _cor_do_indice(spi, sem_entrega),
             help_text="SPI = EV ÷ PV. Compara o valor entregue com o que deveria ter sido entregue "
-                      "até este ponto do prazo. Abaixo de 1.0, entregou-se menos do que o planejado "
-                      "para esta fase; acima de 1.0, mais."
+                      "até este ponto do prazo. 1.0 é o planejado; abaixo, entregou-se menos; acima, "
+                      "mais. Pelo Plano de Custos: Adequado a partir de 0.90, Atenção de 0.80 a 0.89 "
+                      "e Crítico abaixo de 0.80."
         )
     with row2_c2:
         cpi = r["cpi"]
-        cpi_color = THEME_COLORS["accent"] if cpi is None or sem_entrega else (THEME_COLORS["secondary"] if cpi >= 1.0 else THEME_COLORS["danger"])
         render_kpi(
-            "CPI (Custo)", "N/A" if cpi is None else f"{cpi:.2f}", "EV ÷ AC, AC estimado", cpi_color,
+            "CPI (Custo)", "N/A" if cpi is None else f"{cpi:.2f}",
+            _subtexto_do_indice("EV ÷ AC, AC estimado", cpi, sem_entrega), _cor_do_indice(cpi, sem_entrega),
             help_text="CPI = EV ÷ AC. Compara o valor entregue com o quanto foi gasto para "
                       "entregá-lo. Aqui o AC é estimado pela linha de base de custo, então o CPI "
-                      "coincide com o SPI até que haja custo real apurado."
+                      "coincide com o SPI até que haja custo real apurado. As faixas são as mesmas do SPI."
         )
     with row2_c3:
         apc_txt = f"{r['rpc']:.0f} de {r['prp']:.0f} SP"
@@ -366,60 +513,8 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str =
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    visiveis = releases
-    st.markdown("#### Planejado, Entregue e Custo por Release")
-    fig_rel = go.Figure()
-    fig_rel.add_trace(go.Bar(
-        x=[x["id"] for x in visiveis], y=[x["pv"] for x in visiveis], name="PV (Planejado)",
-        marker=dict(color="#94A3B8"),
-        hovertemplate="<b>%{x}</b><br>Planejado: R$ %{y:,.2f}<extra></extra>"
-    ))
-    fig_rel.add_trace(go.Bar(
-        x=[x["id"] for x in visiveis], y=[x["ev"] for x in visiveis], name="EV (Entregue)",
-        marker=dict(color="#38BDF8"),
-        hovertemplate="<b>%{x}</b><br>Entregue: R$ %{y:,.2f}<extra></extra>"
-    ))
-    fig_rel.add_trace(go.Bar(
-        x=[x["id"] for x in visiveis], y=[x["ac"] for x in visiveis], name="AC (Custo estimado)",
-        marker=dict(color="#FBBF24"),
-        hovertemplate="<b>%{x}</b><br>Custo estimado: R$ %{y:,.2f}<extra></extra>"
-    ))
-    fig_rel.update_layout(_layout_barras("PV, EV e AC por Release", "R$", 400))
-    st.plotly_chart(fig_rel, use_container_width=True, config=PLOTLY_CONFIG)
-    with st.expander("O que este gráfico mostra?"):
-        st.markdown(
-            "Para cada release que já começou, a barra cinza é o valor que deveria estar entregue "
-            "(PV), a azul é o valor realmente entregue (EV) e a amarela é o custo estimado (AC). "
-            "Quando o EV fica abaixo do PV, entregou-se menos do que o planejado até aquele ponto. "
-            "Uma release sem barra azul ainda não tem pontos estimados para calcular o EV."
-        )
-
-    com_indice = [x for x in visiveis if x["spi"] is not None]
-    st.markdown("#### Índices de Desempenho SPI e CPI por Release")
-    if com_indice:
-        fig_idx = go.Figure()
-        fig_idx.add_trace(go.Bar(
-            x=[x["id"] for x in com_indice], y=[x["spi"] for x in com_indice], name="SPI (Cronograma)",
-            marker=dict(color="#FBBF24"),
-            hovertemplate="<b>%{x}</b><br>SPI: %{y:.2f}<extra></extra>"
-        ))
-        fig_idx.add_trace(go.Bar(
-            x=[x["id"] for x in com_indice], y=[x["cpi"] for x in com_indice], name="CPI (Custo)",
-            marker=dict(color="#34D399"),
-            hovertemplate="<b>%{x}</b><br>CPI: %{y:.2f}<extra></extra>"
-        ))
-        fig_idx.add_hline(y=1.0, line_dash="dot", line_color="#94A3B8", annotation_text="Referência (1.0)")
-        fig_idx.update_layout(_layout_barras("SPI e CPI por Release", "Índice", 380))
-        st.plotly_chart(fig_idx, use_container_width=True, config=PLOTLY_CONFIG)
-    else:
-        st.info("Nenhuma release tem pontos estimados suficientes para calcular SPI e CPI.")
-    with st.expander("O que este gráfico mostra?"):
-        st.markdown(
-            "SPI (prazo) e CPI (custo) são acompanhados separadamente porque um projeto pode estar "
-            "bem em um e comprometido no outro. A linha pontilhada em 1.0 é a referência neutra. "
-            "Com o AC estimado pela linha de base, os dois índices coincidem; eles só passam a "
-            "divergir quando o custo real for registrado."
-        )
+    _render_grafico_de_custo(evm, r)
+    _render_grafico_dos_indices(releases)
 
     serie = r["serie"]
     st.markdown(f"#### Burnup e Burndown de Pontos da {r['id']}")
