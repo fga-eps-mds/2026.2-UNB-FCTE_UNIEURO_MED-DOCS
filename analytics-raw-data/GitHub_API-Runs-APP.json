@@ -1,7 +1,31 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-11-10T09:12:14Z",
+  "coletado_em": "2026-11-11T09:12:03Z",
   "workflow_runs": [
+    {
+      "id": 42939863683,
+      "name": "Build",
+      "head_branch": "fix/100-linha-continua-trilhas",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-11T01:33:52Z",
+      "updated_at": "2026-11-11T01:36:42Z",
+      "run_number": 167,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/42939863683"
+    },
+    {
+      "id": 42922568703,
+      "name": "Build",
+      "head_branch": "fix/confirmacao-cpf-tela-final",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-10T23:20:40Z",
+      "updated_at": "2026-11-10T23:23:55Z",
+      "run_number": 166,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/42922568703"
+    },
     {
       "id": 42743946073,
       "name": "Export de métricas",
