@@ -20,6 +20,7 @@ O padrão adotado está descrito no [modelo de ata](modelo-ata.md).
 | [09](Ata-09-EPS-2026-10-05-PO.md) | 05/10/2026 | Validação das histórias da Release Minor 1, CRUD do médico e sincronização | Professor, *Product Owner* |
 | [10](Ata-10-EPS-2026-10-19-PO.md) | 19/10/2026 | Experimentos do modelo de IA, aceitação das entregas e validação das histórias da R2 | Professor, *Product Owner*, Cliente |
 | [11](Ata-11-EPS-2026-10-30-PO.md) | 30/10/2026 | Entrega da R2, tablets e avaliação da disciplina | Professor, *Product Owner*, Cliente |
+| [12](Ata-12-EPS-2026-11-09-PO.md) | 09/11/2026 | Conjunto de dados do modelo, superusuário, sincronização e validação prévia das histórias da R3 | *Product Owner*, Cliente |
 
 **Fonte:** [Vitor Carvalho Pereira](https://github.com/vcpVitor), 2026
 
@@ -33,3 +34,4 @@ O padrão adotado está descrito no [modelo de ata](modelo-ata.md).
 | `1.3` | 06/10/2026 | Inclusão da ata 09 | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
 | `1.4` | 23/10/2026 | Inclusão da ata 10 | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
 | `1.5` | 01/11/2026 | Inclusão da ata 11 | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
+| `1.6` | 10/11/2026 | Inclusão da ata 12 | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |
