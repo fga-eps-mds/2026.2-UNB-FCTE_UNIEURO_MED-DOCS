@@ -40,4 +40,4 @@ O registro está no canal `mnema-po` do Discord: `.claudioh` enviou o link da re
 | `1.4` | 23/10/2026 | Inclusão da ata 10 | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
 | `1.5` | 01/11/2026 | Inclusão da ata 11 | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
 | `1.6` | 10/11/2026 | Inclusão da ata 12 | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |
-| `1.7` | 12/11/2026 | Registro da reunião de 06/11/2026 que não ocorreu | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
+| `1.7` | 12/11/2026 | Registro da reunião de 06/11/2026 que não ocorreu | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | [Eduardo Ferreira](https://github.com/eduardoferre) |
