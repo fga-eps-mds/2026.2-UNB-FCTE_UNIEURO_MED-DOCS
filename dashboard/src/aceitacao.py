@@ -13,10 +13,16 @@ Fontes, da mais confiável à menos:
    usada só quando a coleta não trouxe as colunas.
 
 Depois do aceite a história é fechada, mas o ZenHub mantém a coluna em que ela estava. Por
-isso a coleta grava também se a issue está fechada (`fechada`), e a fechada não conta aqui.
+isso a coleta grava também se a issue está fechada (`fechada`) e quando (`fechada_em`), e a
+fechada não conta aqui.
 
 Uma história que passa de uma sprint para a seguinte aparece nas duas. Ela conta uma vez,
 na última sprint em que aparece.
+
+O aceite do PO costuma sair depois do fim da sprint em que a equipe entregou a história. O
+ZenHub conta os pontos na sprint em que a história fecha, o que atribui à sprint seguinte uma
+entrega que a anterior fez. `atribuir_aceites_tardios` devolve esses pontos à última sprint
+encerrada em que a história aparece, e o painel lista as histórias movidas.
 
 A coluna também guarda pull requests (já mesclados, por exemplo), que o ZenHub trata como
 issues. Eles não têm estimativa, então só entra a issue com estimativa maior que zero: é o
@@ -24,6 +30,7 @@ que distingue uma história de um PR sem depender de rótulo.
 """
 
 import unicodedata
+from datetime import datetime, timezone
 from typing import Any, Dict, Iterable, List, Optional, Set
 
 from .config import COLUNAS_ACEITACAO, MODO_ENTREGUES
@@ -44,12 +51,17 @@ def _e_historia(issue: Dict[str, Any]) -> bool:
     return isinstance(estimativa, (int, float)) and not isinstance(estimativa, bool) and estimativa > 0
 
 
+def _fechada(issue: Dict[str, Any]) -> bool:
+    """A coleta grava se a issue está fechada (`fechada`). Sem o campo, a issue é tratada como aberta."""
+    return bool(issue.get("fechada"))
+
+
 def _esta_em_aceitacao(issue: Dict[str, Any], colunas: Set[str], manual: Optional[Set[int]]) -> bool:
     if not _e_historia(issue):
         return False
-    # Fechada é história já aceita: o ZenHub mantém a coluna Aceitação PO depois do fechamento,
-    # e os pontos dela já estão em `delivered_story_points`. Contá-la aqui somaria duas vezes.
-    if issue.get("fechada"):
+    # O ZenHub mantém na coluna a história que o PO já aceitou e fechou; ela já está nos pontos
+    # aceitos e não pode contar de novo como história à espera do aceite.
+    if _fechada(issue):
         return False
     coluna = issue.get("coluna")
     if coluna and _normalizar(coluna) in colunas:
@@ -117,6 +129,93 @@ def marcar_aguardando(
         sprint["aguardando_pontos"] = sum(i["estimativa"] for i in sprint["aguardando_issues"])
         sprint["aceitacao_fonte"] = fonte
     return fonte
+
+
+def _instante(valor: Any) -> Optional[datetime]:
+    """Data ISO (ou datetime) como instante com fuso; sem fuso, o texto é lido como UTC."""
+    if isinstance(valor, str):
+        try:
+            valor = datetime.fromisoformat(valor.replace("Z", "+00:00"))
+        except ValueError:
+            return None
+    if not isinstance(valor, datetime):
+        return None
+    return valor if valor.tzinfo else valor.replace(tzinfo=timezone.utc)
+
+
+def _janela(sprint: Dict[str, Any]) -> tuple:
+    """Início e fim da sprint, aceitando as chaves do data_layer (`start_at`) e do processo (`inicio`)."""
+    inicio = sprint.get("start_at") if sprint.get("start_at") is not None else sprint.get("inicio")
+    fim = sprint.get("end_at") if sprint.get("end_at") is not None else sprint.get("fim")
+    return _instante(inicio), _instante(fim)
+
+
+def atribuir_aceites_tardios(
+    sprints: List[Dict[str, Any]],
+    campo_pontos: str = "delivered_sp",
+    colunas: Iterable[str] = COLUNAS_ACEITACAO,
+) -> None:
+    """
+    Devolve à sprint de origem os pontos das histórias que o PO aceitou depois do fim dela.
+
+    Vale para a história fechada (`fechada`) que ainda está na coluna de aceitação, ou seja, que
+    esperou o PO, e cujo fechamento (`fechada_em`) caiu depois do fim de uma sprint em que ela
+    aparece. Os pontos saem da sprint em que a história fechou, onde o ZenHub os contou, e entram
+    na última sprint encerrada em que ela aparece. História fechada dentro da própria sprint, ou
+    que não passou pela aceitação, não muda de lugar.
+
+    Muda `campo_pontos` de cada sprint e preenche `aceitos_depois_issues` (as histórias movidas
+    para ela, com a sprint em que fecharam) e `aceitos_depois_pontos`. Sem `fechada` e
+    `fechada_em` nas issues, que a coleta passou a gravar, nada se move.
+    """
+    nomes = {_normalizar(c) for c in colunas}
+    for sprint in sprints:
+        sprint["aceitos_depois_issues"] = []
+        sprint["aceitos_depois_pontos"] = 0.0
+
+    janelas = [_janela(s) for s in sprints]
+    ocorrencias: Dict[Any, List[int]] = {}
+    ultima: Dict[Any, Dict[str, Any]] = {}
+    for indice, sprint in enumerate(sprints):
+        for issue in sprint.get("issues") or []:
+            chave = issue.get("id") if issue.get("id") is not None else issue.get("numero")
+            if chave is None:
+                continue
+            ocorrencias.setdefault(chave, []).append(indice)
+            ultima[chave] = issue
+
+    for chave, issue in ultima.items():
+        if not (_e_historia(issue) and _fechada(issue)):
+            continue
+        if _normalizar(issue.get("coluna") or "") not in nomes:
+            continue
+        fechada = _instante(issue.get("fechada_em"))
+        if fechada is None:
+            continue
+
+        onde = ocorrencias[chave]
+        fechamento = next(
+            (i for i in onde if janelas[i][0] and janelas[i][1] and janelas[i][0] <= fechada < janelas[i][1]),
+            None,
+        )
+        encerradas = [i for i in onde if janelas[i][1] and janelas[i][1] <= fechada]
+        if fechamento is None or not encerradas:
+            continue
+        entrega = max(encerradas)
+        if entrega == fechamento:
+            continue
+
+        pontos = float(issue["estimativa"])
+        sprints[fechamento][campo_pontos] = max(0.0, float(sprints[fechamento].get(campo_pontos, 0.0)) - pontos)
+        sprints[entrega][campo_pontos] = float(sprints[entrega].get(campo_pontos, 0.0)) + pontos
+        sprints[entrega]["aceitos_depois_issues"].append({
+            "id": issue.get("id"),
+            "numero": issue.get("numero"),
+            "estimativa": pontos,
+            "sprint": sprints[fechamento].get("name") or sprints[fechamento].get("nome"),
+            "fechada_em": issue.get("fechada_em"),
+        })
+        sprints[entrega]["aceitos_depois_pontos"] += pontos
 
 
 def pontos_entregues(aceitos: float, aguardando: float, modo: str) -> float:

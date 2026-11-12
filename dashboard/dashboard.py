@@ -227,6 +227,32 @@ def _render_historias_em_aceitacao(r: dict):
         )
 
 
+def _render_aceites_tardios(sprints: list):
+    """Lista as histórias que o PO aceitou depois do fim da sprint e que contam na sprint de origem."""
+    com_aceite = [s for s in sprints if s.get("aceitos_depois_issues")]
+    if not com_aceite:
+        return
+    for s in com_aceite:
+        historias = s["aceitos_depois_issues"]
+        st.caption(
+            f"{s['name']}: {s['aceitos_depois_pontos']:.0f} SP de {len(historias)} história(s) foram aceitas pelo PO "
+            "depois do fim da sprint e contam nela."
+        )
+    with st.expander("Histórias aceitas depois do fim da sprint"):
+        tabela = pd.DataFrame([
+            {"História": f"#{h['numero']}" if h.get("numero") is not None else "sem número",
+             "Pontos (SP)": f"{h['estimativa']:.0f}", "Conta na": s["name"],
+             "Aceita na": h.get("sprint") or "-", "Aceite em": formatar_data_brasilia(h.get("fechada_em"))}
+            for s in com_aceite
+            for h in sorted(s["aceitos_depois_issues"], key=lambda h: h.get("numero") or 0)
+        ])
+        st.dataframe(tabela, use_container_width=True, hide_index=True)
+        st.caption(
+            "Regra: a história fechada que esperou o PO volta para a última sprint encerrada em que "
+            "aparece. O ZenHub a contaria na sprint em que ela fechou. Os totais da release não mudam."
+        )
+
+
 def _render_grafico_de_custo(evm: dict, selecionada: dict):
     """Curva de PV, AC e EV acumulados do projeto, com as releases marcadas e a escolhida em destaque."""
     curva = evm["curva"]
@@ -576,12 +602,23 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str =
     if barras:
         rotulos_vel = [s["name"] + ("" if s in fechadas else " (em andamento)") for s in barras]
         fig_vel = go.Figure()
+        # Os aceites que o PO deu depois do fim da sprint contam nela e aparecem à parte, para a
+        # demora do aceite ficar visível em vez de parecer baixa entrega.
+        depois = [s.get("aceitos_depois_pontos", 0.0) for s in barras]
+        no_prazo = [s["delivered_sp"] - d for s, d in zip(barras, depois)]
         fig_vel.add_trace(go.Bar(
-            x=rotulos_vel, y=[s["delivered_sp"] for s in barras], name="Aceitos",
+            x=rotulos_vel, y=no_prazo, name="Aceitos",
             marker=dict(color="#38BDF8"),
-            text=[f"{s['delivered_sp']:.0f}" for s in barras], textposition="inside",
+            text=[f"{v:.0f}" for v in no_prazo], textposition="inside",
             hovertemplate="<b>%{x}</b><br>Aceitos: %{y} SP<extra></extra>"
         ))
+        if any(depois):
+            fig_vel.add_trace(go.Bar(
+                x=rotulos_vel, y=depois, name="Aceitos pelo PO depois do fim da sprint",
+                marker=dict(color="#34D399", pattern=dict(shape="x")),
+                text=[f"{v:.0f}" if v else "" for v in depois], textposition="inside",
+                hovertemplate="<b>%{x}</b><br>Aceitos depois do fim da sprint: %{y} SP<extra></extra>"
+            ))
         if modo == MODO_ENTREGUES:
             fig_vel.add_trace(go.Bar(
                 x=rotulos_vel, y=[s.get("aguardando_pontos", 0.0) for s in barras], name="Em Aceitação PO",
@@ -597,12 +634,15 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str =
         if fechadas:
             media = sum(_pontos(s) for s in fechadas) / len(fechadas)
             st.caption(f"Média das sprints fechadas ({_rotulo_em_frase(modo)}): {media:.1f} SP por sprint.")
+        _render_aceites_tardios(barras)
     else:
         st.info("Ainda não há sprints fechadas para calcular a velocity.")
     with st.expander("O que este gráfico mostra?"):
         st.markdown(
-            "Quantos pontos de história cada sprint fechada entregou. A parte azul são os pontos aceitos e, "
-            "no modo \"aceitas + em Aceitação PO\", a parte listrada são as histórias que aguardam o "
+            "Quantos pontos de história cada sprint fechada entregou. A parte azul são os pontos aceitos; "
+            "a parte verde listrada são as histórias que o PO aceitou depois do fim da sprint em que a "
+            "equipe as entregou, e que contam nela, não na sprint em que o aceite saiu. No modo "
+            "\"aceitas + em Aceitação PO\", a parte amarela listrada são as histórias que aguardam o "
             "aceite; sprints em andamento aparecem só quando já têm pontos nesse modo. Uma sprint com poucos pontos "
             "não é necessariamente ruim: pode refletir histórias maiores do que o normal, feriados, "
             "ou trabalho técnico que não gera pontos diretamente. Se as histórias não foram "

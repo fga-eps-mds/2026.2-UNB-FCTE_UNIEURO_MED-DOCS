@@ -190,6 +190,154 @@ class SinalDeColetaTest(unittest.TestCase):
         self.assertIsNone(aceitacao.marcar_aguardando(sem))
 
 
+ACEITE = "Aceitação PO"
+
+
+def fechada(id_, numero, estimativa, quando, coluna=ACEITE):
+    return {"id": id_, "numero": numero, "estimativa": estimativa, "coluna": coluna,
+            "fechada": True, "fechada_em": quando}
+
+
+def sprint_datada(nome, inicio, fim, aceitos, *issues):
+    return {"name": nome, "start_at": inicio, "end_at": fim, "delivered_sp": aceitos, "issues": list(issues)}
+
+
+S4 = ("2026-10-26T03:59:00Z", "2026-11-09T02:59:00Z")
+S5 = ("2026-11-09T03:59:00Z", "2026-11-23T02:59:00Z")
+FECHOU_NA_S5 = "2026-11-11T01:39:20Z"
+
+
+class HistoriaFechadaNaoAguardaTest(unittest.TestCase):
+    def test_historia_fechada_na_coluna_nao_conta_como_aguardando(self):
+        sprints = [sprint("Sprint 5", fechada("A", 5, 13, FECHOU_NA_S5), issue("B", 8, 8, ACEITE))]
+
+        aceitacao.marcar_aguardando(sprints)
+
+        self.assertEqual(sprints[0]["aguardando_pontos"], 8.0)
+        self.assertEqual([i["numero"] for i in sprints[0]["aguardando_issues"]], [8])
+
+    def test_sem_o_estado_a_issue_continua_valendo_como_aberta(self):
+        sprints = [sprint("Sprint 5", issue("A", 5, 13, ACEITE))]
+
+        aceitacao.marcar_aguardando(sprints)
+
+        self.assertEqual(sprints[0]["aguardando_pontos"], 13.0)
+
+
+class AtribuirAceitesTardiosTest(unittest.TestCase):
+    def cenario(self, *issues_s5, issues_s4=None):
+        antigas = issues_s4 if issues_s4 is not None else list(issues_s5)
+        return [sprint_datada("Sprint 4", *S4, 0.0, *antigas),
+                sprint_datada("Sprint 5", *S5, 21.0, *issues_s5)]
+
+    def test_aceite_depois_do_fim_da_sprint_volta_para_a_sprint_de_origem(self):
+        sprints = self.cenario(fechada("A", 5, 13, FECHOU_NA_S5))
+        sprints[1]["delivered_sp"] = 13.0
+
+        aceitacao.atribuir_aceites_tardios(sprints)
+
+        self.assertEqual(sprints[0]["delivered_sp"], 13.0)
+        self.assertEqual(sprints[1]["delivered_sp"], 0.0)
+
+    def test_so_move_o_que_esperou_o_po_e_o_resto_fica_na_sprint_em_que_fechou(self):
+        sprints = self.cenario(fechada("A", 5, 13, FECHOU_NA_S5), fechada("T", 104, 8, FECHOU_NA_S5, "Review/QA"))
+        sprints[1]["delivered_sp"] = 21.0
+
+        aceitacao.atribuir_aceites_tardios(sprints)
+
+        self.assertEqual(sprints[0]["delivered_sp"], 13.0)
+        self.assertEqual(sprints[1]["delivered_sp"], 8.0)
+
+    def test_historia_nova_da_propria_sprint_nao_muda_de_lugar(self):
+        sprints = self.cenario(fechada("A", 5, 13, FECHOU_NA_S5), issues_s4=[])
+        sprints[1]["delivered_sp"] = 13.0
+
+        aceitacao.atribuir_aceites_tardios(sprints)
+
+        self.assertEqual(sprints[0]["delivered_sp"], 0.0)
+        self.assertEqual(sprints[1]["delivered_sp"], 13.0)
+
+    def test_vai_para_a_ultima_sprint_encerrada_em_que_a_historia_aparece(self):
+        s1 = sprint_datada("Sprint 1", "2026-09-14T03:59:00Z", "2026-09-28T02:59:00Z", 0.0,
+                           fechada("A", 5, 13, FECHOU_NA_S5))
+        sprints = [s1] + self.cenario(fechada("A", 5, 13, FECHOU_NA_S5))
+        sprints[2]["delivered_sp"] = 13.0
+
+        aceitacao.atribuir_aceites_tardios(sprints)
+
+        self.assertEqual([s["delivered_sp"] for s in sprints], [0.0, 13.0, 0.0])
+
+    def test_sem_estado_e_data_de_fechamento_nada_se_move(self):
+        aberta = {"id": "A", "numero": 5, "estimativa": 13, "coluna": ACEITE}
+        sprints = self.cenario(aberta)
+        sprints[1]["delivered_sp"] = 13.0
+
+        aceitacao.atribuir_aceites_tardios(sprints)
+
+        self.assertEqual([s["delivered_sp"] for s in sprints], [0.0, 13.0])
+        self.assertEqual([s["aceitos_depois_pontos"] for s in sprints], [0.0, 0.0])
+
+    def test_historia_aberta_na_coluna_nao_e_movida(self):
+        sprints = self.cenario(issue("A", 5, 13, ACEITE))
+        sprints[1]["delivered_sp"] = 0.0
+
+        aceitacao.atribuir_aceites_tardios(sprints)
+
+        self.assertEqual([s["delivered_sp"] for s in sprints], [0.0, 0.0])
+
+    def test_lista_as_historias_movidas_com_a_sprint_em_que_fecharam(self):
+        sprints = self.cenario(fechada("A", 5, 13, FECHOU_NA_S5), fechada("B", 6, 8, FECHOU_NA_S5))
+        sprints[1]["delivered_sp"] = 21.0
+
+        aceitacao.atribuir_aceites_tardios(sprints)
+
+        self.assertEqual(sprints[0]["aceitos_depois_pontos"], 21.0)
+        self.assertEqual(
+            [(i["numero"], i["estimativa"], i["sprint"]) for i in sprints[0]["aceitos_depois_issues"]],
+            [(5, 13.0, "Sprint 5"), (6, 8.0, "Sprint 5")],
+        )
+        self.assertEqual(sprints[1]["aceitos_depois_issues"], [])
+
+    def test_a_sprint_de_fechamento_nunca_fica_negativa(self):
+        sprints = self.cenario(fechada("A", 5, 13, FECHOU_NA_S5))
+        sprints[1]["delivered_sp"] = 5.0
+
+        aceitacao.atribuir_aceites_tardios(sprints)
+
+        self.assertEqual(sprints[1]["delivered_sp"], 0.0)
+
+    def test_fechamento_fora_de_qualquer_sprint_da_historia_nao_move(self):
+        sprints = self.cenario(fechada("A", 5, 13, "2027-03-01T00:00:00Z"))
+        sprints[1]["delivered_sp"] = 13.0
+
+        aceitacao.atribuir_aceites_tardios(sprints)
+
+        self.assertEqual([s["delivered_sp"] for s in sprints], [0.0, 13.0])
+
+    def test_aceita_as_chaves_e_as_datas_do_modulo_de_processo(self):
+        from datetime import datetime, timezone
+        def data(texto):
+            return datetime.fromisoformat(texto.replace("Z", "+00:00")).astimezone(timezone.utc)
+        sprints = [
+            {"nome": "Sprint 4", "inicio": data(S4[0]), "fim": data(S4[1]), "aceitos": 0.0,
+             "issues": [fechada("A", 5, 13, FECHOU_NA_S5)]},
+            {"nome": "Sprint 5", "inicio": data(S5[0]), "fim": data(S5[1]), "aceitos": 13.0,
+             "issues": [fechada("A", 5, 13, FECHOU_NA_S5)]},
+        ]
+
+        aceitacao.atribuir_aceites_tardios(sprints, campo_pontos="aceitos")
+
+        self.assertEqual([s["aceitos"] for s in sprints], [13.0, 0.0])
+        self.assertEqual(sprints[0]["aceitos_depois_issues"][0]["sprint"], "Sprint 5")
+
+    def test_sprint_sem_detalhe_de_issues_nao_quebra(self):
+        sprints = [{"name": "Sprint 4", "start_at": S4[0], "end_at": S4[1], "delivered_sp": 3.0}]
+
+        aceitacao.atribuir_aceites_tardios(sprints)
+
+        self.assertEqual(sprints[0]["delivered_sp"], 3.0)
+
+
 class PontosEntreguesTest(unittest.TestCase):
     def test_modo_aceitas_ignora_os_pontos_em_aceitacao(self):
         self.assertEqual(aceitacao.pontos_entregues(10, 5, MODO_ACEITAS), 10.0)

@@ -227,12 +227,13 @@ Particularidades:
 - O arquivo grava `colunas_coletadas` e `colunas_fonte`. É esse sinal que diferencia uma
   coluna Aceitação PO vazia de uma coluna que não chegou a ser coletada. No fim da coleta
   o log mostra quantas issues há em cada coluna.
-- Além da coluna, a coleta pede `state` e `closedAt` de cada issue e grava `estado` e
-  `fechada_em`. Eles separam a história que o PO já aceitou e fechou, que o Zenhub mantém
-  na coluna Aceitação PO, da que ainda espera o aceite. Se o Zenhub recusar os dois campos,
-  a coleta tenta a consulta sem eles e o painel volta a tratar a issue como aberta.
+- Além da coluna, a coleta pede `state` e `closedAt` de cada issue e grava `fechada`
+  (verdadeiro se o estado é `CLOSED`) e `fechada_em`. Eles separam a história que o PO já aceitou e fechou, que o Zenhub mantém
+  na coluna Aceitação PO, da que ainda espera o aceite. Se o Zenhub recusar só `closedAt`,
+  a coleta mantém `state`, que basta para não contar a história duas vezes. Se recusar os
+  dois, tenta a consulta sem eles e o painel volta a tratar a issue como aberta.
 - O aceite costuma sair depois do fim da sprint em que a equipe entregou a história. Com
-  `estado` e `fechada_em`, o painel devolve os pontos dessa história à última sprint
+  `fechada` e `fechada_em`, o painel devolve os pontos dessa história à última sprint
   encerrada em que ela aparece, em vez de contá-los na sprint em que ela fechou. A regra
   está no `README` do dashboard.
 - Nesse caso, o arquivo opcional `analytics-raw-data/aceitacao_po_manual.json`, no

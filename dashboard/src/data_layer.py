@@ -29,7 +29,9 @@ def get_zenhub_sprints_data() -> Tuple[List[Dict[str, Any]], bool]:
     Retorna uma tupla (dados, is_mock).
 
     Cada sprint real traz também `aguardando_pontos` e `aguardando_issues`: as histórias
-    entregues que estão na coluna Aceitação PO (ver aceitacao.py), contadas uma vez só.
+    entregues que estão na coluna Aceitação PO (ver aceitacao.py), contadas uma vez só. Os pontos
+    de uma história que o PO aceitou depois do fim da sprint voltam para a sprint de origem
+    (`aceitos_depois_issues`).
     """
     zh_path = os.path.join(RAW_DATA_DIR, "zenhub_analytics.json")
     data = load_json_file(zh_path)
@@ -57,6 +59,7 @@ def get_zenhub_sprints_data() -> Tuple[List[Dict[str, Any]], bool]:
                 load_json_file(os.path.join(RAW_DATA_DIR, ARQUIVO_ACEITACAO_MANUAL))
             )
             aceitacao.marcar_aguardando(result, manual=manual, coletada=data.get("colunas_coletadas"))
+            aceitacao.atribuir_aceites_tardios(result)
             return result, False
 
     # Dados mock de exemplo: sprints de 14 dias com datas, para que o EVM por release

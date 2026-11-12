@@ -125,6 +125,45 @@ class ProcessoPorModoTest(unittest.TestCase):
         self.assertAlmostEqual(r2["indicadores"]["P2"], 13 / 21)
 
 
+def historia_fechada(id_, numero, estimativa, quando="2026-11-11T01:39:20Z"):
+    return {"id": id_, "numero": numero, "estimativa": estimativa, "coluna": "Aceitação PO",
+            "fechada": True, "fechada_em": quando}
+
+
+# Sprint 4 entregou a #5 ao PO, que a aceitou já na Sprint 5; a #8 ainda espera o aceite.
+SPRINTS_COM_ACEITE_TARDIO = {
+    "Sprint 4": sprint(21, 0, [historia_fechada("A", 5, 13), issue("B", 8, 8, "Aceitação PO")],
+                       inicio="2026-10-26T03:59:00Z", fim="2026-11-09T02:59:00Z"),
+    "Sprint 5": sprint(21, 13, [historia_fechada("A", 5, 13), issue("B", 8, 8, "Aceitação PO")],
+                       inicio="2026-11-09T03:59:00Z", fim="2026-11-23T02:59:00Z"),
+}
+
+
+class AceiteTardioNosDadosTest(unittest.TestCase):
+    def test_o_painel_atribui_o_aceite_a_sprint_de_origem_e_nao_conta_a_historia_fechada_como_aguardando(self):
+        with PastaDeDados(SPRINTS_COM_ACEITE_TARDIO) as dados:
+            with mock.patch.object(data_layer, "RAW_DATA_DIR", dados.caminho):
+                lista, _ = data_layer.get_zenhub_sprints_data()
+
+        self.assertEqual([s["delivered_sp"] for s in lista], [13.0, 0.0])
+        self.assertEqual([s["aguardando_pontos"] for s in lista], [0.0, 8.0])
+        self.assertEqual([i["numero"] for i in lista[0]["aceitos_depois_issues"]], [5])
+
+    def test_o_processo_atribui_o_aceite_a_sprint_de_origem(self):
+        with PastaDeDados(SPRINTS_COM_ACEITE_TARDIO) as dados:
+            lista = processo.sprints(dados.caminho, MODO_ENTREGUES)
+
+        self.assertEqual([s["aceitos"] for s in lista], [13.0, 0.0])
+        self.assertEqual([s["entregues"] for s in lista], [13.0, 8.0])
+        self.assertEqual(lista[0]["aceitos_depois_pontos"], 13.0)
+
+    def test_a_release_soma_o_mesmo_total_que_antes_da_atribuicao(self):
+        with PastaDeDados(SPRINTS_COM_ACEITE_TARDIO) as dados:
+            lista = processo.sprints(dados.caminho, MODO_ACEITAS)
+
+        self.assertEqual(sum(s["aceitos"] for s in lista), 13.0)
+
+
 class SprintsDoDashboardTest(unittest.TestCase):
     def carregar(self, dados):
         with mock.patch.object(data_layer, "RAW_DATA_DIR", dados.caminho):
