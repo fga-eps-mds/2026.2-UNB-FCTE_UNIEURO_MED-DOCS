@@ -1,7 +1,7 @@
 {
   "repositorio": "APP",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-APP",
-  "coletado_em": "2026-11-11T09:12:06Z",
+  "coletado_em": "2026-11-12T09:12:25Z",
   "medidas": {
     "coverage": "98.3",
     "reliability_rating": "1.0",
@@ -188,6 +188,27 @@
       ]
     },
     {
+      "metric": "sqale_rating",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:27+0000",
+          "value": "1.0"
+        },
+        {
+          "date": "2026-10-14T02:25:16+0000",
+          "value": "1.0"
+        },
+        {
+          "date": "2026-10-26T05:09:30+0000",
+          "value": "1.0"
+        },
+        {
+          "date": "2026-11-10T02:38:20+0000",
+          "value": "1.0"
+        }
+      ]
+    },
+    {
       "metric": "bugs",
       "history": [
         {
@@ -268,27 +289,6 @@
         {
           "date": "2026-11-10T02:38:20+0000",
           "value": "195"
-        }
-      ]
-    },
-    {
-      "metric": "sqale_rating",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:27+0000",
-          "value": "1.0"
-        },
-        {
-          "date": "2026-10-14T02:25:16+0000",
-          "value": "1.0"
-        },
-        {
-          "date": "2026-10-26T05:09:30+0000",
-          "value": "1.0"
-        },
-        {
-          "date": "2026-11-10T02:38:20+0000",
-          "value": "1.0"
         }
       ]
     },
