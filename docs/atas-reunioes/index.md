@@ -24,6 +24,11 @@ O padrão adotado está descrito no [modelo de ata](modelo-ata.md).
 
 **Fonte:** [Vitor Carvalho Pereira](https://github.com/vcpVitor), 2026
 
+A reunião prevista para sexta-feira, **06/11/2026, às 19h30, pelo Teams**, com o *Product Owner*
+e o cliente não aconteceu. Nenhum dos dois entrou, e a equipe cancelou às **19h48**.
+O registro está no canal `mnema-po` do Discord: `.claudioh` enviou o link da reunião e
+`.mash1ro` avisou o cancelamento.
+
 ## Histórico de versão
 
 | Versão | Data | Descrição | Autor | Revisor |
@@ -35,3 +40,4 @@ O padrão adotado está descrito no [modelo de ata](modelo-ata.md).
 | `1.4` | 23/10/2026 | Inclusão da ata 10 | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
 | `1.5` | 01/11/2026 | Inclusão da ata 11 | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
 | `1.6` | 10/11/2026 | Inclusão da ata 12 | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |
+| `1.7` | 12/11/2026 | Registro da reunião de 06/11/2026 que não ocorreu | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | |
