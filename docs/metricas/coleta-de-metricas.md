@@ -227,6 +227,14 @@ Particularidades:
 - O arquivo grava `colunas_coletadas` e `colunas_fonte`. É esse sinal que diferencia uma
   coluna Aceitação PO vazia de uma coluna que não chegou a ser coletada. No fim da coleta
   o log mostra quantas issues há em cada coluna.
+- Além da coluna, a coleta pede `state` e `closedAt` de cada issue e grava `estado` e
+  `fechada_em`. Eles separam a história que o PO já aceitou e fechou, que o Zenhub mantém
+  na coluna Aceitação PO, da que ainda espera o aceite. Se o Zenhub recusar os dois campos,
+  a coleta tenta a consulta sem eles e o painel volta a tratar a issue como aberta.
+- O aceite costuma sair depois do fim da sprint em que a equipe entregou a história. Com
+  `estado` e `fechada_em`, o painel devolve os pontos dessa história à última sprint
+  encerrada em que ela aparece, em vez de contá-los na sprint em que ela fechou. A regra
+  está no `README` do dashboard.
 - Nesse caso, o arquivo opcional `analytics-raw-data/aceitacao_po_manual.json`, no
   formato `{"issues": [7, 8]}`, com os números das issues em Aceitação PO, é usado
   como alternativa.
@@ -254,3 +262,4 @@ do plano (Baixo 1–5, Médio 6–12, Elevado 15–25).
 | `1.3` | 22/10/2026 | Coleta dos problemas do SonarCloud e das branches das releases, para o Q-Rapids | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |
 | `1.4` | 25/10/2026 | Coleta da coluna de cada issue do Zenhub, por duas formas e com diagnóstico do esquema, para os pontos em Aceitação PO | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |
 | `1.5` | 25/10/2026 | Histórico de riscos por sprint e riscos concretizados (`riscos_historico.json`) | Nicollas Martins | |
+| `1.6` | 11/11/2026 | Estado e data de fechamento de cada issue, e atribuição do aceite tardio à sprint de origem | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |

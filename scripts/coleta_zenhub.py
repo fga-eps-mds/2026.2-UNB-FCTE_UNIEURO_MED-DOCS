@@ -32,7 +32,18 @@ CAMPO_COLUNA = "pipelineIssue(workspaceId: $id) { pipeline { name } }"
 # de uma sprint para a seguinte. O estado diz se a issue já foi fechada: o ZenHub mantém a
 # coluna em que ela estava (Aceitação PO) mesmo depois do aceite. Como a API não pôde ser conferida aqui, se o Zenhub
 # recusar um campo a coleta tenta a variante seguinte, e a última é a consulta original.
-VARIANTES_ISSUE = (f"id number state {CAMPO_COLUNA}", f"id number {CAMPO_COLUNA}", "id number", "id", "")
+# `state` e `closedAt` dizem se a história já foi aceita (fechada) e quando. Sem eles o painel não
+# separa a história fechada que ficou na coluna Aceitação PO da que ainda espera o aceite. Se a API
+# recusar só o `closedAt`, a segunda variante mantém o `state`, que basta para não contar duas vezes.
+CAMPOS_ESTADO = "state closedAt"
+VARIANTES_ISSUE = (
+    f"id number {CAMPOS_ESTADO} {CAMPO_COLUNA}",
+    f"id number state {CAMPO_COLUNA}",
+    f"id number {CAMPO_COLUNA}",
+    "id number",
+    "id",
+    "",
+)
 
 # Segunda forma de ler a coluna: em vez de perguntar a cada issue onde ela está, pergunta ao
 # workspace quais são as colunas e quais issues cada uma guarda. Só é usada se a primeira for
@@ -204,6 +215,8 @@ def _resumir_issue(issue, com_coluna, colunas_por_id=None):
     }
     if "state" in issue:
         resumo["fechada"] = issue.get("state") == "CLOSED"
+    if "closedAt" in issue:
+        resumo["fechada_em"] = issue.get("closedAt")
     if com_coluna:
         coluna = (((issue.get("pipelineIssue") or {}).get("pipeline")) or {}).get("name")
         if coluna is None and colunas_por_id:

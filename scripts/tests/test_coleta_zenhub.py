@@ -69,11 +69,12 @@ class MontarTest(unittest.TestCase):
 
         self.assertEqual([i["coluna"] for i in issues], ["Aceitação PO", None])
 
-    def test_com_estado_guarda_se_a_issue_esta_fechada(self):
+    def test_com_estado_guarda_se_a_issue_esta_fechada_e_quando(self):
         com_estado = [
             {"id": "A", "number": 5, "estimate": {"value": 13.0}, "state": "CLOSED",
+             "closedAt": "2026-11-11T01:39:20Z",
              "pipelineIssue": {"pipeline": {"name": "Aceitação PO"}}},
-            {"id": "B", "number": 46, "estimate": {"value": 8.0}, "state": "OPEN",
+            {"id": "B", "number": 46, "estimate": {"value": 8.0}, "state": "OPEN", "closedAt": None,
              "pipelineIssue": {"pipeline": {"name": "Aceitação PO"}}},
         ]
         ws = workspace([sprint("Sprint 5", com_estado)], True)
@@ -82,15 +83,27 @@ class MontarTest(unittest.TestCase):
         issues = coleta_zenhub.montar(ws)["sprints_velocity"]["Sprint 5"]["issues"]
 
         self.assertEqual([i["fechada"] for i in issues], [True, False])
+        self.assertEqual([i["fechada_em"] for i in issues], ["2026-11-11T01:39:20Z", None])
         self.assertEqual([i["coluna"] for i in issues], ["Aceitação PO", "Aceitação PO"])
 
-    def test_sem_estado_a_issue_nao_ganha_o_campo(self):
+    def test_so_com_o_estado_a_issue_guarda_se_esta_fechada(self):
+        so_estado = [{"id": "A", "number": 5, "estimate": {"value": 13.0}, "state": "CLOSED"}]
+
+        issues = coleta_zenhub.montar(workspace([sprint("Sprint 5", so_estado)], True))[
+            "sprints_velocity"]["Sprint 5"]["issues"]
+
+        self.assertTrue(issues[0]["fechada"])
+        self.assertNotIn("fechada_em", issues[0])
+
+    def test_sem_estado_a_issue_nao_ganha_os_campos(self):
         issues = coleta_zenhub.montar(workspace([sprint("Sprint 1", ISSUES)], True))["sprints_velocity"]["Sprint 1"]["issues"]
 
-        self.assertTrue(all("fechada" not in i for i in issues))
+        self.assertTrue(all("fechada" not in i and "fechada_em" not in i for i in issues))
 
     def test_pede_o_estado_na_primeira_variante_e_mantem_as_anteriores(self):
-        self.assertIn("state", coleta_zenhub.VARIANTES_ISSUE[0])
+        self.assertIn("state closedAt", coleta_zenhub.VARIANTES_ISSUE[0])
+        self.assertIn("state", coleta_zenhub.VARIANTES_ISSUE[1])
+        self.assertNotIn("closedAt", coleta_zenhub.VARIANTES_ISSUE[1])
         self.assertIn(f"id number {coleta_zenhub.CAMPO_COLUNA}", coleta_zenhub.VARIANTES_ISSUE)
 
     def test_sem_coluna_coletada_a_issue_nao_ganha_o_campo(self):
@@ -226,47 +239,54 @@ class ConsultarTest(unittest.TestCase):
 
         self.assertEqual(len(consultas), 1)
         self.assertIn("pipelineIssue", consultas[0])
-        self.assertIn("id number state", consultas[0])
+        self.assertIn("state closedAt", consultas[0])
         self.assertTrue(resultado["issues_detalhadas"])
         self.assertTrue(resultado["issues_com_coluna"])
 
-    def test_mantem_a_coluna_quando_a_api_recusa_so_o_estado(self):
-        resultado, consultas = self.consultar_com([f"id number {coleta_zenhub.CAMPO_COLUNA}", "id number", "id", ""])
+    def test_mantem_o_estado_quando_a_api_recusa_so_a_data_de_fechamento(self):
+        resultado, consultas = self.consultar_com(list(coleta_zenhub.VARIANTES_ISSUE[1:]))
 
         self.assertEqual(len(consultas), 2)
-        self.assertNotIn("id number state", consultas[1])
+        self.assertNotIn("closedAt", consultas[1])
+        self.assertIn("id number state", consultas[1])
+        self.assertTrue(resultado["issues_com_coluna"])
+
+    def test_mantem_a_coluna_quando_a_api_recusa_o_estado(self):
+        resultado, consultas = self.consultar_com(list(coleta_zenhub.VARIANTES_ISSUE[2:]))
+
+        self.assertEqual(len(consultas), 3)
+        self.assertNotIn("id number state", consultas[2])
         self.assertIn("pipelineIssue", consultas[1])
         self.assertTrue(resultado["issues_com_coluna"])
 
     def test_tenta_sem_a_coluna_quando_a_api_recusa_o_campo(self):
         resultado, consultas = self.consultar_com(["id number", "id", ""])
 
-        self.assertEqual(len(consultas), 3)
-        self.assertNotIn("pipelineIssue", consultas[2])
-        self.assertIn("id number", consultas[2])
+        self.assertEqual(len(consultas), 4)
+        self.assertNotIn("pipelineIssue", consultas[3])
+        self.assertIn("id number", consultas[3])
         self.assertTrue(resultado["issues_detalhadas"])
         self.assertFalse(resultado["issues_com_coluna"])
 
     def test_tenta_so_o_id_quando_a_api_recusa_o_numero(self):
         resultado, consultas = self.consultar_com(["id", ""])
 
-        self.assertEqual(len(consultas), 4)
-        self.assertNotIn("number", consultas[3])
-        self.assertIn("estimate { value } id }", consultas[3])
+        self.assertEqual(len(consultas), 5)
+        self.assertNotIn("number", consultas[4])
+        self.assertIn("estimate { value } id }", consultas[4])
         self.assertTrue(resultado["issues_detalhadas"])
         self.assertFalse(resultado["issues_com_coluna"])
 
     def test_volta_a_consulta_original_quando_a_api_recusa_os_campos_novos(self):
         resultado, consultas = self.consultar_com([""])
 
-        self.assertEqual(len(consultas), 5)
-        self.assertNotIn("__CAMPOS_ISSUE__", consultas[4])
+        self.assertEqual(len(consultas), 6)
+        self.assertNotIn("__CAMPOS_ISSUE__", consultas[5])
         self.assertFalse(resultado["issues_detalhadas"])
         self.assertFalse(resultado["issues_com_coluna"])
 
     def test_nao_le_pelo_workspace_quando_a_primeira_forma_funciona(self):
-        todas = list(coleta_zenhub.VARIANTES_ISSUE)
-        resultado, _ = self.consultar_com(todas, colunas=[coluna("Aceitação PO", ("A", 5))])
+        resultado, _ = self.consultar_com(list(coleta_zenhub.VARIANTES_ISSUE), colunas=[coluna("Aceitação PO", ("A", 5))])
 
         self.assertEqual(resultado["colunas_fonte"], "issue")
         self.assertIsNone(resultado["colunas_por_id"])
