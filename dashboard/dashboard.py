@@ -34,6 +34,7 @@ from src.data_layer import (
 )
 from src.metrics import (
     classificar_indice,
+    comparar_modos,
     compute_release_evm,
     process_risks_summary,
     revisoes_realizadas,
@@ -46,11 +47,14 @@ from src.templates import (
     arquivos_fora_do_limiar,
     cor_da_faixa,
     dados_dos_indices,
+    dados_escopo_e_tempo,
     formatar_indice,
+    leitura_escopo_e_tempo,
     marcos_sem_medida,
     rotulo_do_marco,
     serie_do_indice,
     tabela_comparativo,
+    tabela_lado_a_lado,
     tabela_de_custo_por_release,
     tabela_processo,
     tabela_qrapids,
@@ -253,6 +257,51 @@ def _render_aceites_tardios(sprints: list):
         )
 
 
+def _render_lado_a_lado(comparacao: list, release_id: str):
+    """Aceitas e entregues lado a lado, para discutir escopo e tempo sem trocar a opção da barra lateral."""
+    st.markdown("#### Aceitas × entregues, lado a lado")
+    linha = next((r for r in comparacao if r["id"] == release_id), None)
+    if linha is None:
+        return
+    st.caption(leitura_escopo_e_tempo(linha))
+    st.dataframe(tabela_lado_a_lado(linha), use_container_width=True, hide_index=True)
+
+    dados = dados_escopo_e_tempo(comparacao)
+    if dados["releases"]:
+        fig = go.Figure()
+        fig.add_trace(go.Bar(
+            x=dados["releases"], y=dados["aceitas"], name="Escopo aceito",
+            marker=dict(color="#38BDF8"), text=[f"{v:.0f}%" for v in dados["aceitas"]], textposition="outside",
+            hovertemplate="<b>%{x}</b><br>Escopo aceito: %{y:.0f}%<extra></extra>"
+        ))
+        fig.add_trace(go.Bar(
+            x=dados["releases"], y=dados["entregues"], name="Escopo entregue (com Aceitação PO)",
+            marker=dict(color="#FBBF24", pattern=dict(shape="/")),
+            text=[f"{v:.0f}%" for v in dados["entregues"]], textposition="outside",
+            hovertemplate="<b>%{x}</b><br>Escopo entregue: %{y:.0f}%<extra></extra>"
+        ))
+        fig.add_trace(go.Scatter(
+            x=dados["releases"], y=dados["prazo"], name="Prazo decorrido", mode="markers",
+            marker=dict(symbol="diamond", size=12, color="#F87171", line=dict(width=1, color="#FFFFFF")),
+            hovertemplate="<b>%{x}</b><br>Prazo decorrido: %{y:.0f}%<extra></extra>"
+        ))
+        layout = get_plotly_layout("Escopo entregue e prazo decorrido por release (%)", height=340, y_title="% da release")
+        layout["barmode"] = "group"
+        layout["legend"]["y"] = -0.25
+        fig.update_layout(layout)
+        fig.update_yaxes(range=[0, 115], ticksuffix="%")
+        st.plotly_chart(fig, use_container_width=True, config=PLOTLY_CONFIG)
+    with st.expander("Como usar esta comparação"):
+        st.markdown(
+            "O **prazo decorrido** (losango) é a fração dos dias da release que já passou, e as barras são a "
+            "fração do escopo planejado que está pronta. Barra abaixo do losango significa menos escopo do que o "
+            "prazo pede. A barra de **escopo aceito** só conta o que o PO validou. A de **escopo entregue** soma "
+            "também o que está em Aceitação PO. Quando só a segunda acompanha o losango, o atraso nos índices "
+            "vem da espera do aceite e não do desenvolvimento. Os dois números são os do EVM, no modo escolhido "
+            "na barra lateral ou no outro."
+        )
+
+
 def _render_grafico_de_custo(evm: dict, selecionada: dict):
     """Curva de PV, AC e EV acumulados do projeto, com as releases marcadas e a escolhida em destaque."""
     curva = evm["curva"]
@@ -395,7 +444,8 @@ def _subtexto_do_indice(formula: str, valor, sem_entrega: bool) -> str:
     return f"{formula}, {estado}" if estado else formula
 
 
-def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str = MODO_PADRAO):
+def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str = MODO_PADRAO,
+                   comparacao: list = None):
     """Renderiza a aba do Agile EVM por release, com burn de pontos e velocity."""
     if is_mock:
         render_mock_alert("Sprints e Agile EVM", "zenhub_analytics.json")
@@ -536,6 +586,9 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str =
         )
 
     _render_historias_em_aceitacao(r)
+
+    if comparacao:
+        _render_lado_a_lado(comparacao, r["id"])
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -1537,6 +1590,7 @@ def main():
         )
     
     evm_results = compute_release_evm(sprints=sprints_all, releases=RELEASES, modo=modo)
+    comparacao_evm = comparar_modos(sprints_all, RELEASES)
 
     tab_evm, tab_riscos, tab_processo, tab_qualidade, tab_qrapids, tab_teoria = st.tabs([
         "Agile EVM e Velocity",
@@ -1548,7 +1602,7 @@ def main():
     ])
 
     with tab_evm:
-        render_evm_tab(evm_results, sprints_data, is_sprints_mock, modo)
+        render_evm_tab(evm_results, sprints_data, is_sprints_mock, modo, comparacao_evm)
 
     with tab_riscos:
         render_risks_tab(risks_data, is_risks_mock, risks_history)

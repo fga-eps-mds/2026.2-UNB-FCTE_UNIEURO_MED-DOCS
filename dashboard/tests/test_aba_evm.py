@@ -45,6 +45,14 @@ class AbaEvmTest(unittest.TestCase):
         # Sem o formato, o Plotly escreve datas como "Aug 9", em inglês.
         self.assertEqual(curva["layout"]["xaxis"]["tickformat"], "%d/%m")
 
+    def test_mostra_aceitas_e_entregues_lado_a_lado(self):
+        junto = " ".join(self.textos)
+        especificacoes = [json.loads(g.proto.spec) for g in self.app.get("plotly_chart")]
+        titulos = [s["layout"].get("title", {}).get("text", "") for s in especificacoes]
+
+        self.assertIn("Aceitas × entregues, lado a lado", junto)
+        self.assertTrue(any("Escopo entregue e prazo decorrido por release (%)" in titulo for titulo in titulos))
+
     def test_o_cifrao_do_valor_em_reais_nao_vira_formula(self):
         legenda = next(t for t in self.textos if t.startswith("Hoje, no projeto todo"))
 

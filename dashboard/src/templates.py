@@ -10,6 +10,7 @@ import pandas as pd
 
 from . import qualidade
 from .config import THEME_COLORS
+from .metrics import classificar_indice
 from .processo import INDICADORES
 
 def get_status_pill(status: str) -> str:
@@ -210,3 +211,73 @@ def tabela_de_custo_por_release(releases: List[Dict[str, Any]]) -> pd.DataFrame:
         "Acumulado do projeto até a release": f"R$ {r['orcamento_acumulado']:,.2f}",
     } for r in releases])
 
+
+
+# ---------------------------------------------------------------------------
+# Aceitas e entregues lado a lado (EVM)
+# ---------------------------------------------------------------------------
+
+def _pct(valor: Optional[float]) -> str:
+    return "N/A" if valor is None else f"{valor * 100:.0f}%"
+
+
+def _indice(valor: Optional[float]) -> str:
+    return "N/A" if valor is None else f"{valor:.2f}"
+
+
+def _reais(valor: Optional[float]) -> str:
+    return "N/A" if valor is None else f"R$ {valor:,.2f}"
+
+
+def tabela_lado_a_lado(linha: Dict[str, Any]) -> pd.DataFrame:
+    """Os indicadores da release nos dois modos, para comparar o que foi aceito com o que foi entregue."""
+    a, e = linha["aceitas"], linha["entregues"]
+    return pd.DataFrame([
+        {"Indicador": "Pontos entregues (RPC)", "Somente aceitas": f"{a['rpc']:.0f} SP",
+         "Aceitas + em Aceitação PO": f"{e['rpc']:.0f} SP"},
+        {"Indicador": "Escopo entregue (APC)", "Somente aceitas": _pct(a["apc"]),
+         "Aceitas + em Aceitação PO": _pct(e["apc"])},
+        {"Indicador": "Valor agregado (EV)", "Somente aceitas": _reais(a["ev"]),
+         "Aceitas + em Aceitação PO": _reais(e["ev"])},
+        {"Indicador": "SPI", "Somente aceitas": _indice(a["spi"]), "Aceitas + em Aceitação PO": _indice(e["spi"])},
+        {"Indicador": "CPI", "Somente aceitas": _indice(a["cpi"]), "Aceitas + em Aceitação PO": _indice(e["cpi"])},
+        {"Indicador": "Faixa do SPI", "Somente aceitas": classificar_indice(a["spi"]) or "N/A",
+         "Aceitas + em Aceitação PO": classificar_indice(e["spi"]) or "N/A"},
+    ])
+
+
+def leitura_escopo_e_tempo(linha: Dict[str, Any]) -> str:
+    """Frase que põe lado a lado o prazo decorrido, o escopo aceito e o escopo entregue da release."""
+    if linha["prp"] <= 0:
+        return "Sem pontos estimados nesta release, não há escopo para comparar com o prazo."
+    if linha["fonte"] is None:
+        return (
+            "A coluna Aceitação PO ainda não foi coletada, então os dois modos coincidem e não dá para "
+            "separar o escopo aceito do entregue."
+        )
+    ppc, apc_a, apc_e = linha["ppc"], linha["aceitas"]["apc"] or 0.0, linha["entregues"]["apc"] or 0.0
+    frase = (
+        f"Na {linha['id']}, {_pct(ppc)} do prazo já decorreu. O escopo entregue é {_pct(apc_e)} "
+        f"e o aceito é {_pct(apc_a)}."
+    )
+    if linha["aguardando_pontos"] <= 0:
+        return frase + " Nenhuma história aguarda o aceite do PO."
+    frase += f" A diferença, de {linha['aguardando_pontos']:.0f} SP, depende do aceite do PO."
+    if apc_e >= ppc > apc_a:
+        frase += " O trabalho entregue acompanha o prazo; o que o atrasa nos índices é a espera do aceite."
+    elif apc_e < ppc:
+        frase += " Mesmo contando o que aguarda o aceite, o escopo entregue está abaixo do prazo decorrido."
+    else:
+        frase += " Os pontos aceitos já acompanham o prazo decorrido."
+    return frase
+
+
+def dados_escopo_e_tempo(comparacao: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Séries em porcentagem do gráfico de escopo e prazo, só das releases com pontos planejados."""
+    com_escopo = [r for r in comparacao if r["prp"] > 0]
+    return {
+        "releases": [r["id"] for r in com_escopo],
+        "prazo": [round(r["ppc"] * 100, 1) for r in com_escopo],
+        "aceitas": [round((r["aceitas"]["apc"] or 0.0) * 100, 1) for r in com_escopo],
+        "entregues": [round((r["entregues"]["apc"] or 0.0) * 100, 1) for r in com_escopo],
+    }

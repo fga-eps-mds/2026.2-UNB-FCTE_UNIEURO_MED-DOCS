@@ -5,7 +5,7 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 
 from .aceitacao import pontos_entregues
-from .config import FAIXAS_INDICE_EVM, FAIXAS_RISCO, FUSO_BRASILIA, MODO_PADRAO
+from .config import FAIXAS_INDICE_EVM, FAIXAS_RISCO, FUSO_BRASILIA, MODO_ACEITAS, MODO_ENTREGUES, MODO_PADRAO
 
 
 def _data_brasilia(valor: Optional[str]) -> Optional[date]:
@@ -265,6 +265,41 @@ def compute_release_evm(
         "audit_df": _tabela_auditoria(resultado),
         "curva": _curva_de_custo(entradas, releases, hoje),
     }
+
+
+def comparar_modos(
+    sprints: List[Dict[str, Any]],
+    releases: List[Dict[str, Any]],
+    hoje: Optional[date] = None,
+) -> List[Dict[str, Any]]:
+    """EVM de cada release nos dois modos de pontos entregues, lado a lado.
+
+    Calcula `compute_release_evm` uma vez em cada modo e junta por release. O PRP, o PPC e o BAC
+    são iguais nos dois; só RPC, APC, EV, SPI e CPI mudam. `aguardando_pontos` é a diferença do
+    RPC entre os modos, ou seja, o que depende do aceite do PO. `fonte` é None quando a coluna
+    Aceitação PO não foi coletada, caso em que os dois modos coincidem.
+    """
+    hoje = hoje or datetime.now(ZoneInfo(FUSO_BRASILIA)).date()
+    por_modo = {
+        modo: {r["id"]: r for r in compute_release_evm(sprints, releases, hoje, modo)["releases"]}
+        for modo in (MODO_ACEITAS, MODO_ENTREGUES)
+    }
+    campos = ("rpc", "apc", "ev", "spi", "cpi")
+    linhas = []
+    for id_, aceitas in por_modo[MODO_ACEITAS].items():
+        entregues = por_modo[MODO_ENTREGUES][id_]
+        linhas.append({
+            "id": id_,
+            "status": aceitas["status"],
+            "bac": aceitas["bac"],
+            "prp": aceitas["prp"],
+            "ppc": aceitas["ppc"],
+            "fonte": aceitas["aceitacao_fonte"],
+            "aceitas": {c: aceitas[c] for c in campos},
+            "entregues": {c: entregues[c] for c in campos},
+            "aguardando_pontos": entregues["rpc"] - aceitas["rpc"],
+        })
+    return linhas
 
 
 def _brl(valor: Optional[float]) -> str:
