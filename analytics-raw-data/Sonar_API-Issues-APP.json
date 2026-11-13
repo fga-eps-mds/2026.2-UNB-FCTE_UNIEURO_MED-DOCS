@@ -1,7 +1,7 @@
 {
   "repositorio": "APP",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-APP",
-  "coletado_em": "2026-11-12T09:12:55Z",
+  "coletado_em": "2026-11-13T09:13:12Z",
   "branches": {
     "main": [
       {
@@ -44,11 +44,11 @@
         "fechado_em": null,
         "impactos": [
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           }
         ]
@@ -303,11 +303,11 @@
         "fechado_em": "2026-10-26T05:09:30+0000",
         "impactos": [
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           }
         ]
@@ -689,6 +689,250 @@
       }
     ],
     "develop": [
+      {
+        "chave": "AaHRNqXLlWvbtFlIehHA",
+        "arquivo": "src/db/hlc.ts",
+        "regra": "typescript:S7780",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqXIlWvbtFlIehG_",
+        "arquivo": "src/db/sync-repository.ts",
+        "regra": "typescript:S9382",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqWxlWvbtFlIehG3",
+        "arquivo": "src/features/sincronizacao/apply-package.ts",
+        "regra": "typescript:S9382",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqWxlWvbtFlIehG4",
+        "arquivo": "src/features/sincronizacao/apply-package.ts",
+        "regra": "typescript:S9382",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqWxlWvbtFlIehG5",
+        "arquivo": "src/features/sincronizacao/apply-package.ts",
+        "regra": "typescript:S9382",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqWxlWvbtFlIehG6",
+        "arquivo": "src/features/sincronizacao/apply-package.ts",
+        "regra": "typescript:S9382",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqW0lWvbtFlIehG7",
+        "arquivo": "src/features/sincronizacao/nearby-protocol.ts",
+        "regra": "typescript:S7758",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          },
+          {
+            "qualidade": "RELIABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqW-lWvbtFlIehG-",
+        "arquivo": "src/features/sincronizacao/nearby-session.ts",
+        "regra": "typescript:S9382",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqW4lWvbtFlIehG8",
+        "arquivo": "src/features/sincronizacao/nearby-sync-card.tsx",
+        "regra": "typescript:S6759",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqW4lWvbtFlIehG9",
+        "arquivo": "src/features/sincronizacao/nearby-sync-card.tsx",
+        "regra": "typescript:S6759",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqWnlWvbtFlIehGz",
+        "arquivo": "src/features/sincronizacao/sync-controls.tsx",
+        "regra": "typescript:S6759",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqWslWvbtFlIehG0",
+        "arquivo": "src/features/sincronizacao/sync-package.ts",
+        "regra": "typescript:S8786",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "RELIABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqWslWvbtFlIehG1",
+        "arquivo": "src/features/sincronizacao/sync-package.ts",
+        "regra": "typescript:S7776",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqWslWvbtFlIehG2",
+        "arquivo": "src/features/sincronizacao/sync-package.ts",
+        "regra": "typescript:S7776",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqUslWvbtFlIehGy",
+        "arquivo": "src/features/sincronizacao/sync-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaHRNqXqlWvbtFlIehHB",
+        "arquivo": "tests/integration/sincronizacao-nearby.integration.test.ts",
+        "regra": "typescript:S5906",
+        "status": "CLOSED",
+        "resolucao": "FIXED",
+        "criado_em": "2026-11-12T19:19:27+0000",
+        "fechado_em": "2026-11-12T20:54:41+0000",
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
       {
         "chave": "AaG-QxP4GKiT1puDseuj",
         "arquivo": "src/app/_layout.tsx",
@@ -1219,21 +1463,6 @@
           {
             "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
-          }
-        ]
-      },
-      {
-        "chave": "AaEM1Stm12SGwlcS43o_",
-        "arquivo": "src/features/auth/registration.ts",
-        "regra": "typescript:S3776",
-        "status": "CLOSED",
-        "resolucao": "FIXED",
-        "criado_em": "2026-09-28T01:21:21+0000",
-        "fechado_em": "2026-10-12T14:54:41+0000",
-        "impactos": [
-          {
-            "qualidade": "MAINTAINABILITY",
-            "severidade": "HIGH"
           }
         ]
       },
