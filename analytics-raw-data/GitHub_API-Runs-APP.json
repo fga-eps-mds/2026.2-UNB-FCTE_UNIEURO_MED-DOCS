@@ -1,7 +1,19 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-11-13T09:12:45Z",
+  "coletado_em": "2026-11-14T09:10:04Z",
   "workflow_runs": [
+    {
+      "id": 43540026087,
+      "name": "Build",
+      "head_branch": "feat/59-exames-do-paciente",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-14T01:20:44Z",
+      "updated_at": "2026-11-14T01:23:31Z",
+      "run_number": 178,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/43540026087"
+    },
     {
       "id": 43341346074,
       "name": "Build",
