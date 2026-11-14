@@ -7,7 +7,9 @@ title: Estimativa do Backlog
 ## 1. Finalidade
 
 Este documento registra como a equipe estimou as histórias de usuário do backlog do
-aplicativo, em pontos de história, e o resultado obtido até 12/10/2026.
+aplicativo, em pontos de história, o resultado obtido até 12/10/2026 e as rodadas de
+novembro, que reestimaram as histórias que dependem do modelo de IA e estimaram as
+histórias novas da Sprint 5.
 
 A estimativa responde a dois apontamentos da avaliação da R1, registrados na
 [Ata 08](../atas-reunioes/Ata-08-EPS-2026-10-02-PO.md): o backlog não tinha
@@ -204,11 +206,85 @@ Com esses valores, as cinco histórias da R2 na Tabela 2 somam 40 pontos, e o
 backlog, 194. A estimativa da história #21 não mudou depois da revisão dos critérios
 na [#82](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-DOCS/issues/82).
 
-## 6. Pendências
+## 6. Rodadas de novembro
+
+As duas rodadas usaram a mesma planilha compartilhada da seção 3, com uma coluna por
+integrante, e valem para elas as limitações da seção 3.2. Nenhuma das duas tem
+consenso registrado até 14/11/2026.
+
+### 6.1 Reestimativa das histórias do modelo de IA
+
+Na avaliação da R2, registrada na
+[Ata 11](../atas-reunioes/Ata-11-EPS-2026-10-30-PO.md), o professor apontou que a
+equipe está subvalorizando a parte de IA do escopo, inclusive na EAP. Por isso, as
+três histórias que dependem do modelo, #12, #13 e #14, voltaram para uma nova rodada.
+
+Duas delas mudaram depois da estimativa de 12/10:
+
+- A #12 se chamava "Escore por desenho calculado no tablet". O modelo exportado recebe
+  os três desenhos juntos e devolve uma única probabilidade para o exame, conforme o
+  contrato descrito no
+  [documento de exportação do modelo](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/blob/develop/docs/exportacao-do-modelo.md),
+  e a história passou a se chamar "Escore do exame calculado no tablet".
+- A #13 se chamava "Escore geral com faixa de incerteza". Na reunião de 09/11
+  ([Ata 12](../atas-reunioes/Ata-12-EPS-2026-11-09-PO.md)), o PO decidiu retirar a
+  faixa de incerteza, e a história passou a se chamar "Escore geral".
+
+**Tabela 4:** Reestimativa das histórias do modelo de IA, em pontos de história
+
+| História | Consenso de 12/10 | Artur | Cláudio | Daniel | Eduardo | Gabriel | Gustavo | Henrique | Lucas | Thales | Vitor | Faixa | Mais votado | Consenso |
+|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| [#12](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/12) Escore do exame calculado no tablet | 8 | 21 | 21 | 21 | 21 | 21 |  |  |  |  |  | 21 | 21 | Pendente |
+| [#13](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/13) Escore geral | 8 | 13 | 21 | 13 | 13 | 8 |  |  |  |  |  | 8 a 21 | 13 | Pendente |
+| [#14](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/14) Desenho, escore e o que influenciou o resultado | 13 | 13 | 34 | 21 | 21 | 13 |  |  |  |  |  | 13 a 34 | 13 e 21 | Pendente |
+
+**Fonte:** planilha de estimativas da equipe, situação em 14/11/2026.
+
+Cinco dos dez integrantes estimaram. Nas três histórias, o valor mais votado é igual
+ou maior que o consenso de 12/10, e a maior diferença está na #12, que passou de 8
+para 21 pontos.
+
+### 6.2 Histórias novas da Sprint 5
+
+As histórias #118 e #119 foram criadas em 09/11/2026, depois da rodada de outubro, e
+entraram na divisão da Sprint 5 combinada pela equipe. A #118 trata da sincronização
+entre tablets e a #119 da tela do superusuário, os dois assuntos confirmados pelo PO
+na [Ata 12](../atas-reunioes/Ata-12-EPS-2026-11-09-PO.md).
+
+**Tabela 5:** Estimativa das histórias novas da Sprint 5, em pontos de história
+
+| História | Artur | Cláudio | Daniel | Eduardo | Gabriel | Gustavo | Henrique | Lucas | Thales | Vitor | Faixa | Mais votado | Consenso |
+|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| [#118](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/118) Sincronizar os dados entre tablets | 13 | 20 |  |  |  |  | 13 |  |  |  | 13 a 20 | 13 | Pendente |
+| [#119](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/119) Criar a tela do superusuário | 13 | 20 |  |  |  |  | 5 |  |  |  | 5 a 20 | Sem repetição | Pendente |
+
+**Fonte:** planilha de estimativas da Sprint 5, situação em 14/11/2026.
+
+Três dos dez integrantes estimaram as duas histórias.
+
+### 6.3 Escala e valor no ZenHub
+
+A rodada da seção 6.1 usou os valores 21 e 34, da sequência de Fibonacci, e a planilha
+da Sprint 5 usou o 20, do baralho citado na seção 2.2. A rodada de outubro usou só
+valores de 2 a 13, comuns às duas escalas.
+
+Enquanto não há consenso, o ZenHub mantém os valores anteriores: 8 pontos na #12, 8
+na #13 e 13 na #14. As histórias #118 e #119 ainda não têm estimativa no ZenHub,
+consultado em 14/11/2026. As Tabelas 1 e 2 continuam com o resultado da rodada de
+outubro.
+
+As estimativas individuais das duas rodadas estão em
+[`planning-poker-r3.csv`](../assets/dados/planning-poker-r3.csv).
+
+## 7. Pendências
 
 - Definir a release das cinco histórias sem release, para que entrem no PRP.
+- Completar as estimativas das rodadas de novembro e registrar o consenso das
+  histórias #12, #13, #14, #118 e #119 neste documento e no ZenHub.
+- Confirmar se as estimativas da #13 consideram a retirada da faixa de incerteza.
+- Adotar uma única escala nas próximas rodadas, com 20 ou com 21.
 
-## 7. Referências
+## 8. Referências
 
 ARANDA, Jorge; EASTERBROOK, Steve. Anchoring and adjustment in software estimation.
 In: *European Software Engineering Conference and ACM SIGSOFT Symposium on the
@@ -240,3 +316,4 @@ Management in Scrum Projects. In: *Agile Conference*, 2006. IEEE, 2006.
 |---|---|---|---|---|---|
 | 1.0 | Registro da dinâmica de estimativa, das estimativas e do consenso por história e dos pontos planejados por release | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 12/10/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) | 12/10/2026 |
 | 1.1 | Registro das reestimativas das histórias #5 e #7 feitas no ZenHub depois da rodada | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 15/10/2026 | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 16/10/2026 |
+| 1.2 | Registro das rodadas de novembro: reestimativa das histórias #12, #13 e #14, depois do apontamento da Ata 11, e estimativa das histórias #118 e #119 da Sprint 5 | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 14/11/2026 | | |
