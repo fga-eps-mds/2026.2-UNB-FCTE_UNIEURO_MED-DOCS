@@ -11,10 +11,12 @@ from src import aceitacao
 from src.config import MODO_ACEITAS, MODO_ENTREGUES
 
 
-def issue(id_, numero, estimativa, coluna=None):
+def issue(id_, numero, estimativa, coluna=None, fechada=None):
     resultado = {"id": id_, "numero": numero, "estimativa": estimativa}
     if coluna is not None:
         resultado["coluna"] = coluna
+    if fechada is not None:
+        resultado["fechada"] = fechada
     return resultado
 
 
@@ -32,6 +34,17 @@ class MarcarAguardandoTest(unittest.TestCase):
         self.assertEqual(fonte, aceitacao.FONTE_ZENHUB)
         self.assertEqual(sprints[0]["aguardando_pontos"], 5.0)
         self.assertEqual([i["numero"] for i in sprints[0]["aguardando_issues"]], [7])
+
+    def test_historia_fechada_na_coluna_aceitacao_po_ja_foi_aceita_e_nao_aguarda(self):
+        # Em 11/11, as histórias aceitas foram fechadas e o ZenHub manteve a coluna Aceitação PO.
+        sprints = [sprint("Sprint 5", issue("A", 5, 13, "Aceitação PO", fechada=True),
+                          issue("B", 46, 8, "Aceitação PO", fechada=False),
+                          issue("C", 8, 8, "Aceitação PO"))]
+
+        aceitacao.marcar_aguardando(sprints)
+
+        self.assertEqual([i["numero"] for i in sprints[0]["aguardando_issues"]], [46, 8])
+        self.assertEqual(sprints[0]["aguardando_pontos"], 16.0)
 
     def test_reconhece_a_coluna_sem_depender_de_acento_caixa_ou_espaco(self):
         sprints = [sprint("Sprint 3", issue("A", 7, 5, "aceitacao po"), issue("B", 8, 2, "  ACEITAÇÃO   PO "))]

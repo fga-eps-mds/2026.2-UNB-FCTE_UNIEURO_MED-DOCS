@@ -10,10 +10,11 @@ import json
 import os
 import tempfile
 import unittest
+from datetime import date
 from unittest import mock
 
-from src import data_layer, processo
-from src.config import MODO_ACEITAS, MODO_ENTREGUES
+from src import data_layer, metrics, processo
+from src.config import MODO_ACEITAS, MODO_ENTREGUES, RELEASES
 
 
 def issue(id_, numero, estimativa, coluna=None):
@@ -128,6 +129,33 @@ class SprintsDoDashboardTest(unittest.TestCase):
     def carregar(self, dados):
         with mock.patch.object(data_layer, "RAW_DATA_DIR", dados.caminho):
             return data_layer.get_zenhub_sprints_data()
+
+    def test_json_com_fechadas_em_aceitacao_nao_duplica_o_rpc(self):
+        aceitas = [(5, 13), (6, 8), (7, 8), (9, 8), (11, 5), (21, 3), (23, 8)]
+        issues = [
+            {**issue(f"US{numero}", numero, pontos, "Aceitação PO"), "fechada": True}
+            for numero, pontos in aceitas
+        ]
+        issues += [
+            {**issue(f"T{numero}", numero, pontos, "Closed"), "fechada": True}
+            for numero, pontos in [(102, 3), (104, 13)]
+        ]
+        issues += [
+            {**issue(f"US{numero}", numero, 8, "Aceitação PO"), "fechada": False}
+            for numero in [8, 46]
+        ]
+        sprints = {"Sprint 5": sprint(85, 69, issues, fim="2026-11-23T02:59:00Z",
+                                      inicio="2026-11-09T03:00:00Z")}
+        with PastaDeDados(sprints) as dados:
+            lista, exemplo = self.carregar(dados)
+            evm = metrics.compute_release_evm(lista, RELEASES, date(2026, 11, 12), MODO_ENTREGUES)
+        r3 = next(r for r in evm["releases"] if r["id"] == "R3")
+
+        self.assertFalse(exemplo)
+        self.assertEqual(r3["rpc_aceito"], 69.0)
+        self.assertEqual(r3["rpc_aguardando"], 16.0)
+        self.assertEqual(r3["rpc"], 85.0)
+        self.assertEqual({i["numero"] for i in r3["em_aceitacao"]}, {8, 46})
 
     def test_cada_sprint_traz_os_pontos_em_aceitacao_sem_dupla_contagem(self):
         with PastaDeDados(SPRINTS_COM_COLUNA) as dados:

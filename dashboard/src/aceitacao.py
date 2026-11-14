@@ -12,6 +12,9 @@ Fontes, da mais confiável à menos:
 2. uma lista manual de números de issue em `analytics-raw-data/aceitacao_po_manual.json`,
    usada só quando a coleta não trouxe as colunas.
 
+Depois do aceite a história é fechada, mas o ZenHub mantém a coluna em que ela estava. Por
+isso a coleta grava também se a issue está fechada (`fechada`), e a fechada não conta aqui.
+
 Uma história que passa de uma sprint para a seguinte aparece nas duas. Ela conta uma vez,
 na última sprint em que aparece.
 
@@ -43,6 +46,10 @@ def _e_historia(issue: Dict[str, Any]) -> bool:
 
 def _esta_em_aceitacao(issue: Dict[str, Any], colunas: Set[str], manual: Optional[Set[int]]) -> bool:
     if not _e_historia(issue):
+        return False
+    # Fechada é história já aceita: o ZenHub mantém a coluna Aceitação PO depois do fechamento,
+    # e os pontos dela já estão em `delivered_story_points`. Contá-la aqui somaria duas vezes.
+    if issue.get("fechada"):
         return False
     coluna = issue.get("coluna")
     if coluna and _normalizar(coluna) in colunas:
