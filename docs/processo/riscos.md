@@ -157,19 +157,22 @@ Os dados ficam versionados em `analytics-raw-data/riscos_historico.json`, e a cl
 | R02 | 1 × 3 = 3 (Baixo) | 4 × 3 = 12 (Médio) | 4 × 3 = 12 (Médio) | 3 × 3 = 9 (Médio) | 3 × 3 = 9 (Médio) |
 | R03 | 4 × 3 = 12 (Médio) | 4 × 3 = 12 (Médio) | 3 × 4 = 12 (Médio) | 3 × 2 = 6 (Médio) | 4 × 2 = 8 (Médio) |
 | R04 | 3 × 3 = 9 (Médio) | 3 × 3 = 9 (Médio) | 2 × 3 = 6 (Médio) | 2 × 3 = 6 (Médio) | 3 × 3 = 9 (Médio) |
-| R05 | 2 × 2 = 4 (Baixo) | 2 × 2 = 4 (Baixo) | 2 × 3 = 6 (Médio) | 1 × 2 = 2 (Baixo) | 1 × 2 = 2 (Baixo) |
+| R05 | 2 × 2 = 4 (Baixo) | 2 × 2 = 4 (Baixo) | 2 × 2 = 4 (Baixo) | 1 × 2 = 2 (Baixo) | 1 × 2 = 2 (Baixo) |
 | R06 | 2 × 3 = 6 (Médio) | 2 × 3 = 6 (Médio) | 2 × 2 = 4 (Baixo) | 2 × 3 = 6 (Médio) | 5 × 4 = 20 (Elevado) |
 | R07 | 1 × 2 = 2 (Baixo) | 2 × 2 = 4 (Baixo) | 2 × 2 = 4 (Baixo) | 2 × 2 = 4 (Baixo) | 1 × 2 = 2 (Baixo) |
 | R08 | 1 × 2 = 2 (Baixo) | 1 × 2 = 2 (Baixo) | 1 × 2 = 2 (Baixo) | 1 × 2 = 2 (Baixo) | 4 × 3 = 12 (Médio) |
-| R09 | 1 × 3 = 3 (Baixo) | 1 × 3 = 3 (Baixo) | 2 × 3 = 6 (Médio) | 3 × 4 = 12 (Médio) | 3 × 4 = 12 (Médio) |
+| R09 | 1 × 3 = 3 (Baixo) | 1 × 3 = 3 (Baixo) | 1 × 3 = 3 (Baixo) | 1 × 3 = 3 (Baixo) | 1 × 3 = 3 (Baixo) |
 | R10 | 3 × 3 = 9 (Médio) | 3 × 3 = 9 (Médio) | 3 × 3 = 9 (Médio) | 2 × 3 = 6 (Médio) | 2 × 3 = 6 (Médio) |
 | R11 | 1 × 4 = 4 (Baixo) | 1 × 4 = 4 (Baixo) | 2 × 4 = 8 (Médio) | 4 × 4 = 16 (Elevado) | 5 × 4 = 20 (Elevado) |
 | R12 | 2 × 3 = 6 (Médio) | 2 × 3 = 6 (Médio) | 2 × 3 = 6 (Médio) | 2 × 3 = 6 (Médio) | 3 × 3 = 9 (Médio) |
 | R13 | 2 × 4 = 8 (Médio) | 2 × 4 = 8 (Médio) | 3 × 4 = 12 (Médio) | 2 × 4 = 8 (Médio) | 2 × 4 = 8 (Médio) |
-| R14 | 1 × 3 = 3 (Baixo) | 1 × 3 = 3 (Baixo) | 1 × 3 = 3 (Baixo) | 2 × 4 = 8 (Médio) | 2 × 4 = 8 (Médio) |
-| **Total** | **87** | **98** | **102** | **106** | **140** |
+| R14 | 1 × 3 = 3 (Baixo) | 1 × 3 = 3 (Baixo) | 1 × 3 = 3 (Baixo) | 1 × 3 = 3 (Baixo) | 1 × 3 = 3 (Baixo) |
+| **Total** | **87** | **98** | **97** | **92** | **126** |
 
 Formato: probabilidade × impacto = severidade (grau). A classificação atual, usada na matriz do dashboard, é a da Sprint 5. A probabilidade do R02 sobe de 1 para 4 da Sprint 1 para a Sprint 2 porque o risco se concretizou na Sprint 2.
+
+!!! warning "Correção das Sprints 3 e 4"
+    Na avaliação da R2 ([Ata 11](../atas-reunioes/Ata-11-EPS-2026-10-30-PO.md)), o professor apontou que R05, R09 e R14 subiam sem motivo. A equipe revisou o histórico e confirmou que foram erros de lançamento: o R05 tinha passado de 4 para 6 na Sprint 3, o R09 de 3 para 6 na Sprint 3 e para 12 na Sprint 4, e o R14 de 3 para 8 na Sprint 4, sem que nada tivesse acontecido. No caso do R09, a dependência entre atividades até melhorou na R2, mas a nota não foi atualizada. Em 15/11/2026, as três notas voltaram ao valor anterior à subida, e os totais das Sprints 3 e 4 foram recalculados (de 102 para 97 e de 106 para 92).
 
 #### Justificativa das mudanças na Sprint 5
 
@@ -180,10 +183,10 @@ Formato: probabilidade × impacto = severidade (grau). A classificação atual, 
 | R06 | 6 → 20 | O risco se concretizou: o retorno do PO e do cliente sobre as entregas tem sido mais lento do que o planejado, com o formulário de aceite e histórias enviadas ao Discord ainda pendentes, ausências em reuniões e encaminhamentos combinados, como a avaliação de novos modelos de IA, ainda sem resposta. Ver [Riscos concretizados](#riscos-concretizados). |
 | R07 | 4 → 2 | As tarefas foram bem distribuídas entre os integrantes e ninguém ficou sobrecarregado na R2, nem está previsto ficar na R3. |
 | R08 | 2 → 12 | Na R2, um integrante teve problema no equipamento e ficou um longo período sem conseguir contribuir. A probabilidade sobe de 1 para 4 e o impacto de 2 para 3, porque a perda de capacidade foi maior do que a prevista. |
-| R11 | 16 → 20 | O modelo de IA escolhido erra com frequência nos testes feitos no tablet, e o PO e o cliente avaliam trocá-lo ou reduzir o escopo ao desenho do relógio ([Ata 12](../atas-reunioes/Ata-12-EPS-2026-11-09-PO.md)). |
-| R12 | 6 → 9 | O problema da IA está nos dados: as imagens do conjunto atual têm resolução baixa e a equipe busca um novo conjunto com o cliente ([Ata 12](../atas-reunioes/Ata-12-EPS-2026-11-09-PO.md)). O impacto se mantém, porque o desenvolvimento do aplicativo não depende do conjunto. |
+| R11 | 16 → 20 | O modelo de IA erra com frequência nos testes feitos no tablet. A causa principal está nos dados de treino (R12): imagens de baixa resolução e um conjunto que o PO não considera confiável. O PO e o cliente avaliam trocar o conjunto de dados, o que pode reduzir o escopo ao desenho do relógio ([Ata 12](../atas-reunioes/Ata-12-EPS-2026-11-09-PO.md)). Pesa também a captura: o Galaxy Tab A11+ não vem com caneta nem tem rejeição da palma da mão, então o desenho é feito com o dedo ou com uma caneta capacitiva comum, e o tablet registra só o traço, sem pressão nem inclinação ([Ata 11](../atas-reunioes/Ata-11-EPS-2026-10-30-PO.md)). |
+| R12 | 6 → 9 | É a causa da subida do R11: as imagens do conjunto atual têm resolução baixa e a equipe busca um novo conjunto com o cliente ([Ata 12](../atas-reunioes/Ata-12-EPS-2026-11-09-PO.md)). O impacto se mantém, porque o desenvolvimento do aplicativo não depende do conjunto. |
 
-Os demais riscos se mantêm: R01 (a dificuldade com as tecnologias continua a mesma), R02 (ninguém saiu da equipe desde a Sprint 2), R05 (ninguém ficou doente, e o risco já está no nível mais baixo de probabilidade), R09 e R10 (não ocorreram; os dados ficam no dispositivo e não há dado crítico a perder durante o desenvolvimento), R13 (o treinamento do modelo não foi o problema, e sim os dados, tratados no R12) e R14 (o aplicativo roda offline e os dados não saem do tablet).
+Os demais riscos se mantêm: R01 (a dificuldade com as tecnologias continua a mesma), R02 (ninguém saiu da equipe desde a Sprint 2), R05 (ninguém ficou doente, e o risco já está no nível mais baixo de probabilidade), R09 (a dependência entre atividades não causou atrasos), R10 (não ocorreu; os dados ficam no dispositivo e não há dado crítico a perder durante o desenvolvimento), R13 (o treinamento do modelo não foi o problema, e sim os dados, tratados no R12) e R14 (o aplicativo roda offline e os dados não saem do tablet). R09 e R14 aparecem com a nota corrigida, conforme o aviso acima.
 
 A [planilha de monitoramento](https://docs.google.com/spreadsheets/d/1ZarJ5KuICboZrPrMZGIZyJAHq8Ju39r4wP2-Lx8_pqc/edit?usp=sharing) segue como apoio da equipe e deve conter as mesmas sprints desta tabela.
 
@@ -208,6 +211,7 @@ O R02 continua sendo monitorado, porque outra saída ainda pode acontecer até o
 | O que aconteceu | O formulário único de aceite das histórias da R1 e da R2 ficou sem resposta do PO, e as histórias #10, #23 e #17, enviadas ao Discord, também seguiam sem retorno. O cliente respondeu ao formulário e validou as entregas. Na Ata 11, o professor apontou a falta de retorno como o maior risco do projeto |
 | Impacto | Histórias concluídas ficam na coluna de aceitação do ZenHub, a *velocity* da R2 ficou zerada porque só conta pontos com aceite formal, e o planejamento da reta final depende de validações que ainda não chegaram |
 | Resposta aplicada | Formulário único de aceite com todas as histórias pendentes e o APK; validação prévia das histórias da R3 na própria reunião semanal; lembrete por WhatsApp, canal que o PO usa. Na Ata 12, ficou combinado que a equipe segue o desenvolvimento quando não houver resposta e ajusta no caminho se o PO ou o cliente pedirem mudança. O PO se comprometeu a responder o formulário até 11/11/2026 |
+| Contingência | A equipe enviou todas as histórias pendentes ao PO e ao cliente para validação e segue o desenvolvimento normalmente, sem esperar o aceite formal. Ajustes pedidos depois entram como correção. O fluxo de validação e aceite está no [plano de comunicação](plano-de-comunicacao.md#validacao-e-aceite) |
 
 O R06 continua sendo monitorado até o aceite final da R3.
 
@@ -223,7 +227,7 @@ O risco R02 se concretizou na Sprint 2, com a saída de um integrante em 24/09/2
 
 ### R3
 
-Na Release 3, os riscos mais altos são o R06 e o R11, ambos de grau Elevado. O R06 se concretizou: o aceite das entregas depende de um retorno do PO e do cliente que tem sido mais lento que o planejado, e a equipe passou a validar as histórias na própria reunião semanal e a seguir o desenvolvimento quando não há resposta. O R11 subiu porque o modelo de IA ainda não tem a precisão esperada e pode ser trocado, o que se reflete também no R12, pela qualidade dos dados. O R08 subiu depois que um integrante ficou um longo período sem equipamento na R2.
+Na Release 3, os riscos mais altos são o R06 e o R11, ambos de grau Elevado. O R06 se concretizou: o aceite das entregas depende de um retorno do PO e do cliente que tem sido mais lento que o planejado, e a equipe passou a validar as histórias na própria reunião semanal e a seguir o desenvolvimento quando não há resposta. O R11 subiu porque o modelo de IA ainda não tem a precisão esperada, e a causa principal está nos dados de treino, o que também elevou o R12. O PO e o cliente avaliam trocar o conjunto de dados. O R08 subiu depois que um integrante ficou um longo período sem equipamento na R2.
 
 ## Histórico de versões
 
@@ -232,4 +236,4 @@ Na Release 3, os riscos mais altos são o R06 e o R11, ambos de grau Elevado. O 
 | 1.0 | Criação da documentação de riscos | [Eduardo Ferreira](https://github.com/eduardoferre) | 27/09/2026 | A definir | — |
 | 1.1 | Adição dos gráficos de impacto e probabilidade e conclusão da R1 | [Eduardo Ferreira](https://github.com/eduardoferre) | 27/09/2026 | A definir | — |
 | 1.2 | Escala única de classificação com o dashboard, histórico apenas das sprints realizadas, registro do R02 concretizado | [Eduardo Ferreira](https://github.com/eduardoferre) | 25/10/2026 | A definir | — |
-| 1.3 | Revisão da Sprint 5 (R3) com justificativa de cada mudança, R06 registrado como risco concretizado e conclusão da R3 | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | 15/11/2026 | A definir | — |
+| 1.3 | Revisão da Sprint 5 (R3) com justificativa de cada mudança, R06 registrado como risco concretizado com a contingência adotada, correção de R05, R09 e R14 nas Sprints 3 e 4 e conclusão da R3 | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | 15/11/2026 | A definir | — |

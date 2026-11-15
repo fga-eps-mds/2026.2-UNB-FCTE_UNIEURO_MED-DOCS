@@ -75,8 +75,8 @@
     "id": "R09",
     "titulo": "Dependência entre atividades",
     "categoria": "Organizacional",
-    "probabilidade": 3,
-    "impacto": 4,
+    "probabilidade": 1,
+    "impacto": 3,
     "estrategia": "Mitigar",
     "acao": "Planejamento das atividades considerando dependências"
   },
@@ -120,8 +120,8 @@
     "id": "R14",
     "titulo": "Questões de privacidade e proteção de dados sensíveis",
     "categoria": "Externo",
-    "probabilidade": 2,
-    "impacto": 4,
+    "probabilidade": 1,
+    "impacto": 3,
     "estrategia": "Evitar",
     "acao": "Anonimização de dados e boas práticas de segurança desde o início do projeto"
   }
