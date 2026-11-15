@@ -256,6 +256,70 @@
           "impacto": 4
         }
       }
+    },
+    {
+      "sprint": "Sprint 5",
+      "release": "R3",
+      "data": "2026-11-08",
+      "observacao": "Classificação da Sprint 5 (26/10 a 08/11), primeira sprint da R3. Sobem R06 (aceite das entregas sem retorno do PO e do cliente, risco concretizado), R08 (um integrante ficou sem equipamento por um longo período na R2), R11 (o modelo de IA erra com frequência e o PO e o cliente avaliam trocá-lo), R12 (conjunto de dados de baixa resolução, com busca por um novo), R03 (ausências pontuais em reuniões) e R04 (nova história do superusuário). Desce R07 (tarefas bem distribuídas, sem sobrecarga na R2). Os demais se mantêm.",
+      "riscos": {
+        "R01": {
+          "probabilidade": 3,
+          "impacto": 5
+        },
+        "R02": {
+          "probabilidade": 3,
+          "impacto": 3
+        },
+        "R03": {
+          "probabilidade": 4,
+          "impacto": 2
+        },
+        "R04": {
+          "probabilidade": 3,
+          "impacto": 3
+        },
+        "R05": {
+          "probabilidade": 1,
+          "impacto": 2
+        },
+        "R06": {
+          "probabilidade": 5,
+          "impacto": 4
+        },
+        "R07": {
+          "probabilidade": 1,
+          "impacto": 2
+        },
+        "R08": {
+          "probabilidade": 4,
+          "impacto": 3
+        },
+        "R09": {
+          "probabilidade": 3,
+          "impacto": 4
+        },
+        "R10": {
+          "probabilidade": 2,
+          "impacto": 3
+        },
+        "R11": {
+          "probabilidade": 5,
+          "impacto": 4
+        },
+        "R12": {
+          "probabilidade": 3,
+          "impacto": 3
+        },
+        "R13": {
+          "probabilidade": 2,
+          "impacto": 4
+        },
+        "R14": {
+          "probabilidade": 2,
+          "impacto": 4
+        }
+      }
     }
   ],
   "ocorrencias": [
@@ -270,6 +334,19 @@
       "fontes": [
         "docs/atas-reunioes/Ata-08-EPS-2026-10-02-PO.md",
         "docs/processo/plano_de_custos.md"
+      ]
+    },
+    {
+      "risco": "R06",
+      "data": "2026-10-30",
+      "sprint": "Sprint 5",
+      "release": "R3",
+      "descricao": "O formulário único de aceite das histórias da R1 e da R2 ficou sem resposta do Product Owner. Na Ata 11 (30/10), o professor apontou a falta de retorno como o maior risco do projeto; na Ata 12 (09/11), o Product Owner informou que ainda não tinha visto o formulário, e as histórias #10, #23 e #17, enviadas ao Discord, também seguiam sem resposta. O cliente respondeu ao formulário e validou as entregas.",
+      "impacto": "Histórias concluídas ficam presas na coluna de aceitação do ZenHub, a velocity da R2 ficou zerada porque só conta pontos com aceite formal, e o planejamento da reta final depende de validações que não chegam.",
+      "resposta": "Formulário único de aceite com todas as histórias pendentes e o APK; validação prévia das histórias da R3 na própria reunião semanal; lembrete por WhatsApp, canal que o Product Owner usa; e, combinado na Ata 12, a equipe segue o desenvolvimento quando não houver resposta e ajusta no caminho se o Product Owner ou o cliente pedirem mudança. O Product Owner se comprometeu a responder o formulário até 11/11.",
+      "fontes": [
+        "docs/atas-reunioes/Ata-11-EPS-2026-10-30-PO.md",
+        "docs/atas-reunioes/Ata-12-EPS-2026-11-09-PO.md"
       ]
     }
   ]
