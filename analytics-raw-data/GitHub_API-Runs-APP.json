@@ -1,7 +1,55 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-11-14T09:10:04Z",
+  "coletado_em": "2026-11-15T09:10:21Z",
   "workflow_runs": [
+    {
+      "id": 43615761478,
+      "name": "Build",
+      "head_branch": "feat/59-exames-do-paciente",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-14T16:28:11Z",
+      "updated_at": "2026-11-14T16:30:54Z",
+      "run_number": 182,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/43615761478"
+    },
+    {
+      "id": 43615295226,
+      "name": "Build",
+      "head_branch": "feat/59-exames-do-paciente",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-14T16:22:54Z",
+      "updated_at": "2026-11-14T16:26:18Z",
+      "run_number": 181,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/43615295226"
+    },
+    {
+      "id": 43609874087,
+      "name": "Build",
+      "head_branch": "feat/49-perfil-superusuario",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-14T15:22:54Z",
+      "updated_at": "2026-11-14T15:25:35Z",
+      "run_number": 180,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/43609874087"
+    },
+    {
+      "id": 43608876744,
+      "name": "Build",
+      "head_branch": "feat/49-perfil-superusuario",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-14T15:11:59Z",
+      "updated_at": "2026-11-14T15:15:16Z",
+      "run_number": 179,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/43608876744"
+    },
     {
       "id": 43540026087,
       "name": "Build",
