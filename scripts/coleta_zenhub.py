@@ -29,12 +29,13 @@ CAMPO_COLUNA = "pipelineIssue(workspaceId: $id) { pipeline { name } }"
 
 # Campos pedidos de cada issue, além da estimativa, do mais completo ao mais simples.
 # O identificador permite ao dashboard contar uma história uma só vez quando ela passa
-# de uma sprint para a seguinte. O estado diz se a issue já foi fechada: o ZenHub mantém a
-# coluna em que ela estava (Aceitação PO) mesmo depois do aceite. Como a API não pôde ser conferida aqui, se o Zenhub
-# recusar um campo a coleta tenta a variante seguinte, e a última é a consulta original.
-# `state` e `closedAt` dizem se a história já foi aceita (fechada) e quando. Sem eles o painel não
-# separa a história fechada que ficou na coluna Aceitação PO da que ainda espera o aceite. Se a API
-# recusar só o `closedAt`, a segunda variante mantém o `state`, que basta para não contar duas vezes.
+# de uma sprint para a seguinte. `state` e `closedAt` dizem se a história já foi aceita
+# (fechada) e quando: o ZenHub mantém na coluna Aceitação PO a história que o PO já aceitou,
+# e sem esses campos o painel não a separa da que ainda espera o aceite. A API aceitou o
+# `state` na conferência feita na revisão do PR #123; o `closedAt` ainda não foi conferido.
+# Se o Zenhub recusar um campo, a coleta tenta a variante seguinte. Se recusar só o
+# `closedAt`, a segunda variante mantém o `state`, que basta para não contar duas vezes. A
+# última variante é a consulta original.
 CAMPOS_ESTADO = "state closedAt"
 VARIANTES_ISSUE = (
     f"id number {CAMPOS_ESTADO} {CAMPO_COLUNA}",
