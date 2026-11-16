@@ -181,8 +181,9 @@ def atribuir_aceites_tardios(
     Vale para a história fechada (`fechada`) que ainda está na coluna de aceitação, ou seja, que
     esperou o PO, e cujo fechamento (`fechada_em`) caiu depois do fim da sprint em que ela foi
     cotada, a primeira em que aparece com estimativa. Os pontos saem da sprint em que a história
-    fechou, onde o ZenHub os contou, e entram nessa sprint. História fechada dentro da própria
-    sprint, ou que não passou pela aceitação, não muda de lugar.
+    fechou, onde o ZenHub os contou, e entram nessa sprint. Se o ZenHub tirou a história da lista
+    dessa sprint depois do aceite, ninguém contou os pontos e eles só entram na sprint de origem.
+    História fechada dentro da própria sprint, ou que não passou pela aceitação, não muda de lugar.
 
     Muda `campo_pontos` de cada sprint e preenche `aceitos_depois_issues` (as histórias movidas
     para ela, com a sprint em que fecharam) e `aceitos_depois_pontos`. Sem `fechada` e
@@ -216,9 +217,10 @@ def atribuir_aceites_tardios(
         if fechada is None:
             continue
 
-        onde = ocorrencias[chave]
+        # A sprint em que a história fechou é a que cobre a data do fechamento, esteja a história na
+        # lista dela ou não: o ZenHub pode tê-la tirado da sprint aberta depois do aceite.
         fechamento = next(
-            (i for i in onde if janelas[i][0] and janelas[i][1] and janelas[i][0] <= fechada < janelas[i][1]),
+            (i for i, (inicio, fim) in enumerate(janelas) if inicio and fim and inicio <= fechada < fim),
             None,
         )
         entrega = cotada.get(chave)
@@ -229,7 +231,11 @@ def atribuir_aceites_tardios(
             continue
 
         pontos = float(issue["estimativa"])
-        sprints[fechamento][campo_pontos] = max(0.0, float(sprints[fechamento].get(campo_pontos, 0.0)) - pontos)
+        # Só saem pontos de onde o ZenHub os contou, a sprint de fechamento em que a história está listada.
+        # Se ela saiu da lista, ninguém os contou, e a sprint de origem os recebe sem tirar de outra.
+        if fechamento in ocorrencias[chave]:
+            sprints[fechamento][campo_pontos] = max(
+                0.0, float(sprints[fechamento].get(campo_pontos, 0.0)) - pontos)
         sprints[entrega][campo_pontos] = float(sprints[entrega].get(campo_pontos, 0.0)) + pontos
         sprints[entrega]["aceitos_depois_issues"].append({
             "id": issue.get("id"),

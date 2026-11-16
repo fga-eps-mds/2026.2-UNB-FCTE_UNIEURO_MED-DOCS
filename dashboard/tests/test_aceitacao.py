@@ -336,6 +336,27 @@ class AtribuirAceitesTardiosTest(unittest.TestCase):
         self.assertEqual([s["delivered_sp"] for s in (s1, s2, s5)], [21.0, 8.0, 0.0])
         self.assertEqual([s["aceitos_depois_pontos"] for s in (s1, s2, s5)], [21.0, 8.0, 0.0])
 
+    def test_historia_fechada_que_saiu_da_lista_da_sprint_em_que_fechou_ainda_conta_na_de_origem(self):
+        # O ZenHub só conta os pontos de quem está na lista da sprint. Se a história fechou na Sprint 5
+        # mas não está mais nela, ninguém os contou, e eles voltam à sprint de origem sem tirar de outra.
+        sprints = self.cenario(issues_s4=[fechada("A", 5, 13, FECHOU_NA_S5)])
+        sprints[1]["delivered_sp"] = 0.0
+
+        aceitacao.atribuir_aceites_tardios(sprints)
+
+        self.assertEqual([s["delivered_sp"] for s in sprints], [13.0, 0.0])
+        self.assertEqual([i["numero"] for i in sprints[0]["aceitos_depois_issues"]], [5])
+        self.assertEqual(sprints[0]["aceitos_depois_pontos"], 13.0)
+
+    def test_a_que_saiu_da_lista_nao_tira_pontos_das_outras_historias_da_sprint_de_fechamento(self):
+        sprints = self.cenario(fechada("B", 6, 8, FECHOU_NA_S5), issues_s4=[fechada("A", 5, 13, FECHOU_NA_S5),
+                                                                              fechada("B", 6, 8, FECHOU_NA_S5)])
+        sprints[1]["delivered_sp"] = 8.0
+
+        aceitacao.atribuir_aceites_tardios(sprints)
+
+        self.assertEqual([s["delivered_sp"] for s in sprints], [21.0, 0.0])
+
     def test_sem_estado_e_data_de_fechamento_nada_se_move(self):
         aberta = {"id": "A", "numero": 5, "estimativa": 13, "coluna": ACEITE}
         sprints = self.cenario(aberta)
