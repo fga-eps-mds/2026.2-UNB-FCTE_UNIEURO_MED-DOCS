@@ -51,6 +51,23 @@ chore(mkdocs): adiciona nova página ao menu de navegação
 - Mantenha o foco construtivo na revisão. Comente o conteúdo, aponte o problema concreto e, quando possível, sugira o caminho.
 - Se não tiver contexto suficiente para avaliar a alteração, diga isso e peça a revisão de quem tem, em vez de aprovar por omissão.
 
+### Revisão, testes e co-autoria
+
+Estas práticas foram adotadas a partir da R3 em todos os repositórios do projeto (DOCS, APP e IA):
+
+- **O revisor não participou da tarefa.** Quem trabalhou na issue não revisa o próprio PR. A revisão fica com integrantes que não participaram do desenvolvimento, para que o código seja lido por quem não o conhece.
+- **Os revisores se alternam.** A cada PR, a revisão vai para quem ainda não revisou ou revisou menos, para distribuir as revisões entre toda a equipe em vez de concentrá-las em poucas pessoas.
+- **Quem implementa escreve os testes.** Os testes do que foi implementado fazem parte do mesmo PR e são escritos por quem implementou, não por outra pessoa depois. O revisor confere se eles cobrem o que mudou.
+- **Trabalho em dupla é registrado com co-autoria.** Quando duas ou mais pessoas trabalham juntas num commit, quem faz o commit acrescenta ao final da mensagem uma linha `Co-authored-by` para cada participante, com o nome e o e-mail usados no GitHub:
+
+```
+feat(cadastro): valida CPF no formulário do paciente
+
+Co-authored-by: Nome do Colega <email-do-colega@exemplo.com>
+```
+
+O GitHub passa a mostrar o commit no histórico de todos os co-autores, o que deixa o pareamento visível.
+
 ## Issues e compromissos
 
 - Cumpra os prazos acordados na sprint e comunique impedimentos assim que eles aparecerem, não no fim do prazo.
@@ -79,4 +96,5 @@ mkdocs serve
 | 1.0 | Criação do Guia de Contribuição | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 03/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) |  |
 | 1.1 | Reescrita para contexto do repositório de documentação e adição de Conventional Commits | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 13/09/2026 | [Lucas Mendonça Arruda](https://github.com/lucasarruda9) |  |
 | 1.2 | Recepção das regras de processo que estavam no Código de Conduta, com novas seções de como revisar e de Issues e compromissos | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 19/09/2026 | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 20/09/2026 |
+| 1.3 | Inclusão das práticas de revisão, testes e co-autoria adotadas na R3 | [Daniel Ferreira Nunes](https://github.com/Mach1r0) | 15/11/2026 |  |  |
 

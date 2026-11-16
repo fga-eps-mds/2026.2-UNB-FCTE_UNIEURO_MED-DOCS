@@ -88,6 +88,7 @@ nav:
       - Protótipo da área do profissional: produto/prototipo-area-do-profissional.md
   - Processo:
       - Metodologia: processo/metodologia.md
+      - Plano de Comunicação: processo/plano-de-comunicacao.md
       - Roadmap do Produto: processo/roadmap.md
       - Estimativa do Backlog: processo/estimativa-do-backlog.md
       - Cronograma: processo/cronograma.md

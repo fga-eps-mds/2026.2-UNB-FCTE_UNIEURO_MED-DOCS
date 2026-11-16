@@ -21,7 +21,7 @@
     "id": "R03",
     "titulo": "Divergência nos horários disponíveis dos integrantes",
     "categoria": "Organizacional",
-    "probabilidade": 3,
+    "probabilidade": 4,
     "impacto": 2,
     "estrategia": "Mitigar",
     "acao": "Planejamento de horários e definição de reuniões fixas"
@@ -30,7 +30,7 @@
     "id": "R04",
     "titulo": "Alteração no escopo do projeto",
     "categoria": "Gerencial",
-    "probabilidade": 2,
+    "probabilidade": 3,
     "impacto": 3,
     "estrategia": "Mitigar",
     "acao": "Definição clara de requisitos e controle de mudanças"
@@ -46,18 +46,18 @@
   },
   {
     "id": "R06",
-    "titulo": "Indisponibilidade do cliente ou de especialistas para esclarecimento de requisitos",
+    "titulo": "Indisponibilidade do cliente ou de especialistas para esclarecimento de requisitos e aceite das entregas",
     "categoria": "Externo",
-    "probabilidade": 2,
-    "impacto": 3,
+    "probabilidade": 5,
+    "impacto": 4,
     "estrategia": "Mitigar",
-    "acao": "Agendamento prévio de reuniões com cliente/especialistas"
+    "acao": "Formulário único de aceite, validação prévia das histórias na reunião semanal e lembrete por WhatsApp; sem resposta, a equipe segue o desenvolvimento e ajusta depois"
   },
   {
     "id": "R07",
     "titulo": "Sobrecarga de membros da equipe, principalmente perto das entregas de release",
     "categoria": "Gerencial",
-    "probabilidade": 2,
+    "probabilidade": 1,
     "impacto": 2,
     "estrategia": "Mitigar",
     "acao": "Planejamento adequado da carga de trabalho"
@@ -66,17 +66,17 @@
     "id": "R08",
     "titulo": "Falha de equipamento",
     "categoria": "Externo",
-    "probabilidade": 1,
-    "impacto": 2,
+    "probabilidade": 4,
+    "impacto": 3,
     "estrategia": "Mitigar",
-    "acao": "Manutenção preventiva e uso de backup de arquivos"
+    "acao": "Manutenção preventiva, backup de arquivos e acesso a equipamento alternativo (laboratório ou empréstimo) para quem ficar sem máquina"
   },
   {
     "id": "R09",
     "titulo": "Dependência entre atividades",
     "categoria": "Organizacional",
-    "probabilidade": 3,
-    "impacto": 4,
+    "probabilidade": 1,
+    "impacto": 3,
     "estrategia": "Mitigar",
     "acao": "Planejamento das atividades considerando dependências"
   },
@@ -93,7 +93,7 @@
     "id": "R11",
     "titulo": "Resultados insatisfatórios da solução desenvolvida",
     "categoria": "Técnico",
-    "probabilidade": 4,
+    "probabilidade": 5,
     "impacto": 4,
     "estrategia": "Mitigar",
     "acao": "Testes contínuos e validações frequentes com o cliente"
@@ -102,7 +102,7 @@
     "id": "R12",
     "titulo": "Falta de dados adequados para desenvolvimento e validação",
     "categoria": "Externo",
-    "probabilidade": 2,
+    "probabilidade": 3,
     "impacto": 3,
     "estrategia": "Mitigar",
     "acao": "Busca antecipada por bases de dados adequadas"
@@ -120,8 +120,8 @@
     "id": "R14",
     "titulo": "Questões de privacidade e proteção de dados sensíveis",
     "categoria": "Externo",
-    "probabilidade": 2,
-    "impacto": 4,
+    "probabilidade": 1,
+    "impacto": 3,
     "estrategia": "Evitar",
     "acao": "Anonimização de dados e boas práticas de segurança desde o início do projeto"
   }
