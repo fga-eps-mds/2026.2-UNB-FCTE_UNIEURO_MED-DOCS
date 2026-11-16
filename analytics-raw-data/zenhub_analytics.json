@@ -1,6 +1,6 @@
 {
   "workspace": "Mnema",
-  "coletado_em": "2026-11-15T09:11:18Z",
+  "coletado_em": "2026-11-16T01:54:46Z",
   "colunas_coletadas": true,
   "colunas_fonte": "issue",
   "sprints_velocity": {
@@ -31,42 +31,56 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
           "numero": 4,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQwOA",
           "numero": 6,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-28T04:42:03Z",
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQxOA",
           "numero": 7,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQyMQ",
           "numero": 8,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzUwNQ",
           "numero": 9,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzUzMA",
           "numero": 10,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-04T03:00:52Z",
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzU3Ng",
           "numero": 11,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-17T20:49:16Z",
           "coluna": "New Issues"
         }
       ]
@@ -86,168 +100,224 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
           "numero": 4,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQwOA",
           "numero": 6,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-28T04:42:03Z",
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQxOA",
           "numero": 7,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQyMQ",
           "numero": 8,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzUwNQ",
           "numero": 9,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzU3Ng",
           "numero": 11,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-17T20:49:16Z",
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODc2NTc4Nw",
           "numero": 14,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-22T00:06:18Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg0NQ",
           "numero": 5,
           "estimativa": 13.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:20Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1MA",
           "numero": 6,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:23Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTUxODM2MQ",
           "numero": 20,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-24T16:15:34Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTcyMzUwNA",
           "numero": 23,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-21T15:20:50Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk0NDYxNQ",
           "numero": 24,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-28T01:51:31Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk0NjE5Mw",
           "numero": 25,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-26T02:17:08Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk0NjIyNg",
           "numero": 26,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-28T01:53:45Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk0ODM5Nw",
           "numero": 27,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-26T01:29:41Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk1ODIxMA",
           "numero": 28,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-28T01:53:17Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk1ODI1OA",
           "numero": 29,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-26T01:29:42Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk1ODMwNg",
           "numero": 30,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-13T01:21:22Z",
           "coluna": "Done"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk1ODM0OQ",
           "numero": 31,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-28T01:52:12Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTk1ODUxNg",
           "numero": 32,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-13T01:21:23Z",
           "coluna": "Done"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDE3OTI4MQ",
           "numero": 37,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-21T15:20:49Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDE3OTMzMg",
           "numero": 40,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-28T01:59:35Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDI3MzU1Mw",
           "numero": 42,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-26T02:17:07Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDMxMTg0NQ",
           "numero": 44,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-22T01:56:15Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDMxMTkxMw",
           "numero": 46,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-22T01:56:14Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDQ4NzM3NA",
           "numero": 50,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-28T01:51:26Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzMzc5MQ",
           "numero": 51,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-26T01:22:31Z",
           "coluna": "Done"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTAzMDQyMg",
           "numero": 63,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-28T02:11:51Z",
           "coluna": "In Progress"
         }
       ]
@@ -267,246 +337,328 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
           "numero": 4,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQwOA",
           "numero": 6,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-28T04:42:03Z",
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQxOA",
           "numero": 7,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQyMQ",
           "numero": 8,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzUwNQ",
           "numero": 9,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg0NQ",
           "numero": 5,
           "estimativa": 13.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:20Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1MA",
           "numero": 6,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:23Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1MQ",
           "numero": 7,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:26Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4Mw",
           "numero": 2,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4OA",
           "numero": 6,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T02:38:42Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDE3OTMxMA",
           "numero": 10,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-05T01:37:13Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzNzg1Mg",
           "numero": 21,
           "estimativa": 3.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:38:46Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzAwMQ",
           "numero": 68,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-05T00:03:57Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzAwMw",
           "numero": 69,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-05T00:04:56Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA0NA",
           "numero": 40,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-04T22:39:29Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA2NQ",
           "numero": 41,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-05T16:22:14Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA3OA",
           "numero": 70,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-13T17:33:15Z",
           "coluna": "Sprint Backlog"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4MA",
           "numero": 71,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-13T02:32:52Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4MQ",
           "numero": 72,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-23T14:15:33Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4Mw",
           "numero": 73,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T05:43:06Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4NQ",
           "numero": 74,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-25T17:23:09Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4Ng",
           "numero": 75,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T03:38:46Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4OA",
           "numero": 76,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-25T02:35:15Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5MA",
           "numero": 77,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T05:25:34Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5MQ",
           "numero": 78,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-24T16:33:26Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5Mg",
           "numero": 79,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-07T22:22:17Z",
           "coluna": "Done"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5NA",
           "numero": 80,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-13T01:21:20Z",
           "coluna": "Done"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5Ng",
           "numero": 81,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5Nw",
           "numero": 42,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-09T16:45:06Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5OQ",
           "numero": 43,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-17T21:27:46Z",
           "coluna": "Done"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgyMDUxMQ",
           "numero": 82,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-05T22:30:18Z",
           "coluna": "Sprint Backlog"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE2OA",
           "numero": 46,
           "estimativa": 8.0,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NA",
           "numero": 83,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NQ",
           "numero": 84,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Icebox"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjA3NjQ2Mw",
           "numero": 60,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-07T20:09:34Z",
           "coluna": "Sprint Backlog"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjEzMjAzNQ",
           "numero": 62,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-16T12:09:41Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjEzMjA0Mg",
           "numero": 63,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-16T12:09:42Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjEzMjA0Nw",
           "numero": 89,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-13T01:21:21Z",
           "coluna": "Done"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjE2OTg3MQ",
           "numero": 91,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-25T17:23:08Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjMyMzkxNg",
           "numero": 69,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-09T23:51:11Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjMzNTkxMQ",
           "numero": 93,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-13T17:33:14Z",
           "coluna": "Sprint Backlog"
         }
       ]
@@ -526,348 +678,464 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
           "numero": 4,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQxOA",
           "numero": 7,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQyMQ",
           "numero": 8,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzUwNQ",
           "numero": 9,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg0NQ",
           "numero": 5,
           "estimativa": 13.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:20Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1MA",
           "numero": 6,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:23Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1MQ",
           "numero": 7,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:26Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1Mw",
           "numero": 8,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-16T00:28:45Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1NA",
           "numero": 9,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:11Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg2MA",
           "numero": 10,
           "estimativa": 13.0,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg2NA",
           "numero": 11,
           "estimativa": 5.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:14Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4Mw",
           "numero": 2,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4Ng",
           "numero": 4,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4OA",
           "numero": 6,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T02:38:42Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzMzc5MQ",
           "numero": 51,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-09-26T01:22:31Z",
           "coluna": "Done"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzNzg1Mg",
           "numero": 21,
           "estimativa": 3.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:38:46Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA3OA",
           "numero": 70,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-13T17:33:15Z",
           "coluna": "Sprint Backlog"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4MA",
           "numero": 71,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-13T02:32:52Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4MQ",
           "numero": 72,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-23T14:15:33Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4Mw",
           "numero": 73,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T05:43:06Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4NQ",
           "numero": 74,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-25T17:23:09Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4Ng",
           "numero": 75,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T03:38:46Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4OA",
           "numero": 76,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-25T02:35:15Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5MA",
           "numero": 77,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T05:25:34Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5MQ",
           "numero": 78,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-24T16:33:26Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5NA",
           "numero": 80,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-13T01:21:20Z",
           "coluna": "Done"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5Ng",
           "numero": 81,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5OQ",
           "numero": 43,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-17T21:27:46Z",
           "coluna": "Done"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzEwMA",
           "numero": 44,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-13T02:47:20Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzEwMQ",
           "numero": 45,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T02:23:05Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE2OA",
           "numero": 46,
           "estimativa": 8.0,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NA",
           "numero": 83,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NQ",
           "numero": 84,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Icebox"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjEzMjAzNQ",
           "numero": 62,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-16T12:09:41Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjEzMjA0Mg",
           "numero": 63,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-16T12:09:42Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjEzMjA0Nw",
           "numero": 89,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-13T01:21:21Z",
           "coluna": "Done"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjE2OTg3MQ",
           "numero": 91,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-25T17:23:08Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjMyNjExNA",
           "numero": 70,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-12T18:24:50Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjMzNTkxMQ",
           "numero": 93,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-13T17:33:14Z",
           "coluna": "Sprint Backlog"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjMzNjU4OA",
           "numero": 94,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-12T23:33:08Z",
           "coluna": "Done"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjQyOTU0NQ",
           "numero": 13,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T03:59:46Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjQzMTgzNw",
           "numero": 71,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-12T22:54:03Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjQzNzYxMw",
           "numero": 72,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-12T23:29:54Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjQzODk1Mg",
           "numero": 73,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-13T00:19:29Z",
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjUwNzM4Mg",
           "numero": 77,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-17T15:10:12Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjU2NzkxNA",
           "numero": 78,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-17T15:10:10Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjg0MTUzMg",
           "numero": 100,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-23T14:15:31Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjg5MDgyMA",
           "numero": 80,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-23T00:02:24Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzE1NzE3OA",
           "numero": 103,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T03:37:48Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzE1NzIyMw",
           "numero": 104,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-25T01:24:05Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzE2OTY5MA",
           "numero": 82,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-25T17:40:55Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzE2OTY5Mg",
           "numero": 83,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-25T16:38:09Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzE3MDA4Mg",
           "numero": 105,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-23T19:44:17Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzE4NjkxNQ",
           "numero": 86,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T02:11:48Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzIxMzQ2NQ",
           "numero": 87,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-25T17:29:23Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzIzNjI1OA",
           "numero": 90,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T02:23:03Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzI0NDA5Mw",
           "numero": 92,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-25T21:12:15Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzI0Njc2OA",
           "numero": 94,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-25T21:12:14Z",
           "coluna": "In Progress"
         }
       ]
@@ -887,464 +1155,646 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
           "numero": 4,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQxOA",
           "numero": 7,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQyMQ",
           "numero": 8,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzUwNQ",
           "numero": 9,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg0NQ",
           "numero": 5,
           "estimativa": 13.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:20Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1MA",
           "numero": 6,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:23Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1MQ",
           "numero": 7,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:26Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1Mw",
           "numero": 8,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-16T00:28:45Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1NA",
           "numero": 9,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:11Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg2MA",
           "numero": 10,
           "estimativa": 13.0,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg2NA",
           "numero": 11,
           "estimativa": 5.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:14Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4Ng",
           "numero": 4,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzNzg1Mg",
           "numero": 21,
           "estimativa": 3.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:38:46Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzODMwOQ",
           "numero": 23,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:38:34Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4Mw",
           "numero": 73,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T05:43:06Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA4Ng",
           "numero": 75,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T03:38:46Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5MA",
           "numero": 77,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T05:25:34Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5Ng",
           "numero": 81,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE2OA",
           "numero": 46,
           "estimativa": 8.0,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NA",
           "numero": 83,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjQyOTU0NQ",
           "numero": 13,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T03:59:46Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzE1NzE3OA",
           "numero": 103,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T03:37:48Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzI1OTY0MQ",
           "numero": 109,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-10-26T05:25:33Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzQ1MzQ4Mw",
           "numero": 97,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-08T22:41:03Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzQ1MzQ4NQ",
           "numero": 98,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-06T10:54:06Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzQ1MzQ4Nw",
           "numero": 99,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-10T00:11:11Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzQ1NDc1MA",
           "numero": 102,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-10T00:56:38Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzUxMDQ4Ng",
           "numero": 18,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-05T17:54:01Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzY4Mzg2NQ",
           "numero": 112,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-06T05:09:09Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzY4Mzg2Ng",
           "numero": 113,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-06T05:09:07Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzY5MjU1Mw",
           "numero": 104,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-09T22:36:23Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzk5MzAxNQ",
           "numero": 108,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-10T00:49:05Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDExMDAzMg",
           "numero": 114,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-09T03:19:37Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDEyODAwMA",
           "numero": 109,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-08T23:57:19Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDE5NjUzOA",
           "numero": 116,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDMxNzM0MA",
           "numero": 117,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-10T00:11:10Z",
           "coluna": "Review/QA"
         }
       ]
     },
     "Sprint 5": {
-      "delivered_story_points": 53.0,
+      "delivered_story_points": 61.0,
       "points_added": 0.0,
       "state": "OPEN",
       "start_at": "2026-11-09T03:59:00Z",
       "end_at": "2026-11-23T02:59:00Z",
-      "total_points": 166.0,
-      "issues_total": 39,
-      "issues_closed": 12,
-      "issues_sem_estimativa": 19,
+      "total_points": 176.0,
+      "issues_total": 43,
+      "issues_closed": 13,
+      "issues_sem_estimativa": 21,
       "issues": [
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
           "numero": 4,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQxOA",
           "numero": 7,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQyMQ",
           "numero": 8,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzUwNQ",
           "numero": 9,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "New Issues"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg0NQ",
           "numero": 5,
           "estimativa": 13.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:20Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1MA",
           "numero": 6,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:23Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1MQ",
           "numero": 7,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:26Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1Mw",
           "numero": 8,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-16T00:28:45Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg1NA",
           "numero": 9,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:11Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg2MA",
           "numero": 10,
           "estimativa": 13.0,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg2NA",
           "numero": 11,
           "estimativa": 5.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:39:14Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg3MQ",
           "numero": 12,
           "estimativa": 8.0,
-          "coluna": "Sprint Backlog"
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg3Mg",
           "numero": 13,
           "estimativa": 8.0,
-          "coluna": "Sprint Backlog"
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg3NA",
           "numero": 14,
           "estimativa": 13.0,
-          "coluna": "Sprint Backlog"
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg3OA",
           "numero": 16,
           "estimativa": 5.0,
-          "coluna": "Sprint Backlog"
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4MA",
           "numero": 17,
           "estimativa": 13.0,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4Ng",
           "numero": 4,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzNzg1Mg",
           "numero": 21,
           "estimativa": 3.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:38:46Z",
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzODIzNg",
           "numero": 22,
           "estimativa": 8.0,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzODMwOQ",
           "numero": 23,
           "estimativa": 8.0,
+          "fechada": true,
+          "fechada_em": "2026-11-11T01:38:34Z",
           "coluna": "Aceitação PO"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzODQ1Ng",
+          "numero": 24,
+          "estimativa": 5.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDU0MDM3OQ",
           "numero": 25,
           "estimativa": 8.0,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5Ng",
           "numero": 81,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE2OA",
           "numero": 46,
           "estimativa": 8.0,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NA",
           "numero": 83,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE5MA",
           "numero": 47,
           "estimativa": 8.0,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE5Ng",
           "numero": 49,
           "estimativa": 8.0,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjA3NjI5Ng",
           "numero": 58,
           "estimativa": 5.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjA3NjQ1NQ",
+          "numero": 59,
+          "estimativa": 5.0,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzQ1MzQ4Nw",
           "numero": 99,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-10T00:11:11Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzQ1NDc1MA",
           "numero": 102,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-10T00:56:38Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzYwMTY3MA",
           "numero": 111,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Sprint Backlog"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzY2NjYzOQ",
           "numero": 23,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Sprint Backlog"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzY3NTQ5Mg",
           "numero": 25,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Sprint Backlog"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzY5MjU1Mw",
           "numero": 104,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-09T22:36:23Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzk5MzAxNQ",
           "numero": 108,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-10T00:49:05Z",
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDExMDAzMg",
           "numero": 114,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-09T03:19:37Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDE5NjUzOA",
           "numero": 116,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDE5NjU5Ng",
+          "numero": 117,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDMxNzM0MA",
           "numero": 117,
           "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-10T00:11:10Z",
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDQwMzYzMQ",
           "numero": 120,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDQ4NjU4OQ",
           "numero": 118,
           "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
           "coluna": "Sprint Backlog"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDQ5MDYyMA",
+          "numero": 119,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
         }
       ]
     },

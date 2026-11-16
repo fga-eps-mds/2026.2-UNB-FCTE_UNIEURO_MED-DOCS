@@ -1,7 +1,19 @@
 {
   "repositorio": "IA",
-  "coletado_em": "2026-11-15T09:10:23Z",
+  "coletado_em": "2026-11-16T01:53:56Z",
   "workflow_runs": [
+    {
+      "id": 43743275267,
+      "name": "Build",
+      "head_branch": "chore/28-testes-do-treino-no-pipeline",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-15T17:49:38Z",
+      "updated_at": "2026-11-15T17:52:25Z",
+      "run_number": 41,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/actions/runs/43743275267"
+    },
     {
       "id": 42745478998,
       "name": "Export de métricas",
