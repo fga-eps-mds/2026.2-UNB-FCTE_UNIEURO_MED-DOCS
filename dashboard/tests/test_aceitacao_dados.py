@@ -169,6 +169,19 @@ class SprintsDoDashboardTest(unittest.TestCase):
         with mock.patch.object(data_layer, "RAW_DATA_DIR", dados.caminho):
             return data_layer.get_zenhub_sprints_data()
 
+    def test_a_release_diz_se_a_coleta_trouxe_o_estado_das_issues(self):
+        for fechada, esperado in ((None, False), (False, True)):
+            issues = [issue("US8", 8, 8, "Aceitação PO")]
+            if fechada is not None:
+                issues = [{**i, "fechada": fechada} for i in issues]
+            sprints = {"Sprint 5": sprint(8, 0, issues, fim="2026-11-23T02:59:00Z", inicio="2026-11-09T03:00:00Z")}
+            with PastaDeDados(sprints) as dados:
+                lista, _ = self.carregar(dados)
+                evm = metrics.compute_release_evm(lista, RELEASES, date(2026, 11, 12), MODO_ENTREGUES)
+            r3 = next(r for r in evm["releases"] if r["id"] == "R3")
+
+            self.assertIs(r3["estado_coletado"], esperado)
+
     def test_json_com_fechadas_em_aceitacao_nao_duplica_o_rpc(self):
         aceitas = [(5, 13), (6, 8), (7, 8), (9, 8), (11, 5), (21, 3), (23, 8)]
         issues = [
@@ -239,6 +252,25 @@ class SprintsDoDashboardTest(unittest.TestCase):
 
         self.assertIsNone(lista[0]["aceitacao_fonte"])
         self.assertIsNone(do_processo[0]["aceitacao_fonte"])
+
+    def test_o_sinal_de_estado_coletado_chega_ao_painel_e_ao_processo(self):
+        sem_estado = {"Sprint 3": sprint(21, 0, [issue("A", 5, 13, "Aceitação PO")])}
+        com_estado = {"Sprint 3": sprint(21, 0, [{**issue("A", 5, 13, "Aceitação PO"), "fechada": False}])}
+
+        for sprints, esperado in ((sem_estado, False), (com_estado, True)):
+            with PastaDeDados(sprints) as dados:
+                lista, _ = self.carregar(dados)
+                do_processo = processo.sprints(dados.caminho, MODO_ENTREGUES)
+
+            self.assertIs(lista[0]["estado_coletado"], esperado)
+            self.assertIs(do_processo[0]["estado_coletado"], esperado)
+
+    def test_dados_de_exemplo_nao_afirmam_estado_coletado(self):
+        with tempfile.TemporaryDirectory() as vazia:
+            with mock.patch.object(data_layer, "RAW_DATA_DIR", vazia):
+                lista, _ = data_layer.get_zenhub_sprints_data()
+
+        self.assertTrue(all(s["estado_coletado"] is False for s in lista))
 
     def test_lista_manual_marca_as_historias_quando_a_coleta_nao_trouxe_a_coluna(self):
         sprints = {"Sprint 3": sprint(21, 0, [issue("A", 5, 13), issue("B", 6, 8)])}

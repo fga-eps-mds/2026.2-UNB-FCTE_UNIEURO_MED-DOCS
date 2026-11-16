@@ -43,6 +43,7 @@ from src.metrics import (
 from src.processo import INDICADORES
 from src.qualidade import BRASILIA, FAIXA_ADEQUADA, FAIXA_ATENCAO, METRICAS, QUEDA_RELEVANTE, faixa
 from src.templates import (
+    aviso_estado_nao_coletado,
     aviso_modo_entregues,
     arquivos_fora_do_limiar,
     cor_da_faixa,
@@ -193,6 +194,8 @@ def _rotulo_em_frase(modo: str) -> str:
 def _render_aviso_do_modo(r: dict, modo: str):
     """Diz qual modo de pontos está valendo e quanto ele soma, para ninguém ler o número sem saber a regra."""
     em_aceitacao = len(r["em_aceitacao"])
+    if r["aceitacao_fonte"] == "zenhub" and not r["estado_coletado"]:
+        st.warning(aviso_estado_nao_coletado())
     if r["aceitacao_fonte"] is None:
         st.warning(
             "A coluna Aceitação PO ainda não foi coletada do ZenHub, então os dois modos mostram o mesmo "

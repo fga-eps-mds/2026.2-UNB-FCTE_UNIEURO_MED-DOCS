@@ -157,6 +157,16 @@ def tabela_comparativo(comparativo: Dict[str, Dict[str, Any]]) -> pd.DataFrame:
     return pd.DataFrame(linhas)
 
 
+def aviso_estado_nao_coletado() -> str:
+    """Aviso da coleta sem `fechada`: história aceita que ficou em Aceitação PO pode contar duas vezes."""
+    return (
+        "A última coleta não trouxe se cada história está fechada (campo `fechada`). Sem ele, a "
+        "história que o PO já aceitou e que o ZenHub manteve na coluna Aceitação PO pode estar "
+        "contada duas vezes, como aceita e como à espera do aceite. Rode de novo a coleta de métricas "
+        "e confira no log se o ZenHub aceitou o campo `state`."
+    )
+
+
 def aviso_modo_entregues(rotulo: str, aceitos: float, aguardando: float, historias: int) -> str:
     """Texto do modo com Aceitação PO: o que entra, o que já foi aceito e por que a velocity das sprints muda."""
     return (

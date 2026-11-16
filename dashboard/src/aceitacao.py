@@ -56,6 +56,16 @@ def _fechada(issue: Dict[str, Any]) -> bool:
     return bool(issue.get("fechada"))
 
 
+def estado_coletado(sprints: List[Dict[str, Any]]) -> bool:
+    """
+    Diz se a coleta trouxe o estado das issues (`fechada`) em alguma sprint.
+
+    Sem o campo, a história já aceita que o ZenHub manteve na coluna Aceitação PO conta duas
+    vezes: como aceita e como à espera do aceite. O painel usa este sinal para avisar.
+    """
+    return any("fechada" in issue for sprint in sprints for issue in (sprint.get("issues") or []))
+
+
 def _esta_em_aceitacao(issue: Dict[str, Any], colunas: Set[str], manual: Optional[Set[int]]) -> bool:
     if not _e_historia(issue):
         return False
@@ -77,7 +87,8 @@ def marcar_aguardando(
 ) -> Optional[str]:
     """
     Preenche em cada sprint `aguardando_issues` (as histórias em aceitação, com número,
-    estimativa e a sprint em que contam) e `aguardando_pontos`, e devolve a fonte usada.
+    estimativa e a sprint em que contam), `aguardando_pontos` e `estado_coletado` (se a coleta
+    trouxe `fechada`), e devolve a fonte usada.
 
     Recebe as sprints em ordem cronológica, com `issues` (id, numero, estimativa e, quando a
     coleta trouxe, coluna). Sem coluna coletada nem lista manual, nada é marcado e a fonte é
@@ -125,9 +136,11 @@ def marcar_aguardando(
             "estimativa": float(issue.get("estimativa") or 0.0),
             "sprint": sprints[item["indice"]].get("name") or sprints[item["indice"]].get("nome"),
         })
+    com_estado = estado_coletado(sprints)
     for sprint in sprints:
         sprint["aguardando_pontos"] = sum(i["estimativa"] for i in sprint["aguardando_issues"])
         sprint["aceitacao_fonte"] = fonte
+        sprint["estado_coletado"] = com_estado
     return fonte
 
 

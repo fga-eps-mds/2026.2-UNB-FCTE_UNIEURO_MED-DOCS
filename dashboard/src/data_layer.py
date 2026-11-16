@@ -70,6 +70,7 @@ def get_zenhub_sprints_data() -> Tuple[List[Dict[str, Any]], bool]:
             "total_points": total,
             "status": status, "start_at": inicio, "end_at": fim,
             "aguardando_pontos": 0.0, "aguardando_issues": [], "aceitacao_fonte": None,
+            "estado_coletado": False,
         }
 
     mock_data = [

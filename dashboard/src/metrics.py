@@ -234,6 +234,7 @@ def compute_release_evm(
             "rpc_aguardando": rpc_aguardando,
             "em_aceitacao": em_aceitacao,
             "aceitacao_fonte": next((s.get("aceitacao_fonte") for s in lista if s.get("aceitacao_fonte")), None),
+            "estado_coletado": any(s.get("estado_coletado") for s in lista),
             "modo": modo,
             "n_sprints": len(lista),
             "ppc": ppc,

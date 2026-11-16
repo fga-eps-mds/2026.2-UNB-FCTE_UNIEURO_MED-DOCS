@@ -224,6 +224,39 @@ class HistoriaFechadaNaoAguardaTest(unittest.TestCase):
         self.assertEqual(sprints[0]["aguardando_pontos"], 13.0)
 
 
+class EstadoColetadoTest(unittest.TestCase):
+    """A coleta que não traz `fechada` volta à dupla contagem; o painel precisa saber para avisar."""
+
+    def test_com_o_estado_na_coleta_o_sinal_fica_verdadeiro_em_todas_as_sprints(self):
+        sprints = [sprint("Sprint 4", issue("A", 5, 13, ACEITE)),
+                   sprint("Sprint 5", issue("B", 8, 8, ACEITE, fechada=False))]
+
+        aceitacao.marcar_aguardando(sprints)
+
+        self.assertEqual([s["estado_coletado"] for s in sprints], [True, True])
+
+    def test_fechada_falsa_tambem_e_estado_coletado(self):
+        sprints = [sprint("Sprint 5", issue("B", 8, 8, ACEITE, fechada=False))]
+
+        aceitacao.marcar_aguardando(sprints)
+
+        self.assertTrue(sprints[0]["estado_coletado"])
+
+    def test_sem_o_campo_em_nenhuma_issue_o_sinal_fica_falso(self):
+        sprints = [sprint("Sprint 5", issue("A", 5, 13, ACEITE), issue("B", 8, 8, ACEITE))]
+
+        aceitacao.marcar_aguardando(sprints)
+
+        self.assertFalse(sprints[0]["estado_coletado"])
+
+    def test_sprint_sem_issues_nao_quebra_o_sinal(self):
+        sprints = [{"name": "Sprint 6"}]
+
+        aceitacao.marcar_aguardando(sprints)
+
+        self.assertFalse(sprints[0]["estado_coletado"])
+
+
 class AtribuirAceitesTardiosTest(unittest.TestCase):
     def cenario(self, *issues_s5, issues_s4=None):
         antigas = issues_s4 if issues_s4 is not None else list(issues_s5)

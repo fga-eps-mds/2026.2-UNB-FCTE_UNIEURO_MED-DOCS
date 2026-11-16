@@ -93,6 +93,11 @@ class AbaEvmAceiteTardioTest(unittest.TestCase):
     def test_a_aba_abre_sem_erro(self):
         self.assertEqual([e.value for e in self.app.exception], [])
 
+    def test_com_o_estado_coletado_nao_mostra_o_aviso_de_dupla_contagem(self):
+        avisos = " ".join(w.value for w in self.app.warning)
+
+        self.assertNotIn("não trouxe se cada história está fechada", avisos)
+
     def test_diz_que_a_sprint_4_teve_historias_aceitas_depois_do_fim(self):
         legendas = [c.value for c in self.app.caption]
 
@@ -108,6 +113,45 @@ class AbaEvmAceiteTardioTest(unittest.TestCase):
         tardios = next(b for b in velocity["data"] if b["name"].startswith("Aceitos pelo PO depois"))
 
         self.assertEqual(max(tardios["y"]), 53.0)
+
+
+class AbaEvmSemEstadoDaColetaTest(unittest.TestCase):
+    """Coleta antiga, sem `fechada`: o painel avisa que história aceita pode estar contada duas vezes."""
+
+    @classmethod
+    def setUpClass(cls):
+        from src import config, data_layer, processo
+        cls.pasta = tempfile.mkdtemp()
+        shutil.copytree(config.RAW_DATA_DIR, cls.pasta, dirs_exist_ok=True)
+        caminho = os.path.join(cls.pasta, "zenhub_analytics.json")
+        with open(caminho, encoding="utf-8") as arquivo:
+            dados = json.load(arquivo)
+        for sprint in dados["sprints_velocity"].values():
+            for issue in sprint.get("issues", []):
+                issue.pop("fechada", None)
+                issue.pop("fechada_em", None)
+        with open(caminho, "w", encoding="utf-8") as arquivo:
+            json.dump(dados, arquivo)
+        cls.patches = [mock.patch.object(m, "RAW_DATA_DIR", cls.pasta) for m in (data_layer, processo, config)]
+        for patch in cls.patches:
+            patch.start()
+        cls.app = AppTest.from_file(DASHBOARD, default_timeout=120)
+        cls.app.run()
+
+    @classmethod
+    def tearDownClass(cls):
+        for patch in cls.patches:
+            patch.stop()
+        shutil.rmtree(cls.pasta, ignore_errors=True)
+
+    def test_a_aba_abre_sem_erro(self):
+        self.assertEqual([e.value for e in self.app.exception], [])
+
+    def test_avisa_que_a_coleta_nao_trouxe_o_estado_das_historias(self):
+        avisos = [w.value for w in self.app.warning]
+
+        self.assertTrue(any("não trouxe se cada história está fechada" in a for a in avisos))
+        self.assertTrue(any("`fechada`" in a and "coleta de métricas" in a for a in avisos))
 
 
 if __name__ == "__main__":
