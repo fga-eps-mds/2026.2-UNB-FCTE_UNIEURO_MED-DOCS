@@ -663,34 +663,45 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str =
     if barras:
         rotulos_vel = [s["name"] + ("" if s in fechadas else " (em andamento)") for s in barras]
         fig_vel = go.Figure()
-        # Os aceites que o PO deu depois do fim da sprint contam nela e aparecem à parte, para a
-        # demora do aceite ficar visível em vez de parecer baixa entrega.
+        # Uma linha por medida: a velocity do modo escolhido e, à parte, o que a compõe. Os aceites que o
+        # PO deu depois do fim da sprint contam nela e ganham linha própria, para a demora do aceite ficar
+        # visível em vez de parecer baixa entrega.
+        velocity = [_pontos(s) for s in barras]
         depois = [s.get("aceitos_depois_pontos", 0.0) for s in barras]
-        no_prazo = [s["delivered_sp"] - d for s, d in zip(barras, depois)]
-        fig_vel.add_trace(go.Bar(
-            x=rotulos_vel, y=no_prazo, name="Aceitos",
-            marker=dict(color="#38BDF8"),
-            text=[f"{v:.0f}" for v in no_prazo], textposition="inside",
-            hovertemplate="<b>%{x}</b><br>Aceitos: %{y} SP<extra></extra>"
+        fig_vel.add_trace(go.Scatter(
+            x=rotulos_vel, y=velocity, name=f"Velocity ({_rotulo_em_frase(modo)})",
+            mode="lines+markers+text", line=dict(color="#38BDF8", width=3), marker=dict(size=9),
+            text=[f"{v:.0f}" for v in velocity], textposition="top center",
+            hovertemplate="<b>%{x}</b><br>Velocity: %{y} SP<extra></extra>"
         ))
-        if any(depois):
-            fig_vel.add_trace(go.Bar(
-                x=rotulos_vel, y=depois, name="Aceitos pelo PO depois do fim da sprint",
-                marker=dict(color="#34D399", pattern=dict(shape="x")),
-                text=[f"{v:.0f}" if v else "" for v in depois], textposition="inside",
-                hovertemplate="<b>%{x}</b><br>Aceitos depois do fim da sprint: %{y} SP<extra></extra>"
-            ))
         if modo == MODO_ENTREGUES:
-            fig_vel.add_trace(go.Bar(
+            fig_vel.add_trace(go.Scatter(
+                x=rotulos_vel, y=[s["delivered_sp"] for s in barras], name="Aceitos",
+                mode="lines+markers", line=dict(color="#A78BFA", width=2), marker=dict(size=7),
+                hovertemplate="<b>%{x}</b><br>Aceitos: %{y} SP<extra></extra>"
+            ))
+            fig_vel.add_trace(go.Scatter(
                 x=rotulos_vel, y=[s.get("aguardando_pontos", 0.0) for s in barras], name="Em Aceitação PO",
-                marker=dict(color="#FBBF24", pattern=dict(shape="/")),
-                text=[f"{s.get('aguardando_pontos', 0.0):.0f}" for s in barras], textposition="inside",
+                mode="lines+markers", line=dict(color="#FBBF24", width=2, dash="dot"), marker=dict(size=7),
                 hovertemplate="<b>%{x}</b><br>Em Aceitação PO: %{y} SP<extra></extra>"
             ))
+        if any(depois):
+            fig_vel.add_trace(go.Scatter(
+                x=rotulos_vel, y=depois, name="Aceitos pelo PO depois do fim da sprint",
+                mode="lines+markers", line=dict(color="#34D399", width=2, dash="dot"), marker=dict(size=7),
+                hovertemplate="<b>%{x}</b><br>Aceitos depois do fim da sprint: %{y} SP<extra></extra>"
+            ))
+        if fechadas:
+            media = sum(_pontos(s) for s in fechadas) / len(fechadas)
+            fig_vel.add_trace(go.Scatter(
+                x=rotulos_vel, y=[media] * len(rotulos_vel), name=f"Média das sprints fechadas ({media:.1f} SP)",
+                mode="lines", line=dict(color="#94A3B8", width=2, dash="dash"),
+                hovertemplate="Média das sprints fechadas: %{y:.1f} SP<extra></extra>"
+            ))
         layout_vel = get_plotly_layout("Velocity por Sprint (Story Points Entregues)", height=380, y_title="Story Points")
-        layout_vel["barmode"] = "stack"
         layout_vel["legend"]["y"] = -0.25
         fig_vel.update_layout(layout_vel)
+        fig_vel.update_yaxes(rangemode="tozero")
         st.plotly_chart(fig_vel, use_container_width=True, config=PLOTLY_CONFIG)
         if fechadas:
             media = sum(_pontos(s) for s in fechadas) / len(fechadas)
@@ -700,10 +711,10 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str =
         st.info("Ainda não há sprints fechadas para calcular a velocity.")
     with st.expander("O que este gráfico mostra?"):
         st.markdown(
-            "Quantos pontos de história cada sprint fechada entregou. A parte azul são os pontos aceitos; "
-            "a parte verde listrada são as histórias que o PO aceitou depois do fim da sprint em que a "
+            "Quantos pontos de história cada sprint fechada entregou. A linha azul grossa é a velocity do modo "
+            "escolhido. A linha verde pontilhada mostra as histórias que o PO aceitou depois do fim da sprint em que a "
             "equipe as entregou, e que contam nela, não na sprint em que o aceite saiu. No modo "
-            "\"aceitas + em Aceitação PO\", a parte amarela listrada são as histórias que aguardam o "
+            "\"aceitas + em Aceitação PO\", a linha roxa são os pontos aceitos e a amarela pontilhada as histórias que aguardam o "
             "aceite; sprints em andamento aparecem só quando já têm pontos nesse modo. Uma sprint com poucos pontos "
             "não é necessariamente ruim: pode refletir histórias maiores do que o normal, feriados, "
             "ou trabalho técnico que não gera pontos diretamente. Se as histórias não foram "
