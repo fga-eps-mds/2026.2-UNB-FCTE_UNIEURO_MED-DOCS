@@ -29,9 +29,10 @@ CAMPO_COLUNA = "pipelineIssue(workspaceId: $id) { pipeline { name } }"
 
 # Campos pedidos de cada issue, além da estimativa, do mais completo ao mais simples.
 # O identificador permite ao dashboard contar uma história uma só vez quando ela passa
-# de uma sprint para a seguinte. Como a API não pôde ser conferida aqui, se o Zenhub
+# de uma sprint para a seguinte. O estado diz se a issue já foi fechada: o ZenHub mantém a
+# coluna em que ela estava (Aceitação PO) mesmo depois do aceite. Como a API não pôde ser conferida aqui, se o Zenhub
 # recusar um campo a coleta tenta a variante seguinte, e a última é a consulta original.
-VARIANTES_ISSUE = (f"id number {CAMPO_COLUNA}", "id number", "id", "")
+VARIANTES_ISSUE = (f"id number state {CAMPO_COLUNA}", f"id number {CAMPO_COLUNA}", "id number", "id", "")
 
 # Segunda forma de ler a coluna: em vez de perguntar a cada issue onde ela está, pergunta ao
 # workspace quais são as colunas e quais issues cada uma guarda. Só é usada se a primeira for
@@ -201,6 +202,8 @@ def _resumir_issue(issue, com_coluna, colunas_por_id=None):
         "numero": issue.get("number"),
         "estimativa": (issue.get("estimate") or {}).get("value"),
     }
+    if "state" in issue:
+        resumo["fechada"] = issue.get("state") == "CLOSED"
     if com_coluna:
         coluna = (((issue.get("pipelineIssue") or {}).get("pipeline")) or {}).get("name")
         if coluna is None and colunas_por_id:
