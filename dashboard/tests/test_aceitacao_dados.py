@@ -182,24 +182,27 @@ class AceiteTardioPorReleaseTest(unittest.TestCase):
         (23, 8, 4, True),
     ]
 
-    def sprints(self):
+    def sprints(self, tardias=()):
+        """`tardias`: números das histórias aceitas em 16/11, que o ZenHub tirou da lista da Sprint 5."""
         resultado = {}
         for indice, (nome, (inicio, fim)) in enumerate(self.DATAS.items(), start=1):
             issues = []
             for numero, pontos, cotada, aceita in self.HISTORIAS:
-                if indice < cotada:
+                if indice < cotada or (nome == "Sprint 5" and numero in tardias):
                     continue
                 historia = issue(f"US{numero}", numero, pontos, "Aceitação PO")
-                issues.append({**historia, "fechada": aceita, "fechada_em": "2026-11-11T01:39:20Z" if aceita else None})
-            # O ZenHub conta todos os pontos fechados na Sprint 5, em que o PO aceitou, e o total
+                fechada_em = "2026-11-16T03:07:00Z" if numero in tardias else "2026-11-11T01:39:20Z"
+                issues.append({**historia, "fechada": aceita or numero in tardias,
+                               "fechada_em": fechada_em if aceita or numero in tardias else None})
+            # O ZenHub conta os pontos fechados na lista da Sprint 5, em que o PO aceitou, e o total
             # planejado de cada sprint é o acumulado de tudo que já foi cotado.
-            aceitos = 61 if nome == "Sprint 5" else 0
+            aceitos = sum(p for n, p, _, ok in self.HISTORIAS if ok and n not in tardias) if nome == "Sprint 5" else 0
             planejados = sum(pontos for _, pontos, cotada, _ in self.HISTORIAS if cotada <= indice)
             resultado[nome] = sprint(planejados, aceitos, issues, inicio=inicio, fim=fim)
         return resultado
 
-    def release(self, modo):
-        with PastaDeDados(self.sprints()) as dados:
+    def release(self, modo, tardias=()):
+        with PastaDeDados(self.sprints(tardias)) as dados:
             with mock.patch.object(data_layer, "RAW_DATA_DIR", dados.caminho):
                 lista, _ = data_layer.get_zenhub_sprints_data()
         evm = metrics.compute_release_evm(lista, RELEASES, date(2026, 11, 16), modo)
@@ -218,6 +221,16 @@ class AceiteTardioPorReleaseTest(unittest.TestCase):
         self.assertEqual(releases["R1"]["rpc"], 21.0)
         self.assertEqual(releases["R2"]["rpc"], 32.0)
         self.assertEqual(releases["R3"]["rpc"], 8.0)
+
+    def test_historia_aceita_depois_de_sair_da_sprint_aberta_ainda_conta_na_release_de_origem(self):
+        # A #8 e a #46 foram aceitas em 16/11 e o ZenHub as tirou da Sprint 5: ele não conta esses 16 pontos.
+        lista, releases = self.release(MODO_ACEITAS, tardias=(8, 46))
+
+        # 53 pontos que o ZenHub contou na Sprint 5, mais os 16 da #8 e da #46 que ele deixou de contar.
+        self.assertEqual(sum(s["delivered_sp"] for s in lista), 69.0)
+        self.assertEqual(releases["R2"]["rpc"], 40.0)
+        self.assertEqual(releases["R2"]["apc"], 1.0)
+        self.assertEqual(releases["R2"]["rpc_aguardando"], 0.0)
 
     def test_o_planejado_de_cada_release_conta_so_as_historias_cotadas_nela(self):
         _, releases = self.release(MODO_ACEITAS)
