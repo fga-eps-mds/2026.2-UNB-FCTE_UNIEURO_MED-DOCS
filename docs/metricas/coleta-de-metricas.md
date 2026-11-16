@@ -233,9 +233,9 @@ Particularidades:
   a coleta mantém `state`, que basta para não contar a história duas vezes. Se recusar os
   dois, tenta a consulta sem eles e o painel volta a tratar a issue como aberta.
 - O aceite costuma sair depois do fim da sprint em que a equipe entregou a história. Com
-  `fechada` e `fechada_em`, o painel devolve os pontos dessa história à última sprint
-  encerrada em que ela aparece, em vez de contá-los na sprint em que ela fechou. A regra
-  está no `README` do dashboard.
+  `fechada` e `fechada_em`, o painel devolve os pontos dessa história à sprint em que ela
+  foi cotada, a primeira em que aparece com estimativa, em vez de contá-los na sprint em
+  que ela fechou. A regra está no `README` do dashboard.
 - Nesse caso, o arquivo opcional `analytics-raw-data/aceitacao_po_manual.json`, no
   formato `{"issues": [7, 8]}`, com os números das issues em Aceitação PO, é usado
   como alternativa.
@@ -264,3 +264,4 @@ do plano (Baixo 1–5, Médio 6–12, Elevado 15–25).
 | `1.4` | 25/10/2026 | Coleta da coluna de cada issue do Zenhub, por duas formas e com diagnóstico do esquema, para os pontos em Aceitação PO | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |
 | `1.5` | 25/10/2026 | Histórico de riscos por sprint e riscos concretizados (`riscos_historico.json`) | Nicollas Martins | |
 | `1.6` | 11/11/2026 | Estado e data de fechamento de cada issue, e atribuição do aceite tardio à sprint de origem | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |
+| `1.7` | 16/11/2026 | O aceite tardio passa a contar na sprint em que a história foi cotada | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |

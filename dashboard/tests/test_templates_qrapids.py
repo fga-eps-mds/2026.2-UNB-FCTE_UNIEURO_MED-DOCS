@@ -177,11 +177,11 @@ class AvisoModoEntreguesTest(unittest.TestCase):
         self.assertIn("**45 SP** de 5 história(s) em Aceitação PO", texto)
         self.assertIn("Já aceitos: 8 SP", texto)
 
-    def test_explica_que_a_historia_conta_na_ultima_sprint(self):
+    def test_explica_que_a_historia_conta_na_sprint_em_que_foi_cotada(self):
         texto = templates.aviso_modo_entregues("Aceitas + em Aceitação PO", 0.0, 45.0, 5)
 
-        self.assertIn("última sprint em que aparece", texto)
-        self.assertIn("velocity daquela sprint anterior fica mais baixa", texto)
+        self.assertIn("sprint em que foi cotada", texto)
+        self.assertIn("já inclui o que a equipe entregou nela", texto)
 
 
 if __name__ == "__main__":

@@ -24,7 +24,7 @@ Blackburn (2006), e o cálculo está em `dashboard/src/metrics.py`.
 | Medida | Origem e fórmula | Unidade | Limitação | Para o cliente |
 |---|---|---|---|---|
 | BAC | Orçamento da release, da seção 5 do [Plano de Custos](../processo/plano_de_custos.md) | R$ | Só muda com mudança formal do plano | "É o orçamento previsto para esta release." |
-| PRP | ZenHub: pontos das histórias das sprints que terminam na release, cada história contada uma vez | pontos de história | Só é confiável se todas as histórias estiverem estimadas; issue sem estimativa vale 0 | "É o tamanho do que prometemos entregar nesta release." |
+| PRP | ZenHub: pontos das histórias cotadas nas sprints que terminam na release (a primeira em que têm estimativa), cada uma contada uma vez, na release de cotação | pontos de história | Só é confiável se todas as histórias estiverem estimadas; issue sem estimativa vale 0 | "É o tamanho do que prometemos entregar nesta release." |
 | RPC | ZenHub: pontos entregues nessas sprints, conforme o modo | pontos de história | Depende do aceite do PO; no modo "aceitas", espera de aceite zera o valor | "É o tanto do que prometemos que já está pronto." |
 | PPC | Dias decorridos da release ÷ dias da release | 0 a 1 | Mede só calendário, não esforço | "É quanto do prazo já passou." |
 | APC | RPC ÷ PRP, limitado a 1 | 0 a 1 | Herda os limites do PRP e do RPC | "É quanto do escopo já está entregue." |
@@ -54,7 +54,7 @@ estimado, a linha dele repete a do PV.
 |---|---|---|---|---|
 | Pontos aceitos | ZenHub: `delivered_story_points`, as histórias fechadas | pontos de história | Só conta depois do aceite do PO | "São as histórias que o PO já validou." |
 | Em Aceitação PO | ZenHub: histórias abertas na coluna Aceitação PO, com estimativa, contadas uma vez | pontos de história | Retrato do momento da coleta; se o PO devolve a história, o número cai | "É o que já entregamos e aguarda a validação do PO." |
-| Aceite depois do fim da sprint | História fechada que esperou o PO volta para a última sprint encerrada em que aparece | pontos de história | Depende do estado e da data de fechamento da issue, que a coleta passou a gravar | "A espera pelo aceite não conta contra a sprint que fez a entrega." |
+| Aceite depois do fim da sprint | História fechada que esperou o PO volta para a sprint em que foi cotada (a primeira com estimativa) | pontos de história | Depende do estado e da data de fechamento da issue, que a coleta passou a gravar. Supõe que a equipe entregou a história na sprint em que a cotou, e o painel não separa a que ficou mais de uma sprint em andamento | "A espera pelo aceite não conta contra a sprint que fez a entrega." |
 | Velocity | Pontos entregues por sprint fechada; a média é a das sprints fechadas | pontos por sprint | Sprint com poucos pontos pode refletir histórias maiores ou trabalho sem pontos | "É quanto a equipe entrega, em média, a cada duas semanas." |
 | Burnup e burndown | Pontos acumulados da release contra o PRP e contra o ritmo ideal | pontos de história | Se o PRP muda, as curvas se ajustam | "Mostram o quanto falta e se o ritmo basta para terminar no prazo." |
 
@@ -151,3 +151,5 @@ A aba de Qualidade de Produto abre com as quatro características do Plano de Qu
 |:------:|------|-----------|-------|---------|
 | `1.0` | 11/11/2026 | Criação da página com origem, fórmula, unidade, limitação e frase para o cliente de cada medida | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |
 | `1.1` | 15/11/2026 | Inclusão das medidas de qualidade por característica e dos limites que ainda restam | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |
+| `1.2` | 16/11/2026 | O aceite tardio conta na sprint em que a história foi cotada, e não na última sprint encerrada em que aparece | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |
+| `1.3` | 16/11/2026 | O PRP de cada release passa a contar só as histórias cotadas nela, e não as que vieram de releases anteriores | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |

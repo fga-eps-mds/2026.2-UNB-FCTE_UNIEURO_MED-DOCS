@@ -61,14 +61,19 @@ class AbaEvmTest(unittest.TestCase):
 
 
 class AbaEvmAceiteTardioTest(unittest.TestCase):
-    """Painel com uma coleta em que o PO aceitou na Sprint 5 histórias entregues na Sprint 4."""
+    """Painel com uma coleta em que o PO aceitou na Sprint 5 histórias entregues nas Sprints 1 a 4."""
+
+    _pasta = None
+    _patches = []
 
     @classmethod
-    def setUpClass(cls):
+    def preparar(cls):
+        """Painel com as histórias 5, 6, 7, 9, 11, 21 e 23 aceitas em 11/11, depois do fim das sprints delas."""
         from src import config, data_layer, processo
-        cls.pasta = tempfile.mkdtemp()
-        shutil.copytree(config.RAW_DATA_DIR, cls.pasta, dirs_exist_ok=True)
-        caminho = os.path.join(cls.pasta, "zenhub_analytics.json")
+        AbaEvmAceiteTardioTest._pasta = tempfile.mkdtemp()
+        pasta = AbaEvmAceiteTardioTest._pasta
+        shutil.copytree(config.RAW_DATA_DIR, pasta, dirs_exist_ok=True)
+        caminho = os.path.join(pasta, "zenhub_analytics.json")
         with open(caminho, encoding="utf-8") as arquivo:
             dados = json.load(arquivo)
         for sprint in dados["sprints_velocity"].values():
@@ -78,17 +83,27 @@ class AbaEvmAceiteTardioTest(unittest.TestCase):
                 issue["fechada_em"] = "2026-11-11T01:39:20Z" if fechada else None
         with open(caminho, "w", encoding="utf-8") as arquivo:
             json.dump(dados, arquivo)
-        cls.patches = [mock.patch.object(m, "RAW_DATA_DIR", cls.pasta) for m in (data_layer, processo, config)]
-        for patch in cls.patches:
+        AbaEvmAceiteTardioTest._patches = [mock.patch.object(m, "RAW_DATA_DIR", pasta) for m in (data_layer, processo, config)]
+        for patch in AbaEvmAceiteTardioTest._patches:
             patch.start()
-        cls.app = AppTest.from_file(DASHBOARD, default_timeout=120)
-        cls.app.run()
+        app = AppTest.from_file(DASHBOARD, default_timeout=120)
+        app.run()
+        return app
+
+    @classmethod
+    def encerrar(cls):
+        for patch in AbaEvmAceiteTardioTest._patches:
+            patch.stop()
+        AbaEvmAceiteTardioTest._patches = []
+        shutil.rmtree(AbaEvmAceiteTardioTest._pasta, ignore_errors=True)
+
+    @classmethod
+    def setUpClass(cls):
+        cls.app = cls.preparar()
 
     @classmethod
     def tearDownClass(cls):
-        for patch in cls.patches:
-            patch.stop()
-        shutil.rmtree(cls.pasta, ignore_errors=True)
+        cls.encerrar()
 
     def test_a_aba_abre_sem_erro(self):
         self.assertEqual([e.value for e in self.app.exception], [])
@@ -98,21 +113,70 @@ class AbaEvmAceiteTardioTest(unittest.TestCase):
 
         self.assertNotIn("não trouxe se cada história está fechada", avisos)
 
-    def test_diz_que_a_sprint_4_teve_historias_aceitas_depois_do_fim(self):
+    def test_diz_em_que_sprint_cada_aceite_tardio_conta(self):
         legendas = [c.value for c in self.app.caption]
 
-        self.assertTrue(any(
-            c.startswith("Sprint 4: 53 SP de 7 história(s) foram aceitas pelo PO depois do fim da sprint")
-            for c in legendas
-        ))
+        for esperado in ("Sprint 1: 21 SP de 2", "Sprint 2: 11 SP de 2", "Sprint 3: 13 SP de 2", "Sprint 4: 8 SP de 1"):
+            self.assertTrue(
+                any(c.startswith(esperado) and "foram aceitas pelo PO depois do fim da sprint" in c for c in legendas),
+                esperado,
+            )
 
-    def test_a_velocity_separa_os_aceites_tardios_da_sprint_4(self):
+    def test_a_velocity_devolve_cada_aceite_tardio_a_sprint_em_que_a_historia_foi_cotada(self):
         especificacoes = [json.loads(g.proto.spec) for g in self.app.get("plotly_chart")]
         velocity = next(s for s in especificacoes
                         if "Velocity por Sprint" in s["layout"].get("title", {}).get("text", ""))
         tardios = next(b for b in velocity["data"] if b["name"].startswith("Aceitos pelo PO depois"))
+        por_sprint = dict(zip(tardios["x"], tardios["y"]))
 
-        self.assertEqual(max(tardios["y"]), 53.0)
+        self.assertEqual([por_sprint[f"Sprint {n}"] for n in (1, 2, 3, 4)], [21.0, 11.0, 13.0, 8.0])
+        self.assertEqual(sum(tardios["y"]), 53.0)
+
+
+class AbaEvmVelocityEmLinhasTest(unittest.TestCase):
+    """O histórico de velocity é um gráfico de linhas, uma por medida, e não barras empilhadas."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.app = AbaEvmAceiteTardioTest.preparar()
+
+    @classmethod
+    def tearDownClass(cls):
+        AbaEvmAceiteTardioTest.encerrar()
+
+    def velocity(self):
+        especificacoes = [json.loads(g.proto.spec) for g in self.app.get("plotly_chart")]
+        return next(s for s in especificacoes if "Velocity por Sprint" in s["layout"].get("title", {}).get("text", ""))
+
+    def test_todas_as_series_sao_linhas(self):
+        velocity = self.velocity()
+
+        self.assertTrue(velocity["data"])
+        self.assertEqual({t["type"] for t in velocity["data"]}, {"scatter"})
+        self.assertTrue(all("lines" in t["mode"] for t in velocity["data"]))
+        self.assertNotIn("barmode", velocity["layout"])
+
+    def test_a_linha_da_velocity_traz_os_pontos_de_cada_sprint_fechada(self):
+        velocity = self.velocity()
+        linha = next(t for t in velocity["data"] if t["name"].startswith("Velocity"))
+        por_sprint = dict(zip(linha["x"], linha["y"]))
+
+        self.assertEqual([por_sprint[f"Sprint {n}"] for n in (1, 2, 3, 4)], [21.0, 11.0, 13.0, 8.0])
+        self.assertIn("markers", linha["mode"])
+
+    def test_marca_a_media_das_sprints_fechadas_com_uma_linha_tracejada(self):
+        velocity = self.velocity()
+        media = next(t for t in velocity["data"] if t["name"].startswith("Média das sprints fechadas"))
+
+        self.assertEqual(media["line"]["dash"], "dash")
+        self.assertEqual(len(set(media["y"])), 1)
+        self.assertEqual(len(media["x"]), len(next(t for t in velocity["data"] if t["name"].startswith("Velocity"))["x"]))
+
+    def test_o_aceite_tardio_e_uma_linha_a_parte(self):
+        velocity = self.velocity()
+        tardios = next(t for t in velocity["data"] if t["name"].startswith("Aceitos pelo PO depois"))
+
+        self.assertEqual(sum(tardios["y"]), 53.0)
 
 
 class AbaEvmSemEstadoDaColetaTest(unittest.TestCase):

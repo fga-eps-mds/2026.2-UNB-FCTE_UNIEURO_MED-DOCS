@@ -50,19 +50,36 @@ def _ppc(release: Dict[str, Any], dia: date) -> float:
     return decorridos / duracao
 
 
-def pontos_distintos(sprints: List[Dict[str, Any]]) -> tuple:
-    """PRP de uma release contando cada história uma só vez: (pontos, aproximado).
+def pontos_distintos(sprints: List[Dict[str, Any]], anteriores: Optional[List[Dict[str, Any]]] = None) -> tuple:
+    """PRP de uma release: os pontos das histórias cotadas nela, cada uma uma só vez. (pontos, aproximado).
 
-    Uma história que não termina na sprint passa para a seguinte, e o Zenhub a
-    lista nas duas. Somar o `total_points` das sprints contaria seus pontos duas
-    vezes. Com o detalhe por issue, cada história entra uma vez, com a estimativa
-    da última sprint em que aparece (issue sem estimativa vale 0). Sem o detalhe,
-    ou com a lista incompleta, volta à soma dos `total_points` e marca como
-    aproximado. Com uma sprint só não há repetição possível, e o valor é exato.
+    Uma história que não termina na sprint passa para a seguinte, e o Zenhub a lista nas duas.
+    Somar o `total_points` das sprints contaria seus pontos duas vezes, e ainda levaria para a
+    release as histórias que vieram das anteriores. A história pertence à release em que foi
+    cotada, a primeira em que aparece com estimativa, a mesma regra que devolve o aceite tardio
+    à sprint de origem (`aceitacao.atribuir_aceites_tardios`). Por isso `anteriores`, as sprints
+    que vieram antes desta release, tira do PRP o que já foi cotado nelas.
+
+    Com o detalhe por issue, cada história entra uma vez, com a estimativa da última sprint da
+    release em que aparece (issue sem estimativa vale 0). Sem o detalhe, ou com a lista
+    incompleta, volta à soma dos `total_points` e marca como aproximado. Com uma sprint só e
+    nenhuma anterior não há repetição possível, e o valor é exato.
     """
     soma = sum(float(s.get("total_points", 0.0)) for s in sprints)
-    if len(sprints) <= 1:
+    anteriores = anteriores or []
+    if len(sprints) <= 1 and not anteriores:
         return soma, False
+
+    ja_cotadas = set()
+    for s in anteriores:
+        issues = s.get("issues")
+        if not isinstance(issues, list):
+            if float(s.get("total_points", 0.0)) > 0:
+                return soma, True
+            continue
+        if any(i.get("id") is None for i in issues):
+            return soma, True
+        ja_cotadas.update(i["id"] for i in issues if float(i.get("estimativa") or 0.0) > 0)
 
     por_id: Dict[Any, float] = {}
     for s in sprints:
@@ -73,7 +90,7 @@ def pontos_distintos(sprints: List[Dict[str, Any]]) -> tuple:
             return soma, True
         for i in issues:
             por_id[i["id"]] = float(i.get("estimativa") or 0.0)
-    return sum(por_id.values()), False
+    return sum(pontos for id_, pontos in por_id.items() if id_ not in ja_cotadas), False
 
 
 def classificar_indice(valor: Optional[float]) -> Optional[str]:
@@ -166,7 +183,8 @@ def compute_release_evm(
         bac = float(release["bac_brl"])
         orcamento_acumulado += bac
 
-        prp, prp_aproximado = pontos_distintos(lista)
+        antes = [x for x in sprints if lista and (x.get("end_at") or "") < (lista[0].get("end_at") or "")]
+        prp, prp_aproximado = pontos_distintos(lista, antes)
         entradas.append({
             "release": release, "inicio": inicio, "bac": bac, "prp": prp,
             # A sprint em andamento já conta nos cartões, então a curva a conta a partir de hoje.

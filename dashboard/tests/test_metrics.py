@@ -100,6 +100,57 @@ class PontosDistintosTest(unittest.TestCase):
         self.assertEqual(pontos_distintos([]), (0.0, False))
 
 
+class PontosDistintosComSprintsAnterioresTest(unittest.TestCase):
+    """A história conta no planejado da release em que foi cotada; as seguintes só a levam adiante."""
+
+    def anterior(self, *issues, total=21):
+        return sprint("Sprint 1", "2026-09-28T02:59:00Z", total=total, issues=list(issues))
+
+    def test_historia_cotada_em_sprint_anterior_nao_entra_no_planejado_da_release(self):
+        sprints = [
+            sprint("Sprint 2", "2026-10-12T02:59:00Z", issues=[issue("A", 13), issue("B", 8)]),
+            sprint("Sprint 3", "2026-10-26T02:59:00Z", issues=[issue("A", 13), issue("B", 8)]),
+        ]
+
+        pontos = pontos_distintos(sprints, anteriores=[self.anterior(issue("A", 13))])
+
+        self.assertEqual(pontos, (8, False))
+
+    def test_a_historia_sem_estimativa_na_anterior_ainda_nao_tinha_sido_cotada(self):
+        sprints = [sprint("Sprint 2", "2026-10-12T02:59:00Z", issues=[issue("A", 5), issue("B", 8)])]
+
+        pontos = pontos_distintos(sprints, anteriores=[self.anterior(issue("A", None))])
+
+        self.assertEqual(pontos, (13, False))
+
+    def test_release_de_uma_sprint_calcula_pelas_issues_e_nao_pelo_total_acumulado(self):
+        sprints = [sprint("Sprint 4", "2026-11-09T02:59:00Z", total=82, issues=[issue("A", 13), issue("C", 8)])]
+
+        pontos = pontos_distintos(sprints, anteriores=[self.anterior(issue("A", 13))])
+
+        self.assertEqual(pontos, (8, False))
+
+    def test_sem_sprints_anteriores_nada_muda(self):
+        sprints = [sprint("Sprint 1", "2026-09-28T02:59:00Z", total=21)]
+
+        self.assertEqual(pontos_distintos(sprints, anteriores=[]), (21, False))
+
+    def test_anterior_sem_estimativas_nao_obriga_o_detalhe(self):
+        vazia = sprint("Preparação 1", "2026-08-31T02:59:00Z", total=0)
+        sprints = [sprint("Sprint 1", "2026-09-28T02:59:00Z", issues=[issue("A", 13)])]
+
+        self.assertEqual(pontos_distintos(sprints, anteriores=[vazia]), (13, False))
+
+    def test_anterior_com_pontos_e_sem_detalhe_deixa_o_valor_aproximado(self):
+        sem_detalhe = sprint("Sprint 1", "2026-09-28T02:59:00Z", total=21)
+        sprints = [
+            sprint("Sprint 2", "2026-10-12T02:59:00Z", total=40, issues=[issue("A", 13)]),
+            sprint("Sprint 3", "2026-10-26T02:59:00Z", total=74, issues=[issue("A", 13)]),
+        ]
+
+        self.assertEqual(pontos_distintos(sprints, anteriores=[sem_detalhe]), (114, True))
+
+
 class ReleaseEvmTest(unittest.TestCase):
     def test_prp_da_release_nao_dobra_as_historias_que_atravessam_sprints(self):
         sprints = [
