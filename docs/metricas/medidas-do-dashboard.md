@@ -107,9 +107,26 @@ cada resultado estão em [Qualidade do produto](qualidade-do-produto.md).
 
 **Fonte:** [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc), 2026
 
+## Qualidade por característica (SonarCloud)
+
+A aba de Qualidade de Produto abre com as quatro características do Plano de Qualidade, na release escolhida, e as medidas do SonarCloud ficam num bloco de detalhe.
+
+**Tabela 5:** Medidas de qualidade por característica
+
+| Medida | Origem e fórmula | Unidade | Limitação | Para o cliente |
+|---|---|---|---|---|
+| Segurança | Nota de segurança do SonarCloud (A a E), pelas vulnerabilidades abertas, no último ponto do histórico até o fim da release | nota | Hotspots revisados e as evidências E4 a E6 do plano ainda não são coletados | "Diz se o código tem brechas de segurança conhecidas." |
+| Confiabilidade | Nota de confiabilidade do SonarCloud, pela gravidade do pior bug aberto | nota | A nota reflete o pior problema, não uma média | "Diz se o código tem erros prováveis." |
+| Manutenibilidade | Nota SQALE do SonarCloud, pela razão entre o débito técnico e o tamanho do código | nota | Débito técnico é estimativa da ferramenta | "Diz se o código é fácil de evoluir." |
+| Testabilidade | Cobertura global de testes do SonarCloud, com o total de testes ao lado | % | O SonarCloud não separa os testes por nível (unitário, integração e funcional) e cobertura não garante que o comportamento esteja certo | "Diz quanto do código os testes automáticos exercitam." |
+| Faixa | Nota A é Adequado, B é Atenção e C a E é Crítico; cobertura de 90% ou mais é Adequado, de 80% a 89,9% é Atenção e abaixo de 80% é Crítico | faixa | Os limites vêm do Plano de Qualidade e aguardam a validação do professor | "Diz se a característica está dentro da meta." |
+| Sentido da mudança | Compara o valor da release com o da anterior: melhorou, piorou ou manteve (variação menor que 0,5 nota ou ponto de cobertura é ruído) | texto | Sem valor numa das releases, aparece "sem comparação", e na primeira, "primeira medição" | "Diz se a qualidade subiu ou caiu desde a release passada." |
+
+**Fonte:** [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc), 2026
+
 ## Gestão de riscos
 
-**Tabela 5:** Medidas de risco
+**Tabela 6:** Medidas de risco
 
 | Medida | Origem e fórmula | Unidade | Limitação | Para o cliente |
 |---|---|---|---|---|
@@ -120,9 +137,11 @@ cada resultado estão em [Qualidade do produto](qualidade-do-produto.md).
 
 ## O que o dashboard ainda não mede
 
-- **Segurança como característica.** O SonarCloud mede segurança, mas o Q-Rapids do dashboard só
-  calcula manutenibilidade e confiabilidade. A nota de segurança do SonarCloud aparece na aba de
-  qualidade, e a característica ainda depende da coleta no repositório MED-IA.
+- **Segurança por inteiro.** A característica já aparece pela nota do SonarCloud, mas os hotspots
+  revisados e as evidências E4 a E6 do plano ainda não são coletados. O Q-Rapids continua só com
+  manutenibilidade e confiabilidade.
+- **Testabilidade por nível.** O SonarCloud informa a cobertura e o total de testes, sem separar
+  unitário, integração e funcional.
 - **Throughput e lead time.** Dependem das datas de movimentação das issues entre colunas do ZenHub.
 - **Custo real.** Enquanto não houver custo real apurado, o AC é estimado e o CPI repete o SPI.
 
@@ -131,3 +150,4 @@ cada resultado estão em [Qualidade do produto](qualidade-do-produto.md).
 | Versão | Data | Descrição | Autor | Revisor |
 |:------:|------|-----------|-------|---------|
 | `1.0` | 11/11/2026 | Criação da página com origem, fórmula, unidade, limitação e frase para o cliente de cada medida | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |
+| `1.1` | 15/11/2026 | Inclusão das medidas de qualidade por característica e dos limites que ainda restam | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |
