@@ -28,6 +28,7 @@ from src.data_layer import (
     get_risks_data,
     get_risks_history,
     get_github_runs_data,
+    get_caracteristicas_data,
     get_sonar_metrics_data,
     get_qrapids_data,
     get_latest_collection_timestamp
@@ -46,6 +47,7 @@ from src.templates import (
     aviso_estado_nao_coletado,
     aviso_modo_entregues,
     arquivos_fora_do_limiar,
+    cartao_caracteristica,
     cor_da_faixa,
     dados_dos_indices,
     dados_escopo_e_tempo,
@@ -54,7 +56,9 @@ from src.templates import (
     marcos_sem_medida,
     rotulo_do_marco,
     serie_do_indice,
+    tabela_caracteristicas,
     tabela_comparativo,
+    tabela_detalhe,
     tabela_lado_a_lado,
     tabela_de_custo_por_release,
     tabela_processo,
@@ -898,7 +902,56 @@ def render_risks_tab(risks_raw: list, is_mock: bool, historico: dict = None):
     st.dataframe(tabela_historico_riscos(revisoes), use_container_width=True, hide_index=True)
 
 
-def render_quality_tab(sonar_data: dict, is_mock: bool):
+def _render_caracteristicas(caracteristicas_por_repo: dict, repo_key: str):
+    """
+    Qualidade por característica (ISO/IEC 25010) na release escolhida: segurança, confiabilidade,
+    manutenibilidade e testabilidade, com a faixa e o sentido da mudança em relação à release
+    anterior. Devolve a release escolhida, ou None se o repositório não tem histórico.
+    """
+    st.markdown("#### Qualidade por característica (ISO/IEC 25010)")
+    st.caption(
+        "Cada característica tem a faixa do Plano de Qualidade (Adequado, Atenção ou Crítico) e diz se "
+        "melhorou ou piorou em relação à release anterior. Característica sem dado aparece como n/m "
+        "(não medida), nunca como zero."
+    )
+    releases = caracteristicas_por_repo.get(repo_key) or []
+    if not releases:
+        st.info(
+            "O histórico do SonarCloud deste repositório ainda não foi coletado em "
+            "`analytics-raw-data/`. As características aparecem quando houver coleta."
+        )
+        return None
+
+    nomes = [r["nome"] for r in releases]
+    escolhida = st.radio(
+        "Release:", options=nomes, index=len(nomes) - 1, horizontal=True, key="quality_release_selector",
+        help="Cada release mostra o último dado do SonarCloud até o fim dela. A release em andamento "
+             "mostra o dado mais recente."
+    )
+    release = releases[nomes.index(escolhida)]
+    if release["em_andamento"]:
+        st.caption(f"{release['nome']} está em andamento: vale o dado mais recente do SonarCloud.")
+
+    for coluna, item in zip(st.columns(4), release["caracteristicas"]):
+        cartao = cartao_caracteristica(item)
+        with coluna:
+            render_kpi(cartao["rotulo"], cartao["valor"], cartao["subtexto"], cartao["cor"],
+                       help_text=item["observacao"])
+
+    st.markdown("##### Evolução por release")
+    st.dataframe(pd.DataFrame(tabela_caracteristicas(releases)), use_container_width=True, hide_index=True)
+    with st.expander("Como ler e o que ainda não é medido"):
+        st.markdown(
+            "- **Segurança, confiabilidade e manutenibilidade** usam a nota do SonarCloud: **A** é "
+            "Adequado, **B** é Atenção e **C** a **E** é Crítico. A meta do plano é a nota A.\n"
+            "- **Testabilidade** usa a cobertura: **90% ou mais** é Adequado, de **80% a 89,9%** é "
+            "Atenção e **abaixo de 80%** é Crítico.\n"
+            + "\n".join(f"- **{item['nome']}:** {item['observacao']}" for item in release["caracteristicas"])
+        )
+    return release
+
+
+def render_quality_tab(sonar_data: dict, is_mock: bool, caracteristicas_data: dict = None):
     """Renderiza a aba de Qualidade de Produto (SonarCloud), uma seção por repositório."""
     if is_mock:
         render_mock_alert("Qualidade de Produto", "Sonar_API-Measures-*.json")
@@ -918,6 +971,25 @@ def render_quality_tab(sonar_data: dict, is_mock: bool):
         key="quality_repo_selector"
     )
     metrics = sonar_data[repo_key]
+
+    release_escolhida = _render_caracteristicas(caracteristicas_data or {}, repo_key)
+
+    st.markdown("#### Detalhe das medidas do SonarCloud")
+    st.caption(
+        "As medidas abaixo são o detalhe por trás das características. Ficam recolhidas para a "
+        "qualidade ser lida por característica, e não por cobertura, duplicação ou linhas de código."
+    )
+    if not st.toggle("Mostrar o detalhe das medidas", key="quality_detalhe_toggle"):
+        return
+
+    if release_escolhida is not None:
+        st.markdown(f"##### Medidas na {release_escolhida['nome']}")
+        linhas_detalhe = tabela_detalhe(release_escolhida)
+        if linhas_detalhe:
+            st.dataframe(pd.DataFrame(linhas_detalhe), use_container_width=True, hide_index=True)
+        else:
+            st.info("Nenhuma medida do SonarCloud até o fim desta release.")
+    st.markdown("##### Última coleta")
 
     q1, q2, q3, q4 = st.columns(4)
     with q1:
@@ -1570,6 +1642,7 @@ def main():
     risks_data, is_risks_mock = get_risks_data()
     risks_history = get_risks_history()
     sonar_data, is_sonar_mock = get_sonar_metrics_data()
+    caracteristicas_data = get_caracteristicas_data()
     qrapids_data = get_qrapids_data(modo=modo)
 
     # Alerta global discreto caso algum dos eixos utilize dados mockados.
@@ -1614,7 +1687,7 @@ def main():
         render_process_tab()
 
     with tab_qualidade:
-        render_quality_tab(sonar_data, is_sonar_mock)
+        render_quality_tab(sonar_data, is_sonar_mock, caracteristicas_data)
 
     with tab_qrapids:
         render_qrapids_tab(qrapids_data, modo)

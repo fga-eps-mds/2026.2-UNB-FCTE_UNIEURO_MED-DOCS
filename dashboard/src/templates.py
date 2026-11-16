@@ -8,7 +8,7 @@ from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
-from . import qualidade
+from . import caracteristicas, qualidade
 from .config import THEME_COLORS
 from .metrics import classificar_indice
 from .processo import INDICADORES
@@ -291,3 +291,110 @@ def dados_escopo_e_tempo(comparacao: List[Dict[str, Any]]) -> Dict[str, Any]:
         "aceitas": [round((r["aceitas"]["apc"] or 0.0) * 100, 1) for r in com_escopo],
         "entregues": [round((r["entregues"]["apc"] or 0.0) * 100, 1) for r in com_escopo],
     }
+
+
+# ---------------------------------------------------------------------------
+# Qualidade por característica (ISO/IEC 25010), por release
+# ---------------------------------------------------------------------------
+
+_COR_DA_FAIXA_CARACTERISTICA = {
+    caracteristicas.ADEQUADO: THEME_COLORS["secondary"],
+    caracteristicas.ATENCAO: THEME_COLORS["warning"],
+    caracteristicas.CRITICO: THEME_COLORS["danger"],
+}
+
+# Rótulo, unidade e forma de escrever cada medida do SonarCloud no bloco de detalhe.
+_DETALHE = {
+    "security_rating": ("Nota de segurança", "nota"),
+    "reliability_rating": ("Nota de confiabilidade", "nota"),
+    "sqale_rating": ("Nota de manutenibilidade", "nota"),
+    "vulnerabilities": ("Vulnerabilidades", "inteiro"),
+    "security_hotspots": ("Security hotspots", "inteiro"),
+    "bugs": ("Bugs", "inteiro"),
+    "code_smells": ("Code smells", "inteiro"),
+    "sqale_index": ("Débito técnico", "minutos"),
+    "duplicated_lines_density": ("Duplicação", "percentual"),
+    "coverage": ("Cobertura", "percentual"),
+    "tests": ("Testes", "inteiro"),
+    "test_failures": ("Testes com falha", "inteiro"),
+    "test_errors": ("Testes com erro", "inteiro"),
+    "ncloc": ("Linhas de código", "inteiro"),
+    "files": ("Arquivos", "inteiro"),
+    "functions": ("Funções", "inteiro"),
+    "complexity": ("Complexidade", "inteiro"),
+    "comment_lines_density": ("Comentários", "percentual"),
+    "test_execution_time": ("Tempo de execução dos testes", "milissegundos"),
+}
+
+
+def _pct_ptbr(valor: float) -> str:
+    return f"{valor:.1f}".replace(".", ",") + "%"
+
+
+def _int_ptbr(valor: float) -> str:
+    return f"{int(round(valor)):,}".replace(",", ".")
+
+
+def _valor_da_caracteristica(item: Dict[str, Any]) -> str:
+    if item["valor"] is None:
+        return NAO_MEDIDO
+    return item["nota"] or _pct_ptbr(item["valor"])
+
+
+def cartao_caracteristica(item: Dict[str, Any]) -> Dict[str, str]:
+    """Texto e cor do cartão de uma característica; sem dado, n/m em cor neutra, nunca zero."""
+    if item["faixa"] == caracteristicas.NAO_MEDIDA:
+        return {"rotulo": item["nome"], "valor": NAO_MEDIDO, "subtexto": caracteristicas.NAO_MEDIDA,
+                "cor": THEME_COLORS["accent"]}
+    sentido = item["sentido"]
+    if sentido in (caracteristicas.MELHOROU, caracteristicas.PIOROU, caracteristicas.MANTEVE):
+        complemento = f"{sentido} em relação à release anterior"
+    elif sentido == caracteristicas.PRIMEIRA:
+        complemento = caracteristicas.PRIMEIRA
+    else:
+        complemento = "Sem comparação com a release anterior"
+    return {
+        "rotulo": item["nome"],
+        "valor": _valor_da_caracteristica(item),
+        "subtexto": f"{item['faixa']} · {complemento}",
+        "cor": _COR_DA_FAIXA_CARACTERISTICA[item["faixa"]],
+    }
+
+
+def tabela_caracteristicas(releases: List[Dict[str, Any]]) -> List[Dict[str, str]]:
+    """Uma linha por característica e uma coluna por release, com o valor e a faixa de cada uma."""
+    if not releases:
+        return []
+    linhas = []
+    for indice, base in enumerate(releases[0]["caracteristicas"]):
+        linha = {"Característica": base["nome"]}
+        for release in releases:
+            item = release["caracteristicas"][indice]
+            linha[release["nome"]] = (NAO_MEDIDO if item["valor"] is None
+                                      else f"{_valor_da_caracteristica(item)} · {item['faixa']}")
+        linhas.append(linha)
+    return linhas
+
+
+def _formatar_detalhe(tipo: str, valor: float) -> str:
+    if tipo == "nota":
+        return caracteristicas.letra(valor) or NAO_MEDIDO
+    if tipo == "percentual":
+        return _pct_ptbr(valor)
+    if tipo == "minutos":
+        return f"{_int_ptbr(valor)} min"
+    if tipo == "milissegundos":
+        return f"{valor / 1000:.1f}".replace(".", ",") + " s"
+    return _int_ptbr(valor)
+
+
+def tabela_detalhe(release: Dict[str, Any]) -> List[Dict[str, str]]:
+    """Medidas do SonarCloud na data da release, para o bloco de detalhe. Só entra o que tem valor."""
+    linhas = []
+    # Primeiro as medidas conhecidas, na ordem da tabela; depois as que o painel ainda não nomeia.
+    ordem = [m for m in _DETALHE if m in release["detalhe"]] + sorted(m for m in release["detalhe"] if m not in _DETALHE)
+    for metrica in ordem:
+        valor = release["detalhe"][metrica]
+        rotulo, tipo = _DETALHE.get(metrica, (metrica, "inteiro"))
+        linhas.append({"Medida": rotulo, "Valor": _formatar_detalhe(tipo, valor)})
+    return linhas
