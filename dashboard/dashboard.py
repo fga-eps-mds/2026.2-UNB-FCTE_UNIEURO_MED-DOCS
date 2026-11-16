@@ -233,7 +233,7 @@ def _render_historias_em_aceitacao(r: dict):
         st.dataframe(tabela, use_container_width=True, hide_index=True)
         origem = "coluna do ZenHub" if r["aceitacao_fonte"] == "zenhub" else "lista manual (`aceitacao_po_manual.json`)"
         st.caption(
-            f"Fonte: {origem}. Cada história conta uma vez, na última sprint em que aparece. "
+            f"Fonte: {origem}. Cada história conta uma vez, na sprint em que foi cotada. "
             "História sem estimativa vale 0 ponto."
         )
 
@@ -259,8 +259,9 @@ def _render_aceites_tardios(sprints: list):
         ])
         st.dataframe(tabela, use_container_width=True, hide_index=True)
         st.caption(
-            "Regra: a história fechada que esperou o PO volta para a última sprint encerrada em que "
-            "aparece. O ZenHub a contaria na sprint em que ela fechou. Os totais da release não mudam."
+            "Regra: a história fechada que esperou o PO volta para a sprint em que foi cotada, a "
+            "primeira em que aparece com estimativa. O ZenHub a contaria na sprint em que ela fechou. "
+            "Os totais do projeto não mudam."
         )
 
 

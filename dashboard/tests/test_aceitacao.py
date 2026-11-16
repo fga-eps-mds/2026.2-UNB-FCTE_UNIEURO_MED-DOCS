@@ -53,7 +53,7 @@ class MarcarAguardandoTest(unittest.TestCase):
 
         self.assertEqual(sprints[0]["aguardando_pontos"], 7.0)
 
-    def test_historia_que_passa_de_sprint_conta_uma_vez_na_ultima_sprint(self):
+    def test_historia_que_passa_de_sprint_conta_uma_vez_na_sprint_em_que_foi_cotada(self):
         sprints = [
             sprint("Sprint 2", issue("A", 7, 5, "Aceitação PO"), issue("B", 8, 8, "Aceitação PO")),
             sprint("Sprint 3", issue("A", 7, 5, "Aceitação PO")),
@@ -61,17 +61,26 @@ class MarcarAguardandoTest(unittest.TestCase):
 
         aceitacao.marcar_aguardando(sprints)
 
-        self.assertEqual(sprints[0]["aguardando_pontos"], 8.0)
-        self.assertEqual(sprints[1]["aguardando_pontos"], 5.0)
-        self.assertEqual(sum(s["aguardando_pontos"] for s in sprints), 13.0)
+        self.assertEqual(sprints[0]["aguardando_pontos"], 13.0)
+        self.assertEqual(sprints[1]["aguardando_pontos"], 0.0)
+        self.assertEqual(sprints[1]["aguardando_issues"], [])
 
-    def test_usa_a_estimativa_da_ultima_sprint(self):
+    def test_usa_a_estimativa_mais_recente_na_sprint_em_que_foi_cotada(self):
         sprints = [sprint("Sprint 2", issue("A", 7, 3, "Aceitação PO")),
                    sprint("Sprint 3", issue("A", 7, 8, "Aceitação PO"))]
 
         aceitacao.marcar_aguardando(sprints)
 
-        self.assertEqual(sum(s["aguardando_pontos"] for s in sprints), 8.0)
+        self.assertEqual([s["aguardando_pontos"] for s in sprints], [8.0, 0.0])
+
+    def test_a_sprint_de_origem_e_a_primeira_em_que_a_historia_tem_estimativa(self):
+        sprints = [sprint("Sprint 1", issue("A", 7, None, "Aceitação PO")),
+                   sprint("Sprint 2", issue("A", 7, 5, "Aceitação PO")),
+                   sprint("Sprint 3", issue("A", 7, 5, "Aceitação PO"))]
+
+        aceitacao.marcar_aguardando(sprints)
+
+        self.assertEqual([s["aguardando_pontos"] for s in sprints], [0.0, 5.0, 0.0])
 
     def test_item_sem_estimativa_nao_conta_como_historia(self):
         sprints = [sprint("Sprint 3", issue("A", 7, None, "Aceitação PO"), issue("B", 8, 0, "Aceitação PO"),
@@ -290,7 +299,7 @@ class AtribuirAceitesTardiosTest(unittest.TestCase):
         self.assertEqual(sprints[0]["delivered_sp"], 0.0)
         self.assertEqual(sprints[1]["delivered_sp"], 13.0)
 
-    def test_vai_para_a_ultima_sprint_encerrada_em_que_a_historia_aparece(self):
+    def test_vai_para_a_sprint_em_que_a_historia_foi_cotada_mesmo_que_tenha_passado_por_outras(self):
         s1 = sprint_datada("Sprint 1", "2026-09-14T03:59:00Z", "2026-09-28T02:59:00Z", 0.0,
                            fechada("A", 5, 13, FECHOU_NA_S5))
         sprints = [s1] + self.cenario(fechada("A", 5, 13, FECHOU_NA_S5))
@@ -298,7 +307,34 @@ class AtribuirAceitesTardiosTest(unittest.TestCase):
 
         aceitacao.atribuir_aceites_tardios(sprints)
 
-        self.assertEqual([s["delivered_sp"] for s in sprints], [0.0, 13.0, 0.0])
+        self.assertEqual([s["delivered_sp"] for s in sprints], [13.0, 0.0, 0.0])
+        self.assertEqual([i["numero"] for i in sprints[0]["aceitos_depois_issues"]], [5])
+        self.assertEqual(sprints[1]["aceitos_depois_issues"], [])
+
+    def test_a_sprint_de_origem_e_a_primeira_com_estimativa(self):
+        s1 = sprint_datada("Sprint 1", "2026-09-14T03:59:00Z", "2026-09-28T02:59:00Z", 0.0,
+                           fechada("A", 5, None, FECHOU_NA_S5))
+        s4, s5 = self.cenario(fechada("A", 5, 13, FECHOU_NA_S5))
+        s5["delivered_sp"] = 13.0
+
+        aceitacao.atribuir_aceites_tardios([s1, s4, s5])
+
+        self.assertEqual([s["delivered_sp"] for s in (s1, s4, s5)], [0.0, 13.0, 0.0])
+
+    def test_cada_historia_volta_para_a_sua_propria_sprint_e_o_total_se_mantem(self):
+        s1 = sprint_datada("Sprint 1", "2026-09-14T03:59:00Z", "2026-09-28T02:59:00Z", 0.0,
+                           fechada("A", 5, 13, FECHOU_NA_S5), fechada("B", 6, 8, FECHOU_NA_S5))
+        s2 = sprint_datada("Sprint 2", "2026-09-28T03:59:00Z", "2026-10-12T02:59:00Z", 0.0,
+                           fechada("A", 5, 13, FECHOU_NA_S5), fechada("B", 6, 8, FECHOU_NA_S5),
+                           fechada("C", 7, 8, FECHOU_NA_S5))
+        s5 = sprint_datada("Sprint 5", *S5, 29.0,
+                           fechada("A", 5, 13, FECHOU_NA_S5), fechada("B", 6, 8, FECHOU_NA_S5),
+                           fechada("C", 7, 8, FECHOU_NA_S5))
+
+        aceitacao.atribuir_aceites_tardios([s1, s2, s5])
+
+        self.assertEqual([s["delivered_sp"] for s in (s1, s2, s5)], [21.0, 8.0, 0.0])
+        self.assertEqual([s["aceitos_depois_pontos"] for s in (s1, s2, s5)], [21.0, 8.0, 0.0])
 
     def test_sem_estado_e_data_de_fechamento_nada_se_move(self):
         aberta = {"id": "A", "numero": 5, "estimativa": 13, "coluna": ACEITE}

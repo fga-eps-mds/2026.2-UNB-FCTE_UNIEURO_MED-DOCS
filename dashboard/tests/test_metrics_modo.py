@@ -119,7 +119,8 @@ class SerieEListaPorModoTest(unittest.TestCase):
         serie = release(duas_sprints(), MODO_ENTREGUES)["serie"]
 
         self.assertEqual([p["aceito_acum"] for p in serie], [8.0, 8.0])
-        self.assertEqual([p["entregue_acum"] for p in serie], [8.0, 26.0])
+        # A #2 (13 SP) foi cotada na Sprint 2 e conta nela, ainda que o aceite não tenha saído.
+        self.assertEqual([p["entregue_acum"] for p in serie], [21.0, 26.0])
 
     def test_no_modo_aceitas_a_serie_entregue_acompanha_os_aceitos(self):
         serie = release(duas_sprints(), MODO_ACEITAS)["serie"]

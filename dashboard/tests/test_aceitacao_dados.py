@@ -146,7 +146,7 @@ class AceiteTardioNosDadosTest(unittest.TestCase):
                 lista, _ = data_layer.get_zenhub_sprints_data()
 
         self.assertEqual([s["delivered_sp"] for s in lista], [13.0, 0.0])
-        self.assertEqual([s["aguardando_pontos"] for s in lista], [0.0, 8.0])
+        self.assertEqual([s["aguardando_pontos"] for s in lista], [8.0, 0.0])
         self.assertEqual([i["numero"] for i in lista[0]["aceitos_depois_issues"]], [5])
 
     def test_o_processo_atribui_o_aceite_a_sprint_de_origem(self):
@@ -154,7 +154,7 @@ class AceiteTardioNosDadosTest(unittest.TestCase):
             lista = processo.sprints(dados.caminho, MODO_ENTREGUES)
 
         self.assertEqual([s["aceitos"] for s in lista], [13.0, 0.0])
-        self.assertEqual([s["entregues"] for s in lista], [13.0, 8.0])
+        self.assertEqual([s["entregues"] for s in lista], [21.0, 0.0])
         self.assertEqual(lista[0]["aceitos_depois_pontos"], 13.0)
 
     def test_a_release_soma_o_mesmo_total_que_antes_da_atribuicao(self):
@@ -162,6 +162,68 @@ class AceiteTardioNosDadosTest(unittest.TestCase):
             lista = processo.sprints(dados.caminho, MODO_ACEITAS)
 
         self.assertEqual(sum(s["aceitos"] for s in lista), 13.0)
+
+
+class AceiteTardioPorReleaseTest(unittest.TestCase):
+    """O caso real do projeto: o PO aceitou na Sprint 5 histórias que a equipe entregou em sprints anteriores."""
+
+    DATAS = {
+        "Sprint 1": ("2026-09-14T03:59:00Z", "2026-09-28T02:59:00Z"),
+        "Sprint 2": ("2026-09-28T03:59:00Z", "2026-10-12T02:59:00Z"),
+        "Sprint 3": ("2026-10-12T03:59:00Z", "2026-10-26T02:59:00Z"),
+        "Sprint 4": ("2026-10-26T03:59:00Z", "2026-11-09T02:59:00Z"),
+        "Sprint 5": ("2026-11-09T03:59:00Z", "2026-11-23T02:59:00Z"),
+    }
+    # (número, pontos, sprint em que foi cotada, aceita?)
+    HISTORIAS = [
+        (5, 13, 1, True), (6, 8, 1, True),
+        (7, 8, 2, True), (21, 3, 2, True), (46, 8, 2, False),
+        (8, 8, 3, True), (9, 8, 3, True), (11, 5, 3, True),
+        (23, 8, 4, True),
+    ]
+
+    def sprints(self):
+        resultado = {}
+        for indice, (nome, (inicio, fim)) in enumerate(self.DATAS.items(), start=1):
+            issues = []
+            for numero, pontos, cotada, aceita in self.HISTORIAS:
+                if indice < cotada:
+                    continue
+                historia = issue(f"US{numero}", numero, pontos, "Aceitação PO")
+                issues.append({**historia, "fechada": aceita, "fechada_em": "2026-11-11T01:39:20Z" if aceita else None})
+            # O ZenHub conta todos os pontos fechados na Sprint 5, em que o PO aceitou.
+            aceitos = 61 if nome == "Sprint 5" else 0
+            resultado[nome] = sprint(0, aceitos, issues, inicio=inicio, fim=fim)
+        return resultado
+
+    def release(self, modo):
+        with PastaDeDados(self.sprints()) as dados:
+            with mock.patch.object(data_layer, "RAW_DATA_DIR", dados.caminho):
+                lista, _ = data_layer.get_zenhub_sprints_data()
+        evm = metrics.compute_release_evm(lista, RELEASES, date(2026, 11, 16), modo)
+        return lista, {r["id"]: r for r in evm["releases"]}
+
+    def test_cada_sprint_ganha_os_pontos_que_cotou(self):
+        lista, _ = self.release(MODO_ACEITAS)
+
+        pontos = {s["name"]: s["delivered_sp"] for s in lista}
+        self.assertEqual([pontos[f"Sprint {n}"] for n in range(1, 6)], [21.0, 11.0, 21.0, 8.0, 0.0])
+        self.assertEqual(sum(pontos.values()), 61.0)
+
+    def test_cada_release_fica_com_os_pontos_das_historias_que_entregou(self):
+        _, releases = self.release(MODO_ACEITAS)
+
+        self.assertEqual(releases["R1"]["rpc"], 21.0)
+        self.assertEqual(releases["R2"]["rpc"], 32.0)
+        self.assertEqual(releases["R3"]["rpc"], 8.0)
+
+    def test_a_historia_que_ainda_espera_o_aceite_conta_na_release_em_que_foi_cotada(self):
+        _, releases = self.release(MODO_ENTREGUES)
+
+        self.assertEqual(releases["R2"]["rpc_aguardando"], 8.0)
+        self.assertEqual(releases["R2"]["rpc"], 40.0)
+        self.assertEqual(releases["R3"]["rpc_aguardando"], 0.0)
+        self.assertEqual({i["numero"] for i in releases["R2"]["em_aceitacao"]}, {46})
 
 
 class SprintsDoDashboardTest(unittest.TestCase):
@@ -214,8 +276,10 @@ class SprintsDoDashboardTest(unittest.TestCase):
             lista, mock_ = self.carregar(dados)
 
         self.assertFalse(mock_)
-        self.assertEqual([s["aguardando_pontos"] for s in lista], [0.0, 21.0])
-        self.assertEqual([i["numero"] for i in lista[1]["aguardando_issues"]], [5, 7])
+        # A #5 passa pelas duas sprints e conta na Sprint 2, em que foi cotada; a #7 foi cotada na Sprint 3.
+        self.assertEqual([s["aguardando_pontos"] for s in lista], [13.0, 8.0])
+        self.assertEqual([i["numero"] for i in lista[0]["aguardando_issues"]], [5])
+        self.assertEqual([i["numero"] for i in lista[1]["aguardando_issues"]], [7])
         self.assertEqual({s["aceitacao_fonte"] for s in lista}, {"zenhub"})
 
     def test_os_pontos_aceitos_continuam_separados(self):

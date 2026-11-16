@@ -61,7 +61,7 @@ class AbaEvmTest(unittest.TestCase):
 
 
 class AbaEvmAceiteTardioTest(unittest.TestCase):
-    """Painel com uma coleta em que o PO aceitou na Sprint 5 histórias entregues na Sprint 4."""
+    """Painel com uma coleta em que o PO aceitou na Sprint 5 histórias entregues nas Sprints 1 a 4."""
 
     @classmethod
     def setUpClass(cls):
@@ -98,21 +98,24 @@ class AbaEvmAceiteTardioTest(unittest.TestCase):
 
         self.assertNotIn("não trouxe se cada história está fechada", avisos)
 
-    def test_diz_que_a_sprint_4_teve_historias_aceitas_depois_do_fim(self):
+    def test_diz_em_que_sprint_cada_aceite_tardio_conta(self):
         legendas = [c.value for c in self.app.caption]
 
-        self.assertTrue(any(
-            c.startswith("Sprint 4: 53 SP de 7 história(s) foram aceitas pelo PO depois do fim da sprint")
-            for c in legendas
-        ))
+        for esperado in ("Sprint 1: 21 SP de 2", "Sprint 2: 11 SP de 2", "Sprint 3: 13 SP de 2", "Sprint 4: 8 SP de 1"):
+            self.assertTrue(
+                any(c.startswith(esperado) and "foram aceitas pelo PO depois do fim da sprint" in c for c in legendas),
+                esperado,
+            )
 
-    def test_a_velocity_separa_os_aceites_tardios_da_sprint_4(self):
+    def test_a_velocity_devolve_cada_aceite_tardio_a_sprint_em_que_a_historia_foi_cotada(self):
         especificacoes = [json.loads(g.proto.spec) for g in self.app.get("plotly_chart")]
         velocity = next(s for s in especificacoes
                         if "Velocity por Sprint" in s["layout"].get("title", {}).get("text", ""))
         tardios = next(b for b in velocity["data"] if b["name"].startswith("Aceitos pelo PO depois"))
+        por_sprint = dict(zip(tardios["x"], tardios["y"]))
 
-        self.assertEqual(max(tardios["y"]), 53.0)
+        self.assertEqual([por_sprint[f"Sprint {n}"] for n in (1, 2, 3, 4)], [21.0, 11.0, 13.0, 8.0])
+        self.assertEqual(sum(tardios["y"]), 53.0)
 
 
 class AbaEvmSemEstadoDaColetaTest(unittest.TestCase):

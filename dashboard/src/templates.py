@@ -173,8 +173,8 @@ def aviso_modo_entregues(rotulo: str, aceitos: float, aguardando: float, histori
         f"**Modo: {rotulo}.** Os pontos entregues desta release incluem "
         f"**{aguardando:.0f} SP** de {historias} história(s) em Aceitação PO, com o código "
         f"entregue e o aceite pendente. Já aceitos: {aceitos:.0f} SP. "
-        "Cada história conta na última sprint em que aparece: as entregues numa sprint anterior e "
-        "ainda sem aceite somam na sprint atual, e a velocity daquela sprint anterior fica mais baixa. "
+        "Cada história conta na sprint em que foi cotada, mesmo que o aceite saia depois: a velocity "
+        "de uma sprint passada já inclui o que a equipe entregou nela e o PO ainda não aceitou. "
         "Para ver só as aceitas, mude a opção na barra lateral."
     )
 
