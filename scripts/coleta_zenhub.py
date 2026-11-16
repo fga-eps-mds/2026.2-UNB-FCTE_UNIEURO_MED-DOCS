@@ -29,10 +29,22 @@ CAMPO_COLUNA = "pipelineIssue(workspaceId: $id) { pipeline { name } }"
 
 # Campos pedidos de cada issue, além da estimativa, do mais completo ao mais simples.
 # O identificador permite ao dashboard contar uma história uma só vez quando ela passa
-# de uma sprint para a seguinte. O estado diz se a issue já foi fechada: o ZenHub mantém a
-# coluna em que ela estava (Aceitação PO) mesmo depois do aceite. Como a API não pôde ser conferida aqui, se o Zenhub
-# recusar um campo a coleta tenta a variante seguinte, e a última é a consulta original.
-VARIANTES_ISSUE = (f"id number state {CAMPO_COLUNA}", f"id number {CAMPO_COLUNA}", "id number", "id", "")
+# de uma sprint para a seguinte. `state` e `closedAt` dizem se a história já foi aceita
+# (fechada) e quando: o ZenHub mantém na coluna Aceitação PO a história que o PO já aceitou,
+# e sem esses campos o painel não a separa da que ainda espera o aceite. A API aceitou o
+# `state` na conferência feita na revisão do PR #123; o `closedAt` ainda não foi conferido.
+# Se o Zenhub recusar um campo, a coleta tenta a variante seguinte. Se recusar só o
+# `closedAt`, a segunda variante mantém o `state`, que basta para não contar duas vezes. A
+# última variante é a consulta original.
+CAMPOS_ESTADO = "state closedAt"
+VARIANTES_ISSUE = (
+    f"id number {CAMPOS_ESTADO} {CAMPO_COLUNA}",
+    f"id number state {CAMPO_COLUNA}",
+    f"id number {CAMPO_COLUNA}",
+    "id number",
+    "id",
+    "",
+)
 
 # Segunda forma de ler a coluna: em vez de perguntar a cada issue onde ela está, pergunta ao
 # workspace quais são as colunas e quais issues cada uma guarda. Só é usada se a primeira for
@@ -204,6 +216,8 @@ def _resumir_issue(issue, com_coluna, colunas_por_id=None):
     }
     if "state" in issue:
         resumo["fechada"] = issue.get("state") == "CLOSED"
+    if "closedAt" in issue:
+        resumo["fechada_em"] = issue.get("closedAt")
     if com_coluna:
         coluna = (((issue.get("pipelineIssue") or {}).get("pipeline")) or {}).get("name")
         if coluna is None and colunas_por_id:

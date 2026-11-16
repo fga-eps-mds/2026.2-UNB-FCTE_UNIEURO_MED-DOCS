@@ -95,6 +95,7 @@ nav:
       - Plano de Qualidade: processo/plano_de_qualidade.md
       - Plano de Gestão de Riscos: processo/riscos.md
   - Métricas:
+      - Medidas do dashboard: metricas/medidas-do-dashboard.md
       - Coleta de métricas: metricas/coleta-de-metricas.md
       - Qualidade do produto: metricas/qualidade-do-produto.md
       - Processo e comparação R1 × R2: metricas/processo-e-comparativo.md

@@ -4,8 +4,8 @@ import glob
 import statistics
 from datetime import datetime
 from typing import Dict, List, Any, Tuple, Optional
-from . import aceitacao, processo, qualidade
-from .config import MODO_PADRAO, RAW_DATA_DIR
+from . import aceitacao, caracteristicas, processo, qualidade
+from .config import MODO_PADRAO, RAW_DATA_DIR, RELEASES
 
 
 def load_json_file(file_path: str) -> Any:
@@ -29,7 +29,9 @@ def get_zenhub_sprints_data() -> Tuple[List[Dict[str, Any]], bool]:
     Retorna uma tupla (dados, is_mock).
 
     Cada sprint real traz também `aguardando_pontos` e `aguardando_issues`: as histórias
-    entregues que estão na coluna Aceitação PO (ver aceitacao.py), contadas uma vez só.
+    entregues que estão na coluna Aceitação PO (ver aceitacao.py), contadas uma vez só. Os pontos
+    de uma história que o PO aceitou depois do fim da sprint voltam para a sprint de origem
+    (`aceitos_depois_issues`).
     """
     zh_path = os.path.join(RAW_DATA_DIR, "zenhub_analytics.json")
     data = load_json_file(zh_path)
@@ -57,6 +59,7 @@ def get_zenhub_sprints_data() -> Tuple[List[Dict[str, Any]], bool]:
                 load_json_file(os.path.join(RAW_DATA_DIR, ARQUIVO_ACEITACAO_MANUAL))
             )
             aceitacao.marcar_aguardando(result, manual=manual, coletada=data.get("colunas_coletadas"))
+            aceitacao.atribuir_aceites_tardios(result)
             return result, False
 
     # Dados mock de exemplo: sprints de 14 dias com datas, para que o EVM por release
@@ -67,6 +70,7 @@ def get_zenhub_sprints_data() -> Tuple[List[Dict[str, Any]], bool]:
             "total_points": total,
             "status": status, "start_at": inicio, "end_at": fim,
             "aguardando_pontos": 0.0, "aguardando_issues": [], "aceitacao_fonte": None,
+            "estado_coletado": False,
         }
 
     mock_data = [
@@ -209,6 +213,28 @@ def get_github_runs_data() -> Tuple[Dict[str, Any], bool]:
         "recent_feedback_series": [round(d, 1) for d in duracoes_min[-10:]]
     }
     return real_runs, False
+
+
+def get_caracteristicas_data(
+    raw_dir: str = RAW_DATA_DIR,
+    releases: Optional[List[Dict[str, Any]]] = None,
+    hoje: Optional[datetime] = None,
+) -> Dict[str, List[Dict[str, Any]]]:
+    """
+    Qualidade por característica (segurança, confiabilidade, manutenibilidade e testabilidade),
+    por release, de cada repositório com `Sonar_API-Measures-*.json`. Sem arquivo legível, o
+    repositório não aparece, e nenhum dado de exemplo é inventado.
+    """
+    resultado: Dict[str, List[Dict[str, Any]]] = {}
+    for fpath in sorted(glob.glob(os.path.join(raw_dir, "Sonar_API-Measures-*.json"))):
+        dados = load_json_file(fpath)
+        if not isinstance(dados, dict) or "medidas" not in dados:
+            continue
+        repo = dados.get("repositorio") or os.path.basename(fpath)
+        resultado[repo] = caracteristicas.calcular(
+            caracteristicas.historico_por_metrica(dados), releases or RELEASES, hoje
+        )
+    return resultado
 
 
 def get_sonar_metrics_data() -> Tuple[Dict[str, Any], bool]:

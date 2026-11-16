@@ -8,8 +8,9 @@ from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
-from . import qualidade
+from . import caracteristicas, qualidade
 from .config import THEME_COLORS
+from .metrics import classificar_indice
 from .processo import INDICADORES
 
 def get_status_pill(status: str) -> str:
@@ -156,6 +157,16 @@ def tabela_comparativo(comparativo: Dict[str, Dict[str, Any]]) -> pd.DataFrame:
     return pd.DataFrame(linhas)
 
 
+def aviso_estado_nao_coletado() -> str:
+    """Aviso da coleta sem `fechada`: história aceita que ficou em Aceitação PO pode contar duas vezes."""
+    return (
+        "A última coleta não trouxe se cada história está fechada (campo `fechada`). Sem ele, a "
+        "história que o PO já aceitou e que o ZenHub manteve na coluna Aceitação PO pode estar "
+        "contada duas vezes, como aceita e como à espera do aceite. Rode de novo a coleta de métricas "
+        "e confira no log se o ZenHub aceitou o campo `state`."
+    )
+
+
 def aviso_modo_entregues(rotulo: str, aceitos: float, aguardando: float, historias: int) -> str:
     """Texto do modo com Aceitação PO: o que entra, o que já foi aceito e por que a velocity das sprints muda."""
     return (
@@ -210,3 +221,180 @@ def tabela_de_custo_por_release(releases: List[Dict[str, Any]]) -> pd.DataFrame:
         "Acumulado do projeto até a release": f"R$ {r['orcamento_acumulado']:,.2f}",
     } for r in releases])
 
+
+
+# ---------------------------------------------------------------------------
+# Aceitas e entregues lado a lado (EVM)
+# ---------------------------------------------------------------------------
+
+def _pct(valor: Optional[float]) -> str:
+    return "N/A" if valor is None else f"{valor * 100:.0f}%"
+
+
+def _indice(valor: Optional[float]) -> str:
+    return "N/A" if valor is None else f"{valor:.2f}"
+
+
+def _reais(valor: Optional[float]) -> str:
+    return "N/A" if valor is None else f"R$ {valor:,.2f}"
+
+
+def tabela_lado_a_lado(linha: Dict[str, Any]) -> pd.DataFrame:
+    """Os indicadores da release nos dois modos, para comparar o que foi aceito com o que foi entregue."""
+    a, e = linha["aceitas"], linha["entregues"]
+    return pd.DataFrame([
+        {"Indicador": "Pontos entregues (RPC)", "Somente aceitas": f"{a['rpc']:.0f} SP",
+         "Aceitas + em Aceitação PO": f"{e['rpc']:.0f} SP"},
+        {"Indicador": "Escopo entregue (APC)", "Somente aceitas": _pct(a["apc"]),
+         "Aceitas + em Aceitação PO": _pct(e["apc"])},
+        {"Indicador": "Valor agregado (EV)", "Somente aceitas": _reais(a["ev"]),
+         "Aceitas + em Aceitação PO": _reais(e["ev"])},
+        {"Indicador": "SPI", "Somente aceitas": _indice(a["spi"]), "Aceitas + em Aceitação PO": _indice(e["spi"])},
+        {"Indicador": "CPI", "Somente aceitas": _indice(a["cpi"]), "Aceitas + em Aceitação PO": _indice(e["cpi"])},
+        {"Indicador": "Faixa do SPI", "Somente aceitas": classificar_indice(a["spi"]) or "N/A",
+         "Aceitas + em Aceitação PO": classificar_indice(e["spi"]) or "N/A"},
+    ])
+
+
+def leitura_escopo_e_tempo(linha: Dict[str, Any]) -> str:
+    """Frase que põe lado a lado o prazo decorrido, o escopo aceito e o escopo entregue da release."""
+    if linha["prp"] <= 0:
+        return "Sem pontos estimados nesta release, não há escopo para comparar com o prazo."
+    if linha["fonte"] is None:
+        return (
+            "A coluna Aceitação PO ainda não foi coletada, então os dois modos coincidem e não dá para "
+            "separar o escopo aceito do entregue."
+        )
+    ppc, apc_a, apc_e = linha["ppc"], linha["aceitas"]["apc"] or 0.0, linha["entregues"]["apc"] or 0.0
+    frase = (
+        f"Na {linha['id']}, {_pct(ppc)} do prazo já decorreu. O escopo entregue é {_pct(apc_e)} "
+        f"e o aceito é {_pct(apc_a)}."
+    )
+    if linha["aguardando_pontos"] <= 0:
+        return frase + " Nenhuma história aguarda o aceite do PO."
+    frase += f" A diferença, de {linha['aguardando_pontos']:.0f} SP, depende do aceite do PO."
+    if apc_e >= ppc > apc_a:
+        frase += " O trabalho entregue acompanha o prazo; o que o atrasa nos índices é a espera do aceite."
+    elif apc_e < ppc:
+        frase += " Mesmo contando o que aguarda o aceite, o escopo entregue está abaixo do prazo decorrido."
+    else:
+        frase += " Os pontos aceitos já acompanham o prazo decorrido."
+    return frase
+
+
+def dados_escopo_e_tempo(comparacao: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Séries em porcentagem do gráfico de escopo e prazo, só das releases com pontos planejados."""
+    com_escopo = [r for r in comparacao if r["prp"] > 0]
+    return {
+        "releases": [r["id"] for r in com_escopo],
+        "prazo": [round(r["ppc"] * 100, 1) for r in com_escopo],
+        "aceitas": [round((r["aceitas"]["apc"] or 0.0) * 100, 1) for r in com_escopo],
+        "entregues": [round((r["entregues"]["apc"] or 0.0) * 100, 1) for r in com_escopo],
+    }
+
+
+# ---------------------------------------------------------------------------
+# Qualidade por característica (ISO/IEC 25010), por release
+# ---------------------------------------------------------------------------
+
+_COR_DA_FAIXA_CARACTERISTICA = {
+    caracteristicas.ADEQUADO: THEME_COLORS["secondary"],
+    caracteristicas.ATENCAO: THEME_COLORS["warning"],
+    caracteristicas.CRITICO: THEME_COLORS["danger"],
+}
+
+# Rótulo, unidade e forma de escrever cada medida do SonarCloud no bloco de detalhe.
+_DETALHE = {
+    "security_rating": ("Nota de segurança", "nota"),
+    "reliability_rating": ("Nota de confiabilidade", "nota"),
+    "sqale_rating": ("Nota de manutenibilidade", "nota"),
+    "vulnerabilities": ("Vulnerabilidades", "inteiro"),
+    "security_hotspots": ("Security hotspots", "inteiro"),
+    "bugs": ("Bugs", "inteiro"),
+    "code_smells": ("Code smells", "inteiro"),
+    "sqale_index": ("Débito técnico", "minutos"),
+    "duplicated_lines_density": ("Duplicação", "percentual"),
+    "coverage": ("Cobertura", "percentual"),
+    "tests": ("Testes", "inteiro"),
+    "test_failures": ("Testes com falha", "inteiro"),
+    "test_errors": ("Testes com erro", "inteiro"),
+    "ncloc": ("Linhas de código", "inteiro"),
+    "files": ("Arquivos", "inteiro"),
+    "functions": ("Funções", "inteiro"),
+    "complexity": ("Complexidade", "inteiro"),
+    "comment_lines_density": ("Comentários", "percentual"),
+    "test_execution_time": ("Tempo de execução dos testes", "milissegundos"),
+}
+
+
+def _pct_ptbr(valor: float) -> str:
+    return f"{valor:.1f}".replace(".", ",") + "%"
+
+
+def _int_ptbr(valor: float) -> str:
+    return f"{int(round(valor)):,}".replace(",", ".")
+
+
+def _valor_da_caracteristica(item: Dict[str, Any]) -> str:
+    if item["valor"] is None:
+        return NAO_MEDIDO
+    return item["nota"] or _pct_ptbr(item["valor"])
+
+
+def cartao_caracteristica(item: Dict[str, Any]) -> Dict[str, str]:
+    """Texto e cor do cartão de uma característica; sem dado, n/m em cor neutra, nunca zero."""
+    if item["faixa"] == caracteristicas.NAO_MEDIDA:
+        return {"rotulo": item["nome"], "valor": NAO_MEDIDO, "subtexto": caracteristicas.NAO_MEDIDA,
+                "cor": THEME_COLORS["accent"]}
+    sentido = item["sentido"]
+    if sentido in (caracteristicas.MELHOROU, caracteristicas.PIOROU, caracteristicas.MANTEVE):
+        complemento = f"{sentido} em relação à release anterior"
+    elif sentido == caracteristicas.PRIMEIRA:
+        complemento = caracteristicas.PRIMEIRA
+    else:
+        complemento = "Sem comparação com a release anterior"
+    return {
+        "rotulo": item["nome"],
+        "valor": _valor_da_caracteristica(item),
+        "subtexto": f"{item['faixa']} · {complemento}",
+        "cor": _COR_DA_FAIXA_CARACTERISTICA[item["faixa"]],
+    }
+
+
+def tabela_caracteristicas(releases: List[Dict[str, Any]]) -> List[Dict[str, str]]:
+    """Uma linha por característica e uma coluna por release, com o valor e a faixa de cada uma."""
+    if not releases:
+        return []
+    linhas = []
+    for indice, base in enumerate(releases[0]["caracteristicas"]):
+        linha = {"Característica": base["nome"]}
+        for release in releases:
+            item = release["caracteristicas"][indice]
+            linha[release["nome"]] = (NAO_MEDIDO if item["valor"] is None
+                                      else f"{_valor_da_caracteristica(item)} · {item['faixa']}")
+        linhas.append(linha)
+    return linhas
+
+
+def _formatar_detalhe(tipo: str, valor: float) -> str:
+    if tipo == "nota":
+        return caracteristicas.letra(valor) or NAO_MEDIDO
+    if tipo == "percentual":
+        return _pct_ptbr(valor)
+    if tipo == "minutos":
+        return f"{_int_ptbr(valor)} min"
+    if tipo == "milissegundos":
+        return f"{valor / 1000:.1f}".replace(".", ",") + " s"
+    return _int_ptbr(valor)
+
+
+def tabela_detalhe(release: Dict[str, Any]) -> List[Dict[str, str]]:
+    """Medidas do SonarCloud na data da release, para o bloco de detalhe. Só entra o que tem valor."""
+    linhas = []
+    # Primeiro as medidas conhecidas, na ordem da tabela; depois as que o painel ainda não nomeia.
+    ordem = [m for m in _DETALHE if m in release["detalhe"]] + sorted(m for m in release["detalhe"] if m not in _DETALHE)
+    for metrica in ordem:
+        valor = release["detalhe"][metrica]
+        rotulo, tipo = _DETALHE.get(metrica, (metrica, "inteiro"))
+        linhas.append({"Medida": rotulo, "Valor": _formatar_detalhe(tipo, valor)})
+    return linhas

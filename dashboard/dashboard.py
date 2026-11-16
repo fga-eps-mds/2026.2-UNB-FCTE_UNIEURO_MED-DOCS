@@ -28,12 +28,14 @@ from src.data_layer import (
     get_risks_data,
     get_risks_history,
     get_github_runs_data,
+    get_caracteristicas_data,
     get_sonar_metrics_data,
     get_qrapids_data,
     get_latest_collection_timestamp
 )
 from src.metrics import (
     classificar_indice,
+    comparar_modos,
     compute_release_evm,
     process_risks_summary,
     revisoes_realizadas,
@@ -42,15 +44,22 @@ from src.metrics import (
 from src.processo import INDICADORES
 from src.qualidade import BRASILIA, FAIXA_ADEQUADA, FAIXA_ATENCAO, METRICAS, QUEDA_RELEVANTE, faixa
 from src.templates import (
+    aviso_estado_nao_coletado,
     aviso_modo_entregues,
     arquivos_fora_do_limiar,
+    cartao_caracteristica,
     cor_da_faixa,
     dados_dos_indices,
+    dados_escopo_e_tempo,
     formatar_indice,
+    leitura_escopo_e_tempo,
     marcos_sem_medida,
     rotulo_do_marco,
     serie_do_indice,
+    tabela_caracteristicas,
     tabela_comparativo,
+    tabela_detalhe,
+    tabela_lado_a_lado,
     tabela_de_custo_por_release,
     tabela_processo,
     tabela_qrapids,
@@ -189,6 +198,8 @@ def _rotulo_em_frase(modo: str) -> str:
 def _render_aviso_do_modo(r: dict, modo: str):
     """Diz qual modo de pontos está valendo e quanto ele soma, para ninguém ler o número sem saber a regra."""
     em_aceitacao = len(r["em_aceitacao"])
+    if r["aceitacao_fonte"] == "zenhub" and not r["estado_coletado"]:
+        st.warning(aviso_estado_nao_coletado())
     if r["aceitacao_fonte"] is None:
         st.warning(
             "A coluna Aceitação PO ainda não foi coletada do ZenHub, então os dois modos mostram o mesmo "
@@ -224,6 +235,77 @@ def _render_historias_em_aceitacao(r: dict):
         st.caption(
             f"Fonte: {origem}. Cada história conta uma vez, na última sprint em que aparece. "
             "História sem estimativa vale 0 ponto."
+        )
+
+
+def _render_aceites_tardios(sprints: list):
+    """Lista as histórias que o PO aceitou depois do fim da sprint e que contam na sprint de origem."""
+    com_aceite = [s for s in sprints if s.get("aceitos_depois_issues")]
+    if not com_aceite:
+        return
+    for s in com_aceite:
+        historias = s["aceitos_depois_issues"]
+        st.caption(
+            f"{s['name']}: {s['aceitos_depois_pontos']:.0f} SP de {len(historias)} história(s) foram aceitas pelo PO "
+            "depois do fim da sprint e contam nela."
+        )
+    with st.expander("Histórias aceitas depois do fim da sprint"):
+        tabela = pd.DataFrame([
+            {"História": f"#{h['numero']}" if h.get("numero") is not None else "sem número",
+             "Pontos (SP)": f"{h['estimativa']:.0f}", "Conta na": s["name"],
+             "Aceita na": h.get("sprint") or "-", "Aceite em": formatar_data_brasilia(h.get("fechada_em"))}
+            for s in com_aceite
+            for h in sorted(s["aceitos_depois_issues"], key=lambda h: h.get("numero") or 0)
+        ])
+        st.dataframe(tabela, use_container_width=True, hide_index=True)
+        st.caption(
+            "Regra: a história fechada que esperou o PO volta para a última sprint encerrada em que "
+            "aparece. O ZenHub a contaria na sprint em que ela fechou. Os totais da release não mudam."
+        )
+
+
+def _render_lado_a_lado(comparacao: list, release_id: str):
+    """Aceitas e entregues lado a lado, para discutir escopo e tempo sem trocar a opção da barra lateral."""
+    st.markdown("#### Aceitas × entregues, lado a lado")
+    linha = next((r for r in comparacao if r["id"] == release_id), None)
+    if linha is None:
+        return
+    st.caption(leitura_escopo_e_tempo(linha))
+    st.dataframe(tabela_lado_a_lado(linha), use_container_width=True, hide_index=True)
+
+    dados = dados_escopo_e_tempo(comparacao)
+    if dados["releases"]:
+        fig = go.Figure()
+        fig.add_trace(go.Bar(
+            x=dados["releases"], y=dados["aceitas"], name="Escopo aceito",
+            marker=dict(color="#38BDF8"), text=[f"{v:.0f}%" for v in dados["aceitas"]], textposition="outside",
+            hovertemplate="<b>%{x}</b><br>Escopo aceito: %{y:.0f}%<extra></extra>"
+        ))
+        fig.add_trace(go.Bar(
+            x=dados["releases"], y=dados["entregues"], name="Escopo entregue (com Aceitação PO)",
+            marker=dict(color="#FBBF24", pattern=dict(shape="/")),
+            text=[f"{v:.0f}%" for v in dados["entregues"]], textposition="outside",
+            hovertemplate="<b>%{x}</b><br>Escopo entregue: %{y:.0f}%<extra></extra>"
+        ))
+        fig.add_trace(go.Scatter(
+            x=dados["releases"], y=dados["prazo"], name="Prazo decorrido", mode="markers",
+            marker=dict(symbol="diamond", size=12, color="#F87171", line=dict(width=1, color="#FFFFFF")),
+            hovertemplate="<b>%{x}</b><br>Prazo decorrido: %{y:.0f}%<extra></extra>"
+        ))
+        layout = get_plotly_layout("Escopo entregue e prazo decorrido por release (%)", height=340, y_title="% da release")
+        layout["barmode"] = "group"
+        layout["legend"]["y"] = -0.25
+        fig.update_layout(layout)
+        fig.update_yaxes(range=[0, 115], ticksuffix="%")
+        st.plotly_chart(fig, use_container_width=True, config=PLOTLY_CONFIG)
+    with st.expander("Como usar esta comparação"):
+        st.markdown(
+            "O **prazo decorrido** (losango) é a fração dos dias da release que já passou, e as barras são a "
+            "fração do escopo planejado que está pronta. Barra abaixo do losango significa menos escopo do que o "
+            "prazo pede. A barra de **escopo aceito** só conta o que o PO validou. A de **escopo entregue** soma "
+            "também o que está em Aceitação PO. Quando só a segunda acompanha o losango, o atraso nos índices "
+            "vem da espera do aceite e não do desenvolvimento. Os dois números são os do EVM, no modo escolhido "
+            "na barra lateral ou no outro."
         )
 
 
@@ -369,7 +451,8 @@ def _subtexto_do_indice(formula: str, valor, sem_entrega: bool) -> str:
     return f"{formula}, {estado}" if estado else formula
 
 
-def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str = MODO_PADRAO):
+def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str = MODO_PADRAO,
+                   comparacao: list = None):
     """Renderiza a aba do Agile EVM por release, com burn de pontos e velocity."""
     if is_mock:
         render_mock_alert("Sprints e Agile EVM", "zenhub_analytics.json")
@@ -511,6 +594,9 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str =
 
     _render_historias_em_aceitacao(r)
 
+    if comparacao:
+        _render_lado_a_lado(comparacao, r["id"])
+
     st.markdown("<br>", unsafe_allow_html=True)
 
     _render_grafico_de_custo(evm, r)
@@ -576,12 +662,23 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str =
     if barras:
         rotulos_vel = [s["name"] + ("" if s in fechadas else " (em andamento)") for s in barras]
         fig_vel = go.Figure()
+        # Os aceites que o PO deu depois do fim da sprint contam nela e aparecem à parte, para a
+        # demora do aceite ficar visível em vez de parecer baixa entrega.
+        depois = [s.get("aceitos_depois_pontos", 0.0) for s in barras]
+        no_prazo = [s["delivered_sp"] - d for s, d in zip(barras, depois)]
         fig_vel.add_trace(go.Bar(
-            x=rotulos_vel, y=[s["delivered_sp"] for s in barras], name="Aceitos",
+            x=rotulos_vel, y=no_prazo, name="Aceitos",
             marker=dict(color="#38BDF8"),
-            text=[f"{s['delivered_sp']:.0f}" for s in barras], textposition="inside",
+            text=[f"{v:.0f}" for v in no_prazo], textposition="inside",
             hovertemplate="<b>%{x}</b><br>Aceitos: %{y} SP<extra></extra>"
         ))
+        if any(depois):
+            fig_vel.add_trace(go.Bar(
+                x=rotulos_vel, y=depois, name="Aceitos pelo PO depois do fim da sprint",
+                marker=dict(color="#34D399", pattern=dict(shape="x")),
+                text=[f"{v:.0f}" if v else "" for v in depois], textposition="inside",
+                hovertemplate="<b>%{x}</b><br>Aceitos depois do fim da sprint: %{y} SP<extra></extra>"
+            ))
         if modo == MODO_ENTREGUES:
             fig_vel.add_trace(go.Bar(
                 x=rotulos_vel, y=[s.get("aguardando_pontos", 0.0) for s in barras], name="Em Aceitação PO",
@@ -597,12 +694,15 @@ def render_evm_tab(evm: dict, velocity_sprints: list, is_mock: bool, modo: str =
         if fechadas:
             media = sum(_pontos(s) for s in fechadas) / len(fechadas)
             st.caption(f"Média das sprints fechadas ({_rotulo_em_frase(modo)}): {media:.1f} SP por sprint.")
+        _render_aceites_tardios(barras)
     else:
         st.info("Ainda não há sprints fechadas para calcular a velocity.")
     with st.expander("O que este gráfico mostra?"):
         st.markdown(
-            "Quantos pontos de história cada sprint fechada entregou. A parte azul são os pontos aceitos e, "
-            "no modo \"aceitas + em Aceitação PO\", a parte listrada são as histórias que aguardam o "
+            "Quantos pontos de história cada sprint fechada entregou. A parte azul são os pontos aceitos; "
+            "a parte verde listrada são as histórias que o PO aceitou depois do fim da sprint em que a "
+            "equipe as entregou, e que contam nela, não na sprint em que o aceite saiu. No modo "
+            "\"aceitas + em Aceitação PO\", a parte amarela listrada são as histórias que aguardam o "
             "aceite; sprints em andamento aparecem só quando já têm pontos nesse modo. Uma sprint com poucos pontos "
             "não é necessariamente ruim: pode refletir histórias maiores do que o normal, feriados, "
             "ou trabalho técnico que não gera pontos diretamente. Se as histórias não foram "
@@ -802,7 +902,56 @@ def render_risks_tab(risks_raw: list, is_mock: bool, historico: dict = None):
     st.dataframe(tabela_historico_riscos(revisoes), use_container_width=True, hide_index=True)
 
 
-def render_quality_tab(sonar_data: dict, is_mock: bool):
+def _render_caracteristicas(caracteristicas_por_repo: dict, repo_key: str):
+    """
+    Qualidade por característica (ISO/IEC 25010) na release escolhida: segurança, confiabilidade,
+    manutenibilidade e testabilidade, com a faixa e o sentido da mudança em relação à release
+    anterior. Devolve a release escolhida, ou None se o repositório não tem histórico.
+    """
+    st.markdown("#### Qualidade por característica (ISO/IEC 25010)")
+    st.caption(
+        "Cada característica tem a faixa do Plano de Qualidade (Adequado, Atenção ou Crítico) e diz se "
+        "melhorou ou piorou em relação à release anterior. Característica sem dado aparece como n/m "
+        "(não medida), nunca como zero."
+    )
+    releases = caracteristicas_por_repo.get(repo_key) or []
+    if not releases:
+        st.info(
+            "O histórico do SonarCloud deste repositório ainda não foi coletado em "
+            "`analytics-raw-data/`. As características aparecem quando houver coleta."
+        )
+        return None
+
+    nomes = [r["nome"] for r in releases]
+    escolhida = st.radio(
+        "Release:", options=nomes, index=len(nomes) - 1, horizontal=True, key="quality_release_selector",
+        help="Cada release mostra o último dado do SonarCloud até o fim dela. A release em andamento "
+             "mostra o dado mais recente."
+    )
+    release = releases[nomes.index(escolhida)]
+    if release["em_andamento"]:
+        st.caption(f"{release['nome']} está em andamento: vale o dado mais recente do SonarCloud.")
+
+    for coluna, item in zip(st.columns(4), release["caracteristicas"]):
+        cartao = cartao_caracteristica(item)
+        with coluna:
+            render_kpi(cartao["rotulo"], cartao["valor"], cartao["subtexto"], cartao["cor"],
+                       help_text=item["observacao"])
+
+    st.markdown("##### Evolução por release")
+    st.dataframe(pd.DataFrame(tabela_caracteristicas(releases)), use_container_width=True, hide_index=True)
+    with st.expander("Como ler e o que ainda não é medido"):
+        st.markdown(
+            "- **Segurança, confiabilidade e manutenibilidade** usam a nota do SonarCloud: **A** é "
+            "Adequado, **B** é Atenção e **C** a **E** é Crítico. A meta do plano é a nota A.\n"
+            "- **Testabilidade** usa a cobertura: **90% ou mais** é Adequado, de **80% a 89,9%** é "
+            "Atenção e **abaixo de 80%** é Crítico.\n"
+            + "\n".join(f"- **{item['nome']}:** {item['observacao']}" for item in release["caracteristicas"])
+        )
+    return release
+
+
+def render_quality_tab(sonar_data: dict, is_mock: bool, caracteristicas_data: dict = None):
     """Renderiza a aba de Qualidade de Produto (SonarCloud), uma seção por repositório."""
     if is_mock:
         render_mock_alert("Qualidade de Produto", "Sonar_API-Measures-*.json")
@@ -822,6 +971,25 @@ def render_quality_tab(sonar_data: dict, is_mock: bool):
         key="quality_repo_selector"
     )
     metrics = sonar_data[repo_key]
+
+    release_escolhida = _render_caracteristicas(caracteristicas_data or {}, repo_key)
+
+    st.markdown("#### Detalhe das medidas do SonarCloud")
+    st.caption(
+        "As medidas abaixo são o detalhe por trás das características. Ficam recolhidas para a "
+        "qualidade ser lida por característica, e não por cobertura, duplicação ou linhas de código."
+    )
+    if not st.toggle("Mostrar o detalhe das medidas", key="quality_detalhe_toggle"):
+        return
+
+    if release_escolhida is not None:
+        st.markdown(f"##### Medidas na {release_escolhida['nome']}")
+        linhas_detalhe = tabela_detalhe(release_escolhida)
+        if linhas_detalhe:
+            st.dataframe(pd.DataFrame(linhas_detalhe), use_container_width=True, hide_index=True)
+        else:
+            st.info("Nenhuma medida do SonarCloud até o fim desta release.")
+    st.markdown("##### Última coleta")
 
     q1, q2, q3, q4 = st.columns(4)
     with q1:
@@ -1474,6 +1642,7 @@ def main():
     risks_data, is_risks_mock = get_risks_data()
     risks_history = get_risks_history()
     sonar_data, is_sonar_mock = get_sonar_metrics_data()
+    caracteristicas_data = get_caracteristicas_data()
     qrapids_data = get_qrapids_data(modo=modo)
 
     # Alerta global discreto caso algum dos eixos utilize dados mockados.
@@ -1497,6 +1666,7 @@ def main():
         )
     
     evm_results = compute_release_evm(sprints=sprints_all, releases=RELEASES, modo=modo)
+    comparacao_evm = comparar_modos(sprints_all, RELEASES)
 
     tab_evm, tab_riscos, tab_processo, tab_qualidade, tab_qrapids, tab_teoria = st.tabs([
         "Agile EVM e Velocity",
@@ -1508,7 +1678,7 @@ def main():
     ])
 
     with tab_evm:
-        render_evm_tab(evm_results, sprints_data, is_sprints_mock, modo)
+        render_evm_tab(evm_results, sprints_data, is_sprints_mock, modo, comparacao_evm)
 
     with tab_riscos:
         render_risks_tab(risks_data, is_risks_mock, risks_history)
@@ -1517,7 +1687,7 @@ def main():
         render_process_tab()
 
     with tab_qualidade:
-        render_quality_tab(sonar_data, is_sonar_mock)
+        render_quality_tab(sonar_data, is_sonar_mock, caracteristicas_data)
 
     with tab_qrapids:
         render_qrapids_tab(qrapids_data, modo)
