@@ -102,18 +102,22 @@ def _entrega(sprint: Dict[str, Any]) -> float:
     return min(1.0, sprint["entregues"] / sprint["planejados"])
 
 
-def prp_e_rpc_da_release(da_release: List[Dict[str, Any]]) -> tuple:
+def prp_e_rpc_da_release(da_release: List[Dict[str, Any]], anteriores: Optional[List[Dict[str, Any]]] = None) -> tuple:
     """
     PRP e RPC da release, pelo mesmo cálculo da aba de EVM: (prp, rpc, aproximado).
 
-    O PRP conta cada história uma vez só, mesmo que ela passe de uma sprint para a outra
-    (`metrics.pontos_distintos`). O RPC soma os pontos entregues das sprints, e o ZenHub
-    conta a história entregue só na sprint em que ela fecha.
+    O PRP conta as histórias cotadas na release, cada uma uma vez só, mesmo que ela passe de
+    uma sprint para a outra (`metrics.pontos_distintos`); `anteriores` são as sprints que vieram
+    antes dela. O RPC soma os pontos entregues das sprints, já com o aceite tardio devolvido à
+    sprint em que a história foi cotada.
     """
-    prp, aproximado = pontos_distintos([
-        {"total_points": s["planejados"], "issues": s["issues"], "issues_total": s["issues_total"]}
-        for s in da_release
-    ])
+    def _em_issues(sprints_):
+        return [
+            {"total_points": s["planejados"], "issues": s["issues"], "issues_total": s["issues_total"]}
+            for s in sprints_
+        ]
+
+    prp, aproximado = pontos_distintos(_em_issues(da_release), _em_issues(anteriores or []))
     return prp, sum(s["entregues"] for s in da_release), aproximado
 
 
@@ -184,7 +188,8 @@ def indicadores_por_release(pasta: str = RAW_DATA_DIR, modo: str = MODO_ACEITAS)
         ci = execucoes.get(release)
         if not da_release and not ci:
             continue
-        prp, rpc, prp_aproximado = prp_e_rpc_da_release(da_release)
+        antes = lista_sprints[:lista_sprints.index(da_release[0])] if da_release else []
+        prp, rpc, prp_aproximado = prp_e_rpc_da_release(da_release, antes)
         valores = {
             "P1": ci["success"] / (ci["success"] + ci["failure"]) if ci else None,
             # APC da release, igual ao da aba de EVM: cada história entra uma vez no PRP.

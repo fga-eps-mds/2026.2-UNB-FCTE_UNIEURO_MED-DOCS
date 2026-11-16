@@ -191,9 +191,11 @@ class AceiteTardioPorReleaseTest(unittest.TestCase):
                     continue
                 historia = issue(f"US{numero}", numero, pontos, "Aceitação PO")
                 issues.append({**historia, "fechada": aceita, "fechada_em": "2026-11-11T01:39:20Z" if aceita else None})
-            # O ZenHub conta todos os pontos fechados na Sprint 5, em que o PO aceitou.
+            # O ZenHub conta todos os pontos fechados na Sprint 5, em que o PO aceitou, e o total
+            # planejado de cada sprint é o acumulado de tudo que já foi cotado.
             aceitos = 61 if nome == "Sprint 5" else 0
-            resultado[nome] = sprint(0, aceitos, issues, inicio=inicio, fim=fim)
+            planejados = sum(pontos for _, pontos, cotada, _ in self.HISTORIAS if cotada <= indice)
+            resultado[nome] = sprint(planejados, aceitos, issues, inicio=inicio, fim=fim)
         return resultado
 
     def release(self, modo):
@@ -216,6 +218,21 @@ class AceiteTardioPorReleaseTest(unittest.TestCase):
         self.assertEqual(releases["R1"]["rpc"], 21.0)
         self.assertEqual(releases["R2"]["rpc"], 32.0)
         self.assertEqual(releases["R3"]["rpc"], 8.0)
+
+    def test_o_planejado_de_cada_release_conta_so_as_historias_cotadas_nela(self):
+        _, releases = self.release(MODO_ACEITAS)
+
+        # R1: #5 e #6. R2: #7, #21, #46, #8, #9 e #11, sem as duas da R1 que passam por ela. R3: #23.
+        self.assertEqual([releases[r]["prp"] for r in ("R1", "R2", "R3")], [21.0, 40.0, 8.0])
+        self.assertEqual(sum(r["prp"] for r in releases.values()), 69.0)
+
+    def test_o_avanco_de_cada_release_usa_o_planejado_dela(self):
+        _, aceitas = self.release(MODO_ACEITAS)
+        _, entregues = self.release(MODO_ENTREGUES)
+
+        self.assertEqual(aceitas["R1"]["apc"], 1.0)
+        self.assertAlmostEqual(aceitas["R2"]["apc"], 32 / 40)
+        self.assertEqual(entregues["R2"]["apc"], 1.0)
 
     def test_a_historia_que_ainda_espera_o_aceite_conta_na_release_em_que_foi_cotada(self):
         _, releases = self.release(MODO_ENTREGUES)

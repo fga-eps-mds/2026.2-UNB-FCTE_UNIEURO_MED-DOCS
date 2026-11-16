@@ -134,6 +134,17 @@ class ApcDaReleaseTest(unittest.TestCase):
         self.assertFalse(r2["prp_aproximado"])
         self.assertAlmostEqual(r2["indicadores"]["P2"], 13 / 21)
 
+    def test_p2_nao_conta_na_release_a_historia_que_foi_cotada_numa_anterior(self):
+        # A história 1 foi cotada na R1 (Sprint 1) e atravessa a Sprint 2 da R2: só a 2 é planejada na R2.
+        s1 = sprint(8, entregues=8, fim="2026-09-28T02:59:00Z")
+        s1.update(issues=[historia(1, 8)], issues_total=1)
+        s2 = sprint(13, entregues=5, fim="2026-10-12T02:59:00Z")
+        s2.update(issues=[historia(1, 8), historia(2, 5)], issues_total=2)
+        with PastaDeDados(zenhub_analytics={"sprints_velocity": {"Sprint 1": s1, "Sprint 2": s2}}) as pasta:
+            r2 = processo.indicadores_por_release(pasta)["R2"]
+        self.assertEqual((r2["prp"], r2["rpc"]), (5, 5))
+        self.assertAlmostEqual(r2["indicadores"]["P2"], 1.0)
+
     def test_p2_e_o_mesmo_apc_da_aba_de_evm(self):
         from src.metrics import pontos_distintos
         s2 = sprint(13, fim="2026-10-12T02:59:00Z")
