@@ -252,16 +252,20 @@ As rotas em `src/app` formam a camada de apresentação e só dependem dos pacot
 
 O modelo recebe as três imagens (relógio, cópia do cubo e teste de trilhas, as tarefas confirmadas na [Ata 09](../atas-reunioes/Ata-09-EPS-2026-10-05-PO.md)) e devolve:
 
-- a probabilidade de cada classe (normal, CCL e demência);
-- a classe prevista, por exemplo "0,91 → CCL";
-- três mapas de calor, um por desenho, mostrando os traços que mais influenciaram a decisão.
+- a probabilidade de CCL, de 0 a 1;
+- a contribuição de cada desenho para essa probabilidade;
+- três mapas de calor, um por desenho, mostrando as regiões que mais pesaram na decisão.
 
-O modelo não gera um escore numérico como os testes em papel. Estão em estudo duas estratégias: três CNNs com mecanismo de atenção, como no artigo do dataset, ou as três imagens em escala de cinza combinadas como canais de uma única imagem ([Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md)). A estratégia escolhida muda o pré-processamento, então o contrato abaixo deve ser versionado junto com o modelo:
+O modelo treinado devolve só a probabilidade de CCL, porque o conjunto de dados separa os pacientes pelo MoCA menor que 25. Das duas estratégias em estudo na [Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md), o modelo treinado usa a de três CNNs com mecanismo de atenção, uma por desenho, como no artigo do dataset ([resultados do modelo base](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/blob/develop/docs/resultados-modelo-base.md)). O arquivo exportado é ONNX, executado pelo ONNX Runtime no aplicativo. Os nomes, as formas e os valores de cada entrada e saída estão na Tabela 4 da [exportação do modelo](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/blob/develop/docs/exportacao-do-modelo.md).
+
+O aplicativo monta a imagem de cada desenho a partir dos pontos dos traços que valem, sem os desfeitos nem os apagados. A caixa dos pontos é esticada até 224 × 224 px, com borda de 16 px, e os traços são redesenhados numa imagem de 256 × 256 px com traço preto de 2,5 px, como nas imagens do conjunto de treino ([IA #21](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-IA/issues/21)). O mapa de calor de cada desenho cobre essa mesma caixa.
+
+O contrato deve ser versionado junto com o modelo:
 
 - ordem das três imagens na entrada;
 - dimensões, número de canais e normalização;
 - formato do arquivo exportado e runtime usado no aplicativo;
-- ordem das classes na saída e formato dos mapas de calor;
+- ordem e formato das saídas, inclusive dos mapas de calor;
 - versão do modelo, que é gravada junto com cada inferência.
 
 ## 7. Visão de implantação
@@ -378,11 +382,11 @@ O modelo de IA não acessa o banco por conta própria e o banco nunca sai do tab
 
 1. Ao confirmar cada desenho, a captura grava em `desenho` a imagem final e, em `evento_tracado`, todos os eventos daquela tarefa.
 2. Quando os três desenhos estão confirmados, o orquestrador muda a avaliação para `processando_resultado`.
-3. O pacote de inferência lê as três imagens da avaliação, na ordem do contrato da [seção 6.3](#63-contrato-entre-aplicativo-e-modelo), prepara a entrada e executa o modelo embarcado.
+3. O pacote de inferência lê os eventos de traçado dos três desenhos da avaliação, reconstrói os traços que valem, monta a imagem de entrada de cada desenho como descrito na [seção 6.3](#63-contrato-entre-aplicativo-e-modelo), na ordem do contrato, e executa o modelo embarcado. A imagem final gravada em `desenho` é a que o profissional confere e não entra no modelo.
 4. O resultado é gravado em `inferencia`, com a versão do modelo, e os mapas de calor em `mapa_calor`, um por desenho. A avaliação passa a `concluida`. Se o modelo falhar, ela passa a `erro_inferencia` e pode ser processada de novo, porque os desenhos continuam gravados.
 5. O resultado só é lido pelas telas do profissional e pelo exportador XML.
 
-Os dados de caneta ficam em `evento_tracado` para o XML e para a pesquisa, mas não entram no modelo, porque o conjunto de dados de treino não tem dados de caneta ([Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md)).
+Do traçado, o modelo usa só a posição dos pontos. A pressão, a inclinação e o tempo ficam em `evento_tracado` para o XML e para a pesquisa, mas não entram no modelo, porque o conjunto de dados de treino não tem dados de caneta ([Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md)).
 
 ## 9. Decisões arquiteturais
 
@@ -446,3 +450,4 @@ Os dados de caneta ficam em `evento_tracado` para o XML e para a pesquisa, mas n
 | 1.7 | Inclusão da modelagem de dados (MER e DER) e ajuste das fontes das figuras | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 26/09/2026 | A definir | — |
 | 1.8 | Registro das decisões sobre permissões, backup e transferência de dados do APK | [Gustavo Henrique](https://github.com/GustavoHenriqueRS) | 08/10/2026 | A definir | — |
 | 1.9 | Diagrama de pacotes na visão lógica, com as funcionalidades de cada pacote; esquema lógico do banco; evento de traçado, com a decisão de registrar os traços apagados (Atas 06 e 07); integração entre o modelo de IA e o banco; DER com o CPF, a escolaridade e o sexo do paciente | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 10/10/2026 | A definir | — |
+| 1.10 | Contrato entre aplicativo e modelo alinhado ao modelo exportado (probabilidade de CCL, contribuição e mapa de cada desenho) e entrada montada a partir dos pontos do traçado | [Artur Mendonça Arruda](https://github.com/ArtyMend07) | 17/11/2026 | A definir | — |
