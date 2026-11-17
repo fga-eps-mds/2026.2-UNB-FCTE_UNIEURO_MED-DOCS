@@ -1,6 +1,6 @@
 {
   "workspace": "Mnema",
-  "coletado_em": "2026-11-16T09:17:16Z",
+  "coletado_em": "2026-11-17T09:13:08Z",
   "colunas_coletadas": true,
   "colunas_fonte": "issue",
   "sprints_velocity": {
@@ -1221,7 +1221,7 @@
           "estimativa": 13.0,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "In Progress"
+          "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg2NA",
@@ -1439,8 +1439,8 @@
       "state": "OPEN",
       "start_at": "2026-11-09T03:59:00Z",
       "end_at": "2026-11-23T02:59:00Z",
-      "total_points": 186.0,
-      "issues_total": 42,
+      "total_points": 191.0,
+      "issues_total": 43,
       "issues_closed": 12,
       "issues_sem_estimativa": 20,
       "issues": [
@@ -1514,7 +1514,7 @@
           "estimativa": 13.0,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "In Progress"
+          "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg2NA",
@@ -1547,6 +1547,14 @@
           "fechada": false,
           "fechada_em": null,
           "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg3Ng",
+          "numero": 15,
+          "estimativa": 5.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Sprint Backlog"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg3OA",
@@ -1650,7 +1658,7 @@
           "estimativa": 8.0,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "In Progress"
+          "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjA3NjI5Ng",
