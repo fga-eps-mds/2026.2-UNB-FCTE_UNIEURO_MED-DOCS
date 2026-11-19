@@ -1,6 +1,6 @@
 {
   "repositorio": "IA",
-  "coletado_em": "2026-11-18T09:12:36Z",
+  "coletado_em": "2026-11-19T09:13:17Z",
   "releases": [
     {
       "tag": "v0.0.1",
@@ -61,6 +61,12 @@
       "commit": "09e40610ec7c210b947684453786a78da4a9ac53",
       "publicada_em": "2026-11-10T02:53:25Z",
       "branch": "main"
+    },
+    {
+      "tag": "v2.1.1",
+      "commit": "3fc60660988f51cd9204a8cd688f6e8a42b3d37f",
+      "publicada_em": "2026-11-18T23:18:32Z",
+      "branch": "develop"
     }
   ]
 }

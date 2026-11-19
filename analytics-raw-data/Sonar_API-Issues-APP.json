@@ -1,7 +1,7 @@
 {
   "repositorio": "APP",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-APP",
-  "coletado_em": "2026-11-18T09:12:18Z",
+  "coletado_em": "2026-11-19T09:12:51Z",
   "branches": {
     "main": [
       {
@@ -690,6 +690,21 @@
     ],
     "develop": [
       {
+        "chave": "AaHxfbMzWG5aM4B9aC5b",
+        "arquivo": "src/features/inferencia/preparo-desenho.ts",
+        "regra": "typescript:S7786",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-11-17T19:27:52+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
         "chave": "AaHgERFML2JGjhmu-uh0",
         "arquivo": "src/features/home/exam-status-chip.tsx",
         "regra": "typescript:S6759",
@@ -894,11 +909,11 @@
         "fechado_em": "2026-11-12T20:54:41+0000",
         "impactos": [
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           }
         ]
@@ -1078,11 +1093,11 @@
         "fechado_em": null,
         "impactos": [
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           }
         ]
@@ -1382,11 +1397,11 @@
         "fechado_em": "2026-10-25T21:14:11+0000",
         "impactos": [
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           }
         ]
@@ -1489,21 +1504,6 @@
         "resolucao": null,
         "criado_em": "2026-10-07T15:04:37+0000",
         "fechado_em": null,
-        "impactos": [
-          {
-            "qualidade": "MAINTAINABILITY",
-            "severidade": "LOW"
-          }
-        ]
-      },
-      {
-        "chave": "AaExGUg4izS8zDEb7bi7",
-        "arquivo": "src/features/home/home-screen.tsx",
-        "regra": "typescript:S6759",
-        "status": "CLOSED",
-        "resolucao": "FIXED",
-        "criado_em": "2026-10-05T15:45:40+0000",
-        "fechado_em": "2026-10-17T15:11:49+0000",
         "impactos": [
           {
             "qualidade": "MAINTAINABILITY",
