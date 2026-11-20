@@ -1,8 +1,8 @@
-# Plano de Testes Funcionais — MED 2026.2
+# Plano de Testes Funcionais — MNEMA
 
 ## 1. Finalidade
 
-Este plano define os testes funcionais do aplicativo MED: a verificação, pela equipe,
+Este plano define os testes funcionais do aplicativo MNEMA: a verificação, pela equipe,
 de que o APK instalado no tablet faz o que as histórias de usuário pedem. Ele detalha o
 nível **Sistema** da Tabela 7 do [Plano de Qualidade](plano_de_qualidade.md#51-niveis-de-teste)
 e produz as medidas de qualidade externa E3, E5, E6, E7, E8 e E9 da Tabela 6 do mesmo plano.
@@ -64,7 +64,7 @@ releases.
 
 | Id | Cenário | Passos | Resultado esperado | Origem |
 |---|---|---|---|---|
-| TF-01 | Instalação limpa | Desinstalar o MED, instalar o APK da release e abrir | O aplicativo abre na tela de login | E9 |
+| TF-01 | Instalação limpa | Desinstalar o MNEMA, instalar o APK da release e abrir | O aplicativo abre na tela de login | E9 |
 | TF-02 | Atualização sem perda de dados | Com dados de uma versão anterior, instalar o APK novo por cima | Instala sem pedir para desinstalar, e as contas e os pacientes continuam lá | E9 |
 | TF-03 | Nenhuma permissão de rede | No computador, rodar `aapt dump permissions` no APK | Nenhuma permissão de internet ou de rede | E5, #16 |
 | TF-04 | Fluxo completo em modo avião | Com o modo avião ligado, executar do TF-05 ao TF-30 | Nenhuma tela pede internet nem mostra erro de conexão | #15 |
