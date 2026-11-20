@@ -1,7 +1,91 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-11-19T09:12:23Z",
+  "coletado_em": "2026-11-20T09:12:00Z",
   "workflow_runs": [
+    {
+      "id": 44656342486,
+      "name": "Export de métricas",
+      "head_branch": "feat/24-alto-contraste-e-letras-maiores",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-20T01:49:02Z",
+      "updated_at": "2026-11-20T01:53:06Z",
+      "run_number": 57,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/44656342486"
+    },
+    {
+      "id": 44656341502,
+      "name": "Build",
+      "head_branch": "develop",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-20T01:49:01Z",
+      "updated_at": "2026-11-20T01:52:43Z",
+      "run_number": 210,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/44656341502"
+    },
+    {
+      "id": 44655655423,
+      "name": "Build",
+      "head_branch": "fix/100-linha-continua-trilhas",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-20T01:43:14Z",
+      "updated_at": "2026-11-20T01:45:50Z",
+      "run_number": 209,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/44655655423"
+    },
+    {
+      "id": 44545312817,
+      "name": "Build",
+      "head_branch": "feat/12-exame-aguarda-resultado",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T14:35:01Z",
+      "updated_at": "2026-11-19T14:38:28Z",
+      "run_number": 208,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/44545312817"
+    },
+    {
+      "id": 44543715104,
+      "name": "Build",
+      "head_branch": "feat/119-area-do-superusuario",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T14:26:12Z",
+      "updated_at": "2026-11-19T14:29:10Z",
+      "run_number": 207,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/44543715104"
+    },
+    {
+      "id": 44516926000,
+      "name": "Export de métricas",
+      "head_branch": "feat/48-recuperar-senha",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T11:40:31Z",
+      "updated_at": "2026-11-19T11:43:47Z",
+      "run_number": 56,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/44516926000"
+    },
+    {
+      "id": 44516925300,
+      "name": "Build",
+      "head_branch": "develop",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T11:40:30Z",
+      "updated_at": "2026-11-19T11:43:38Z",
+      "run_number": 206,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/44516925300"
+    },
     {
       "id": 44442801747,
       "name": "Build",

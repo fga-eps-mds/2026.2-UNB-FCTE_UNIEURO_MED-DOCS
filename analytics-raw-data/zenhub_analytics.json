@@ -1,6 +1,6 @@
 {
   "workspace": "Mnema",
-  "coletado_em": "2026-11-19T09:13:27Z",
+  "coletado_em": "2026-11-20T09:12:58Z",
   "colunas_coletadas": true,
   "colunas_fonte": "issue",
   "sprints_velocity": {
@@ -1440,9 +1440,9 @@
       "start_at": "2026-11-09T03:59:00Z",
       "end_at": "2026-11-23T02:59:00Z",
       "total_points": 191.0,
-      "issues_total": 43,
-      "issues_closed": 12,
-      "issues_sem_estimativa": 20,
+      "issues_total": 45,
+      "issues_closed": 13,
+      "issues_sem_estimativa": 22,
       "issues": [
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
@@ -1757,6 +1757,14 @@
           "coluna": "In Progress"
         },
         {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDE5Njg3NA",
+          "numero": 28,
+          "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-19T14:29:57Z",
+          "coluna": "Review/QA"
+        },
+        {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDMxNzM0MA",
           "numero": 117,
           "estimativa": null,
@@ -1787,6 +1795,14 @@
           "fechada": false,
           "fechada_em": null,
           "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTM4NDI2OQ",
+          "numero": 141,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
         }
       ]
     },
