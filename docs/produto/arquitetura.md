@@ -277,6 +277,7 @@ Em produção existe um único nó de execução, o tablet. A máquina de desenv
 - O modelo é treinado com Python e PyTorch, exportado e incluído no APK durante o build do projeto Expo.
 - O APK é instalado manualmente nos tablets, sem publicação em loja ([Lean Inception](lean-inception.md#2-e-nao-e-faz-nao-faz)).
 - O banco SQLite, as imagens e os traçados ficam no armazenamento privado do aplicativo, que outros aplicativos não conseguem ler.
+- O arquivo do banco é cifrado por inteiro com SQLCipher. A chave tem 256 bits, é gerada aleatoriamente no primeiro uso e fica no cofre do Android (Keystore, pelo `expo-secure-store`), fora do SQLite. Quem copiar só o arquivo do banco, por exemplo de um backup do tablet, não consegue abri-lo ([APP #17](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/17)).
 - O XML precisa ser gravado em uma pasta escolhida pelo profissional. Se ficasse no armazenamento privado, não seria possível copiá-lo para o REDCap.
 - A inferência roda no tablet, sem chamadas de rede.
 - O APK de entrega não declara a permissão de internet nem as permissões sem uso que o modelo do Expo acrescenta. Só o build de desenvolvimento mantém a rede, para falar com o servidor do Expo ([APP #63](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/63)).
@@ -355,6 +356,8 @@ O esquema lógico traduz o DER nas tabelas do SQLite. Cada entidade vira uma tab
 - Datas e horários são `TEXT` no formato ISO 8601. Valores lógicos são `INTEGER`, com 0 ou 1. Imagens são `BLOB`.
 - As chaves estrangeiras são ligadas por `PRAGMA foreign_keys = ON`, e as restrições de cada coluna (formato do índice do CPF, data de nascimento, escolaridade não negativa, valores aceitos do sexo e do estado) ficam em `CHECK` no próprio banco.
 - Nenhum identificador pessoal é gravado em texto: o CPF do profissional e o do paciente passam pelo mesmo protetor (`cpfProtector`). A cifra e o índice só valem no tablet que os gerou, o que precisa ser considerado na sincronização entre tablets.
+- O arquivo do banco inteiro é cifrado com SQLCipher, o que protege também o nome, a data de nascimento, os desenhos, os traçados e os resultados. A chave do banco é aleatória, não deriva de senha de pessoa e nunca é gravada no SQLite. O aplicativo confere que o SQLCipher está presente antes de aplicar a chave, para não gravar em texto claro num build sem ele (como o Expo Go). Se já existe banco e a chave sumiu do cofre, o aplicativo não cria outra: avisa que é preciso procurar o suporte, porque uma chave nova deixaria o banco ilegível de vez.
+- O CPF continua cifrado também no campo, com o índice de busca, porque a busca e a recusa de CPF repetido dependem dele. A chave do banco é de cada tablet e não faz parte do que a sincronização troca.
 - O `dados/schema.sql` do MED-IA reproduzia a versão 1. As versões 2 e 3 existem só no aplicativo, que passa a ser a fonte do esquema.
 
 ### 8.4 Evento de traçado
@@ -403,13 +406,13 @@ Os dados de caneta ficam em `evento_tracado` para o XML e para a pesquisa, mas n
 | Registro automático de apagamentos e desistências | Métricas do Canvas MVP sem anotação manual. O cliente pediu que a tentativa de apagar ou recomeçar fique registrada como dado da coleta | [Ata 06](../atas-reunioes/Ata-06-EPS-2026-09-15-PO.md), [Ata 07](../atas-reunioes/Ata-07-EPS-2026-09-23-PO.md) |
 | APK de entrega sem permissão de internet | Sem a permissão, nenhuma biblioteca consegue tirar dado do tablet, mesmo por engano | [APP #63](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/63) |
 | Backup do Android e transferência entre aparelhos desligados | O backup e a transferência copiariam o banco, com dados do profissional e dos pacientes, para fora do tablet sem ação de ninguém | [APP #62](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/62) |
+| Banco inteiro cifrado com SQLCipher, com chave aleatória no Keystore do Android | O CPF cifrado no campo não protegia o nome, a data de nascimento, os desenhos nem os resultados. Cifrar o arquivo inteiro protege todos eles, e a chave fora do banco impede que a cópia do arquivo seja aberta | [APP #17](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/17) |
 
 ## 10. Pendências
 
 | Item | Situação |
 |---|---|
 | Runtime do modelo no aplicativo | Definir como o Expo vai executar o modelo exportado do PyTorch (por exemplo, ExecuTorch ou ONNX Runtime) |
-| Proteção dos demais dados do paciente | A senha usa hash e o CPF é cifrado ([APP #42](https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/issues/42)). Nome, data de nascimento, desenhos e resultados continuam em texto no arquivo do banco. Decidir se eles também serão cifrados |
 | Páginas com a figura antiga das tarefas | A [Ata 09](../atas-reunioes/Ata-09-EPS-2026-10-05-PO.md) confirmou relógio, cubo e trilhas. A página de [Funcionalidades](funcionalidades.md) ainda fala em pentágono e precisa ser alinhada |
 | Termo "escore" nas outras páginas | A [Visão do Produto](visao.md), a [Lean Inception](lean-inception.md) e as [Funcionalidades](funcionalidades.md) falam em escore por tarefa e escore geral. O modelo devolve classe, probabilidades e mapas de calor, então essas páginas precisam ser alinhadas |
 | Faixa de incerteza | A probabilidade de cada classe pode cumprir esse papel, como o *Product Owner* sugeriu na [Ata 03](../atas-reunioes/Ata-03-EPS-2026-08-31-PO.md). Confirmar |
@@ -430,6 +433,7 @@ Os dados de caneta ficam em `evento_tracado` para o XML e para a pesquisa, mas n
 | O aplicativo e o modelo usarem pré-processamentos diferentes | Manter o contrato da [seção 6.3](#63-contrato-entre-aplicativo-e-modelo) versionado junto com o modelo |
 | Perda de dados se o tablet quebrar ou for perdido | Orientar a exportação periódica do XML e proteger o banco do aplicativo. Como o backup do Android fica desligado, o XML exportado é a única cópia fora do tablet |
 | O paciente acessar dados de outros pacientes | Bloquear a área do profissional durante o teste e exigir autenticação para voltar |
+| Perder a chave do banco (aplicativo desinstalado ou dados do aplicativo apagados) e com ela o acesso aos dados | O aplicativo nunca cria uma chave nova sobre um banco que já tem dados e orienta procurar o suporte. A única cópia fora do tablet é o XML exportado, por isso a exportação periódica continua obrigatória |
 | A caneta não fornecer pressão ou inclinação | Tratar esses campos como opcionais no banco e no XML |
 
 ## Histórico de versões
@@ -446,3 +450,4 @@ Os dados de caneta ficam em `evento_tracado` para o XML e para a pesquisa, mas n
 | 1.7 | Inclusão da modelagem de dados (MER e DER) e ajuste das fontes das figuras | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 26/09/2026 | A definir | — |
 | 1.8 | Registro das decisões sobre permissões, backup e transferência de dados do APK | [Gustavo Henrique](https://github.com/GustavoHenriqueRS) | 08/10/2026 | A definir | — |
 | 1.9 | Diagrama de pacotes na visão lógica, com as funcionalidades de cada pacote; esquema lógico do banco; evento de traçado, com a decisão de registrar os traços apagados (Atas 06 e 07); integração entre o modelo de IA e o banco; DER com o CPF, a escolaridade e o sexo do paciente | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | 10/10/2026 | A definir | — |
+| 1.10 | Registro da decisão de cifrar o banco inteiro com SQLCipher e da guarda da chave no Keystore (APP #17), com o risco de perda da chave; retirada da pendência sobre proteger os demais dados do paciente | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | 13/11/2026 | A definir | — |
