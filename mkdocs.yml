@@ -94,6 +94,7 @@ nav:
       - Cronograma: processo/cronograma.md
       - Plano de Custos: processo/plano_de_custos.md
       - Plano de Qualidade: processo/plano_de_qualidade.md
+      - Plano de Testes Funcionais: processo/testes-funcionais.md
       - Plano de Gestão de Riscos: processo/riscos.md
   - Métricas:
       - Medidas do dashboard: metricas/medidas-do-dashboard.md
