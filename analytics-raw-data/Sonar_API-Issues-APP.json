@@ -1,7 +1,7 @@
 {
   "repositorio": "APP",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-APP",
-  "coletado_em": "2026-11-22T09:11:06Z",
+  "coletado_em": "2026-11-23T09:15:43Z",
   "branches": {
     "main": [
       {
@@ -44,11 +44,11 @@
         "fechado_em": null,
         "impactos": [
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           }
         ]
@@ -303,11 +303,11 @@
         "fechado_em": "2026-10-26T05:09:30+0000",
         "impactos": [
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           }
         ]
@@ -934,6 +934,70 @@
         ]
       },
       {
+        "chave": "AaIF-JHAwEz4wE4bpdVk",
+        "arquivo": "src/features/exportacao/salvar-arquivo.ts",
+        "regra": "typescript:S7718",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-11-12T20:22:07+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaIF-JImwEz4wE4bpdVl",
+        "arquivo": "src/features/exportacao/xml-exportacao.ts",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-11-12T20:22:07+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaIF-JImwEz4wE4bpdVm",
+        "arquivo": "src/features/exportacao/xml-exportacao.ts",
+        "regra": "typescript:S7758",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-11-12T20:22:07+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          },
+          {
+            "qualidade": "RELIABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaIF-JImwEz4wE4bpdVn",
+        "arquivo": "src/features/exportacao/xml-exportacao.ts",
+        "regra": "typescript:S7778",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-11-12T20:22:07+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
         "chave": "AaHRNqXLlWvbtFlIehHA",
         "arquivo": "src/db/hlc.ts",
         "regra": "typescript:S7780",
@@ -1388,21 +1452,6 @@
           {
             "qualidade": "MAINTAINABILITY",
             "severidade": "MEDIUM"
-          }
-        ]
-      },
-      {
-        "chave": "AaFKbBRdfdjnIPOAglkM",
-        "arquivo": "src/features/home/home-screen.tsx",
-        "regra": "typescript:S6759",
-        "status": "CLOSED",
-        "resolucao": "FIXED",
-        "criado_em": "2026-10-14T19:33:50+0000",
-        "fechado_em": "2026-10-23T00:03:58+0000",
-        "impactos": [
-          {
-            "qualidade": "MAINTAINABILITY",
-            "severidade": "LOW"
           }
         ]
       },

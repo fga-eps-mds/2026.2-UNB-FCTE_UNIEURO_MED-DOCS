@@ -1,6 +1,6 @@
 {
   "workspace": "Mnema",
-  "coletado_em": "2026-11-22T09:11:32Z",
+  "coletado_em": "2026-11-23T09:16:14Z",
   "colunas_coletadas": true,
   "colunas_fonte": "issue",
   "sprints_velocity": {
@@ -593,8 +593,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NA",
           "numero": 83,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-23T02:44:13Z",
           "coluna": "Review/QA"
         },
         {
@@ -918,8 +918,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NA",
           "numero": 83,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-23T02:44:13Z",
           "coluna": "Review/QA"
         },
         {
@@ -1299,8 +1299,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NA",
           "numero": 83,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-23T02:44:13Z",
           "coluna": "Review/QA"
         },
         {
@@ -1436,13 +1436,13 @@
     "Sprint 5": {
       "delivered_story_points": 53.0,
       "points_added": -16.0,
-      "state": "OPEN",
+      "state": "CLOSED",
       "start_at": "2026-11-09T03:59:00Z",
       "end_at": "2026-11-23T02:59:00Z",
       "total_points": 191.0,
-      "issues_total": 52,
-      "issues_closed": 16,
-      "issues_sem_estimativa": 29,
+      "issues_total": 55,
+      "issues_closed": 17,
+      "issues_sem_estimativa": 32,
       "issues": [
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
@@ -1570,7 +1570,7 @@
           "estimativa": 13.0,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "Review/QA"
+          "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4Ng",
@@ -1632,8 +1632,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE3NA",
           "numero": 83,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-23T02:44:13Z",
           "coluna": "Review/QA"
         },
         {
@@ -1797,6 +1797,22 @@
           "coluna": "In Progress"
         },
         {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTAyMTY3MQ",
+          "numero": 131,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTAyMjQ5MQ",
+          "numero": 132,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
+        },
+        {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTM0NzEyNw",
           "numero": 139,
           "estimativa": null,
@@ -1859,6 +1875,14 @@
           "fechada": false,
           "fechada_em": null,
           "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTU5NzU3NQ",
+          "numero": 150,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
         }
       ]
     },
@@ -1868,11 +1892,275 @@
       "state": "OPEN",
       "start_at": "2026-11-23T03:59:00Z",
       "end_at": "2026-12-07T02:59:00Z",
-      "total_points": 0.0,
-      "issues_total": 3,
+      "total_points": 138.0,
+      "issues_total": 38,
       "issues_closed": 0,
-      "issues_sem_estimativa": 3,
+      "issues_sem_estimativa": 22,
       "issues": [
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
+          "numero": 4,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "New Issues"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQxOA",
+          "numero": 7,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "New Issues"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzQyMQ",
+          "numero": 8,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "New Issues"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NzUwNQ",
+          "numero": 9,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "New Issues"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg2MA",
+          "numero": 10,
+          "estimativa": 13.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Aceitação PO"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg3MQ",
+          "numero": 12,
+          "estimativa": 8.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg3Mg",
+          "numero": 13,
+          "estimativa": 8.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg3NA",
+          "numero": 14,
+          "estimativa": 13.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg3Ng",
+          "numero": 15,
+          "estimativa": 5.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Sprint Backlog"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg3OA",
+          "numero": 16,
+          "estimativa": 5.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4MA",
+          "numero": 17,
+          "estimativa": 13.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Aceitação PO"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4Ng",
+          "numero": 4,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzODIzNg",
+          "numero": 22,
+          "estimativa": 8.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDUzODQ1Ng",
+          "numero": 24,
+          "estimativa": 5.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMDU0MDM3OQ",
+          "numero": 25,
+          "estimativa": 8.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTgxMzA5Ng",
+          "numero": 81,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE5MA",
+          "numero": 47,
+          "estimativa": 8.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE5Mw",
+          "numero": 48,
+          "estimativa": 13.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE5Ng",
+          "numero": 49,
+          "estimativa": 8.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjA3NjI5Ng",
+          "numero": 58,
+          "estimativa": 5.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjA3NjQ1NQ",
+          "numero": 59,
+          "estimativa": 5.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzYwMTY3MA",
+          "numero": 111,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Sprint Backlog"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzY2NjYzOQ",
+          "numero": 23,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Sprint Backlog"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzY3NTQ5Mg",
+          "numero": 25,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Sprint Backlog"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDE5NjUzOA",
+          "numero": 116,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDE5NjU5Ng",
+          "numero": 117,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDQwMzYzMQ",
+          "numero": 120,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDQ4NjU4OQ",
+          "numero": 118,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Sprint Backlog"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDQ5MDYyMA",
+          "numero": 119,
+          "estimativa": 13.0,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTAyMTY3MQ",
+          "numero": 131,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTAyMjQ5MQ",
+          "numero": 132,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTM4NDI2OQ",
+          "numero": 141,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTQ4ODczMg",
+          "numero": 143,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
+        },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTUwNTE0Mg",
           "numero": 133,
@@ -1896,6 +2184,22 @@
           "fechada": false,
           "fechada_em": null,
           "coluna": "Sprint Backlog"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTU1NzM5Ng",
+          "numero": 147,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTU5NzU3NQ",
+          "numero": 150,
+          "estimativa": null,
+          "fechada": false,
+          "fechada_em": null,
+          "coluna": "Review/QA"
         }
       ]
     },
@@ -1965,6 +2269,18 @@
       "state": "OPEN",
       "start_at": "2027-02-15T03:59:00Z",
       "end_at": "2027-03-01T02:59:00Z",
+      "total_points": 0.0,
+      "issues_total": 0,
+      "issues_closed": 0,
+      "issues_sem_estimativa": 0,
+      "issues": []
+    },
+    "Sprint: Mar 1 - Mar 14, 2027": {
+      "delivered_story_points": 0.0,
+      "points_added": 0.0,
+      "state": "OPEN",
+      "start_at": "2027-03-01T03:59:00Z",
+      "end_at": "2027-03-15T02:59:00Z",
       "total_points": 0.0,
       "issues_total": 0,
       "issues_closed": 0,
