@@ -1,6 +1,6 @@
 {
   "workspace": "Mnema",
-  "coletado_em": "2026-11-23T09:16:14Z",
+  "coletado_em": "2026-11-23T14:06:11Z",
   "colunas_coletadas": true,
   "colunas_fonte": "issue",
   "sprints_velocity": {
@@ -1419,8 +1419,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDE5NjUzOA",
           "numero": 116,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-23T13:51:12Z",
           "coluna": "Review/QA"
         },
         {
@@ -1562,7 +1562,7 @@
           "estimativa": 5.0,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "Review/QA"
+          "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4MA",
@@ -1674,7 +1674,7 @@
           "estimativa": 5.0,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "Review/QA"
+          "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzQ1MzQ4Nw",
@@ -1744,8 +1744,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDE5NjUzOA",
           "numero": 116,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-23T13:51:12Z",
           "coluna": "Review/QA"
         },
         {
@@ -1808,8 +1808,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTAyMjQ5MQ",
           "numero": 132,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-23T13:57:47Z",
           "coluna": "Review/QA"
         },
         {
@@ -1894,7 +1894,7 @@
       "end_at": "2026-12-07T02:59:00Z",
       "total_points": 138.0,
       "issues_total": 38,
-      "issues_closed": 0,
+      "issues_closed": 2,
       "issues_sem_estimativa": 22,
       "issues": [
         {
@@ -1975,7 +1975,7 @@
           "estimativa": 5.0,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "Review/QA"
+          "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyOTM5MDg4MA",
@@ -2063,7 +2063,7 @@
           "estimativa": 5.0,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "Review/QA"
+          "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMzYwMTY3MA",
@@ -2093,8 +2093,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDE5NjUzOA",
           "numero": 116,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-23T13:51:12Z",
           "coluna": "Review/QA"
         },
         {
@@ -2141,8 +2141,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTAyMjQ5MQ",
           "numero": 132,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-23T13:57:47Z",
           "coluna": "Review/QA"
         },
         {
