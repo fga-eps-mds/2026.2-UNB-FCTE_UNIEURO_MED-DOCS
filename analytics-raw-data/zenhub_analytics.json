@@ -1,6 +1,6 @@
 {
   "workspace": "Mnema",
-  "coletado_em": "2026-11-23T14:06:11Z",
+  "coletado_em": "2026-11-24T09:13:58Z",
   "colunas_coletadas": true,
   "colunas_fonte": "issue",
   "sprints_velocity": {
@@ -1786,7 +1786,7 @@
           "estimativa": null,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "Sprint Backlog"
+          "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDQ5MDYyMA",
@@ -1824,8 +1824,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTM4NDI2OQ",
           "numero": 141,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-23T20:58:47Z",
           "coluna": "Review/QA"
         },
         {
@@ -1894,7 +1894,7 @@
       "end_at": "2026-12-07T02:59:00Z",
       "total_points": 138.0,
       "issues_total": 38,
-      "issues_closed": 2,
+      "issues_closed": 3,
       "issues_sem_estimativa": 22,
       "issues": [
         {
@@ -2119,7 +2119,7 @@
           "estimativa": null,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "Sprint Backlog"
+          "coluna": "In Progress"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNDQ5MDYyMA",
@@ -2149,8 +2149,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTM4NDI2OQ",
           "numero": 141,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-23T20:58:47Z",
           "coluna": "Review/QA"
         },
         {

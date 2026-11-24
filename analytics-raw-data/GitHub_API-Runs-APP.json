@@ -1,7 +1,43 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-11-23T14:05:14Z",
+  "coletado_em": "2026-11-24T09:12:38Z",
   "workflow_runs": [
+    {
+      "id": 45296204237,
+      "name": "Build",
+      "head_branch": "feat/58-marcar-exame",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-24T00:19:21Z",
+      "updated_at": "2026-11-24T00:23:09Z",
+      "run_number": 239,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/45296204237"
+    },
+    {
+      "id": 45264904450,
+      "name": "Export de métricas",
+      "head_branch": "feat/12-exame-aguarda-resultado",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-23T20:58:52Z",
+      "updated_at": "2026-11-23T21:02:30Z",
+      "run_number": 66,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/45264904450"
+    },
+    {
+      "id": 45264899193,
+      "name": "Build",
+      "head_branch": "develop",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-23T20:58:50Z",
+      "updated_at": "2026-11-23T21:02:19Z",
+      "run_number": 238,
+      "html_url": "https://github.com/fga-eps-mds/2026.2-UNB-FCTE_UNIEURO_MED-APP/actions/runs/45264899193"
+    },
     {
       "id": 45189145917,
       "name": "Export de métricas",
