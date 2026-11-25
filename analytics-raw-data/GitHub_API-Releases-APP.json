@@ -1,6 +1,6 @@
 {
   "repositorio": "APP",
-  "coletado_em": "2026-11-24T09:13:16Z",
+  "coletado_em": "2026-11-25T09:13:04Z",
   "releases": [
     {
       "tag": "v0.0.1",
@@ -324,6 +324,12 @@
       "tag": "v2.1.14",
       "commit": "eb7ef7fefdaf86b58bb897fca7502fedb0b8b02c",
       "publicada_em": "2026-11-23T21:02:27Z",
+      "branch": "develop"
+    },
+    {
+      "tag": "v2.1.15",
+      "commit": "36b7390ca16a632015a4ece2cf3962a4fe3573d7",
+      "publicada_em": "2026-11-24T12:59:28Z",
       "branch": "develop"
     }
   ]
