@@ -1,7 +1,7 @@
 {
   "repositorio": "IA",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-IA",
-  "coletado_em": "2026-11-25T09:12:29Z",
+  "coletado_em": "2026-11-26T09:12:35Z",
   "medidas": {
     "coverage": "95.4",
     "reliability_rating": "1.0",
@@ -14,13 +14,81 @@
     "security_hotspots": "0",
     "sqale_index": "45",
     "sqale_rating": "1.0",
-    "bugs": "0",
     "alert_status": "OK",
+    "bugs": "0",
     "ncloc": "432",
     "vulnerabilities": "0",
     "files": "9"
   },
   "historico": [
+    {
+      "metric": "vulnerabilities",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "0"
+        },
+        {
+          "date": "2026-10-26T05:21:45+0000",
+          "value": "2"
+        },
+        {
+          "date": "2026-11-10T02:52:31+0000",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "metric": "security_hotspots",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "0"
+        },
+        {
+          "date": "2026-10-26T05:21:45+0000",
+          "value": "0"
+        },
+        {
+          "date": "2026-11-10T02:52:31+0000",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "metric": "sqale_index",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "0"
+        },
+        {
+          "date": "2026-10-26T05:21:45+0000",
+          "value": "45"
+        },
+        {
+          "date": "2026-11-10T02:52:31+0000",
+          "value": "45"
+        }
+      ]
+    },
+    {
+      "metric": "sqale_rating",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "1.0"
+        },
+        {
+          "date": "2026-10-26T05:21:45+0000",
+          "value": "1.0"
+        },
+        {
+          "date": "2026-11-10T02:52:31+0000",
+          "value": "1.0"
+        }
+      ]
+    },
     {
       "metric": "reliability_rating",
       "history": [
@@ -35,6 +103,73 @@
         {
           "date": "2026-11-10T02:52:31+0000",
           "value": "1.0"
+        }
+      ]
+    },
+    {
+      "metric": "alert_status",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000"
+        },
+        {
+          "date": "2026-10-26T05:21:45+0000",
+          "value": "ERROR"
+        },
+        {
+          "date": "2026-11-10T02:52:31+0000",
+          "value": "OK"
+        }
+      ]
+    },
+    {
+      "metric": "duplicated_lines_density",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "0.0"
+        },
+        {
+          "date": "2026-10-26T05:21:45+0000",
+          "value": "0.0"
+        },
+        {
+          "date": "2026-11-10T02:52:31+0000",
+          "value": "0.0"
+        }
+      ]
+    },
+    {
+      "metric": "security_rating",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "1.0"
+        },
+        {
+          "date": "2026-10-26T05:21:45+0000",
+          "value": "3.0"
+        },
+        {
+          "date": "2026-11-10T02:52:31+0000",
+          "value": "1.0"
+        }
+      ]
+    },
+    {
+      "metric": "bugs",
+      "history": [
+        {
+          "date": "2026-09-17T20:50:04+0000",
+          "value": "0"
+        },
+        {
+          "date": "2026-10-26T05:21:45+0000",
+          "value": "1"
+        },
+        {
+          "date": "2026-11-10T02:52:31+0000",
+          "value": "0"
         }
       ]
     },
@@ -111,23 +246,6 @@
       ]
     },
     {
-      "metric": "duplicated_lines_density",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "0.0"
-        },
-        {
-          "date": "2026-10-26T05:21:45+0000",
-          "value": "0.0"
-        },
-        {
-          "date": "2026-11-10T02:52:31+0000",
-          "value": "0.0"
-        }
-      ]
-    },
-    {
       "metric": "coverage",
       "history": [
         {
@@ -140,124 +258,6 @@
         {
           "date": "2026-11-10T02:52:31+0000",
           "value": "95.4"
-        }
-      ]
-    },
-    {
-      "metric": "bugs",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "0"
-        },
-        {
-          "date": "2026-10-26T05:21:45+0000",
-          "value": "1"
-        },
-        {
-          "date": "2026-11-10T02:52:31+0000",
-          "value": "0"
-        }
-      ]
-    },
-    {
-      "metric": "vulnerabilities",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "0"
-        },
-        {
-          "date": "2026-10-26T05:21:45+0000",
-          "value": "2"
-        },
-        {
-          "date": "2026-11-10T02:52:31+0000",
-          "value": "0"
-        }
-      ]
-    },
-    {
-      "metric": "security_hotspots",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "0"
-        },
-        {
-          "date": "2026-10-26T05:21:45+0000",
-          "value": "0"
-        },
-        {
-          "date": "2026-11-10T02:52:31+0000",
-          "value": "0"
-        }
-      ]
-    },
-    {
-      "metric": "sqale_index",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "0"
-        },
-        {
-          "date": "2026-10-26T05:21:45+0000",
-          "value": "45"
-        },
-        {
-          "date": "2026-11-10T02:52:31+0000",
-          "value": "45"
-        }
-      ]
-    },
-    {
-      "metric": "sqale_rating",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "1.0"
-        },
-        {
-          "date": "2026-10-26T05:21:45+0000",
-          "value": "1.0"
-        },
-        {
-          "date": "2026-11-10T02:52:31+0000",
-          "value": "1.0"
-        }
-      ]
-    },
-    {
-      "metric": "alert_status",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000"
-        },
-        {
-          "date": "2026-10-26T05:21:45+0000",
-          "value": "ERROR"
-        },
-        {
-          "date": "2026-11-10T02:52:31+0000",
-          "value": "OK"
-        }
-      ]
-    },
-    {
-      "metric": "security_rating",
-      "history": [
-        {
-          "date": "2026-09-17T20:50:04+0000",
-          "value": "1.0"
-        },
-        {
-          "date": "2026-10-26T05:21:45+0000",
-          "value": "3.0"
-        },
-        {
-          "date": "2026-11-10T02:52:31+0000",
-          "value": "1.0"
         }
       ]
     },

@@ -1,7 +1,7 @@
 {
   "repositorio": "APP",
   "projeto_sonar": "fga-eps-mds_2026.2-UNB-FCTE_UNIEURO_MED-APP",
-  "coletado_em": "2026-11-25T09:13:03Z",
+  "coletado_em": "2026-11-26T09:13:01Z",
   "branches": {
     "main": [
       {
@@ -690,6 +690,51 @@
     ],
     "develop": [
       {
+        "chave": "AaIV3H4fkbi2Nwzp90Xe",
+        "arquivo": "src/features/auth/recovery-screen.tsx",
+        "regra": "typescript:S6759",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-11-22T15:05:51+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "LOW"
+          }
+        ]
+      },
+      {
+        "chave": "AaIV3H4fkbi2Nwzp90Xf",
+        "arquivo": "src/features/auth/recovery-screen.tsx",
+        "regra": "typescript:S6479",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-11-22T15:05:51+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
+        "chave": "AaIV3H4fkbi2Nwzp90Xg",
+        "arquivo": "src/features/auth/recovery-screen.tsx",
+        "regra": "typescript:S3358",
+        "status": "OPEN",
+        "resolucao": null,
+        "criado_em": "2026-11-22T15:05:51+0000",
+        "fechado_em": null,
+        "impactos": [
+          {
+            "qualidade": "MAINTAINABILITY",
+            "severidade": "MEDIUM"
+          }
+        ]
+      },
+      {
         "chave": "AaH6dJ8nwd069cUdKqlE",
         "arquivo": "src/db/schema.ts",
         "regra": "typescript:S4624",
@@ -744,11 +789,11 @@
         "fechado_em": null,
         "impactos": [
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           }
         ]
@@ -853,11 +898,11 @@
         "fechado_em": null,
         "impactos": [
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           }
         ]
@@ -1007,11 +1052,11 @@
         "fechado_em": null,
         "impactos": [
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           }
         ]
@@ -1131,11 +1176,11 @@
         "fechado_em": "2026-11-12T20:54:41+0000",
         "impactos": [
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           }
         ]
@@ -1315,11 +1360,11 @@
         "fechado_em": null,
         "impactos": [
           {
-            "qualidade": "RELIABILITY",
+            "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
           },
           {
-            "qualidade": "MAINTAINABILITY",
+            "qualidade": "RELIABILITY",
             "severidade": "LOW"
           }
         ]
@@ -1595,25 +1640,6 @@
         ]
       },
       {
-        "chave": "AaEhjzAqtK1Opc4bfW8Z",
-        "arquivo": "src/db/cpf-protection.ts",
-        "regra": "typescript:S7758",
-        "status": "CLOSED",
-        "resolucao": "FIXED",
-        "criado_em": "2026-10-08T19:46:23+0000",
-        "fechado_em": "2026-10-25T21:14:11+0000",
-        "impactos": [
-          {
-            "qualidade": "RELIABILITY",
-            "severidade": "LOW"
-          },
-          {
-            "qualidade": "MAINTAINABILITY",
-            "severidade": "LOW"
-          }
-        ]
-      },
-      {
         "chave": "AaEhjzCLtK1Opc4bfW8b",
         "arquivo": "src/db/database.ts",
         "regra": "typescript:S9382",
@@ -1625,21 +1651,6 @@
           {
             "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
-          }
-        ]
-      },
-      {
-        "chave": "AaEwnI4xWzuM77vMHy9U",
-        "arquivo": "src/features/auth/registration.ts",
-        "regra": "typescript:S3776",
-        "status": "CLOSED",
-        "resolucao": "FIXED",
-        "criado_em": "2026-10-08T02:15:50+0000",
-        "fechado_em": "2026-10-25T21:14:11+0000",
-        "impactos": [
-          {
-            "qualidade": "MAINTAINABILITY",
-            "severidade": "HIGH"
           }
         ]
       },
@@ -1820,21 +1831,6 @@
           {
             "qualidade": "MAINTAINABILITY",
             "severidade": "LOW"
-          }
-        ]
-      },
-      {
-        "chave": "AaEM1Stm12SGwlcS43o-",
-        "arquivo": "src/features/auth/registration.ts",
-        "regra": "typescript:S8786",
-        "status": "CLOSED",
-        "resolucao": "FIXED",
-        "criado_em": "2026-09-26T19:35:24+0000",
-        "fechado_em": "2026-10-25T21:14:11+0000",
-        "impactos": [
-          {
-            "qualidade": "RELIABILITY",
-            "severidade": "MEDIUM"
           }
         ]
       },
