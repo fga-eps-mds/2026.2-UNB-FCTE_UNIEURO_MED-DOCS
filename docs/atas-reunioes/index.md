@@ -22,6 +22,7 @@ O padrão adotado está descrito no [modelo de ata](modelo-ata.md).
 | [11](Ata-11-EPS-2026-10-30-PO.md) | 30/10/2026 | Entrega da R2, tablets e avaliação da disciplina | Professor, *Product Owner*, Cliente |
 | [12](Ata-12-EPS-2026-11-09-PO.md) | 09/11/2026 | Conjunto de dados do modelo, superusuário, sincronização e validação prévia das histórias da R3 | *Product Owner*, Cliente |
 | [13](Ata-13-EPS-2026-11-16-PO.md) | 16/11/2026 | Fechamento do escopo da R3, conjunto de dados e modelo de IA, formato do XML e uso dos tablets | Professor, *Product Owner*, Cliente |
+| [14](Ata-14-EPS-2026-11-23-PO.md) | 23/11/2026 | Modelo de IA no tablet, revisão da Sprint 5, primeiro superusuário e plano da Sprint 6 | Professor, *Product Owner*, Cliente |
 
 **Fonte:** [Vitor Carvalho Pereira](https://github.com/vcpVitor), 2026
 
@@ -43,3 +44,4 @@ O registro está no canal `mnema-po` do Discord: `.claudioh` enviou o link da re
 | `1.6` | 10/11/2026 | Inclusão da ata 12 | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |
 | `1.7` | 12/11/2026 | Registro da reunião de 06/11/2026 que não ocorreu | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | [Eduardo Ferreira](https://github.com/eduardoferre) |
 | `1.8` | 21/11/2026 | Inclusão da ata 13 | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |
+| `1.9` | 27/11/2026 | Inclusão da ata 14 | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |
