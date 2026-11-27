@@ -1,6 +1,6 @@
 {
   "workspace": "Mnema",
-  "coletado_em": "2026-11-26T09:13:36Z",
+  "coletado_em": "2026-11-27T09:13:18Z",
   "colunas_coletadas": true,
   "colunas_fonte": "issue",
   "sprints_velocity": {
@@ -1800,8 +1800,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTAyMTY3MQ",
           "numero": 131,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-26T21:35:21Z",
           "coluna": "Review/QA"
         },
         {
@@ -1840,8 +1840,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTQ4ODczMg",
           "numero": 143,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-26T21:40:30Z",
           "coluna": "Review/QA"
         },
         {
@@ -1880,8 +1880,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTU5NzU3NQ",
           "numero": 150,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-26T21:52:24Z",
           "coluna": "Review/QA"
         }
       ]
@@ -1894,7 +1894,7 @@
       "end_at": "2026-12-07T02:59:00Z",
       "total_points": 138.0,
       "issues_total": 39,
-      "issues_closed": 4,
+      "issues_closed": 7,
       "issues_sem_estimativa": 23,
       "issues": [
         {
@@ -2133,8 +2133,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTAyMTY3MQ",
           "numero": 131,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-26T21:35:21Z",
           "coluna": "Review/QA"
         },
         {
@@ -2157,8 +2157,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTQ4ODczMg",
           "numero": 143,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-26T21:40:30Z",
           "coluna": "Review/QA"
         },
         {
@@ -2197,8 +2197,8 @@
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNTU5NzU3NQ",
           "numero": 150,
           "estimativa": null,
-          "fechada": false,
-          "fechada_em": null,
+          "fechada": true,
+          "fechada_em": "2026-11-26T21:52:24Z",
           "coluna": "Review/QA"
         },
         {
@@ -2207,7 +2207,7 @@
           "estimativa": null,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "Sprint Backlog"
+          "coluna": "In Progress"
         }
       ]
     },
