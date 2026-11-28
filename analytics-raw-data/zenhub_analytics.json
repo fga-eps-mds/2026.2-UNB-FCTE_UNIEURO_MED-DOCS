@@ -1,6 +1,6 @@
 {
   "workspace": "Mnema",
-  "coletado_em": "2026-11-27T09:13:18Z",
+  "coletado_em": "2026-11-28T09:11:54Z",
   "colunas_coletadas": true,
   "colunas_fonte": "issue",
   "sprints_velocity": {
@@ -1642,7 +1642,7 @@
           "estimativa": 8.0,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "In Progress"
+          "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE5Mw",
@@ -1666,7 +1666,7 @@
           "estimativa": 5.0,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "Review/QA"
+          "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjA3NjQ1NQ",
@@ -1893,9 +1893,9 @@
       "start_at": "2026-11-23T03:59:00Z",
       "end_at": "2026-12-07T02:59:00Z",
       "total_points": 138.0,
-      "issues_total": 39,
-      "issues_closed": 7,
-      "issues_sem_estimativa": 23,
+      "issues_total": 41,
+      "issues_closed": 9,
+      "issues_sem_estimativa": 25,
       "issues": [
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQyODY1NjU5Mg",
@@ -2031,7 +2031,7 @@
           "estimativa": 8.0,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "In Progress"
+          "coluna": "Review/QA"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMTkxNzE5Mw",
@@ -2055,7 +2055,7 @@
           "estimativa": 5.0,
           "fechada": false,
           "fechada_em": null,
-          "coluna": "Review/QA"
+          "coluna": "Aceitação PO"
         },
         {
           "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzMjA3NjQ1NQ",
@@ -2208,6 +2208,22 @@
           "fechada": false,
           "fechada_em": null,
           "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNjExMDk0Mg",
+          "numero": 136,
+          "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-28T00:40:17Z",
+          "coluna": "In Progress"
+        },
+        {
+          "id": "Z2lkOi8vcmFwdG9yL0lzc3VlLzQzNjExMDk2NQ",
+          "numero": 137,
+          "estimativa": null,
+          "fechada": true,
+          "fechada_em": "2026-11-28T00:40:15Z",
+          "coluna": "Review/QA"
         }
       ]
     },

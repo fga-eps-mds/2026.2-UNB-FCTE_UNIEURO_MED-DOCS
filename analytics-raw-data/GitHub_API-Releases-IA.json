@@ -1,6 +1,6 @@
 {
   "repositorio": "IA",
-  "coletado_em": "2026-11-27T09:13:08Z",
+  "coletado_em": "2026-11-28T09:11:45Z",
   "releases": [
     {
       "tag": "v0.0.1",
@@ -66,6 +66,12 @@
       "tag": "v2.1.1",
       "commit": "3fc60660988f51cd9204a8cd688f6e8a42b3d37f",
       "publicada_em": "2026-11-18T23:18:32Z",
+      "branch": "develop"
+    },
+    {
+      "tag": "modelo-vgg16-semente1-v1.7",
+      "commit": "develop",
+      "publicada_em": "2026-11-28T01:41:29Z",
       "branch": "develop"
     }
   ]
