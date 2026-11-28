@@ -44,4 +44,4 @@ O registro está no canal `mnema-po` do Discord: `.claudioh` enviou o link da re
 | `1.6` | 10/11/2026 | Inclusão da ata 12 | [Cláudio Henrique dos Santos Carvalho](https://github.com/claudiohsc) | |
 | `1.7` | 12/11/2026 | Registro da reunião de 06/11/2026 que não ocorreu | [Vitor Carvalho Pereira](https://github.com/vcpVitor) | [Eduardo Ferreira](https://github.com/eduardoferre) |
 | `1.8` | 21/11/2026 | Inclusão da ata 13 | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |
-| `1.9` | 27/11/2026 | Inclusão da ata 14 | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | |
+| `1.9` | 27/11/2026 | Inclusão da ata 14 | [Gabriel Lopes de Amorim](https://github.com/BrzGab) | [Eduardo Ferreira](https://github.com/eduardoferre) |
